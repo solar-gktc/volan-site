@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mock · miras · v3 — Büyütme</title>
+<link rel="stylesheet" href="../_kit/kit.css">
+<style>
+  .sec { position: relative; padding: 144px 0 176px; }
+  .sec .road { overflow: hidden; }
+  .aging { position: absolute; inset: 0; z-index: 1; pointer-events: none; mix-blend-mode: multiply;
+    background: linear-gradient(to bottom, rgba(255, 245, 223, 0) 0, var(--aged) 420px); }
+  .inner { row-gap: 112px; align-items: start; }
+
+  /* The enlargement: one archive print blown up on the easel, with the easel's crop blades. */
+  .easel { grid-column: 1 / span 7; position: relative; }
+  .easel .plate { padding: 14px; transform: rotate(-0.9deg); }
+  .easel figcaption { display: flex; justify-content: space-between; gap: 24px; padding: 2px 4px 12px; }
+  .easel figcaption b { font-weight: 400; color: var(--navy); white-space: nowrap; }
+  .print { position: relative; overflow: hidden; background: var(--stock-deep); aspect-ratio: var(--ar, 4 / 5); max-height: 940px; }
+  .print img { width: 100%; height: 100%; object-fit: cover; object-position: var(--pos, 50% 40%); transition: opacity 700ms var(--ease-out), filter 900ms var(--ease-out); }
+  .print.is-developing img { opacity: 0.25; filter: blur(6px) sepia(0.6) brightness(1.3); transition: none; }
+  .blade { position: absolute; z-index: 3; width: 44px; height: 44px; border: 0 solid var(--navy); pointer-events: none; }
+  .blade--tl { left: -26px; top: -26px; border-width: 2px 0 0 2px; }
+  .blade--tr { right: -26px; top: -26px; border-width: 2px 2px 0 0; }
+  .blade--bl { left: -26px; bottom: -26px; border-width: 0 0 2px 2px; }
+  .blade--br { right: -26px; bottom: -26px; border-width: 0 2px 2px 0; }
+
+  .side { grid-column: 8 / span 5; padding-top: 8px; }
+  .side h2 { color: var(--navy); font: 400 clamp(2.75rem, 5vw, 4.5rem)/1 var(--font-title); letter-spacing: -0.015em; margin-bottom: 40px; }
+  .lead { font: 400 clamp(1.125rem, 1.55vw, 1.4rem)/1.42 var(--font-text); max-width: 30ch; margin-bottom: 56px; }
+
+  /* Contact sheet: a strip of archive frames on film; pick one to enlarge. */
+  .sheet { background: var(--navy-deep); padding: 26px 14px; position: relative; }
+  .sheet__perf { position: absolute; left: 0; right: 0; height: 12px; width: 100%; }
+  .sheet__perf--t { top: 7px; } .sheet__perf--b { bottom: 7px; }
+  .sheet__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .frame { position: relative; padding: 0; border: 0; background: none; cursor: pointer; text-align: left; color: var(--gold-ink); }
+  .frame img { aspect-ratio: 1; object-fit: cover; width: 100%; filter: grayscale(0.15); transition: filter 180ms var(--ease-out); }
+  .frame:hover img { filter: none; }
+  .frame em { font-style: normal; }
+  .frame span { display: block; padding-top: 6px; font: 400 0.8125rem/1 var(--font-typed); letter-spacing: 0.04em; }
+  .frame:focus-visible { outline: 2px solid var(--gold-ink); outline-offset: 3px; }
+  .frame .pick { position: absolute; left: -7px; top: -7px; width: calc(100% + 14px); height: calc(100% - 6px); color: var(--gold-ink); opacity: 0; transform: scale(1.08); transition: opacity 200ms var(--ease-out), transform 260ms var(--ease-out); pointer-events: none; }
+  .frame[aria-pressed="true"] .pick { opacity: 1; transform: none; }
+  .sheet__note { display: flex; justify-content: space-between; margin-top: 14px; color: var(--ink-soft); font: 400 0.875rem/1.4 var(--font-typed); }
+
+  /* The lineage band, set big: four entries left to right. */
+  .band { grid-column: 3 / span 10; display: grid; grid-template-columns: 1fr auto 1fr auto 1fr auto 1.1fr; align-items: start; border-top: 2px solid var(--navy); border-bottom: 1px solid var(--rule-strong); padding: 28px 0 36px; }
+  .step__year { display: block; height: 28px; color: var(--navy); font: 400 1rem/1.4 var(--font-typed); font-variant-numeric: tabular-nums; }
+  .step__name { display: block; color: var(--navy); font: 400 clamp(1.75rem, 2.5vw, 2.375rem)/1.05 var(--font-title); letter-spacing: -0.012em; margin: 10px 0 12px; }
+  .step__note { font: 400 1rem/1.5 var(--font-text); color: var(--ink-soft); }
+  .arrow { width: 40px; height: 24px; margin: 50px 14px 0; fill: none; stroke: var(--navy); stroke-width: 1.5; }
+  .step--now { position: relative; }
+  .step--now .seal { width: 120px; height: 120px; right: -8px; top: -76px; transform: rotate(-14deg); opacity: 0.88; }
+  .blank { display: inline-flex; gap: 6px; vertical-align: middle; }
+  .blank i { width: 0.75em; height: 3px; background: currentColor; }
+  .band__foot { grid-column: 3 / span 10; display: flex; justify-content: space-between; align-items: center; gap: 24px; margin-top: -80px; }
+  .band__foot p { color: var(--ink-soft); font: 400 0.9375rem/1.4 var(--font-typed); }
+  .stamp-btn svg { width: 18px; height: 18px; margin-left: 12px; fill: none; stroke: currentColor; stroke-width: 1.75; }
+
+  @media (max-width: 899px) {
+    .sec { padding: 96px 0 128px; }
+    .inner { row-gap: 72px; }
+    .easel, .side, .band, .band__foot { grid-column: 1; }
+    .easel .plate { padding: 10px; }
+    .blade { width: 28px; height: 28px; }
+    .blade--tl, .blade--bl { left: -12px; } .blade--tr, .blade--br { right: -12px; }
+    .blade--tl, .blade--tr { top: -12px; } .blade--bl, .blade--br { bottom: -12px; }
+    .side { padding-left: 64px; }
+    .band, .band__foot { margin-left: 64px; }
+    .easel figcaption { flex-direction: column; gap: 4px; }
+    .frame em { display: none; }
+    .side h2 { font-size: 2.5rem; }
+    .lead { margin-bottom: 40px; }
+    .band { grid-template-columns: 1fr; padding-bottom: 28px; }
+    .arrow { transform: rotate(90deg); margin: 14px 0 10px -6px; width: 32px; }
+    .step--now .seal { width: 88px; height: 88px; top: -36px; right: -4px; }
+    .band__foot { margin-top: -40px; flex-direction: column; align-items: flex-start; }
+  }
+  .still *, .still *::before, .still *::after { transition: none !important; }
+</style>
+</head>
+<body>
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="ink" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="wobble"/>
+      <feDisplacementMap in="SourceGraphic" in2="wobble" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.7" numOctaves="2" seed="3" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.7 0 0 0 1.62" result="coverage"/>
+      <feComposite in="edge" in2="coverage" operator="in"/>
+    </filter>
+    <symbol id="seal" viewBox="0 0 200 200">
+      <path id="seal-arc" d="M100,100 m-70,0 a70,70 0 1,1 140,0 a70,70 0 1,1 -140,0" fill="none"/>
+      <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="5"/>
+      <circle cx="100" cy="100" r="85" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="100" cy="100" r="52" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text font-family="Archivo Narrow, sans-serif" font-weight="600" font-size="19" letter-spacing="3.2" fill="currentColor"><textPath href="#seal-arc" startOffset="0">VOLAN OTOMOTİV · ANKARA · VOLAN OTOMOTİV · ANKARA ·</textPath></text>
+      <text x="100" y="112" text-anchor="middle" font-family="Besley, serif" font-weight="600" font-size="34" fill="currentColor">1954</text>
+    </symbol>
+    <symbol id="tick" viewBox="0 0 32 32"><path d="M5 17.5l7.5 7.5L27.5 6" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <pattern id="road-net" width="64" height="8" patternUnits="userSpaceOnUse"><path d="M0,4 C10.7,-1.3 21.3,-1.3 32,4 S53.3,9.3 64,4 M0,4 C10.7,9.3 21.3,9.3 32,4 S53.3,-1.3 64,4" fill="none" stroke="#323277" stroke-opacity="0.16" stroke-width="0.7"/></pattern>
+    <pattern id="perf" width="22" height="12" patternUnits="userSpaceOnUse"><rect x="6" y="2" width="10" height="8" fill="#eef0f5" fill-opacity="0.82"/></pattern>
+    <!-- grease-pencil box drawn round the chosen frame -->
+    <symbol id="pick" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M3,6 C30,2 70,3 97,4 C96,35 97,70 96,95 C65,97 33,96 4,97 C3,66 2,34 5,3" fill="none" stroke="currentColor" stroke-width="3" vector-effect="non-scaling-stroke" stroke-linecap="round"/></symbol>
+  </defs>
+</svg>
+
+<section class="sec" aria-labelledby="miras-baslik">
+  <svg class="road" aria-hidden="true" viewBox="0 0 1440 1800" preserveAspectRatio="none">
+    <path class="road__edge" d="M150,0 V1800"/><path class="road__bed" d="M150,0 V1800"/><path class="road__net" d="M150,0 V1800"/><path class="road__line" d="M150,0 V1800"/>
+  </svg>
+  <div class="aging" aria-hidden="true"></div>
+
+  <div class="inner">
+    <figure class="easel">
+      <div class="plate">
+        <figcaption><span data-cap>Arşivden, tarihsiz: J.M. Keith çekicisinin basamağında bir çocuk.</span><b data-no>Kare 06</b></figcaption>
+        <div class="print" data-print style="--ar: 4 / 5; --pos: 46% 42%">
+          <img data-big src="/general-assets/gorseller/arsiv-restore/arsiv-06-kamyon-cocuk-jm-keith-international-sb-restore-1600.webp" width="989" height="1600" alt="Arşiv fotoğrafı: J.M. Keith International yazılı Volvo çekicinin kapısına tırmanan çocuk.">
+        </div>
+      </div>
+      <span class="blade blade--tl" aria-hidden="true"></span><span class="blade blade--tr" aria-hidden="true"></span>
+      <span class="blade blade--bl" aria-hidden="true"></span><span class="blade blade--br" aria-hidden="true"></span>
+    </figure>
+
+    <div class="side">
+      <h2 id="miras-baslik">1954’ten bu yana aynı yolda.</h2>
+      <p class="lead">Kamyonlar, otomobiller, ustalar. Adımız değişti; işin ölçüsü değişmedi.</p>
+      <div class="sheet" role="group" aria-label="Arşiv kareleri: büyütmek için birini seçin">
+        <svg class="sheet__perf sheet__perf--t" aria-hidden="true"><rect width="100%" height="12" fill="url(#perf)"/></svg>
+        <div class="sheet__grid">
+          <button class="frame" type="button" aria-pressed="true" data-src="/general-assets/gorseller/arsiv-restore/arsiv-06-kamyon-cocuk-jm-keith-international-sb-restore-1600.webp" data-ar="4 / 5" data-pos="46% 42%" data-no="06" data-cap="Arşivden, tarihsiz: J.M. Keith çekicisinin basamağında bir çocuk." data-alt="Arşiv fotoğrafı: J.M. Keith International yazılı Volvo çekicinin kapısına tırmanan çocuk.">
+            <img src="/general-assets/gorseller/arsiv-restore/arsiv-06-kamyon-cocuk-jm-keith-international-sb-restore-1600.webp" alt="" width="989" height="1600" style="object-position:50% 38%"><span>06<em> · Çekici</em></span><svg class="pick" aria-hidden="true"><use href="#pick"/></svg></button>
+          <button class="frame" type="button" aria-pressed="false" data-src="/general-assets/gorseller/arsiv-restore/arsiv-05-volvo-kamyon-cocuk-eh-harms-bremen-sb-restore-1600.webp" data-ar="4 / 5" data-pos="40% 60%" data-no="05" data-cap="Arşivden, tarihsiz: E.H. Harms, Bremen; kapıda bir çocuk." data-alt="Arşiv fotoğrafı: E.H. Harms Bremen yazılı Volvo kamyonun kapısında bir çocuk.">
+            <img src="/general-assets/gorseller/arsiv-restore/arsiv-05-volvo-kamyon-cocuk-eh-harms-bremen-sb-restore-1600.webp" alt="" width="1053" height="1600" style="object-position:40% 58%"><span>05<em> · Bremen</em></span><svg class="pick" aria-hidden="true"><use href="#pick"/></svg></button>
+          <button class="frame" type="button" aria-pressed="false" data-src="/general-assets/gorseller/arsiv-restore/arsiv-07-kamyon-filosu-volvo-240-06-rk-528-restore-1600.webp" data-ar="1545 / 1600" data-pos="50% 50%" data-no="07" data-cap="Arşivden, tarihsiz: kamyon filosu ve bir Volvo 240." data-alt="Arşiv fotoğrafı: sıra sıra Volvo kamyonlar ve önlerinde bir Volvo 240.">
+            <img src="/general-assets/gorseller/arsiv-restore/arsiv-07-kamyon-filosu-volvo-240-06-rk-528-restore-1600.webp" alt="" width="1545" height="1600"><span>07<em> · Filo</em></span><svg class="pick" aria-hidden="true"><use href="#pick"/></svg></button>
+          <button class="frame" type="button" aria-pressed="false" data-src="/general-assets/gorseller/arsiv-restore/arsiv-11-volvo-bayi-cephe-omer-kucukyilmaz-ve-ort-restore-1600.webp" data-ar="1600 / 1082" data-pos="50% 50%" data-no="11" data-cap="Arşivden, tarihsiz: Volvo tabelalı bayi binası." data-alt="Arşiv fotoğrafı: Volvo tabelalı bayi binası ve önünde park etmiş otomobiller.">
+            <img src="/general-assets/gorseller/arsiv-restore/arsiv-11-volvo-bayi-cephe-omer-kucukyilmaz-ve-ort-restore-1600.webp" alt="" width="1600" height="1082" style="object-position:62% 50%"><span>11<em> · Bayi</em></span><svg class="pick" aria-hidden="true"><use href="#pick"/></svg></button>
+          <button class="frame" type="button" aria-pressed="false" data-src="/general-assets/gorseller/arsiv-restore/arsiv-12-volvo-servis-motor-revizyon-salonu-restore-1600.webp" data-ar="1600 / 1123" data-pos="50% 50%" data-no="12" data-cap="Arşivden, tarihsiz: motor revizyon salonu." data-alt="Arşiv fotoğrafı: Volvo tabelalı serviste sökülmüş motorların başında iki usta.">
+            <img src="/general-assets/gorseller/arsiv-restore/arsiv-12-volvo-servis-motor-revizyon-salonu-restore-1600.webp" alt="" width="1600" height="1123"><span>12<em> · Motor</em></span><svg class="pick" aria-hidden="true"><use href="#pick"/></svg></button>
+          <button class="frame" type="button" aria-pressed="false" data-src="/general-assets/gorseller/arsiv-restore/arsiv-13-volvo-servis-liftte-arac-restore-1600.webp" data-ar="4 / 5" data-pos="50% 70%" data-no="13" data-cap="Arşivden, tarihsiz: liftte bir Volvo." data-alt="Arşiv fotoğrafı: Volvo servisinde lifte alınmış gri bir otomobil.">
+            <img src="/general-assets/gorseller/arsiv-restore/arsiv-13-volvo-servis-liftte-arac-restore-1600.webp" alt="" width="1071" height="1600" style="object-position:50% 72%"><span>13<em> · Lift</em></span><svg class="pick" aria-hidden="true"><use href="#pick"/></svg></button>
+        </div>
+        <svg class="sheet__perf sheet__perf--b" aria-hidden="true"><rect width="100%" height="12" fill="url(#perf)"/></svg>
+      </div>
+      <p class="sheet__note"><span>Kontakt baskı · 6 kare</span><span>Büyütmek için seçin</span></p>
+    </div>
+
+    <ol class="band" aria-label="Volan’ın soyu">
+      <li class="step" style="list-style:none"><span class="step__year">1954</span><span class="step__name">Volan Küçükyılmaz</span><span class="step__note">Kuruluş, Ankara.</span></li>
+      <svg class="arrow" viewBox="0 0 40 24" aria-hidden="true"><path d="M1 12h36M28 4l9 8-9 8"/></svg>
+      <li class="step" style="list-style:none"><span class="step__year"><span class="blank" role="img" aria-label="Tarih bilinmiyor"><i></i><i></i><i></i><i></i></span></span><span class="step__name">Volvo Yetkili Servisi</span><span class="step__note">Uzun yıllar.</span></li>
+      <svg class="arrow" viewBox="0 0 40 24" aria-hidden="true"><path d="M1 12h36M28 4l9 8-9 8"/></svg>
+      <li class="step" style="list-style:none"><span class="step__year">2017</span><span class="step__name">Volan Otomotiv</span><span class="step__note">Özel servis.</span></li>
+      <svg class="arrow" viewBox="0 0 40 24" aria-hidden="true"><path d="M1 12h36M28 4l9 8-9 8"/></svg>
+      <li class="step step--now" style="list-style:none"><span class="step__year">Bugün</span><span class="step__name">Üç marka, tek servis</span><span class="step__note">Volvo, Mercedes-Benz, Volkswagen. 1.800 m², 5 lift.</span><svg class="seal" aria-hidden="true" focusable="false"><use href="#seal"/></svg></li>
+    </ol>
+    <div class="band__foot">
+      <p>Volvo yetkili servis yıllarının tarihi kayıtlı değil.</p>
+      <div class="stamps stamps--ink"><a class="stamp-btn" href="/gc-volan-1/hakkimizda.html">Hikâyenin tamamı<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a></div>
+    </div>
+  </div>
+</section>
+
+<script>
+(() => {
+  const sec = document.querySelector('.sec'), svg = sec.querySelector('.road');
+  const mq = matchMedia('(max-width: 899px)');
+  const still = /[?&]shot/.test(location.search) || matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (still) document.documentElement.classList.add('still');
+  const rel = el => { const a = el.getBoundingClientRect(), s = sec.getBoundingClientRect(); return { l: a.left - s.left, t: a.top - s.top }; };
+  function draw() {
+    const W = sec.clientWidth, H = sec.offsetHeight, x = mq.matches ? 36 : rel(sec.querySelector('.inner')).l + 54;
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.querySelectorAll('path').forEach(p => p.setAttribute('d', `M${x},-80 V${H + 80}`));
+  }
+  addEventListener('resize', draw); addEventListener('load', draw); draw();
+
+  // One interaction: pick a frame on the contact sheet; the enlargement develops it.
+  const print = sec.querySelector('[data-print]'), big = sec.querySelector('[data-big]');
+  const cap = sec.querySelector('[data-cap]'), no = sec.querySelector('[data-no]');
+  const frames = [...sec.querySelectorAll('.frame')];
+  frames.forEach(f => f.addEventListener('click', () => {
+    if (f.getAttribute('aria-pressed') === 'true') return;
+    frames.forEach(o => o.setAttribute('aria-pressed', String(o === f)));
+    const swap = () => {
+      big.src = f.dataset.src; big.alt = f.dataset.alt;
+      print.style.setProperty('--ar', f.dataset.ar); print.style.setProperty('--pos', f.dataset.pos);
+      cap.textContent = f.dataset.cap; no.textContent = 'Kare ' + f.dataset.no;
+      draw();
+    };
+    if (still) { swap(); return; }
+    print.classList.add('is-developing');
+    swap();
+    big.decode().catch(() => {}).then(() => requestAnimationFrame(() => print.classList.remove('is-developing')));
+  }));
+})();
+</script>
+</body>
+</html>

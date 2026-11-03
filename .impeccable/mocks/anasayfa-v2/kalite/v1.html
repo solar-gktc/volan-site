@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mock · kalite · v1 Kaşe sayfası</title>
+<link rel="stylesheet" href="../_kit/kit.css">
+<style>
+  /* v1 — Kaşe sayfası: the stamp page at the back of a service booklet. Six printed boxes;
+     five are the quality steps, the sixth holds the dealer seal. As the page comes into view
+     each box gets its rubber stamp, one after another. Road on the left. */
+  .sec { position: relative; padding: 216px 0 160px; }
+
+  .head { grid-column: 3 / span 5; align-self: end; }
+  .head h2 { color: var(--navy); font: 600 2.5rem/48px var(--font-title); letter-spacing: -0.01em; margin-bottom: 24px; }
+  .head p { max-width: 46ch; }
+  .plate--side { grid-column: 9 / span 4; transform: rotate(1.1deg); align-self: start; }
+  .plate--side figcaption { padding: 0 2px 10px; }
+
+  /* The printed page of boxes */
+  .page { grid-column: 3 / span 10; margin-top: 64px; position: relative; border: 4px double var(--navy); background: var(--paper); }
+  .page__title { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 14px 22px 12px; border-bottom: 1.5px solid var(--navy); }
+  .page__title .typed { color: var(--ink-soft); font-size: 0.875rem; }
+  .boxes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 0; padding: 0; list-style: none; }
+  .box { position: relative; display: grid; grid-template-rows: auto 1fr auto auto; padding: 22px 22px 18px; border-right: 1.5px solid var(--rule-strong); border-bottom: 1.5px solid var(--rule-strong); }
+  .box:nth-child(3n) { border-right: 0; }
+  .box:nth-child(n+4) { border-bottom: 0; }
+  .box__no { display: flex; align-items: baseline; gap: 12px; color: var(--navy); }
+  .box__no b { font: 700 1rem/1 var(--font-typed); padding: 4px 7px 3px; border: 1.5px solid var(--navy); }
+  .box h3 { margin: 0; color: var(--navy); font: 600 1.375rem/1.25 var(--font-title); }
+  .box p { margin: 12px 0 18px; font-size: 1rem; line-height: 1.6; max-width: 34ch; }
+  .box .stamp-box { width: 100%; height: 128px; }
+  .box .stamp { --r: -6deg; }
+  .box:nth-child(2) .stamp { --r: 4deg; }
+  .box:nth-child(3) .stamp { --r: -3deg; }
+  .box:nth-child(4) .stamp { --r: 5deg; }
+  .box:nth-child(5) .stamp { --r: -8deg; }
+  .box.is-stamped .stamp { transform: scale(1) rotate(var(--r)); }
+  .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; }
+  .field { display: flex; align-items: baseline; gap: 8px; }
+  .field .label { flex: none; font-size: 0.6875rem; }
+  .field i { flex: 1; min-width: 0; height: 1.3em; border-bottom: 1.5px dotted var(--rule-strong); font: normal 400 0.875rem/1.3 var(--font-typed); color: var(--stamp-ink); white-space: nowrap; opacity: 0; transition: opacity 400ms var(--ease-out) 300ms; }
+  .is-stamped .field i { opacity: 1; }
+  .field i:empty::before { content: "\00a0"; }
+
+  /* Sixth box: the dealer seal and the signature */
+  .box--seal { align-content: start; }
+  .box--seal .seal-field { position: relative; display: grid; place-items: center; height: 220px; margin-top: 14px; border: 1.5px dashed var(--rule-strong); }
+  .box--seal .seal { position: static; width: 168px; height: 168px; opacity: 0; transform: scale(1.4) rotate(-30deg); transition: opacity 260ms var(--ease-out), transform 340ms var(--ease-out); }
+  .box--seal.is-stamped .seal { opacity: 0.9; transform: rotate(-14deg); }
+  .sign { display: block; margin-top: 18px; padding-top: 8px; border-top: 1.5px solid var(--navy); }
+
+  @media (max-width: 899px) {
+    .sec { padding: 144px 0 112px; }
+    .inner { padding-left: 60px; row-gap: 40px; }
+    .head, .plate--side, .page { grid-column: 1; }
+    .head h2 { font-size: 1.75rem; line-height: 32px; margin-bottom: 16px; }
+    .plate--side { width: 86%; justify-self: end; }
+    .page { margin-top: 0; }
+    .page__title { flex-direction: column; gap: 4px; padding: 12px 16px; }
+    .boxes { grid-template-columns: minmax(0, 1fr); }
+    .box { min-height: 0; border-right: 0; border-bottom: 1.5px solid var(--rule-strong) !important; padding: 20px 16px 16px; }
+    .box:last-child { border-bottom: 0 !important; }
+  }
+</style>
+</head>
+<body>
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="ink" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="wobble"/>
+      <feDisplacementMap in="SourceGraphic" in2="wobble" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.7" numOctaves="2" seed="3" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.7 0 0 0 1.62" result="coverage"/>
+      <feComposite in="edge" in2="coverage" operator="in"/>
+    </filter>
+    <symbol id="seal" viewBox="0 0 200 200">
+      <path id="seal-arc" d="M100,100 m-70,0 a70,70 0 1,1 140,0 a70,70 0 1,1 -140,0" fill="none"/>
+      <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="5"/>
+      <circle cx="100" cy="100" r="85" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="100" cy="100" r="52" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text font-family="Archivo Narrow, sans-serif" font-weight="600" font-size="19" letter-spacing="3.2" fill="currentColor"><textPath href="#seal-arc" startOffset="0">VOLAN OTOMOTİV · ANKARA · VOLAN OTOMOTİV · ANKARA ·</textPath></text>
+      <text x="100" y="112" text-anchor="middle" font-family="Besley, serif" font-weight="600" font-size="34" fill="currentColor">1954</text>
+    </symbol>
+    <pattern id="road-net" width="64" height="8" patternUnits="userSpaceOnUse"><path d="M0,4 C10.7,-1.3 21.3,-1.3 32,4 S53.3,9.3 64,4 M0,4 C10.7,9.3 21.3,9.3 32,4 S53.3,-1.3 64,4" fill="none" stroke="#323277" stroke-opacity="0.16" stroke-width="0.7"/></pattern>
+  </defs>
+</svg>
+
+<section class="sec" data-from="right" data-lane="left" aria-labelledby="kalite-baslik">
+  <svg class="road" aria-hidden="true"><path class="road__edge"/><path class="road__bed"/><path class="road__net"/><path class="road__line"/></svg>
+  <div class="inner">
+    <div class="head">
+      <h2 id="kalite-baslik">Beş kaşe almadan araç teslim edilmez</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Her aracın karnesinde aynı beş kutu vardır; biri boş kalırsa iş bitmemiştir.</p>
+    </div>
+    <figure class="plate plate--side">
+      <figcaption>Karakalem: liftteki XC90</figcaption>
+      <img src="/general-assets/gorseller/nesne-karakalem/xc90-liftte-1600.webp" alt="Liftte duran bir Volvo XC90’ın karakalem çizimi" width="1600" height="1067">
+    </figure>
+
+    <div class="page">
+      <div class="page__title"><span class="label">Hizmet kalitesi · kaşe sayfası</span><span class="typed">Plaka 06 ··· ··· · iş emri no ······</span></div>
+      <ol class="boxes">
+        <li class="box">
+          <div class="box__no"><b>1</b><h3>Doğru teşhis</h3></div>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ullamcorper nulla non metus.</p>
+          <div class="stamp-box"><span class="stamp"><span class="stamp__ink">Teşhis edildi<small>arıza kaydı</small></span></span></div>
+          <div class="fields"><span class="field"><span class="label">Tarih</span><i>03.11.2026</i></span><span class="field"><span class="label">Km</span><i>84.213</i></span></div>
+        </li>
+        <li class="box">
+          <div class="box__no"><b>2</b><h3>Teknik yetkinlik</h3></div>
+          <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis est.</p>
+          <div class="stamp-box"><span class="stamp"><span class="stamp__ink">Usta onayı<small>uzman ekip</small></span></span></div>
+          <div class="fields"><span class="field"><span class="label">Tarih</span><i>03.11.2026</i></span><span class="field"><span class="label">Usta</span><i></i></span></div>
+        </li>
+        <li class="box">
+          <div class="box__no"><b>3</b><h3>Şeffaf süreç</h3></div>
+          <p>Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed.</p>
+          <div class="stamp-box"><span class="stamp"><span class="stamp__ink">Bilgi verildi<small>onayınızla</small></span></span></div>
+          <div class="fields"><span class="field"><span class="label">Tarih</span><i>03.11.2026</i></span><span class="field"><span class="label">Onay</span><i></i></span></div>
+        </li>
+        <li class="box">
+          <div class="box__no"><b>4</b><h3>Aracınıza özen</h3></div>
+          <p>Nulla vitae elit libero, a pharetra augue. Morbi leo risus, porta ac consectetur ac.</p>
+          <div class="stamp-box"><span class="stamp"><span class="stamp__ink">Özenle teslim<small>temiz araç</small></span></span></div>
+          <div class="fields"><span class="field"><span class="label">Tarih</span><i>03.11.2026</i></span><span class="field"><span class="label">Km</span><i>84.213</i></span></div>
+        </li>
+        <li class="box">
+          <div class="box__no"><b>5</b><h3>İşimizin arkasında durmak</h3></div>
+          <p>Etiam porta sem malesuada magna mollis euismod. Curabitur blandit tempus porttitor.</p>
+          <div class="stamp-box"><span class="stamp"><span class="stamp__ink">Arkasındayız<small>Volan Otomotiv</small></span></span></div>
+          <div class="fields"><span class="field"><span class="label">Tarih</span><i>03.11.2026</i></span><span class="field"><span class="label">İmza</span><i></i></span></div>
+        </li>
+        <li class="box box--seal">
+          <div class="box__no"><h3>Servis kaşesi</h3></div>
+          <div class="seal-field"><svg class="seal" aria-hidden="true"><use href="#seal"/></svg></div>
+          <span class="label sign">Yetkili imza</span>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  const q = new URLSearchParams(location.search);
+  const boxes = [...document.querySelectorAll('.box')];
+  // The one motion: the boxes are stamped one after another when the page comes into view.
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const narrow = innerWidth < 900;
+  if (reduce || q.has('shot') || !('IntersectionObserver' in window)) boxes.forEach(b => b.classList.add('is-stamped'));
+  else if (narrow) {
+    // On a phone the boxes stack, so each is stamped as it reaches the middle of the screen (where the car is).
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-stamped'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -42% 0px' });
+    boxes.forEach(b => io.observe(b));
+  } else {
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return;
+      boxes.forEach((b, i) => setTimeout(() => b.classList.add('is-stamped'), 200 + i * 300));
+      io.disconnect();
+    }), { threshold: 0.45 });
+    io.observe(document.querySelector('.page'));
+  }
+
+  // Mock road: enters on the right lane (from Kampanya), crosses at the top, runs down the left lane.
+  const sec = document.querySelector('.sec'), svg = sec.querySelector('.road');
+  function draw() {
+    const W = sec.clientWidth, H = sec.offsetHeight, narrow = W < 900;
+    const iw = Math.min(1248, W - 2 * Math.min(96, Math.max(20, W * 0.066)));
+    const L = narrow ? 36 : (W - iw) / 2 + 54, R = narrow ? W - 36 : (W + iw) / 2 - 54;
+    const yc = narrow ? 48 : 100, r = yc;
+    const d = `M${R},0 Q${R},${yc} ${R - r},${yc} H${L + r} Q${L},${yc} ${L},${yc + r} V${H}`;
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.querySelectorAll('path').forEach(p => p.setAttribute('d', d));
+  }
+  draw(); new ResizeObserver(draw).observe(sec);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+/* Yorumlar (homepage v2): Google reviews as a deck of postcards on the navy cover board.
+   Lane: left. The road crosses above this section, so the board starts below the crossing
+   (section padding-top) and right of the lane; it bleeds off the right edge. Only the
+   picture postcard hangs over the road (z 2, the car passes under it). */
+
+.s-yorumlar {
+  --il: calc((100vw - min(var(--measure), 100vw - 2 * var(--gutter))) / 2); /* left edge of the measure */
+  padding-top: 168px;
+  overflow-x: clip;
+}
+.s-yorumlar .entry__inner { display: block; }
+
+.s-yorumlar .board { position: relative; margin-left: calc(max(176px, 0.8 * var(--il) + 100px) - var(--il)); margin-right: calc(-1 * var(--il)); padding: 80px 0 88px; background: var(--navy); color: var(--stock); }
+.s-yorumlar .board::before, .s-yorumlar .board::after { content: ""; position: absolute; pointer-events: none; }
+.s-yorumlar .board::before { inset: 28px -2px 28px 28px; border: 2px solid var(--gold); border-right: 0; }
+.s-yorumlar .board::after { inset: 35px -2px 35px 35px; border: 1px solid rgba(133, 114, 68, 0.7); border-right: 0; }
+.s-yorumlar .board ::selection { background: var(--gold-ink); color: var(--navy); }
+.s-yorumlar .board :focus-visible { outline-color: var(--gold-ink); }
+
+/* Heading, summary and the Google link (right half of the board) */
+.s-yorumlar .head { position: relative; z-index: 3; display: flex; flex-wrap: wrap; align-items: flex-end; gap: 20px 24px; margin-left: 46%; max-width: 560px; padding-right: 32px; }
+.s-yorumlar .head h2, .s-yorumlar .head > p { flex-basis: 100%; }
+.s-yorumlar .head h2 { color: var(--gold-ink); font: 400 clamp(2.25rem, 3.4vw, 3rem)/1.04 var(--font-title); letter-spacing: -0.012em; }
+.s-yorumlar .head > p { margin-top: -8px; max-width: 40ch; color: var(--stock); font: 400 1.1875rem/1.5 var(--font-text); }
+.s-yorumlar .tally { display: inline-grid; gap: 6px; padding: 12px 16px; border: 4px double var(--gold); }
+.s-yorumlar .tally__label { color: var(--gold-ink); font: 600 0.75rem/1.2 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; }
+.s-yorumlar .tally__row { display: flex; align-items: center; gap: 12px; }
+.s-yorumlar .tally__score { color: var(--stock); font: 700 2.25rem/1 var(--font-typed); letter-spacing: -0.02em; }
+.s-yorumlar .tally__of { color: var(--gold-ink); font: 400 1rem/1 var(--font-typed); }
+.s-yorumlar .tally__count { color: var(--stock); font: 400 0.875rem/1.4 var(--font-typed); }
+.s-yorumlar .head .stamps { align-items: center; }
+
+/* Stars: an outline row with a filled row clipped to the rating on top. */
+.s-yorumlar .stars { --s: 18px; position: relative; display: inline-flex; flex: none; color: var(--navy); line-height: 0; }
+.s-yorumlar .stars__base, .s-yorumlar .stars__fill { display: flex; gap: 2px; }
+.s-yorumlar .stars__fill { position: absolute; inset: 0 auto 0 0; width: calc(var(--r) / 5 * 100%); overflow: hidden; }
+.s-yorumlar .stars svg { width: var(--s); height: var(--s); flex: none; stroke: currentColor; stroke-width: 1.5; stroke-linejoin: round; }
+.s-yorumlar .stars__base svg { fill: none; }
+.s-yorumlar .stars__fill svg { fill: currentColor; }
+.s-yorumlar .stars--gold { --s: 22px; color: var(--gold-ink); }
+
+/* The picture postcard: the building, hanging off the board over the road */
+.s-yorumlar .view { position: absolute; z-index: 2; left: -86px; top: 76px; width: min(440px, 34vw); margin: 0; padding: 10px 10px 12px; background: var(--paper); box-shadow: 0 1px 1px rgba(43, 42, 41, 0.1), 0 10px 22px -10px rgba(43, 42, 41, 0.38); transform: rotate(-5deg); }
+.s-yorumlar .view img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+.s-yorumlar .view figcaption { position: absolute; left: 22px; bottom: 26px; padding: 4px 10px; background: var(--paper); color: var(--navy); font: italic 400 1.125rem/1.2 var(--font-title); }
+
+/* The deck. One base card (680×453) moves between slots: big (front), a and b (behind,
+   scaled 0.6), deck (waiting, hidden) and out (just left, hidden). */
+.s-yorumlar .deck { position: relative; z-index: 3; margin-top: 32px; }
+.s-yorumlar .deck__cards { position: relative; height: 520px; touch-action: pan-y; }
+.s-yorumlar .pc { position: absolute; left: 0; top: 0; width: 680px; height: 453px; display: grid; grid-template-columns: 58fr 42fr; padding: 34px 30px 28px; background: var(--paper); color: var(--ink); transform-origin: 0 0;
+  box-shadow: 0 1px 1px rgba(43, 42, 41, 0.1), 0 10px 22px -10px rgba(43, 42, 41, 0.38);
+  transition: transform 520ms var(--ease-out), opacity 360ms var(--ease-out), visibility 0s linear 0s; }
+.s-yorumlar .pc[data-slot="big"] { z-index: 4; transform: translate(72px, 30px) rotate(-1.5deg); }
+.s-yorumlar .pc[data-slot="a"] { z-index: 3; transform: translate(768px, -40px) rotate(4deg) scale(0.6); cursor: pointer; }
+.s-yorumlar .pc[data-slot="b"] { z-index: 2; transform: translate(800px, 250px) rotate(-3deg) scale(0.6); cursor: pointer; }
+.s-yorumlar .pc[data-slot="a"]:hover { transform: translate(768px, -48px) rotate(3deg) scale(0.61); }
+.s-yorumlar .pc[data-slot="b"]:hover { transform: translate(800px, 242px) rotate(-2deg) scale(0.61); }
+.s-yorumlar .pc[data-slot="deck"] { z-index: 1; transform: translate(830px, 280px) rotate(-6deg) scale(0.6); opacity: 0; visibility: hidden; transition: transform 520ms var(--ease-out), opacity 360ms var(--ease-out), visibility 0s linear 520ms; }
+.s-yorumlar .pc[data-slot="out"] { z-index: 5; transform: translate(-180px, 90px) rotate(-10deg) scale(0.92); opacity: 0; visibility: hidden; transition: transform 520ms var(--ease-out), opacity 360ms var(--ease-out), visibility 0s linear 520ms; }
+
+.s-yorumlar .pc__msg { display: flex; flex-direction: column; align-items: start; min-width: 0; padding-right: 26px; border-right: 1px solid var(--rule-strong); }
+.s-yorumlar .pc__msg .stars { margin-bottom: 12px; }
+.s-yorumlar .pc__quote { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 6; overflow: hidden; color: var(--ink); font: italic 400 1.5rem/1.34 var(--font-text); text-wrap: pretty; }
+.s-yorumlar .pc__from { margin-top: 12px; color: var(--ink); font: 400 1rem/1.4 var(--font-typed); }
+.s-yorumlar .pc__car { align-self: stretch; margin-top: auto; padding-top: 10px; border-top: 1px dashed var(--rule-strong); }
+.s-yorumlar .pc__car b { display: block; color: var(--navy); font: 600 0.6875rem/1.3 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; }
+.s-yorumlar .pc__car span { display: block; color: var(--ink); font: 400 0.9375rem/1.4 var(--font-typed); }
+.s-yorumlar .pc__src { margin-top: 8px; color: var(--ink-soft); font: 400 0.75rem/1.3 var(--font-typed); }
+.s-yorumlar .pc__from + .pc__src { margin-top: auto; }
+.s-yorumlar .pc__addr { position: relative; display: flex; flex-direction: column; padding-left: 24px; }
+.s-yorumlar .pc__stamp { align-self: end; width: 96px; padding: 5px; background: var(--paper); border: 2px dashed rgba(50, 50, 119, 0.4); transform: rotate(2deg); }
+.s-yorumlar .pc__stamp img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+.s-yorumlar .pc__stamp small { display: flex; justify-content: space-between; padding-top: 3px; color: var(--navy); font: 600 0.625rem/1 var(--font-label); letter-spacing: 0.1em; text-transform: uppercase; }
+.s-yorumlar .pc .seal { width: 104px; height: 104px; right: 64px; top: 26px; transform: rotate(-16deg); opacity: 0.85; }
+.s-yorumlar .pc__cancel { position: absolute; right: 150px; top: 46px; width: 90px; height: 48px; fill: none; stroke: var(--stamp-ink); stroke-width: 2.4; opacity: 0.75; filter: url(#ink); mix-blend-mode: multiply; }
+.s-yorumlar .pc__lines { list-style: none; margin: auto 0 6px; padding: 0; }
+.s-yorumlar .pc__lines li { padding: 10px 0 3px; border-bottom: 1px solid rgba(50, 50, 119, 0.35); color: var(--ink); font: 400 0.9375rem/1.3 var(--font-typed); }
+
+/* Previous / counter / next, under the front card */
+.s-yorumlar .deck__nav { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin: 24px 0 0 72px; }
+.s-yorumlar .deck__nav[hidden] { display: none; }
+.s-yorumlar .deck__btn { appearance: none; display: grid; place-items: center; width: 52px; height: 52px; border: 4px double var(--stock); background: none; color: var(--stock); cursor: pointer; transform: rotate(-1.2deg); transition: transform 180ms var(--ease-out), background-color 180ms var(--ease-out); }
+.s-yorumlar .deck__btn + .deck__count + .deck__btn { transform: rotate(0.8deg); }
+.s-yorumlar .deck__btn:hover { transform: none; background: rgba(230, 233, 240, 0.08); }
+.s-yorumlar .deck__btn:active { transform: translateY(1px); }
+.s-yorumlar .deck__btn svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: square; }
+.s-yorumlar .deck__count { min-width: 5.5ch; color: var(--stock); font: 400 1.125rem/1 var(--font-typed); font-variant-numeric: tabular-nums; text-align: center; }
+.s-yorumlar .deck__count b { color: var(--gold-ink); font-weight: 700; }
+
+/* Narrow desktops: the card table shrinks as one piece. */
+@media (min-width: 900px) and (max-width: 1299px) { .s-yorumlar .deck { zoom: 0.8; } }
+
+/* Wide screens: two columns. The picture postcard and the heading on the left, the deck on the
+   right with the cards behind tucked closer to the front one. */
+@media (min-width: 1300px) {
+  .s-yorumlar .board { display: grid; grid-template-columns: 330px minmax(0, 1fr); column-gap: 48px; align-items: start; padding: 72px 0 80px 72px; }
+  .s-yorumlar .view { position: relative; left: auto; top: auto; grid-column: 1; grid-row: 1; justify-self: start; width: 360px; margin: 8px 0 0 -150px; }
+  .s-yorumlar .head { grid-column: 1; grid-row: 2; margin: 40px 0 0; padding: 0; max-width: none; }
+  .s-yorumlar .deck { grid-column: 2; grid-row: 1 / span 2; margin: 0; zoom: 0.8; }
+  .s-yorumlar .pc[data-slot="big"] { transform: translate(0, 30px) rotate(-1.5deg); }
+  .s-yorumlar .pc[data-slot="a"] { transform: translate(560px, -20px) rotate(4deg) scale(0.6); }
+  .s-yorumlar .pc[data-slot="b"] { transform: translate(600px, 250px) rotate(-3deg) scale(0.6); }
+  .s-yorumlar .pc[data-slot="a"]:hover { transform: translate(560px, -28px) rotate(3deg) scale(0.61); }
+  .s-yorumlar .pc[data-slot="b"]:hover { transform: translate(600px, 242px) rotate(-2deg) scale(0.61); }
+  .s-yorumlar .pc[data-slot="deck"] { transform: translate(630px, 280px) rotate(-6deg) scale(0.6); }
+  .s-yorumlar .deck__nav { margin-left: 0; }
+}
+
+@media (max-width: 899px) {
+  .s-yorumlar { padding-top: 144px; }
+  .s-yorumlar .board { margin-left: calc(76px - var(--il)); padding: 52px 0 56px; }
+  .s-yorumlar .board::before { inset: 14px -2px 14px 14px; }
+  .s-yorumlar .board::after { inset: 20px -2px 20px 20px; }
+  .s-yorumlar .head { margin-left: 0; padding: 0 24px 0 32px; }
+  .s-yorumlar .head h2 { font-size: 2.25rem; }
+  .s-yorumlar .head > p { font-size: 1.0625rem; }
+  .s-yorumlar .view { position: relative; left: -52px; top: auto; width: 82%; margin-top: 40px; transform: rotate(-3deg); }
+  .s-yorumlar .view figcaption { left: 18px; bottom: 20px; font-size: 0.9375rem; }
+
+  /* One card in front, the next one peeking behind it; the deck keeps the tallest card's height. */
+  .s-yorumlar .deck { margin: 40px 12px 0 26px; }
+  .s-yorumlar .deck__cards { display: grid; height: auto; }
+  .s-yorumlar .pc, .s-yorumlar .pc[data-slot] { position: relative; grid-area: 1 / 1; width: auto; height: auto; grid-template-columns: 1fr; padding: 34px 18px 28px; }
+  .s-yorumlar .pc[data-slot="big"] { transform: rotate(-1deg); }
+  .s-yorumlar .pc[data-slot="a"] { transform: translate(10px, -16px) rotate(2.5deg); }
+  .s-yorumlar .pc[data-slot="a"]:hover { transform: translate(10px, -16px) rotate(2.5deg); }
+  .s-yorumlar .pc[data-slot="a"] > * { visibility: hidden; }
+  .s-yorumlar .pc[data-slot="b"], .s-yorumlar .pc[data-slot="deck"] { transform: translate(18px, -26px) rotate(4deg); opacity: 0; visibility: hidden; }
+  .s-yorumlar .pc[data-slot="out"] { transform: translate(-110%, 20px) rotate(-8deg); }
+  .s-yorumlar .pc__msg { padding: 0; border: 0; }
+  .s-yorumlar .pc__quote { padding-right: 78px; }
+  .s-yorumlar .pc__quote { font-size: 1.1875rem; -webkit-line-clamp: 8; }
+  .s-yorumlar .pc__car { margin-top: 16px; }
+  /* Stamp and postmark move to the card's top-right corner. */
+  .s-yorumlar .pc__addr { position: static; margin-top: 16px; padding: 12px 0 0; border-top: 1px solid var(--rule-strong); }
+  .s-yorumlar .pc__stamp { position: absolute; right: 14px; top: 30px; width: 64px; padding: 4px; }
+  .s-yorumlar .pc__stamp small { display: none; }
+  .s-yorumlar .pc .seal { width: 70px; height: 70px; right: 40px; top: 70px; }
+  .s-yorumlar .pc__cancel { display: none; }
+  .s-yorumlar .deck__nav { margin: 28px 0 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .s-yorumlar .pc, .s-yorumlar .pc[data-slot], .s-yorumlar .deck__btn { transition: none; }
+}
+
+@media (max-width: 899px) {
+  .s-yorumlar .view { margin-bottom: 28px; }
+  .s-yorumlar .tally__row { flex-wrap: nowrap; gap: 10px; }
+  .s-yorumlar .tally__score { font-size: 1.875rem; }
+  .s-yorumlar .stars--gold { --s: 18px; }
+  .s-yorumlar .head .stamp-btn { padding: 0 14px; font-size: 0.8125rem; }
+}

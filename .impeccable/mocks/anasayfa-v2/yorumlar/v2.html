@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mock · Yorumlar · v2 Teslim tutanakları</title>
+<link rel="stylesheet" href="../_kit/kit.css">
+<style>
+  .sec { overflow: clip; }
+  @media (max-width: 899px) { .sec { --road-width: 56px; } }
+
+  /* The pile of delivery notes, on the road side */
+  .pile { grid-column: 1 / span 7; position: relative; display: grid; padding: 40px 0 0 24px; }
+  .note { --dx: 0px; --dy: 0px; --rot: -1deg; grid-area: 1 / 1; position: relative; width: min(100%, 600px); padding: 34px 36px 30px; background: var(--paper); color: var(--ink); box-shadow: 0 1px 1px rgba(43, 42, 41, 0.1), 0 10px 22px -10px rgba(43, 42, 41, 0.38); transform: translate(var(--dx), var(--dy)) rotate(var(--rot)); transition: transform 420ms var(--ease-out); display: flex; flex-direction: column; }
+  .note[data-pos="0"] { z-index: 3; }
+  .note[data-pos="1"] { z-index: 2; --dx: 22px; --dy: -18px; --rot: 1.6deg; }
+  .note[data-pos="2"] { z-index: 1; --dx: 40px; --dy: -34px; --rot: -2.4deg; }
+  .note--cream { background: var(--aged); }
+  .note--blue { background: #e4e8f1; }
+  .note[data-pos]:not([data-pos="0"]) > * { visibility: hidden; }
+  /* Torn from a pad: the perforation along the top */
+  .note::before { content: ""; position: absolute; left: 0; right: 0; top: 10px; height: 6px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='6'%3E%3Ccircle cx='6' cy='3' r='1.6' fill='%23323277' fill-opacity='.28'/%3E%3C/svg%3E") repeat-x; }
+  .note.is-leaving { transition: transform 380ms var(--ease-out), opacity 300ms var(--ease-out); transform: translate(-46%, 30px) rotate(-9deg); opacity: 0; }
+
+  .note__head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 0 120px 12px 0; border-bottom: 2px solid var(--navy); }
+  @media (max-width: 899px) { .note__head { padding-right: 112px; flex-direction: column; gap: 4px; } }
+  .note__title { color: var(--navy); font: 600 0.875rem/1.2 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; }
+  .note__no { color: var(--ink-soft); font: 400 0.875rem/1.2 var(--font-typed); }
+  .note__fields { display: grid; grid-template-columns: 1.3fr 1fr; margin: 0; }
+  .note__fields div { padding: 8px 10px 8px 0; border-bottom: 1px solid var(--rule-strong); }
+  .note__fields div:nth-child(odd) { border-right: 1px solid var(--rule-strong); }
+  .note__fields div:nth-child(even) { padding-left: 12px; }
+  .note__fields dt { color: var(--navy); font: 600 0.6875rem/1.3 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; }
+  .note__fields dd { margin: 2px 0 0; font: 400 1.0625rem/1.4 var(--font-typed); }
+  .note__label { margin-top: 18px; color: var(--navy); font: 600 0.6875rem/1.3 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; }
+  .note__quote { margin: 4px 0 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='36'%3E%3Cpath d='M0 35.5H8' stroke='%236e78a0' stroke-opacity='.35'/%3E%3C/svg%3E"); }
+  .note__quote p { font: italic 400 1.375rem/36px var(--font-text); color: var(--ink); text-wrap: pretty; }
+  .note__foot { display: flex; justify-content: space-between; align-items: end; gap: 20px; margin-top: auto; padding-top: 36px; }
+  .note__sign { position: relative; flex: 1; max-width: 230px; padding-top: 6px; border-top: 1px solid var(--ink-soft); color: var(--ink-soft); font: 400 0.875rem/1.4 var(--font-typed); }
+  .note__sign svg { position: absolute; left: 18px; bottom: 24px; width: 140px; height: 48px; fill: none; stroke: #2e3177; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; transform: rotate(-5deg); }
+  .note__sign b { color: var(--ink); font-weight: 400; }
+  .note .stamp { opacity: 0.9; transform: rotate(-7deg); filter: none; }
+  .note__sample { position: absolute; right: 14px; bottom: -26px; color: var(--ink-soft); font: 400 0.8125rem/1 var(--font-typed); }
+
+  /* The photo clipped to the note */
+  .clip-photo { position: absolute; z-index: 4; right: -132px; top: -58px; width: 210px; padding: 8px 8px 10px; background: var(--paper); box-shadow: 0 1px 1px rgba(43, 42, 41, 0.1), 0 10px 22px -10px rgba(43, 42, 41, 0.38); transform: rotate(4deg); }
+  .clip-photo img { aspect-ratio: 4 / 3; object-fit: cover; width: 100%; }
+  .clip-photo figcaption { padding: 6px 2px 0; color: var(--ink-soft); font: 400 0.75rem/1.3 var(--font-typed); }
+  .clip-photo::before { content: ""; position: absolute; z-index: 1; left: 26px; top: -30px; width: 26px; height: 74px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 84'%3E%3Cpath d='M9 60V14a6 6 0 0 1 12 0v52a9 9 0 0 1-18 0V22' fill='none' stroke='%236d7086' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center / contain; }
+
+  /* Text side (right) */
+  .text { grid-column: 9 / span 4; align-self: center; }
+  .text h2 { color: var(--navy); font: 600 2.5rem/48px var(--font-title); letter-spacing: -0.01em; }
+  .text > p { margin-top: 16px; }
+  .index { list-style: none; margin: 32px 0 0; padding: 0; border-top: 2px solid var(--rule-strong); }
+  .index button { appearance: none; width: 100%; display: grid; grid-template-columns: 34px 1fr; gap: 8px; padding: 10px 4px; border: 0; border-bottom: 1px solid var(--rule-strong); background: none; color: var(--ink); text-align: left; cursor: pointer; transition: background-color 160ms var(--ease-out); }
+  .index button:hover { background: rgba(50, 50, 119, 0.05); }
+  .index b { color: var(--navy); font: 400 0.9375rem/24px var(--font-typed); }
+  .index span { font: 400 1.0625rem/24px var(--font-title); }
+  .index small { display: block; color: var(--ink-soft); font: 400 0.8125rem/1.4 var(--font-typed); }
+  .index button[aria-current="true"] span { color: var(--navy); font-weight: 600; }
+  .index button[aria-current="true"] b::before { content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 6px; background: var(--navy); vertical-align: 1px; }
+  .controls { margin-top: 28px; }
+  .controls p { width: 100%; color: var(--ink-soft); font: 400 0.8125rem/1.4 var(--font-typed); }
+
+  @media (max-width: 899px) {
+    .inner { padding-left: 52px; row-gap: 56px; }
+    .text, .pile { grid-column: 1; }
+    .text { order: -1; }
+    .text h2 { font-size: 1.75rem; line-height: 32px; }
+    .pile { padding: 48px 12px 0 0; }
+    .note { padding: 28px 18px 24px; }
+    .note[data-pos="1"] { --dx: 8px; --dy: -14px; }
+    .note[data-pos="2"] { --dx: 14px; --dy: -26px; }
+    .note__fields { grid-template-columns: 1fr; }
+    .note__fields div:nth-child(odd) { border-right: 0; }
+    .note__fields div:nth-child(even) { padding-left: 0; }
+    .note__quote p { font-size: 1.1875rem; line-height: 32px; }
+    .note__quote { background-size: 8px 32px; }
+    .note__foot { flex-direction: column; align-items: stretch; gap: 28px; padding-top: 56px; }
+    .note .stamp { align-self: end; }
+    .clip-photo { right: -10px; top: -48px; width: 128px; padding: 6px; }
+    .clip-photo figcaption { display: none; }
+  }
+</style>
+</head>
+<body>
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="ink" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="wobble"/>
+      <feDisplacementMap in="SourceGraphic" in2="wobble" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.7" numOctaves="2" seed="3" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.7 0 0 0 1.62" result="coverage"/>
+      <feComposite in="edge" in2="coverage" operator="in"/>
+    </filter>
+    <symbol id="seal" viewBox="0 0 200 200">
+      <path id="seal-arc" d="M100,100 m-70,0 a70,70 0 1,1 140,0 a70,70 0 1,1 -140,0" fill="none"/>
+      <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="5"/>
+      <circle cx="100" cy="100" r="85" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="100" cy="100" r="52" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text font-family="Archivo Narrow, sans-serif" font-weight="600" font-size="19" letter-spacing="3.2" fill="currentColor"><textPath href="#seal-arc" startOffset="0">VOLAN OTOMOTİV · ANKARA · VOLAN OTOMOTİV · ANKARA ·</textPath></text>
+      <text x="100" y="112" text-anchor="middle" font-family="Besley, serif" font-weight="600" font-size="34" fill="currentColor">1954</text>
+    </symbol>
+    <symbol id="tick" viewBox="0 0 32 32"><path d="M5 17.5l7.5 7.5L27.5 6" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <pattern id="road-net" width="64" height="8" patternUnits="userSpaceOnUse"><path d="M0,4 C10.7,-1.3 21.3,-1.3 32,4 S53.3,9.3 64,4 M0,4 C10.7,9.3 21.3,9.3 32,4 S53.3,-1.3 64,4" fill="none" stroke="#323277" stroke-opacity="0.16" stroke-width="0.7"/></pattern>
+  </defs>
+</svg>
+
+<section class="sec" data-road="cross-left" style="position:relative; padding:200px 0 160px;" aria-labelledby="yorum-h">
+  <svg class="road" aria-hidden="true" preserveAspectRatio="none">
+    <path class="road__edge"/><path class="road__bed"/><path class="road__net"/><path class="road__line"/>
+  </svg>
+  <div class="inner">
+    <div class="pile" aria-live="polite">
+      <article class="note" data-pos="0" data-i="0" aria-label="Örnek yorum 1">
+        <figure class="clip-photo"><img src="/general-assets/gorseller/nesne-karakalem/xc90-on-1600.webp" alt="Karakalem çizim: Volvo XC90, önden." width="1600" height="1067" loading="lazy"><figcaption>Araç fotoğrafı (örnek)</figcaption></figure>
+        <header class="note__head"><span class="note__title">Araç teslim tutanağı</span><span class="note__no">No. 0001 · örnek</span></header>
+        <dl class="note__fields">
+          <div><dt>Araç</dt><dd>Volvo XC60</dd></div>
+          <div><dt>Teslim</dt><dd>__.__.____</dd></div>
+          <div><dt>Yapılan işlem</dt><dd>Periyodik bakım</dd></div>
+          <div><dt>Plaka</dt><dd>06 ··· ···</dd></div>
+        </dl>
+        <div class="note__label">Müşterinin notu</div>
+        <blockquote class="note__quote"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.</p></blockquote>
+        <footer class="note__foot">
+          <div class="note__sign"><svg viewBox="0 0 140 48" aria-hidden="true"><path d="M6,34 C10,14 14,10 16,30 C18,12 24,10 26,32 C28,22 32,20 36,28 M44,12 L40,36 M42,26 C50,18 54,16 58,14 M44,26 C50,30 54,34 60,38 C70,30 90,26 132,22"/></svg>Teslim alan: <b>M. K.</b></div>
+          <span class="stamp" aria-hidden="true"><span class="stamp__ink">Teslim edildi<small>Volan Otomotiv</small></span></span>
+        </footer>
+        <span class="note__sample">örnek yorum</span>
+      </article>
+
+      <article class="note note--cream" data-pos="1" data-i="1" aria-label="Örnek yorum 2">
+        <figure class="clip-photo"><img src="/general-assets/gorseller/is-anlari-karakalem/kafa-lambali-usta-1600.webp" alt="Karakalem çizim: kafa lambalı usta aracın altında çalışıyor." width="1600" height="1067" loading="lazy"><figcaption>Arıza tespiti (örnek)</figcaption></figure>
+        <header class="note__head"><span class="note__title">Araç teslim tutanağı</span><span class="note__no">No. 0002 · örnek</span></header>
+        <dl class="note__fields">
+          <div><dt>Araç</dt><dd>Mercedes-Benz C 200</dd></div>
+          <div><dt>Teslim</dt><dd>__.__.____</dd></div>
+          <div><dt>Yapılan işlem</dt><dd>Arıza tespiti, elektronik</dd></div>
+          <div><dt>Plaka</dt><dd>06 ··· ···</dd></div>
+        </dl>
+        <div class="note__label">Müşterinin notu</div>
+        <blockquote class="note__quote"><p>Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper.</p></blockquote>
+        <footer class="note__foot">
+          <div class="note__sign"><svg viewBox="0 0 140 48" aria-hidden="true"><path d="M30,14 C18,8 8,18 22,24 C36,30 30,40 12,38 M48,38 C54,12 58,10 66,38 M52,28 L64,26 C80,24 96,30 130,18"/></svg>Teslim alan: <b>S. A.</b></div>
+          <span class="stamp" aria-hidden="true"><span class="stamp__ink">Teslim edildi<small>Volan Otomotiv</small></span></span>
+        </footer>
+        <span class="note__sample">örnek yorum</span>
+      </article>
+
+      <article class="note note--blue" data-pos="2" data-i="2" aria-label="Örnek yorum 3">
+        <figure class="clip-photo"><img src="/general-assets/gorseller/is-anlari-karakalem/pasta-cila-1600.webp" alt="Karakalem çizim: usta bir kaputu makineyle cilalıyor." width="1600" height="1067" loading="lazy"><figcaption>Boya sonrası cila (örnek)</figcaption></figure>
+        <header class="note__head"><span class="note__title">Araç teslim tutanağı</span><span class="note__no">No. 0003 · örnek</span></header>
+        <dl class="note__fields">
+          <div><dt>Araç</dt><dd>Volkswagen Golf</dd></div>
+          <div><dt>Teslim</dt><dd>__.__.____</dd></div>
+          <div><dt>Yapılan işlem</dt><dd>Kaporta ve boya</dd></div>
+          <div><dt>Plaka</dt><dd>06 ··· ···</dd></div>
+        </dl>
+        <div class="note__label">Müşterinin notu</div>
+        <blockquote class="note__quote"><p>Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur. Nullam quis risus eget urna mollis ornare.</p></blockquote>
+        <footer class="note__foot">
+          <div class="note__sign"><svg viewBox="0 0 140 48" aria-hidden="true"><path d="M30,12 C14,12 14,38 30,36 M16,24 L28,24 M44,12 L72,10 M58,11 C56,24 54,32 52,40 C64,34 80,30 128,30"/></svg>Teslim alan: <b>E. T.</b></div>
+          <span class="stamp" aria-hidden="true"><span class="stamp__ink">Teslim edildi<small>Volan Otomotiv</small></span></span>
+        </footer>
+        <span class="note__sample">örnek yorum</span>
+      </article>
+    </div>
+
+    <div class="text">
+      <h2 id="yorum-h">Teslim tutanakları</h2>
+      <p>Aracını teslim alan müşterilerimizin notları. Buradakiler örnektir; gerçek yorumlar izinle eklenecek.</p>
+      <ol class="index">
+        <li><button type="button" data-go="0" aria-current="true"><b>01</b><span>Volvo XC60<small>Periyodik bakım</small></span></button></li>
+        <li><button type="button" data-go="1" aria-current="false"><b>02</b><span>Mercedes-Benz C 200<small>Arıza tespiti, elektronik</small></span></button></li>
+        <li><button type="button" data-go="2" aria-current="false"><b>03</b><span>Volkswagen Golf<small>Kaporta ve boya</small></span></button></li>
+      </ol>
+      <div class="controls stamps stamps--ink">
+        <button class="stamp-btn stamp-btn--primary" type="button" data-next>Sonraki tutanak</button>
+        <a class="stamp-btn" href="#">Google yorumları</a>
+        <p>Google bağlantısı eklenecek.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+// Road: the crossing from the right lane comes in across the top, then the left lane.
+(() => {
+  const sec = document.querySelector('[data-road]');
+  const svg = sec.querySelector('.road');
+  const paths = [...svg.querySelectorAll('path')];
+  const rounded = (pts, r) => {
+    let d = `M${pts[0].x},${pts[0].y}`;
+    for (let i = 1; i < pts.length - 1; i++) {
+      const p = pts[i - 1], c = pts[i], n = pts[i + 1];
+      const l1 = Math.hypot(c.x - p.x, c.y - p.y), l2 = Math.hypot(n.x - c.x, n.y - c.y);
+      const k = Math.min(r, l1 / 2, l2 / 2);
+      d += ` L${c.x + (p.x - c.x) * k / l1},${c.y + (p.y - c.y) * k / l1} Q${c.x},${c.y} ${c.x + (n.x - c.x) * k / l2},${c.y + (n.y - c.y) * k / l2}`;
+    }
+    const z = pts[pts.length - 1];
+    return `${d} L${z.x},${z.y}`;
+  };
+  const draw = () => {
+    const W = sec.clientWidth, H = sec.offsetHeight, narrow = W < 900;
+    const gutter = Math.min(96, Math.max(20, W * 0.066));
+    const inset = narrow ? 36 : Math.max(26, (W - Math.min(1248, W - 2 * gutter)) / 2 * 0.8);
+    const L = inset, R = W - inset, drop = narrow ? 24 : 36, rad = narrow ? 72 : Math.min(150, W * 0.1);
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const d = rounded([{ x: R, y: -400 }, { x: R, y: -drop }, { x: L, y: drop }, { x: L, y: H + 10 }], rad);
+    paths.forEach((p) => p.setAttribute('d', d));
+  };
+  draw();
+  new ResizeObserver(draw).observe(sec);
+})();
+</script>
+<script>
+// The pile: the top note slides off to the left and goes to the bottom of the pile.
+(() => {
+  const notes = [...document.querySelectorAll('.note')];
+  const index = [...document.querySelectorAll('[data-go]')];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  let front = 0, busy = false;
+  const order = () => notes.forEach((n, i) => { n.dataset.pos = String((i - front + notes.length) % notes.length); });
+  const mark = () => index.forEach((b) => b.setAttribute('aria-current', String(Number(b.dataset.go) === front)));
+  const go = (target) => {
+    if (busy || target === front) return;
+    const leaving = notes[front];
+    front = target;
+    mark();
+    if (reduce.matches) { order(); return; }
+    busy = true;
+    leaving.classList.add('is-leaving');
+    setTimeout(() => {
+      leaving.style.transition = 'none';
+      leaving.classList.remove('is-leaving');
+      order();
+      void leaving.offsetWidth;
+      leaving.style.transition = '';
+      busy = false;
+    }, 360);
+  };
+  document.querySelector('[data-next]').addEventListener('click', () => go((front + 1) % notes.length));
+  index.forEach((b) => b.addEventListener('click', () => go(Number(b.dataset.go))));
+  const q = new URLSearchParams(location.search).get('not');
+  if (q) { front = Number(q); order(); mark(); }
+})();
+</script>
+</body>
+</html>

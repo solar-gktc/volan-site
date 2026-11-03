@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mock · kampanya · v3 Servis biletleri</title>
+<link rel="stylesheet" href="../_kit/kit.css">
+<style>
+  /* v3 — Servis biletleri: each offer is a tall punched ticket, dealt onto the page beside the
+     service advisor (a cut-out standing on the page with his phone). As each ticket comes into
+     view a GEÇERLİ stamp presses across its tear line. Road on the right. */
+  .sec { position: relative; padding: 216px 0 152px; }
+
+  .desk { grid-column: 1 / span 3; display: grid; grid-template-rows: auto 1fr; align-self: stretch; }
+  .desk h2 { color: var(--navy); font: 600 2.5rem/48px var(--font-title); letter-spacing: -0.01em; margin-bottom: 24px; }
+  .desk p { max-width: 32ch; }
+  .desk .typed { display: block; margin-top: 20px; color: var(--ink-soft); font-size: 0.9375rem; line-height: 1.5; }
+  .advisor { position: relative; align-self: end; margin: 40px 0 0; height: 500px; }
+  .advisor img { position: absolute; left: 8px; bottom: 0; height: 100%; width: auto; }
+  .advisor::after { content: ""; position: absolute; left: -24px; right: 24px; bottom: 0; border-bottom: 2px solid var(--rule-strong); }
+  .advisor figcaption { position: absolute; left: 150px; bottom: 130px; width: 138px; padding-top: 10px; border-top: 1.5px solid var(--rule-strong); color: var(--ink-soft); font: 400 0.875rem/1.45 var(--font-typed); }
+  .advisor figcaption a { display: block; white-space: nowrap; margin-top: 4px; color: var(--navy); font-size: 1rem; text-decoration-color: var(--rule-strong); }
+  .advisor figcaption a:hover { text-decoration-color: currentColor; }
+
+  /* The tickets, dealt slightly off-square */
+  .deal { grid-column: 4 / span 7; display: flex; justify-content: center; align-items: flex-start; gap: 18px; margin: 0; padding: 24px 0 0; list-style: none; }
+  .ticket { --rot: -2.2deg; --drop: 0px; position: relative; flex: 0 0 220px; min-width: 0; display: grid; grid-template-rows: auto auto 1fr; background: var(--paper); box-shadow: 0 1px 1px rgba(43,42,41,.1), 0 10px 22px -10px rgba(43,42,41,.38); transform: translateY(var(--drop)) rotate(var(--rot)); }
+  .ticket:nth-child(2) { --rot: 1.6deg; --drop: 48px; }
+  .ticket:nth-child(3) { --rot: -0.8deg; --drop: 16px; }
+  .ticket[hidden] { display: none; }
+  /* One campaign: a single, larger ticket */
+  .deal[data-n="1"] { justify-content: flex-start; padding-left: 96px; }
+  .deal[data-n="1"] .ticket { flex-basis: 300px; }
+  .deal[data-n="1"] .ticket__value { font-size: 3.25rem; }
+  .deal[data-n="1"] .ticket__part { width: 220px; }
+
+  /* Stub: navy, punched hole, serial */
+  .ticket__stub { position: relative; display: grid; justify-items: center; gap: 6px; padding: 44px 16px 22px; background: var(--navy); color: var(--gold-ink); text-align: center; }
+  .ticket__stub::before { content: ""; position: absolute; left: 50%; top: 14px; width: 16px; height: 16px; margin-left: -8px; background: var(--stock); }
+  .ticket__stub .label { color: var(--gold-ink); }
+  .ticket__stub b { color: var(--stock); font: 700 1.375rem/1 var(--font-typed); letter-spacing: 0.06em; }
+  .ticket__stub small { font: 400 0.8125rem/1 var(--font-typed); }
+
+  /* Tear line: holes + square notches at both ends */
+  .tear { position: relative; height: 0; }
+  .tear::before { content: ""; position: absolute; left: 10px; right: 10px; top: -1px; height: 3px; background: repeating-linear-gradient(to right, var(--stock) 0 5px, transparent 5px 11px); }
+  .tear::after { content: ""; position: absolute; left: -7px; right: -7px; top: -7px; height: 14px; border-left: 14px solid var(--stock); border-right: 14px solid var(--stock); }
+
+  .ticket__body { display: flex; flex-direction: column; padding: 56px 20px 22px; }
+  .ticket__value { color: var(--navy); font: 400 2.25rem/0.95 var(--font-title); letter-spacing: -0.02em; }
+  .ticket__value--long { font-size: 2.25rem; line-height: 1.05; }
+  .ticket h3 { margin: 8px 0 0; color: var(--navy); font: 600 1.25rem/1.25 var(--font-title); text-wrap: balance; }
+  .ticket__part { width: 164px; margin: 6px auto -8px; filter: url(#cut); }
+  .ticket__terms { color: var(--ink-soft); font: 400 0.8125rem/1.5 var(--font-typed); margin-bottom: 16px; }
+  .ticket__valid { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; padding: 10px 0; margin: auto 0 18px; border-top: 1.5px solid var(--rule-strong); border-bottom: 1.5px solid var(--rule-strong); }
+  .ticket__valid .typed { font-size: 0.9375rem; white-space: nowrap; }
+  .ticket .stamps { justify-content: center; }
+  .ticket .stamp-btn { width: 100%; justify-content: center; }
+
+  /* GEÇERLİ stamp across the tear line */
+  .ticket .stamp { position: absolute; z-index: 3; right: -22px; top: 128px; pointer-events: none; }
+  .ticket .stamp__ink { font-size: 0.9375rem; padding: 7px 12px 6px; }
+  .ticket.is-stamped .stamp { transform: scale(1) rotate(-11deg); }
+
+  .mock-n { position: fixed; z-index: 50; left: 12px; bottom: 12px; display: flex; gap: 6px; align-items: center; padding: 6px 8px; background: var(--paper); border: 1px solid var(--rule-strong); font: 500 0.75rem/1 var(--font-label); letter-spacing: 0.1em; text-transform: uppercase; color: var(--navy); }
+  .mock-n[hidden] { display: none; }
+  .mock-n a { padding: 4px 7px; border: 1px solid var(--rule-strong); text-decoration: none; }
+  .mock-n a[aria-current] { background: var(--navy); color: var(--stock); }
+
+  @media (max-width: 899px) {
+    .sec { padding: 144px 0 112px; }
+    .inner { padding-right: 60px; row-gap: 40px; }
+    .desk, .deal { grid-column: 1; }
+    .desk h2 { font-size: 1.75rem; line-height: 32px; margin-bottom: 16px; }
+    .advisor { height: 300px; margin-top: 24px; }
+    .advisor img { left: 0; }
+    .advisor::after { left: -20px; right: 0; }
+    .advisor figcaption { left: 116px; bottom: 80px; width: auto; right: 0; }
+    .deal { flex-direction: column; align-items: center; gap: 40px; padding: 0; }
+    .ticket, .deal[data-n="1"] .ticket { flex: none; width: min(100%, 268px); --drop: 0px !important; }
+    .deal[data-n="1"] { padding-left: 0; }
+    .ticket:nth-child(2) { align-self: flex-start; }
+    .ticket .stamp { right: -6px; }
+    .ticket__value { font-size: 2.75rem; }
+  }
+</style>
+</head>
+<body>
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="ink" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="wobble"/>
+      <feDisplacementMap in="SourceGraphic" in2="wobble" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.7" numOctaves="2" seed="3" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.7 0 0 0 1.62" result="coverage"/>
+      <feComposite in="edge" in2="coverage" operator="in"/>
+    </filter>
+    <filter id="cut" color-interpolation-filters="sRGB"><feComponentTransfer><feFuncA type="table" tableValues="0 0 0.25 1 1"/></feComponentTransfer></filter>
+    <pattern id="road-net" width="64" height="8" patternUnits="userSpaceOnUse"><path d="M0,4 C10.7,-1.3 21.3,-1.3 32,4 S53.3,9.3 64,4 M0,4 C10.7,9.3 21.3,9.3 32,4 S53.3,-1.3 64,4" fill="none" stroke="#323277" stroke-opacity="0.16" stroke-width="0.7"/></pattern>
+  </defs>
+</svg>
+
+<section class="sec" data-from="left" data-lane="right" aria-labelledby="kampanya-baslik">
+  <svg class="road" aria-hidden="true"><path class="road__edge"/><path class="road__bed"/><path class="road__net"/><path class="road__line"/></svg>
+  <div class="inner">
+    <div class="desk">
+      <div>
+        <h2 id="kampanya-baslik">Bu sezon geçerli</h2>
+        <p>Bir bilet seçin ve WhatsApp’tan yazın. Servis danışmanımız sizi arayıp randevu saatini birlikte belirler.</p>
+        <span class="typed">Biletler örnektir; şartlar ve tarihler örnektir.</span>
+      </div>
+      <figure class="advisor">
+        <img src="/general-assets/gorseller/kesik-ustalar/yonetici-telefon-ayakta.webp" alt="Telefonla konuşan servis danışmanı" width="397" height="1200">
+        <figcaption>Servis danışmanı<a href="tel:+905337653378">0533 765 33 78</a></figcaption>
+      </figure>
+    </div>
+
+    <ol class="deal" aria-label="Kampanya biletleri">
+      <li class="ticket">
+        <div class="ticket__stub"><span class="label">Bilet no</span><b>0001</b><small>örnek</small></div>
+        <div class="tear" aria-hidden="true"></div>
+        <div class="ticket__body">
+          <span class="ticket__value">Ücretsiz</span>
+          <h3>Yol öncesi kontrol</h3>
+          <img class="ticket__part" src="/general-assets/3d-parcalar/cikti/png/jant-volvo.webp" alt="" width="1024" height="1024">
+          <p class="ticket__terms">Lastik, fren, sıvılar ve aydınlatma. Parça ve işçilik ayrıca.</p>
+          <p class="ticket__valid"><span class="label">Son gün</span><span class="typed">15.01.2027</span></p>
+          <div class="stamps stamps--ink"><a class="stamp-btn stamp-btn--primary" href="https://wa.me/905337653378?text=Merhaba%2C%20bilet%200001%20(yol%20%C3%B6ncesi%20kontrol)%20i%C3%A7in%20randevu%20almak%20istiyorum.">Randevu al</a></div>
+        </div>
+        <span class="stamp" aria-hidden="true"><span class="stamp__ink">Geçerli<small>Volan</small></span></span>
+      </li>
+      <li class="ticket">
+        <div class="ticket__stub"><span class="label">Bilet no</span><b>0002</b><small>örnek</small></div>
+        <div class="tear" aria-hidden="true"></div>
+        <div class="ticket__body">
+          <span class="ticket__value">Ücretsiz</span>
+          <h3>Kış kontrolü</h3>
+          <img class="ticket__part" src="/general-assets/3d-parcalar/cikti/png/elektrik-aku.webp" alt="" width="1024" height="1024">
+          <p class="ticket__terms">Akü testi, antifriz, silecek ve lastikler. Randevu ile.</p>
+          <p class="ticket__valid"><span class="label">Son gün</span><span class="typed">28.02.2027</span></p>
+          <div class="stamps stamps--ink"><a class="stamp-btn stamp-btn--primary" href="https://wa.me/905337653378?text=Merhaba%2C%20bilet%200002%20(k%C4%B1%C5%9F%20kontrol%C3%BC)%20i%C3%A7in%20randevu%20almak%20istiyorum.">Randevu al</a></div>
+        </div>
+        <span class="stamp" aria-hidden="true"><span class="stamp__ink">Geçerli<small>Volan</small></span></span>
+      </li>
+      <li class="ticket">
+        <div class="ticket__stub"><span class="label">Bilet no</span><b>0003</b><small>örnek</small></div>
+        <div class="tear" aria-hidden="true"></div>
+        <div class="ticket__body">
+          <span class="ticket__value">%20</span>
+          <h3>Fren işçiliğinde indirim</h3>
+          <img class="ticket__part" src="/general-assets/3d-parcalar/cikti/png/fren-seti-lacivert.webp" alt="" width="1024" height="1024">
+          <p class="ticket__terms">Disk ve balata değişiminde, yalnızca işçilik bedeline.</p>
+          <p class="ticket__valid"><span class="label">Son gün</span><span class="typed">31.01.2027</span></p>
+          <div class="stamps stamps--ink"><a class="stamp-btn stamp-btn--primary" href="https://wa.me/905337653378?text=Merhaba%2C%20bilet%200003%20(fren%20i%C5%9F%C3%A7ili%C4%9Fi)%20i%C3%A7in%20randevu%20almak%20istiyorum.">Randevu al</a></div>
+        </div>
+        <span class="stamp" aria-hidden="true"><span class="stamp__ink">Geçerli<small>Volan</small></span></span>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<nav class="mock-n" aria-label="Mock: kampanya sayısı">Mock · kampanya <a href="?n=1">1</a><a href="?n=2">2</a><a href="?n=3">3</a></nav>
+
+<script>
+(function () {
+  const q = new URLSearchParams(location.search);
+  const n = Math.min(3, Math.max(1, +q.get('n') || 2));
+  const tickets = [...document.querySelectorAll('.ticket')];
+  tickets.forEach((t, i) => { t.hidden = i >= n; });
+  document.querySelector('.deal').dataset.n = n;
+  document.querySelectorAll('.mock-n a').forEach(a => { if (a.textContent == n) a.setAttribute('aria-current', 'true'); });
+  if (q.has('shot')) document.querySelector('.mock-n').hidden = true;
+
+  // The one interaction: a GEÇERLİ stamp presses across each ticket's tear line as it comes into view.
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const shown = tickets.slice(0, n);
+  if (reduce || q.has('shot') || !('IntersectionObserver' in window)) shown.forEach(t => t.classList.add('is-stamped'));
+  else {
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return;
+      const i = shown.indexOf(e.target);
+      setTimeout(() => e.target.classList.add('is-stamped'), 160 + i * 220);
+      io.unobserve(e.target);
+    }), { threshold: 0.6 });
+    shown.forEach(t => io.observe(t));
+  }
+
+  // Mock road: enters on the left lane, crosses at the top, runs down the right lane.
+  const sec = document.querySelector('.sec'), svg = sec.querySelector('.road');
+  function draw() {
+    const W = sec.clientWidth, H = sec.offsetHeight, narrow = W < 900;
+    const iw = Math.min(1248, W - 2 * Math.min(96, Math.max(20, W * 0.066)));
+    const L = narrow ? 36 : (W - iw) / 2 + 54, R = narrow ? W - 36 : (W + iw) / 2 - 54;
+    const yc = narrow ? 48 : 100, r = yc;
+    const d = `M${L},0 V0 Q${L},${yc} ${L + r},${yc} H${R - r} Q${R},${yc} ${R},${yc + r} V${H}`;
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.querySelectorAll('path').forEach(p => p.setAttribute('d', d));
+  }
+  draw(); new ResizeObserver(draw).observe(sec);
+})();
+</script>
+</body>
+</html>

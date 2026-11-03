@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>İş Emri · Hizmetlerimiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600&family=Besley:wght@400;600&family=Courier+Prime&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#323277;--gold:#857244;--gold-ink:#cdb585;--ink:#2b2a29;--ink-soft:#4d4c5c;--stock:#eef0f5;--rule:rgba(110,120,160,.22);--rule-strong:rgba(50,50,119,.32);--stamp:#3b3f8f}
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:1440px;height:900px;overflow:hidden;background:var(--stock);color:var(--ink);font-family:Besley,Georgia,serif}
+.lab{font-family:"Archivo Narrow","Arial Narrow",sans-serif;font-weight:600;font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+.typed{font-family:"Courier Prime","Courier New",monospace}
+/* navy form header */
+header{position:relative;height:192px;background:var(--navy);display:flex;align-items:center;gap:40px;padding:0 64px}
+header::before,header::after{content:"";position:absolute;pointer-events:none}
+header::before{inset:16px;border:2px solid var(--gold)}
+header::after{inset:22px;border:1px solid rgba(133,114,68,.7)}
+header img{height:104px;width:auto;flex:none}
+.sep{width:2px;height:104px;background:var(--gold);flex:none}
+.title .lab{color:var(--gold-ink);font-size:13px;letter-spacing:.2em}
+h1{margin-top:12px;font-weight:400;font-size:40px;line-height:1.08;letter-spacing:-.012em;color:var(--gold-ink);max-width:640px}
+.formno{margin-left:auto;color:var(--stock);display:grid;gap:14px;font-size:15px}
+.formno span{display:flex;align-items:baseline;gap:12px}
+.formno .lab{color:var(--gold-ink);font-size:11px;width:72px}
+.formno i{font-style:normal;display:inline-block;width:150px;border-bottom:1px solid rgba(238,240,245,.55);height:18px}
+/* ruled stock */
+main{height:708px;padding:32px 96px 0;display:grid;grid-template-columns:624px 576px;column-gap:48px;
+ background:repeating-linear-gradient(to bottom,transparent 0 31px,var(--rule) 31px 32px)}
+.colhead{height:32px;display:flex;align-items:flex-end;padding-bottom:7px;color:var(--navy);justify-content:space-between}
+.colhead .typed{font-size:13px;letter-spacing:0;text-transform:none;color:var(--ink-soft);font-weight:400}
+/* diagram */
+.ink{filter:url(#ink);mix-blend-mode:multiply}
+.diagram text{font-family:"Courier Prime",monospace;font-size:14px;fill:var(--navy)}
+.slots{display:grid;grid-template-columns:1fr 1.6fr .8fr;margin-top:0;height:64px;border:1.5px solid var(--navy)}
+.slots div{padding:6px 10px;color:var(--navy);border-right:1.5px solid var(--navy);font-size:11px}
+.slots div:last-child{border-right:0}
+/* checklist */
+ol{list-style:none;border-top:2px solid var(--rule-strong)}
+li{height:64px;display:grid;grid-template-columns:30px 34px 1fr;align-items:start}
+.box{width:20px;height:20px;border:1.5px solid var(--navy);margin-top:7px;position:relative;background:var(--stock)}
+.box svg{position:absolute;left:-4px;top:-17px;width:36px;height:36px;overflow:visible}
+.box svg path{stroke-width:4.2}
+.n{font-size:14px;line-height:32px;color:var(--ink-soft)}
+li b{display:block;font-weight:600;font-size:18px;line-height:32px;color:var(--navy);padding-top:1px}
+li i{display:block;font-style:normal;font-size:14px;line-height:30px;color:var(--ink);white-space:nowrap}
+.sum{height:32px;display:flex;align-items:flex-end;gap:12px;padding-bottom:6px;border-top:2px solid var(--rule-strong)}
+.sum .lab{color:var(--navy);font-size:11px}
+.sum .typed{font-size:15px;color:var(--stamp)}
+.acts{margin-top:16px;display:flex;align-items:center;gap:16px}
+.btn{height:52px;padding:0 22px;display:inline-flex;align-items:center;border:4px double var(--navy);font-family:"Archivo Narrow",sans-serif;font-weight:600;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);text-decoration:none}
+.btn.p{background:var(--navy);color:var(--stock);border-color:var(--stock);outline:1.5px solid var(--navy);transform:rotate(-1.2deg)}
+.btn.s{transform:rotate(.8deg)}
+.acts .typed{font-size:13px;color:var(--ink-soft);margin-left:8px}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="ink"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4"/></filter></svg>
+
+<header>
+  <img src="../../../../assets/img/logo-oval.svg" alt="Volan Premium Car Service">
+  <span class="sep"></span>
+  <div class="title">
+    <p class="lab">İş Emri · Volan Otomotiv</p>
+    <h1>Aracınızın tüm ihtiyaçları için tek noktadan çözüm</h1>
+  </div>
+  <div class="formno typed">
+    <span><b class="lab">Form no.</b><i></i></span>
+    <span><b class="lab">Tarih</b><i></i></span>
+    <span><b class="lab">Danışman</b><i></i></span>
+  </div>
+</header>
+
+<main>
+  <section>
+    <p class="colhead lab">Araç şeması · üstten görünüş <span class="typed">Hizmetin dokunduğu bölge</span></p>
+    <svg class="diagram" width="624" height="480" viewBox="0 0 624 480" aria-label="Üstten görünüşte araç şeması, hizmet bölgeleri numaralı">
+      <g fill="#323277"><rect x="138" y="138" width="58" height="16"/><rect x="138" y="326" width="58" height="16"/><rect x="420" y="136" width="58" height="16"/><rect x="420" y="328" width="58" height="16"/></g>
+      <g fill="#eef0f5" stroke="#323277" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M120 152C92 152 78 170 78 196L78 284C78 310 92 328 120 328L470 330C522 328 548 300 550 240C548 180 522 152 470 150Z"/>
+        <path d="M384 151L396 134L410 136L406 152M384 329L396 346L410 344L406 328" fill="none"/>
+        <path d="M192 182L360 176C384 176 400 200 402 240C400 280 384 304 360 304L192 298C178 298 170 280 170 240C170 200 178 182 192 182Z"/>
+      </g>
+      <g fill="none" stroke="#323277" stroke-width="1.4" stroke-linecap="round">
+        <path d="M352 182C362 210 362 270 352 298M204 186C194 212 194 268 204 294"/>
+        <path d="M406 198C460 192 512 196 538 206M406 282C460 288 512 284 538 274"/>
+        <path d="M286 152V181M286 299V328M402 151V190M402 290V329M150 153V184M150 296V327"/>
+        <rect x="428" y="208" width="92" height="64" stroke-dasharray="4 4" opacity=".6"/>
+        <circle cx="330" cy="206" r="11"/><path d="M319 206H341"/>
+        <path d="M534 168C543 176 548 186 549 196M534 312C543 304 548 294 549 284" stroke-width="3.2"/>
+        <path d="M84 172V198M84 282V308" stroke-width="3.6"/>
+      </g>
+      <g stroke="#323277" stroke-width="1" fill="#323277">
+        <path d="M580 240H476M578 112L540 186M330 66L342 214M30 256V240L80 240M400 424L358 262M248 424L252 330M140 76L130 168M504 416L450 336" fill="none"/>
+        <circle cx="476" cy="240" r="3"/><circle cx="540" cy="186" r="3"/><circle cx="342" cy="214" r="3"/><circle cx="80" cy="240" r="3"/>
+        <circle cx="358" cy="262" r="3"/><circle cx="252" cy="330" r="3"/><circle cx="130" cy="168" r="3"/><circle cx="450" cy="336" r="3"/>
+      </g>
+      <g fill="#eef0f5" stroke="#323277" stroke-width="1.5">
+        <circle cx="596" cy="240" r="16"/><circle cx="586" cy="96" r="16"/><circle cx="330" cy="50" r="16"/><circle cx="30" cy="272" r="16"/>
+        <circle cx="404" cy="440" r="16"/><circle cx="248" cy="440" r="16"/><circle cx="140" cy="60" r="16"/><circle cx="508" cy="432" r="16"/>
+      </g>
+      <g text-anchor="middle">
+        <text x="596" y="245">01</text><text x="586" y="101">02</text><text x="330" y="55">03</text><text x="30" y="277">04</text>
+        <text x="404" y="445">05</text><text x="248" y="445">06</text><text x="140" y="65">07</text><text x="508" y="437">08</text>
+      </g>
+      <g class="ink" fill="none" stroke="#3b3f8f" stroke-width="2.4" opacity=".9">
+        <ellipse cx="596" cy="240" rx="24" ry="22" transform="rotate(-14 596 240)"/>
+        <ellipse cx="330" cy="50" rx="24" ry="22" transform="rotate(10 330 50)"/>
+        <ellipse cx="140" cy="60" rx="25" ry="21" transform="rotate(-8 140 60)"/>
+      </g>
+    </svg>
+    <div class="slots lab"><div>Plaka</div><div>Marka / Model</div><div>Km</div></div>
+  </section>
+
+  <section>
+    <p class="colhead lab">Yapılacak işler <span class="typed">İstenen hizmeti işaretleyin</span></p>
+    <ol>
+      <li><span class="box"><svg class="ink" viewBox="0 0 30 30"><path d="M4 17L11 25L28 2" fill="none" stroke="#3b3f8f" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="n typed">01</span><div><b>Bakım &amp; Onarım</b><i class="typed">Yıllık ve kilometre bakımları, orijinal ya da muadil parça.</i></div></li>
+      <li><span class="box"></span><span class="n typed">02</span><div><b>Yedek Parça</b><i class="typed">Orijinal ve 1. sınıf muadil parça temini.</i></div></li>
+      <li><span class="box"><svg class="ink" viewBox="0 0 30 30" style="transform:rotate(6deg)"><path d="M4 16L12 25L27 3" fill="none" stroke="#3b3f8f" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="n typed">03</span><div><b>Araç Arıza Tespiti</b><i class="typed">Güncel cihazlarla bilgisayarlı arıza tespiti.</i></div></li>
+      <li><span class="box"></span><span class="n typed">04</span><div><b>Sigorta / Kasko Onarım İşlemleri</b><i class="typed">Hasar ihbarından teslimata kadar süreci biz takip ederiz.</i></div></li>
+      <li><span class="box"></span><span class="n typed">05</span><div><b>Elektronik Sistem Onarımları</b><i class="typed">Elektrik ve elektronik arızaların tespiti ve onarımı.</i></div></li>
+      <li><span class="box"></span><span class="n typed">06</span><div><b>Kaporta</b><i class="typed">Hasar onarımı ve mini onarım.</i></div></li>
+      <li><span class="box"><svg class="ink" viewBox="0 0 30 30" style="transform:rotate(-5deg)"><path d="M5 17L11 24L27 3" fill="none" stroke="#3b3f8f" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="n typed">07</span><div><b>Boya</b><i class="typed">Boya fırınında, aracınızın orijinal rengine uygun boya.</i></div></li>
+      <li><span class="box"></span><span class="n typed">08</span><div><b>Mekanik Onarım</b><i class="typed">Arıza tespitinden parça onarımına mekanik işler.</i></div></li>
+    </ol>
+    <p class="sum"><b class="lab">Talep özeti</b><span class="typed">Bakım &amp; Onarım · Araç Arıza Tespiti · Boya</span></p>
+    <div class="acts">
+      <a class="btn p" href="#">Talebi gönder</a>
+      <a class="btn s" href="#">Ara</a>
+      <span class="typed">Talep WhatsApp ile iletilir.</span>
+    </div>
+  </section>
+</main>
+</body>
+</html>

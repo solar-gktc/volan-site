@@ -1,0 +1,78 @@
+/* Hizmetler (Dizin sekmeleri): one navy board with eight thumb-index tabs on its fore-edge.
+   A tab opens the service's leaf: a blueprint of the part, a workshop photo tipped in over the
+   board's left edge toward the road (z 2, the car passes under it), the name in foil type.
+   The road runs in the left lane; the board starts at column 3 and keeps out of it. */
+.s-hizmetler { padding: 144px 0; }
+.s-hizmetler .board { grid-column: 3 / 12; position: relative; z-index: 2; background: var(--navy); color: var(--stock); padding: 72px 72px 80px; display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; }
+.s-hizmetler .board::before, .s-hizmetler .board::after { content: ""; position: absolute; pointer-events: none; }
+.s-hizmetler .board::before { inset: 24px; border: 2px solid var(--gold); }
+.s-hizmetler .board::after { inset: 31px; border: 1px solid rgba(133, 114, 68, 0.7); }
+.s-hizmetler .board ::selection { background: var(--gold-ink); color: var(--navy); }
+
+.s-hizmetler .board__head { position: relative; z-index: 1; display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 28px; padding-bottom: 28px; border-bottom: 1px solid rgba(133, 114, 68, 0.7); }
+.s-hizmetler .board__title { color: var(--gold-ink); font: 400 2.75rem/1 var(--font-title); letter-spacing: -0.015em; }
+.s-hizmetler .board__lead { color: var(--stock); font: 400 1.1875rem/1.4 var(--font-text); }
+.s-hizmetler .board__lead em { font-style: italic; color: var(--gold-ink); }
+
+/* Thumb-index tabs on the fore-edge */
+.s-hizmetler .tabs { position: absolute; z-index: 1; top: 72px; left: 100%; width: 156px; margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; }
+.s-hizmetler .tab { position: relative; display: flex; align-items: center; width: 100%; min-height: 60px; padding: 8px 14px 8px 18px; border: 1px solid var(--rule-strong); border-left: 0; background: var(--stock-deep); color: var(--navy); font: 600 0.75rem/1.25 var(--font-label); letter-spacing: 0.12em; text-transform: uppercase; text-align: left; cursor: pointer; transition: background-color 180ms var(--ease-out), transform 180ms var(--ease-out), color 180ms var(--ease-out); }
+.s-hizmetler .tab:hover { background: #e9ecf3; transform: translateX(3px); }
+.s-hizmetler .tab[aria-selected="true"] { background: var(--navy); color: var(--gold-ink); border-color: var(--navy); transform: none; margin-left: -1px; padding-left: 19px; }
+.s-hizmetler .tab[aria-selected="true"]::after { content: ""; position: absolute; right: 10px; top: 50%; width: 14px; height: 1px; background: var(--gold-ink); }
+.s-hizmetler .tab:focus-visible { outline: 2px solid var(--navy); outline-offset: 2px; }
+.s-hizmetler .tab[aria-selected="true"]:focus-visible { outline-color: var(--gold-ink); outline-offset: -5px; }
+
+/* All panels share one grid cell: the board keeps the tallest panel's height, so it never
+   changes size when a tab is turned. */
+.s-hizmetler .board__head { grid-row: 1; }
+.s-hizmetler .panel { grid-row: 2; grid-column: 1; position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; padding-top: 48px; }
+.s-hizmetler .panel[hidden] { display: grid; visibility: hidden; }
+.s-hizmetler .panel__text { align-self: stretch; display: flex; flex-direction: column; align-items: flex-start; }
+.s-hizmetler .panel__art { position: relative; padding-top: 8px; }
+.s-hizmetler .sheet { width: 100%; aspect-ratio: 16 / 10; box-shadow: 0 1px 1px rgba(10, 10, 30, 0.25), 0 12px 24px -10px rgba(10, 10, 30, 0.6); transform: rotate(0.6deg); }
+.s-hizmetler .panel__photo { position: relative; width: 74%; margin: -36px 0 0 -176px; transform: rotate(-1.6deg); }
+.s-hizmetler .panel__photo img { aspect-ratio: 4 / 3; object-fit: cover; }
+.s-hizmetler .panel__name { color: var(--gold-ink); font: 400 clamp(2rem, 2.9vw, 2.75rem)/1.05 var(--font-title); letter-spacing: -0.015em; text-wrap: balance; }
+.s-hizmetler .panel__body { margin-top: 20px; max-width: 30rem; font: 400 1.125rem/1.6 var(--font-text); }
+.s-hizmetler .panel__scope { margin: 24px 0 0; padding: 0; list-style: none; border-top: 1px solid rgba(133, 114, 68, 0.7); }
+.s-hizmetler .panel__scope li { padding: 8px 0 7px; border-bottom: 1px solid rgba(133, 114, 68, 0.45); color: var(--stock); font: 400 0.9375rem/1.4 var(--font-typed); }
+.s-hizmetler .panel__scope li::before { content: "— "; color: var(--gold-ink); }
+.s-hizmetler .panel .stamps { margin-top: auto; padding-top: 36px; }
+
+/* Tab turn: the new leaf slides in from the fore-edge. */
+.s-hizmetler .panel.is-turning .panel__art, .s-hizmetler .panel.is-turning .panel__text { animation: hizmetler-turn 340ms var(--ease-out) both; }
+.s-hizmetler .panel.is-turning .panel__text { animation-delay: 40ms; }
+@keyframes hizmetler-turn { from { opacity: 0; transform: translateX(18px); } to { opacity: 1; transform: none; } }
+
+@media (max-width: 1240px) {
+  .s-hizmetler .board { grid-column: 3 / 11; }
+}
+
+@media (max-width: 899px) {
+  .s-hizmetler { padding: 144px 0 112px; }
+  .s-hizmetler .entry__inner { width: auto; margin: 0; padding-left: 80px; }
+  .s-hizmetler .board { grid-column: 1 / -1; padding: 40px 24px 48px; }
+  .s-hizmetler .board__head { grid-row: 2; }
+  .s-hizmetler .panel { grid-row: 3; }
+  .s-hizmetler .board::before { inset: 10px; }
+  .s-hizmetler .board::after { inset: 16px; }
+  .s-hizmetler .board__title { font-size: 2rem; }
+  .s-hizmetler .board__lead { font-size: 1.0625rem; }
+  .s-hizmetler .tabs { grid-row: 1; position: relative; top: auto; left: auto; width: auto; flex-direction: row; overflow-x: auto; gap: 4px; margin: -88px -24px 40px; padding: 0; scrollbar-width: none; }
+  .s-hizmetler .tabs::-webkit-scrollbar { display: none; }
+  .s-hizmetler .tabs li { flex: none; }
+  .s-hizmetler .tab { min-height: 48px; border: 1px solid var(--rule-strong); border-bottom: 0; white-space: nowrap; padding: 6px 14px; }
+  .s-hizmetler .tab:hover { transform: none; }
+  .s-hizmetler .tab[aria-selected="true"] { margin-left: 0; padding-left: 14px; }
+  .s-hizmetler .tab[aria-selected="true"]::after { display: none; }
+  .s-hizmetler .panel { grid-template-columns: 1fr; gap: 32px; padding-top: 32px; }
+  .s-hizmetler .panel__art { order: 2; }
+  .s-hizmetler .panel__photo { margin: -28px 0 0 -76px; width: 70%; }
+  .s-hizmetler .panel__name { font-size: 2rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .s-hizmetler .panel.is-turning .panel__art, .s-hizmetler .panel.is-turning .panel__text { animation: none; }
+  .s-hizmetler .tab { transition: none; }
+}

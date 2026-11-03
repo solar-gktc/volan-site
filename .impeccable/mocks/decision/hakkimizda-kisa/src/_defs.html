@@ -1,0 +1,25 @@
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <!-- Rubber-stamp ink: wobbly edges plus uneven coverage. -->
+    <filter id="ink" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="wobble"/>
+      <feDisplacementMap in="SourceGraphic" in2="wobble" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.7" numOctaves="2" seed="3" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.7 0 0 0 1.62" result="coverage"/>
+      <feComposite in="edge" in2="coverage" operator="in"/>
+    </filter>
+    <symbol id="seal" viewBox="0 0 200 200">
+      <path id="seal-arc" d="M100,100 m-70,0 a70,70 0 1,1 140,0 a70,70 0 1,1 -140,0" fill="none"/>
+      <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="5"/>
+      <circle cx="100" cy="100" r="85" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="100" cy="100" r="52" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text font-family="Archivo Narrow, sans-serif" font-weight="600" font-size="19" letter-spacing="3.2" fill="currentColor">
+        <textPath href="#seal-arc" startOffset="0">VOLAN OTOMOTİV · ANKARA · VOLAN OTOMOTİV · ANKARA ·</textPath>
+      </text>
+      <text x="100" y="112" text-anchor="middle" font-family="Besley, serif" font-weight="600" font-size="34" fill="currentColor">1954</text>
+    </symbol>
+    <symbol id="tick" viewBox="0 0 32 32">
+      <path d="M5 17.5l7.5 7.5L27.5 6" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>

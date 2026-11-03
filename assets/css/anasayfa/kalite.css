@@ -1,0 +1,118 @@
+/* Kalite — "İş emri nüshası". The customer copy of a work order beside the road (left lane), with
+   the cream carbon sheet under it and two photos (the facility, a Volvo) clipped to its top edge.
+   Lines carry data-stamp: when the car draws level, the paraf writes itself and the tick presses in;
+   the foot's seal closes the order. Text on the far side of the road. */
+
+.entry.s-kalite { padding: 168px 0 120px; }
+
+.s-kalite .order { grid-column: 3 / span 6; position: relative; }
+
+/* Two photo plates clipped to the top edge of the slip */
+.s-kalite .pins { position: relative; z-index: 3; height: 208px; margin-bottom: -56px; }
+.s-kalite .pin { position: absolute; margin: 0; }
+.s-kalite .pin img { width: 100%; height: auto; }
+.s-kalite .pin--bina { left: -3%; top: 0; width: 50%; transform: rotate(-2.4deg); }
+.s-kalite .pin--arac { right: 2%; top: 22px; width: 38%; transform: rotate(2.2deg); }
+.s-kalite .clip { position: absolute; z-index: 1; right: 34px; top: -26px; width: 18px; height: 54px; overflow: visible; }
+.s-kalite .clip path { fill: none; stroke: var(--navy); stroke-width: 1.6; stroke-linecap: round; }
+
+.s-kalite .slip { position: relative; z-index: 2; }
+.s-kalite .slip__back {
+  position: absolute;
+  inset: 0;
+  background: var(--aged);
+  transform: translate(14px, 12px) rotate(1.6deg);
+  box-shadow: 0 1px 1px rgba(43, 42, 41, 0.1), 0 10px 22px -10px rgba(43, 42, 41, 0.38);
+}
+.s-kalite .slip__sheet { position: relative; padding: 76px 32px 28px; background: var(--paper); transform: rotate(-0.7deg); }
+/* torn from the pad: a row of punched holes along the top */
+.s-kalite .slip__sheet::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 10px;
+  height: 4px;
+  background: repeating-linear-gradient(to right, transparent 0 6px, var(--stock) 6px 11px);
+}
+
+.s-kalite .slip__head { display: grid; grid-template-columns: 1fr auto; align-items: start; gap: 6px 16px; padding-bottom: 12px; border-bottom: 2px solid var(--navy); }
+.s-kalite .slip__head img { width: 132px; }
+.s-kalite .slip__copy { text-align: right; }
+.s-kalite .slip__copy .label { display: block; }
+.s-kalite .carbon { color: var(--stamp-ink); font: 400 0.9375rem/1.35 var(--font-typed); font-variant-numeric: tabular-nums; }
+
+.s-kalite .lines { margin: 0; padding: 0; list-style: none; }
+.s-kalite .lines__head,
+.s-kalite .line { display: grid; grid-template-columns: 34px minmax(0, 1fr) 112px 28px; column-gap: 16px; align-items: center; }
+.s-kalite .lines__head { padding: 10px 0 8px; border-bottom: 1.5px solid var(--rule-strong); }
+.s-kalite .lines__head .label { font-size: 0.6875rem; }
+.s-kalite .line { padding: 9px 0; border-bottom: 1px solid var(--rule-strong); }
+.s-kalite .line__no { color: var(--stamp-ink); font: 700 1rem/1 var(--font-typed); }
+.s-kalite .line h3 { margin: 0 0 1px; color: var(--navy); font: 600 1.0625rem/1.3 var(--font-title); }
+.s-kalite .line p { color: var(--ink); font-size: 0.875rem; line-height: 1.4; }
+
+/* The paraf writes itself, then the tick presses in (base .tick handles .is-stamped > .tickbox .tick). */
+.s-kalite .paraf { width: 112px; height: 32px; color: var(--stamp-ink); overflow: visible; }
+.s-kalite .paraf path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 700ms cubic-bezier(0.45, 0.05, 0.35, 1);
+}
+.s-kalite .line.is-stamped .paraf path { stroke-dashoffset: 0; }
+.s-kalite .line .tickbox { width: 20px; height: 20px; }
+.s-kalite .line .tick { left: -4px; width: 32px; height: 32px; transition-delay: 520ms; }
+
+.s-kalite .slip__foot { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 52px; }
+.s-kalite .sig { display: block; padding-top: 8px; border-top: 1.5px solid var(--navy); }
+.s-kalite .slip__foot .seal {
+  width: 116px;
+  height: 116px;
+  left: 26%;
+  top: -38px;
+  opacity: 0;
+  transform: scale(1.4) rotate(-30deg);
+  transition: opacity 260ms var(--ease-out) 600ms, transform 340ms var(--ease-out) 600ms;
+}
+.s-kalite .slip__foot.is-stamped .seal { opacity: 0.88; transform: rotate(-12deg); }
+
+.s-kalite .say { grid-column: 9 / span 4; align-self: center; padding-top: 120px; }
+.s-kalite .say h2 { margin-bottom: 24px; color: var(--navy); font: 600 2.5rem/48px var(--font-title); letter-spacing: -0.01em; }
+.s-kalite .say p { max-width: 36ch; }
+
+@media (max-width: 899px) {
+  .entry.s-kalite { padding: 144px 0 96px; }
+  /* narrow lane: centre 36px from the left edge, road ~54px; keep content clear of it */
+  .s-kalite .entry__inner { padding-left: 52px; row-gap: 48px; }
+  .s-kalite .say { grid-column: 1; grid-row: 1; padding-top: 0; }
+  .s-kalite .say h2 { margin-bottom: 16px; font-size: 1.75rem; line-height: 32px; }
+  .s-kalite .order { grid-column: 1; }
+  .s-kalite .pins { height: 168px; margin-bottom: -40px; }
+  .s-kalite .pin--bina { left: -2%; width: 64%; }
+  .s-kalite .pin--arac { right: -2%; top: 30px; width: 50%; }
+  .s-kalite .pin { padding: 7px; }
+  .s-kalite .clip { right: 18px; top: -20px; width: 14px; height: 42px; }
+  .s-kalite .slip__sheet { padding: 56px 16px 24px; transform: rotate(-0.5deg); }
+  .s-kalite .slip__back { transform: translate(8px, 8px) rotate(1.2deg); }
+  .s-kalite .slip__head { grid-template-columns: minmax(0, 1fr); }
+  .s-kalite .slip__copy { text-align: left; }
+  .s-kalite .lines__head { display: none; }
+  .s-kalite .line { grid-template-columns: 24px minmax(0, 1fr) 24px; row-gap: 6px; }
+  .s-kalite .line__no { align-self: start; margin-top: 4px; }
+  .s-kalite .line > div { grid-column: 2; }
+  .s-kalite .paraf { grid-column: 2; grid-row: 2; width: 96px; height: 32px; }
+  .s-kalite .line .tickbox { grid-column: 3; grid-row: 1; align-self: start; margin-top: 4px; }
+  .s-kalite .slip__foot { grid-template-columns: minmax(0, 1fr); gap: 40px; margin-top: 48px; }
+  .s-kalite .sig { max-width: 56%; }
+  .s-kalite .slip__foot .seal { width: 112px; height: 112px; left: auto; right: 16px; top: -12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .s-kalite .paraf path,
+  .s-kalite .slip__foot .seal { transition: none; }
+}

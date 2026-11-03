@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tesisimiz · Volan Otomotiv</title>
+<meta name="description" content="Volan Otomotiv'in Şaşmaz Oto Sanayi Sitesi'ndeki binası: mekanik atölyeleri, elektrik sistem onarımları, ücretsiz arıza tespiti, oto kuaför, alt katta kaporta ve boya, ofis ve bekleme salonu. Binanın içini 3D modelde gezin. Etimesgut / Ankara.">
+<meta name="theme-color" content="#323277">
+<link rel="icon" href="assets/img/logo-oval.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/besley-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/img/tesis-cephe.webp" as="image" fetchpriority="high">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/tesis.css">
+<link rel="stylesheet" href="assets/css/menu.css">
+<script>document.documentElement.classList.add('js');</script>
+<script type="importmap">{ "imports": { "three": "./assets/vendor/three.bundle.min.js" } }</script>
+<script type="module" src="assets/js/tesis.js"></script>
+<script src="assets/js/menu.js" defer></script>
+<script src="assets/js/yorum.js" defer></script>
+</head>
+<body class="page-tesis">
+<!-- menu -->
+<a class="skip-link" href="#icerik">İçeriğe geç</a>
+<div class="menu" data-menu data-top="stock">
+  <div class="menu__bar">
+    <a class="menu__logo" href="index.html"><img src="brand/logo-oval.svg" width="677" height="292" alt="Volan Otomotiv ana sayfa"></a>
+    <button class="menu__toggle" type="button" aria-expanded="false" aria-controls="menu-nav"><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M0 1h14M0 5h14M0 9h9"/></svg><span class="menu__toggle-label">Menü</span></button>
+    <nav class="menu__nav" id="menu-nav" aria-label="Ana menü">
+      <p class="menu__title" aria-hidden="true">İçindekiler</p>
+      <ul class="menu__list">
+        <li class="menu__item"><a class="menu__tab" href="index.html">Ana Sayfa</a></li>
+        <li class="menu__item menu__item--group">
+          <button class="menu__tab" type="button" aria-expanded="false" aria-controls="menu-hakkimizda">Hakkımızda<svg class="menu__chev" viewBox="0 0 10 7" aria-hidden="true"><path d="M1 1.2l4 4 4-4"/></svg></button>
+          <ul class="menu__sub" id="menu-hakkimizda">
+            <li><a class="menu__row" href="hakkimizda.html"><span class="menu__label">Hakkımızda</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark"><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M1 5h11.5M8.5 1l4 4-4 4"/></svg></span></a></li>
+            <li><a class="menu__row" href="miras.html"><span class="menu__label">Miras</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark"><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M1 5h11.5M8.5 1l4 4-4 4"/></svg></span></a></li>
+            <li><a class="menu__row" href="yakinda.html?s=vizyon-misyon"><span class="menu__label">Vizyon &amp; Misyon</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+            <li><a class="menu__row" href="yakinda.html?s=degerlerimiz"><span class="menu__label">Değerlerimiz</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+            <li><a class="menu__row" href="yakinda.html?s=kalite-politikamiz"><span class="menu__label">Kalite Politikamız</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+            <li><a class="menu__row" href="yakinda.html?s=surdurulebilirlik"><span class="menu__label">Sürdürülebilirlik Yaklaşımımız</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+            <li><a class="menu__row" href="yakinda.html?s=markalara-ozel"><span class="menu__label">Markalara Özel Prensibimiz</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+            <li class="menu__subgroup">
+              <span class="menu__subhead" id="menu-multimedya">Multimedya</span>
+              <ul aria-labelledby="menu-multimedya">
+                <li><a class="menu__row" href="yakinda.html?s=resimler"><span class="menu__label">Resimler</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+                <li><a class="menu__row" href="yakinda.html?s=videolar"><span class="menu__label">Videolar</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+                <li><a class="menu__row" href="yakinda.html?s=yorumlar"><span class="menu__label">Yorumlar</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li class="menu__item"><a class="menu__tab" href="hizmetlerimiz.html">Hizmetlerimiz</a></li>
+        <li class="menu__item"><a class="menu__tab" href="yakinda.html?s=haberler">Haberler<span class="menu__soon"> yakında</span></a></li>
+        <li class="menu__item"><a class="menu__tab" href="tesisimiz.html" aria-current="page">Tesisimiz</a></li>
+        <li class="menu__item menu__item--group menu__item--end">
+          <button class="menu__tab" type="button" aria-expanded="false" aria-controls="menu-iletisim">İletişim<svg class="menu__chev" viewBox="0 0 10 7" aria-hidden="true"><path d="M1 1.2l4 4 4-4"/></svg></button>
+          <ul class="menu__sub" id="menu-iletisim">
+            <li><a class="menu__row" href="#iletisim"><span class="menu__label">İletişim Bilgileri</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark" title="Bu sayfada"><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M7 .5v8.5M3.5 5.5L7 9l3.5-3.5"/></svg></span></a></li>
+            <li><a class="menu__row" href="yakinda.html?s=insan-kaynaklari"><span class="menu__label">İnsan Kaynakları</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+          </ul>
+        </li>
+      </ul>
+      <div class="menu__contact">
+        <div class="stamps" role="group" aria-label="Hızlı iletişim">
+          <a class="stamp-btn stamp-btn--primary" href="https://wa.me/905337653378?text=Merhaba%2C%20arac%C4%B1m%20i%C3%A7in%20randevu%20almak%20istiyorum." aria-label="Randevu al (WhatsApp mesajı)">Randevu al</a>
+          <a class="stamp-btn" href="tel:+905337653378">Ara</a>
+          <a class="stamp-btn" href="https://wa.me/905337653378">WhatsApp</a>
+        </div>
+      </div>
+    </nav>
+    <div class="menu__actions" role="group" aria-label="Hızlı iletişim">
+      <a class="menu__action" href="https://wa.me/905337653378" aria-label="WhatsApp: 0533 765 33 78"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg><span class="menu__action-label">WhatsApp</span></a>
+      <a class="menu__action" href="https://www.google.com/maps/search/?api=1&amp;query=Volan%20Otomotiv%20Bah%C3%A7ekap%C4%B1%20Mah.%202547.%20Sokak%20No%3A3%20Etimesgut%20Ankara" aria-label="Yol tarifi (Google Haritalar)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg><span class="menu__action-label">Yol tarifi</span></a>
+      <a class="menu__action" href="tel:+905337653378" aria-label="Ara: 0533 765 33 78"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span class="menu__action-label">Ara</span></a>
+    </div>
+  </div>
+</div>
+<!-- /menu -->
+
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="ink" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="wobble"/>
+      <feDisplacementMap in="SourceGraphic" in2="wobble" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.7" numOctaves="2" seed="3" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.7 0 0 0 1.62" result="coverage"/>
+      <feComposite in="edge" in2="coverage" operator="in"/>
+    </filter>
+    <symbol id="seal" viewBox="0 0 200 200">
+      <path id="seal-arc" d="M100,100 m-70,0 a70,70 0 1,1 140,0 a70,70 0 1,1 -140,0" fill="none"/>
+      <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="5"/>
+      <circle cx="100" cy="100" r="85" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="100" cy="100" r="52" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text font-family="Archivo Narrow, sans-serif" font-weight="600" font-size="19" letter-spacing="3.2" fill="currentColor">
+        <textPath href="#seal-arc" startOffset="0">VOLAN OTOMOTİV · ANKARA · VOLAN OTOMOTİV · ANKARA ·</textPath>
+      </text>
+      <text x="100" y="112" text-anchor="middle" font-family="Besley, serif" font-weight="600" font-size="34" fill="currentColor">1954</text>
+    </symbol>
+  </defs>
+</svg>
+
+<main id="icerik">
+  <section class="tour" data-tour aria-labelledby="tesis-baslik">
+    <div class="tour__frame" data-frame>
+
+      <figure class="tour__photo" data-photo>
+        <img src="assets/img/tesis-cephe.webp" width="2000" height="1026" fetchpriority="high" alt="Volan Otomotiv binasının cephesi: üst katlarda lacivert bant ve pencereler, ortada ahşap çıtalı kulede oval VOLAN tabelası, zemin katta Oto Kuaför ve Mekanik kapıları.">
+      </figure>
+
+      <div class="tour__cover" data-cover>
+        <h1 id="tesis-baslik">Tesisimiz</h1>
+        <p class="tour__lead">Şaşmaz Oto Sanayi Sitesi'ndeki binamız. Aşağı kaydırın; cephe açılsın, içini birlikte gezelim.</p>
+        <div class="stamps">
+          <a class="stamp-btn stamp-btn--primary" href="#bina" data-go>Binayı gez</a>
+          <a class="stamp-btn" href="https://wa.me/905337653378?text=Merhaba%2C%20arac%C4%B1m%20i%C3%A7in%20randevu%20almak%20istiyorum.">Randevu al</a>
+        </div>
+      </div>
+      <p class="tour__address" data-address>Bahçekapı Mah. 2547. Sokak No:3<br>Etimesgut / Ankara</p>
+
+      <div class="tour__stage" id="bina" data-stage>
+        <img class="tour__still" src="assets/img/tesis-model-genel.webp" width="1107" height="969" loading="lazy" alt="Binanın 3D modeli, kesit görünüm: üst katta bekleme salonu ve ofisler, ana katta oto kuaför, Mekanik 1, ofis ve Mekanik 2, alt katta kaporta ve boya atölyesi. Katlar birbirinden ayrılmış.">
+        <div class="tour__canvas" data-canvas tabindex="0" role="img" aria-label="Binanın etkileşimli 3D modeli. Sürükleyerek ya da ok tuşlarıyla döndürün. Bölümleri numaralı düğmelerle seçin."></div>
+        <svg class="tour__leads" data-leads aria-hidden="true"></svg>
+        <div class="tour__pins" data-pins></div>
+
+        <div class="tour__head" data-head>
+          <h2>Binanın içi</h2>
+          <p class="tour__hint"><span class="tour__hint--fine">Sürükleyerek döndürün, bir bölüme tıklayın.</span><span class="tour__hint--touch">Yana kaydırarak döndürün, bir numaraya dokunun.</span></p>
+        </div>
+
+        <div class="tour__tools" role="group" aria-label="Görünüm" data-tools>
+          <button class="tour__tool" type="button" data-zoom="0.8" aria-label="Yakınlaş"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2.5v11M2.5 8h11"/></svg></button>
+          <button class="tour__tool" type="button" data-zoom="1.25" aria-label="Uzaklaş"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h11"/></svg></button>
+          <button class="tour__tool tour__tool--wide" type="button" data-reset>Tüm bina</button>
+        </div>
+
+        <nav class="tour__units" aria-label="Binadaki bölümler" data-units>
+          <ol>
+            <li><button type="button" data-unit="mekanik" aria-pressed="false" aria-controls="mekanik yillik-bakim"><span class="tour__num">1</span>Mekanik</button></li>
+            <li><button type="button" data-unit="elektrik" aria-pressed="false" aria-controls="elektrik"><span class="tour__num">2</span>Elektrik Sistem Onarımları</button></li>
+            <li><button type="button" data-unit="tespit" aria-pressed="false" aria-controls="ariza-tespit"><span class="tour__num">3</span>Arıza Tespit</button></li>
+            <li><button type="button" data-unit="kuafor" aria-pressed="false" aria-controls="oto-kuafor"><span class="tour__num">4</span>Oto Kuaför</button></li>
+            <li><button type="button" data-unit="kaporta" aria-pressed="false" aria-controls="kaporta-boya"><span class="tour__num">5</span>Kaporta / Boya</button></li>
+            <li><button type="button" data-unit="ofis" aria-pressed="false" aria-controls="ofis"><span class="tour__num">6</span>Ofis</button></li>
+            <li><button type="button" data-unit="bekleme" aria-pressed="false" aria-controls="bekleme-salonu"><span class="tour__num">7</span>Bekleme Salonu</button></li>
+          </ol>
+        </nav>
+
+        <div class="tour__cards" data-cards>
+          <article class="ucard" id="mekanik" data-card="mekanik" aria-labelledby="mekanik-baslik">
+            <figure class="ucard__plate">
+              <img src="assets/img/is-mekanik-onarim.webp" width="1400" height="1050" loading="lazy" alt="Mekanik atölyesinde üç usta, kaputu açık beyaz bir aracın motoru üzerinde çalışıyor.">
+              <figcaption>Ana kat · Mekanik 1 ve Mekanik 2</figcaption>
+            </figure>
+            <h2 class="ucard__title" id="mekanik-baslik"><span class="ucard__num" aria-hidden="true">1</span>Mekanik</h2>
+            <p>Fren, süspansiyon ve motor onarımı gibi mekanik işler, ana kattaki iki atölyemizde yapılır: Mekanik 1 ve Mekanik 2. Volvo, Mercedes-Benz ve Volkswagen araçlar için.</p>
+            <a class="ucard__go" href="https://wa.me/905337653378?text=Merhaba%2C%20arac%C4%B1m%20i%C3%A7in%20mekanik%20randevusu%20almak%20istiyorum.">Randevu al</a>
+            <button class="ucard__close" type="button" aria-label="Kartı kapat" data-close><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11"/></svg></button>
+          </article>
+
+          <article class="ucard" id="yillik-bakim" data-card="bakim" aria-labelledby="bakim-baslik">
+            <figure class="ucard__plate">
+              <img src="assets/img/is-bakim-onarim.webp" width="1400" height="1050" loading="lazy" alt="Lifte alınmış lacivert bir Volvo XC90 ve altında çalışan bir usta.">
+              <figcaption>Ana kat · Mekanik atölyelerinde</figcaption>
+            </figure>
+            <h2 class="ucard__title" id="bakim-baslik"><span class="ucard__num" aria-hidden="true">1</span>Yıllık Bakım</h2>
+            <p>Markaya, modele, yaşa ve kilometreye göre size uygun bakım tipini belirliyoruz. Yıllık ve kilometre bakımlarında orijinal ya da 1. sınıf muadil parça; Castrol, Mobil, Shell ve PO motor yağları kullanıyoruz. Bakımdan sonra genel kontrolleri yapıp gördüklerimizi size aktarıyoruz.</p>
+            <a class="ucard__go" href="https://wa.me/905337653378?text=Merhaba%2C%20arac%C4%B1m%20i%C3%A7in%20y%C4%B1ll%C4%B1k%20bak%C4%B1m%20randevusu%20almak%20istiyorum.">Bakım randevusu al</a>
+            <button class="ucard__close" type="button" aria-label="Kartı kapat" data-close><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11"/></svg></button>
+          </article>
+
+          <article class="ucard" id="elektrik" data-card="elektrik" aria-labelledby="elektrik-baslik">
+            <figure class="ucard__plate">
+              <img src="assets/img/is-elektronik.webp" width="1400" height="1050" loading="lazy" alt="Liftteki koyu renk Volvo XC90, farları ve gündüz farları yanık.">
+              <figcaption>Ana kat · Mekanik atölyelerinde</figcaption>
+            </figure>
+            <h2 class="ucard__title" id="elektrik-baslik"><span class="ucard__num" aria-hidden="true">2</span>Elektrik Sistem Onarımları</h2>
+            <p>Aracınızın elektrik ve elektronik sistemlerindeki arızaları mekanik atölyelerimizde, ölçüm ve testle kaynağına kadar izleyerek onarıyoruz. <span class="ph">[Kapsam: müşteri onaylayacak; ör. aydınlatma, akü ve şarj sistemi, kablo tesisatı, sensörler]</span></p>
+            <a class="ucard__go" href="https://wa.me/905337653378?text=Merhaba%2C%20arac%C4%B1m%C4%B1n%20elektrik%20sistemi%20i%C3%A7in%20randevu%20almak%20istiyorum.">Randevu al</a>
+            <button class="ucard__close" type="button" aria-label="Kartı kapat" data-close><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11"/></svg></button>
+          </article>
+
+          <article class="ucard" id="ariza-tespit" data-card="tespit" aria-labelledby="tespit-baslik">
+            <figure class="ucard__plate">
+              <img src="assets/img/is-ariza-tespiti.webp" width="1400" height="1050" loading="lazy" alt="Kafa lambası takmış bir usta, liftteki aracın altını inceliyor.">
+              <figcaption>Ana kat · Ofis, ilk durak</figcaption>
+            </figure>
+            <h2 class="ucard__title" id="tespit-baslik"><span class="ucard__num" aria-hidden="true">3</span>Arıza Tespit</h2>
+            <p>Aracınızı getirdiğinizde önce arızayı tespit ediyoruz. <strong>Tespit ücretsizdir.</strong> Ne bulduğumuzu ve onarımın neler gerektirdiğini size anlatırız; onarıma sizin onayınızla geçeriz.</p>
+            <a class="ucard__go" href="https://wa.me/905337653378?text=Merhaba%2C%20arac%C4%B1m%20i%C3%A7in%20ar%C4%B1za%20tespiti%20randevusu%20almak%20istiyorum.">Tespit için yazın</a>
+            <button class="ucard__close" type="button" aria-label="Kartı kapat" data-close><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11"/></svg></button>
+          </article>
+
+          <article class="ucard" id="oto-kuafor" data-card="kuafor" aria-labelledby="kuafor-baslik">
+            <figure class="ucard__plate">
+              <img src="assets/img/is-oto-kuafor.webp" width="1400" height="1050" loading="lazy" alt="Bir usta, koyu renk bir aracın kaputunu polisaj makinesiyle parlatıyor.">
+              <figcaption>Ana kat · binanın sol ucu</figcaption>
+            </figure>
+            <h2 class="ucard__title" id="kuafor-baslik"><span class="ucard__num" aria-hidden="true">4</span>Oto Kuaför</h2>
+            <p>Pasta, cila ve aracınızın dış bakımı. Kaporta ve boya onarımından sonra ya da aracınızı satmadan önce boyasını burada yeniliyoruz. Kendi kapısı binanın sol ucundadır.</p>
+            <a class="ucard__go" href="https://wa.me/905337653378?text=Merhaba%2C%20arac%C4%B1m%20i%C3%A7in%20oto%20kuaf%C3%B6r%20randevusu%20almak%20istiyorum.">Randevu al</a>
+            <button class="ucard__close" type="button" aria-label="Kartı kapat" data-close><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11"/></svg></button>
+          </article>
+
+          <article class="ucard" id="kaporta-boya" data-card="kaporta" aria-labelledby="kaporta-baslik">
+            <figure class="ucard__plate">
+              <img src="assets/img/tesis-kart-kaporta.webp" width="1400" height="1050" loading="lazy" alt="Model görünümü: alt kattaki kaporta ve boya atölyesi; solda boya fırını, ortada onarım bekleyen araçlar.">
+              <figcaption>Alt kat · model görünümü</figcaption>
+            </figure>
+            <h2 class="ucard__title" id="kaporta-baslik"><span class="ucard__num" aria-hidden="true">5</span>Kaporta / Boya</h2>
+            <p>Binanın alt katı kaporta ve boyaya ayrıldı. Araçlar sağdaki kapalı girişten rampayla iner; hasar onarımı burada yapılır, boya fırında atılır. Sigorta ve kasko onarım işlemlerinizi de buradan takip ederiz.</p>
+            <a class="ucard__go" href="https://wa.me/905337653378?text=Merhaba%2C%20arac%C4%B1m%20i%C3%A7in%20kaporta%20ve%20boya%20randevusu%20almak%20istiyorum.">Randevu al</a>
+            <button class="ucard__close" type="button" aria-label="Kartı kapat" data-close><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11"/></svg></button>
+          </article>
+
+          <article class="ucard" id="ofis" data-card="ofis" aria-labelledby="ofis-baslik">
+            <figure class="ucard__plate">
+              <img src="assets/img/tesis-ofis-ekip.webp" width="1400" height="1050" loading="lazy" alt="Volan ekibi, Mekanik 1 kapısının önünde toplu fotoğrafta.">
+              <figcaption>Ana kat · ana girişin karşısında</figcaption>
+            </figure>
+            <h2 class="ucard__title" id="ofis-baslik"><span class="ucard__num" aria-hidden="true">6</span>Ofis</h2>
+            <p>Sizi karşılayan ekip burada. 1954'ten bu yana süren bir işin bugünkü ustaları ve servis danışmanları aracınızı teslim alır ve işi baştan sona takip eder.</p>
+            <a class="ucard__go" href="https://wa.me/905337653378?text=Merhaba%2C%20arac%C4%B1m%20i%C3%A7in%20randevu%20almak%20istiyorum.">Randevu al</a>
+            <button class="ucard__close" type="button" aria-label="Kartı kapat" data-close><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11"/></svg></button>
+          </article>
+
+          <article class="ucard" id="bekleme-salonu" data-card="bekleme" aria-labelledby="bekleme-baslik">
+            <figure class="ucard__plate">
+              <img src="assets/img/tesis-kart-bekleme.webp" width="1400" height="1050" loading="lazy" alt="Model görünümü: üst kattaki bekleme salonu; çay ve kahve tezgâhı, yuvarlak masalar ve sandalyeler.">
+              <figcaption>Üst kat · model görünümü</figcaption>
+            </figure>
+            <h2 class="ucard__title" id="bekleme-baslik"><span class="ucard__num" aria-hidden="true">7</span>Bekleme Salonu</h2>
+            <p>Aracınız atölyedeyken üst kattaki bekleme salonunda oturabilirsiniz. Çay ve kahve tezgâhı, masalar ve oturma alanı sizi bekler; merdiven ana girişin solundadır.</p>
+            <a class="ucard__go" href="https://www.google.com/maps/search/?api=1&amp;query=Volan%20Otomotiv%20Bah%C3%A7ekap%C4%B1%20Mah.%202547.%20Sokak%20No%3A3%20Etimesgut%20Ankara">Yol tarifi</a>
+            <button class="ucard__close" type="button" aria-label="Kartı kapat" data-close><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11"/></svg></button>
+          </article>
+        </div>
+
+        <p class="tour__status" role="status" aria-live="polite" data-status></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="close" id="iletisim" aria-labelledby="iletisim-baslik">
+    <div class="close__inner">
+      <figure class="plate close__plate">
+        <img src="assets/img/hakkimizda-bina.webp" width="900" height="1200" loading="lazy" alt="Volan binasının cephesi: oval Volan Premium Car Service tabelası, “Since 1954” yazısı ve önünde iki Volvo XC90.">
+        <figcaption>Bugün: Şaşmaz Oto Sanayi Sitesi’ndeki binamız.</figcaption>
+      </figure>
+      <address class="dealer close__dealer">
+        <h2 id="iletisim-baslik">Randevu ve iletişim</h2>
+        <dl class="dealer__list">
+          <div>
+            <dt>Adres</dt>
+            <dd>Bahçekapı Mah. 2547. Sokak No:3<br>Şaşmaz Oto Sanayi Sitesi<br>Etimesgut / Ankara</dd>
+          </div>
+          <div>
+            <dt>Telefon</dt>
+            <dd><a href="tel:+905337653378">0533 765 33 78</a><br><a href="tel:+903122786990">0312 278 69 90</a></dd>
+          </div>
+          <div>
+            <dt>E-posta</dt>
+            <dd><a href="mailto:info@volan.com.tr">info@volan.com.tr</a></dd>
+          </div>
+          <div>
+            <dt>Çalışma saatleri</dt>
+            <dd>Hafta içi ve Cumartesi <span class="nowrap">08:30–18:00</span><br>Pazar kapalı</dd>
+          </div>
+        </dl>
+        <div class="stamps stamps--ink">
+          <a class="stamp-btn stamp-btn--primary" href="https://wa.me/905337653378?text=Merhaba%2C%20arac%C4%B1m%20i%C3%A7in%20randevu%20almak%20istiyorum.">Randevu al</a>
+          <a class="stamp-btn" href="tel:+905337653378">Ara</a>
+          <a class="stamp-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Volan%20Otomotiv%20Bah%C3%A7ekap%C4%B1%20Mah.%202547.%20Sokak%20No%3A3%20Etimesgut%20Ankara">Yol tarifi</a>
+        </div>
+        <svg class="seal seal--dealer" aria-hidden="true" focusable="false"><use href="#seal"/></svg>
+      </address>
+    </div>
+  </section>
+</main>
+
+<footer class="colophon">
+  <p>© 2026 Volan Otomotiv · Bağımsız otomotiv servisi</p>
+  <p class="colophon__credits">Bina modeli fotoğraf ve videolardan hazırlandı; ölçüler yaklaşıktır. Modeldeki araçlar, uyarlanarak (<a href="https://creativecommons.org/licenses/by/4.0/deed.tr" rel="license">CC BY 4.0</a>): <a href="https://sketchfab.com/3d-models/mercedes-benz-c-class-2020-19d59344b7554e6ab614a6cc02e7ad0a">Mercedes-Benz C-Class 2020</a>, ItsDiyor · <a href="https://sketchfab.com/3d-models/volkswagen-golf-7-364f56c79e9a4bfbb0bfa981b9abb6a3">Volkswagen Golf 7</a>, Car2022</p>
+</footer>
+
+<!-- fab: quick contact, the same block on every page -->
+<div class="fab" data-fab>
+  <ul class="fab__list" id="fab-list">
+    <li class="fab__slot"><a class="fab__item" href="https://wa.me/905337653378" aria-label="WhatsApp: 0533 765 33 78"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg><span>WhatsApp</span></a></li>
+    <li class="fab__slot"><a class="fab__item" href="tel:+905337653378" aria-label="Ara: 0533 765 33 78"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span>Ara</span></a></li>
+    <li class="fab__slot"><a class="fab__item" href="https://www.google.com/maps/search/?api=1&amp;query=Volan%20Otomotiv%20Bah%C3%A7ekap%C4%B1%20Mah.%202547.%20Sokak%20No%3A3%20Etimesgut%20Ankara" aria-label="Yol tarifi (Google Haritalar)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg><span>Yol tarifi</span></a></li>
+  </ul>
+  <button class="fab__toggle" type="button" aria-expanded="false" aria-controls="fab-list" aria-label="Hızlı iletişim: WhatsApp, telefon, yol tarifi">
+    <svg class="fab__icon fab__icon--open" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+    <svg class="fab__icon fab__icon--close" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+</div>
+<!-- /fab -->
+</body>
+</html>

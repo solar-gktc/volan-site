@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Volan Otomotiv · Volvo, Volkswagen ve Mercedes özel servisi · Ankara</title>
+<meta name="description" content="Volan Otomotiv: 1954'te kurulan firma, bugün Ankara'da Volvo başta olmak üzere Volkswagen ve Mercedes araçlara özel servis veriyor. Şaşmaz Oto Sanayi Sitesi, Etimesgut.">
+<meta name="theme-color" content="#323277">
+<link rel="icon" href="assets/img/logo-oval.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/besley-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/models/volvo-xc60.glb" as="fetch" type="model/gltf-binary" crossorigin>
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/menu.css">
+<script type="importmap">{ "imports": { "three": "./assets/vendor/three.bundle.min.js" } }</script>
+<script type="module" src="assets/js/sections.js"></script>
+<script type="module" src="assets/js/main.js"></script>
+<script src="assets/js/menu.js" defer></script>
+<script src="assets/js/yorum.js" defer></script>
+</head>
+<body>
+<!-- menu -->
+<a class="skip-link" href="#icerik">İçeriğe geç</a>
+<div class="menu" data-menu data-top="navy">
+  <div class="menu__bar">
+    <a class="menu__logo" href="index.html"><img src="brand/logo-oval.svg" width="677" height="292" alt="Volan Otomotiv ana sayfa"></a>
+    <button class="menu__toggle" type="button" aria-expanded="false" aria-controls="menu-nav"><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M0 1h14M0 5h14M0 9h9"/></svg><span class="menu__toggle-label">Menü</span></button>
+    <nav class="menu__nav" id="menu-nav" aria-label="Ana menü">
+      <p class="menu__title" aria-hidden="true">İçindekiler</p>
+      <ul class="menu__list">
+        <li class="menu__item"><a class="menu__tab" href="index.html" aria-current="page">Ana Sayfa</a></li>
+        <li class="menu__item menu__item--group">
+          <button class="menu__tab" type="button" aria-expanded="false" aria-controls="menu-hakkimizda">Hakkımızda<svg class="menu__chev" viewBox="0 0 10 7" aria-hidden="true"><path d="M1 1.2l4 4 4-4"/></svg></button>
+          <ul class="menu__sub" id="menu-hakkimizda">
+            <li><a class="menu__row" href="hakkimizda.html"><span class="menu__label">Hakkımızda</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark"><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M1 5h11.5M8.5 1l4 4-4 4"/></svg></span></a></li>
+            <li><a class="menu__row" href="miras.html"><span class="menu__label">Miras</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark"><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M1 5h11.5M8.5 1l4 4-4 4"/></svg></span></a></li>
+            <li><a class="menu__row" href="yakinda.html?s=vizyon-misyon"><span class="menu__label">Vizyon &amp; Misyon</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+            <li><a class="menu__row" href="yakinda.html?s=degerlerimiz"><span class="menu__label">Değerlerimiz</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+            <li><a class="menu__row" href="yakinda.html?s=kalite-politikamiz"><span class="menu__label">Kalite Politikamız</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+            <li><a class="menu__row" href="yakinda.html?s=surdurulebilirlik"><span class="menu__label">Sürdürülebilirlik Yaklaşımımız</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+            <li><a class="menu__row" href="yakinda.html?s=markalara-ozel"><span class="menu__label">Markalara Özel Prensibimiz</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+            <li class="menu__subgroup">
+              <span class="menu__subhead" id="menu-multimedya">Multimedya</span>
+              <ul aria-labelledby="menu-multimedya">
+                <li><a class="menu__row" href="yakinda.html?s=resimler"><span class="menu__label">Resimler</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+                <li><a class="menu__row" href="yakinda.html?s=videolar"><span class="menu__label">Videolar</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+                <li><a class="menu__row" href="yakinda.html?s=yorumlar"><span class="menu__label">Yorumlar</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li class="menu__item"><a class="menu__tab" href="hizmetlerimiz.html">Hizmetlerimiz</a></li>
+        <li class="menu__item"><a class="menu__tab" href="yakinda.html?s=haberler">Haberler<span class="menu__soon"> yakında</span></a></li>
+        <li class="menu__item"><a class="menu__tab" href="tesisimiz.html">Tesisimiz</a></li>
+        <li class="menu__item menu__item--group menu__item--end">
+          <button class="menu__tab" type="button" aria-expanded="false" aria-controls="menu-iletisim">İletişim<svg class="menu__chev" viewBox="0 0 10 7" aria-hidden="true"><path d="M1 1.2l4 4 4-4"/></svg></button>
+          <ul class="menu__sub" id="menu-iletisim">
+            <li><a class="menu__row" href="#iletisim"><span class="menu__label">İletişim Bilgileri</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark" title="Bu sayfada"><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M7 .5v8.5M3.5 5.5L7 9l3.5-3.5"/></svg></span></a></li>
+            <li><a class="menu__row" href="yakinda.html?s=insan-kaynaklari"><span class="menu__label">İnsan Kaynakları</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+          </ul>
+        </li>
+      </ul>
+      <div class="menu__contact">
+        <div class="stamps" role="group" aria-label="Hızlı iletişim">
+          <a class="stamp-btn stamp-btn--primary" href="https://wa.me/905337653378?text=Merhaba%2C%20arac%C4%B1m%20i%C3%A7in%20randevu%20almak%20istiyorum." aria-label="Randevu al (WhatsApp mesajı)">Randevu al</a>
+          <a class="stamp-btn" href="tel:+905337653378">Ara</a>
+          <a class="stamp-btn" href="https://wa.me/905337653378">WhatsApp</a>
+        </div>
+      </div>
+    </nav>
+    <div class="menu__actions" role="group" aria-label="Hızlı iletişim">
+      <a class="menu__action" href="https://wa.me/905337653378" aria-label="WhatsApp: 0533 765 33 78"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg><span class="menu__action-label">WhatsApp</span></a>
+      <a class="menu__action" href="https://www.google.com/maps/search/?api=1&amp;query=Volan%20Otomotiv%20Bah%C3%A7ekap%C4%B1%20Mah.%202547.%20Sokak%20No%3A3%20Etimesgut%20Ankara" aria-label="Yol tarifi (Google Haritalar)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg><span class="menu__action-label">Yol tarifi</span></a>
+      <a class="menu__action" href="tel:+905337653378" aria-label="Ara: 0533 765 33 78"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span class="menu__action-label">Ara</span></a>
+    </div>
+  </div>
+</div>
+<!-- /menu -->
+
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <!-- Rubber-stamp ink: wobbly edges plus uneven coverage. -->
+    <filter id="ink" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="wobble"/>
+      <feDisplacementMap in="SourceGraphic" in2="wobble" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.7" numOctaves="2" seed="3" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.7 0 0 0 1.62" result="coverage"/>
+      <feComposite in="edge" in2="coverage" operator="in"/>
+    </filter>
+    <symbol id="seal" viewBox="0 0 200 200">
+      <path id="seal-arc" d="M100,100 m-70,0 a70,70 0 1,1 140,0 a70,70 0 1,1 -140,0" fill="none"/>
+      <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="5"/>
+      <circle cx="100" cy="100" r="85" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="100" cy="100" r="52" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text font-family="Archivo Narrow, sans-serif" font-weight="600" font-size="19" letter-spacing="3.2" fill="currentColor">
+        <textPath href="#seal-arc" startOffset="0">VOLAN OTOMOTİV · ANKARA · VOLAN OTOMOTİV · ANKARA ·</textPath>
+      </text>
+      <text x="100" y="112" text-anchor="middle" font-family="Besley, serif" font-weight="600" font-size="34" fill="currentColor">1954</text>
+    </symbol>
+    <symbol id="tick" viewBox="0 0 32 32">
+      <path d="M5 17.5l7.5 7.5L27.5 6" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<svg class="road" aria-hidden="true" focusable="false">
+  <defs>
+    <!-- Security-print net on the endpaper the road is cut down to. -->
+    <pattern id="road-net" width="64" height="8" patternUnits="userSpaceOnUse">
+      <path d="M0,4 C10.7,-1.3 21.3,-1.3 32,4 S53.3,9.3 64,4 M0,4 C10.7,9.3 21.3,9.3 32,4 S53.3,-1.3 64,4" fill="none" stroke="#323277" stroke-opacity="0.16" stroke-width="0.7"/>
+    </pattern>
+  </defs>
+  <path class="road__edge" d=""/>
+  <path class="road__bed road__bed--1" d=""/>
+  <path class="road__bed road__bed--2" d=""/>
+  <path class="road__bed road__bed--3" d=""/>
+  <path class="road__bed" d=""/>
+  <path class="road__net" d=""/>
+  <path class="road__line" d=""/>
+  <!-- The stage in the brand section: a turntable the road runs onto; drawn by the stage script. -->
+  <defs>
+    <radialGradient id="podium-glow"><stop offset="0" stop-color="#fbfbfd" stop-opacity="0.95"/><stop offset="1" stop-color="#fbfbfd" stop-opacity="0"/></radialGradient>
+    <radialGradient id="podium-shadow"><stop offset="0.55" stop-color="#27275f" stop-opacity="0.32"/><stop offset="1" stop-color="#27275f" stop-opacity="0"/></radialGradient>
+    <linearGradient id="podium-side"><stop offset="0" stop-color="#1d1d4a"/><stop offset="0.4" stop-color="#323277"/><stop offset="1" stop-color="#1d1d4a"/></linearGradient>
+  </defs>
+  <g class="podium" data-podium></g>
+</svg>
+<div class="aging" aria-hidden="true"></div>
+<canvas class="stage" aria-hidden="true"></canvas>
+
+<header class="banner" id="icerik">
+  <div class="cover">
+    <img class="cover__logo" src="assets/img/logo-oval.svg" alt="Volan Premium Car Service" width="677" height="292">
+    <div class="cover__text">
+      <h1 class="cover__title">Aracınız bizim sorumluluğumuzda</h1>
+      <p class="cover__sub">Garanti süreniz bittiği için servis kalitenizi düşürmek zorunda değilsiniz.</p>
+      <nav class="stamps" aria-label="Hızlı iletişim">
+        <a class="stamp-btn stamp-btn--primary" href="https://wa.me/905337653378?text=Merhaba%2C%20arac%C4%B1m%20i%C3%A7in%20randevu%20almak%20istiyorum." aria-label="Randevu al (WhatsApp mesajı)">Randevu al</a>
+        <a class="stamp-btn" href="tel:+905337653378">Ara</a>
+        <a class="stamp-btn" href="https://wa.me/905337653378">WhatsApp</a>
+      </nav>
+    </div>
+  </div>
+  <div class="leaf">
+    <figure class="plate plate--banner">
+      <img src="assets/img/bina-cephe.webp" width="1200" height="800" alt="Volan binasının cephesi: oval Volan Premium Car Service tabelası ve “Since 1954” yazısı." fetchpriority="high">
+      <svg class="seal seal--banner" aria-hidden="true" focusable="false"><use href="#seal"/></svg>
+    </figure>
+    <span class="park" data-park="volvo"></span>
+    <span class="park" data-park="mercedes"></span>
+    <span class="park" data-park="vw"></span>
+  </div>
+</header>
+
+<main>
+  <section class="entry entry--services" id="hizmetler" data-lane="left" aria-labelledby="hizmetler-baslik">
+    <div class="entry__inner">
+      <div class="entry__text">
+        <h2 id="hizmetler-baslik">Hizmetlerimiz</h2>
+        <ul class="services" data-services>
+          <li><button class="services__item" type="button" data-service="bakim-onarim" aria-pressed="true" aria-controls="hizmet-kart"><span class="tickbox" aria-hidden="true"><svg class="tick"><use href="#tick"/></svg></span>Bakım &amp; Onarım</button></li>
+          <li><button class="services__item" type="button" data-service="yedek-parca" aria-pressed="false" aria-controls="hizmet-kart"><span class="tickbox" aria-hidden="true"><svg class="tick"><use href="#tick"/></svg></span>Yedek Parça</button></li>
+          <li><button class="services__item" type="button" data-service="ariza-tespiti" aria-pressed="false" aria-controls="hizmet-kart"><span class="tickbox" aria-hidden="true"><svg class="tick"><use href="#tick"/></svg></span>Araç Arıza Tespiti</button></li>
+          <li><button class="services__item" type="button" data-service="sigorta-kasko" aria-pressed="false" aria-controls="hizmet-kart"><span class="tickbox" aria-hidden="true"><svg class="tick"><use href="#tick"/></svg></span>Sigorta / Kasko Onarım İşlemleri</button></li>
+          <li><button class="services__item" type="button" data-service="elektronik" aria-pressed="false" aria-controls="hizmet-kart"><span class="tickbox" aria-hidden="true"><svg class="tick"><use href="#tick"/></svg></span>Elektronik Sistem Onarımları</button></li>
+          <li><button class="services__item" type="button" data-service="kaporta" aria-pressed="false" aria-controls="hizmet-kart"><span class="tickbox" aria-hidden="true"><svg class="tick"><use href="#tick"/></svg></span>Kaporta</button></li>
+          <li><button class="services__item" type="button" data-service="boya" aria-pressed="false" aria-controls="hizmet-kart"><span class="tickbox" aria-hidden="true"><svg class="tick"><use href="#tick"/></svg></span>Boya</button></li>
+          <li><button class="services__item" type="button" data-service="mekanik-onarim" aria-pressed="false" aria-controls="hizmet-kart"><span class="tickbox" aria-hidden="true"><svg class="tick"><use href="#tick"/></svg></span>Mekanik Onarım</button></li>
+        </ul>
+      </div>
+      <div class="plate plate--service" id="hizmet-kart">
+        <img class="service-card__photo" data-service-photo src="assets/img/hizmet-bakim-onarim.webp" width="1200" height="800" loading="lazy" alt="Arşiv fotoğrafı: Volvo servisinde lifte kaldırılmış bir otomobil ve mavi tulumlu teknisyenler.">
+        <div class="service-card__notes">
+          <div class="service-card__note is-current" data-service-note="bakim-onarim" data-img="assets/img/hizmet-bakim-onarim.webp" data-alt="Arşiv fotoğrafı: Volvo servisinde lifte kaldırılmış bir otomobil ve mavi tulumlu teknisyenler.">
+            <h3>Bakım &amp; Onarım</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec ullamcorper nulla non metus auctor fringilla.</p>
+          </div>
+          <div class="service-card__note" data-service-note="yedek-parca" data-img="assets/img/hizmet-yedek-parca.webp" data-alt="Arşiv fotoğrafı: mavi Volvo tabelalı servis binası ve önünde park etmiş Volvo otomobiller.">
+            <h3>Yedek Parça</h3>
+            <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</p>
+          </div>
+          <div class="service-card__note" data-service-note="ariza-tespiti" data-img="assets/img/hizmet-ariza-tespiti.webp" data-alt="Arşiv fotoğrafı: taş duvarlı eski atölyede matkap tezgâhında çalışan bir usta.">
+            <h3>Araç Arıza Tespiti</h3>
+            <p>Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur. Maecenas faucibus mollis interdum, nullam quis risus eget urna mollis ornare.</p>
+          </div>
+          <div class="service-card__note" data-service-note="sigorta-kasko" data-img="assets/img/hizmet-sigorta-kasko.webp" data-alt="Volan binasının önünde park etmiş bir Volvo XC90; arkada “Since 1954” yazısı.">
+            <h3>Sigorta / Kasko Onarım İşlemleri</h3>
+            <p>Nulla vitae elit libero, a pharetra augue. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
+          </div>
+          <div class="service-card__note" data-service-note="elektronik" data-img="assets/img/hizmet-elektronik.webp" data-alt="Volan binasının girişi: yeşil yol, saksılar ve önde park etmiş araçlar.">
+            <h3>Elektronik Sistem Onarımları</h3>
+            <p>Etiam porta sem malesuada magna mollis euismod. Curabitur blandit tempus porttitor, praesent commodo cursus magna vel scelerisque nisl consectetur et.</p>
+          </div>
+          <div class="service-card__note" data-service-note="kaporta" data-img="assets/img/hizmet-kaporta.webp" data-alt="Arşiv fotoğrafı: kamyon filosunun önünde beyaz bir Volvo 240.">
+            <h3>Kaporta</h3>
+            <p>Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Donec id elit non mi porta gravida at eget metus, sed posuere consectetur est at lobortis.</p>
+          </div>
+          <div class="service-card__note" data-service-note="boya" data-img="assets/img/hizmet-boya.webp" data-alt="Volan binasının cephesi: oval tabela ve “Mekanik 1” kapısı.">
+            <h3>Boya</h3>
+            <p>Maecenas sed diam eget risus varius blandit sit amet non magna. Integer posuere erat a ante venenatis dapibus. Cum sociis natoque penatibus et magnis dis parturient montes.</p>
+          </div>
+          <div class="service-card__note" data-service-note="mekanik-onarim" data-img="assets/img/hizmet-mekanik-onarim.webp" data-alt="Arşiv fotoğrafı: Volvo tabelalı salonda sıraya dizilmiş revizyon motorları ve teknisyenler.">
+            <h3>Mekanik Onarım</h3>
+            <p>Donec sed odio dui. Vestibulum id ligula porta felis euismod semper, cras justo odio dapibus ac facilisis in egestas eget quam. Sed posuere consectetur est at lobortis.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="entry entry--steps" id="surec" data-lane="right" aria-labelledby="surec-baslik">
+    <div class="entry__inner">
+      <div class="entry__text">
+        <h2 id="surec-baslik">Lorem ipsum dolor sit amet</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.</p>
+      </div>
+      <ol class="steps">
+        <li class="step" data-stamp>
+          <span class="tickbox" aria-hidden="true"><svg class="tick"><use href="#tick"/></svg></span>
+          <h3>Doğru teşhis</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ullamcorper nulla non metus auctor fringilla.</p>
+        </li>
+        <li class="step" data-stamp>
+          <span class="tickbox" aria-hidden="true"><svg class="tick"><use href="#tick"/></svg></span>
+          <h3>Teknik yetkinlik</h3>
+          <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus.</p>
+        </li>
+        <li class="step" data-stamp>
+          <span class="tickbox" aria-hidden="true"><svg class="tick"><use href="#tick"/></svg></span>
+          <h3>Şeffaf süreç</h3>
+          <p>Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
+        </li>
+        <li class="step" data-stamp>
+          <span class="tickbox" aria-hidden="true"><svg class="tick"><use href="#tick"/></svg></span>
+          <h3>Aracınıza özen</h3>
+          <p>Nulla vitae elit libero, a pharetra augue. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+        </li>
+        <li class="step" data-stamp>
+          <span class="tickbox" aria-hidden="true"><svg class="tick"><use href="#tick"/></svg></span>
+          <h3>İşimizin arkasında durmak</h3>
+          <p>Etiam porta sem malesuada magna mollis euismod. Curabitur blandit tempus porttitor, praesent commodo cursus.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="entry entry--brands" id="markalar" data-lane="left" aria-labelledby="markalar-baslik">
+    <div class="entry__inner">
+      <div class="entry__text">
+        <h2 id="markalar-baslik">Marka uzmanlığımız</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.</p>
+        <fieldset class="brands" data-brands>
+          <legend class="visually-hidden">Marka seçin</legend>
+          <label class="brand"><input type="radio" name="marka" value="volvo" checked><span>Volvo</span></label>
+          <label class="brand"><input type="radio" name="marka" value="mercedes"><span>Mercedes-Benz</span></label>
+          <label class="brand"><input type="radio" name="marka" value="vw"><span>Volkswagen</span></label>
+        </fieldset>
+        <div class="brand-notes">
+          <div class="brand-note is-current" data-brand-note="volvo">
+            <h3>Volvo</h3>
+            <p>Maecenas sed diam eget risus varius blandit sit amet non magna. Integer posuere erat a ante venenatis dapibus. Cum sociis natoque penatibus et magnis dis parturient montes.</p>
+          </div>
+          <div class="brand-note" data-brand-note="mercedes">
+            <h3>Mercedes-Benz</h3>
+            <p>Donec sed odio dui. Vestibulum id ligula porta felis euismod semper, cras justo odio dapibus ac facilisis in egestas eget quam. Nulla vitae elit libero.</p>
+          </div>
+          <div class="brand-note" data-brand-note="vw">
+            <h3>Volkswagen</h3>
+            <p>Etiam porta sem malesuada magna mollis euismod. Curabitur blandit tempus porttitor, praesent commodo cursus magna vel scelerisque nisl consectetur et.</p>
+          </div>
+        </div>
+      </div>
+      <!-- The stage the car drives onto; read by the stage script, which draws it on the road layer. -->
+      <div class="bay" data-bay></div>
+      <div class="brand-photos">
+        <figure class="plate plate--brand is-current" data-brand-photo="volvo">
+          <img src="assets/img/marka-volvo.webp" width="1200" height="800" loading="lazy" alt="Volan binasının önünde park etmiş iki Volvo XC90; arkada “Since 1954” yazısı.">
+        </figure>
+        <figure class="plate plate--brand" data-brand-photo="mercedes">
+          <div class="plate__empty">Mercedes-Benz fotoğrafı eklenecek</div>
+        </figure>
+        <figure class="plate plate--brand" data-brand-photo="vw">
+          <div class="plate__empty">Volkswagen fotoğrafı eklenecek</div>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="entry entry--lamps" id="uyari-lambalari" data-lane="left" aria-labelledby="lamba-baslik">
+    <div class="entry__inner">
+      <div class="entry__text">
+        <h2 id="lamba-baslik">Uyarı lambaları ve arıza bildirimi</h2>
+        <p>Panelde bir lamba mı yandı? Lambayı seçin; ne anlama geldiğini ve ne yapmanız gerektiğini okuyun.</p>
+        <p class="lamp-disclaimer">Bu bilgiler geneldir; aracınız için kullanım kılavuzu esastır. Kesin neden servisimizde arıza tespit cihazıyla belirlenir.</p>
+      </div>
+      <div class="plate plate--dash">
+        <div class="dash" role="group" aria-label="Uyarı lambaları" data-lamps></div>
+      </div>
+      <div class="lamp-panel">
+        <div class="lamp-notes" data-lamp-notes></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="entry entry--record" id="memnuniyet" data-lane="right" aria-labelledby="memnuniyet-baslik">
+    <div class="entry__inner">
+      <div class="entry__text">
+        <h2 id="memnuniyet-baslik">1954’ten beri müşteri memnuniyeti</h2>
+        <p>Maecenas sed diam eget risus varius blandit sit amet non magna. Integer posuere erat a ante venenatis dapibus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+        <p>Donec sed odio dui. Vestibulum id ligula porta felis euismod semper, cras justo odio dapibus ac facilisis in egestas eget quam.</p>
+      </div>
+      <div class="plate plate--record">
+        <dl class="record">
+          <div class="record__main">
+            <dt>Bakımını üstlendiğimiz araç</dt>
+            <dd class="odometer"><span>2</span><span>0</span><span>0</span><span class="odometer__mark">.</span><span>0</span><span>0</span><span>0</span><span class="odometer__mark">+</span></dd>
+          </div>
+          <div>
+            <dt>Sektörde</dt>
+            <dd>70+ yıl</dd>
+          </div>
+          <div>
+            <dt>Hizmet alanı</dt>
+            <dd>8</dd>
+          </div>
+          <div class="record__wide">
+            <dt>Markalar</dt>
+            <dd>Volvo, <span class="nowrap">Mercedes-Benz</span>, Volkswagen</dd>
+          </div>
+        </dl>
+        <div class="stamp-box" data-stamp>
+          <span class="stamp-box__label">Servis kaşesi</span>
+          <span class="stamp" aria-hidden="true"><span class="stamp__ink">Volan Otomotiv<small>Ankara · 1954</small></span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="entry" id="miras" data-lane="left" data-truck aria-labelledby="miras-baslik">
+    <div class="entry__inner">
+      <figure class="plate plate--portrait">
+        <img src="assets/img/arsiv-volvo-cekici.webp" width="686" height="1036" loading="lazy" alt="Arşiv fotoğrafı: Volvo çekicinin kapı basamağında duran bir çocuk.">
+      </figure>
+      <div class="entry__text">
+        <h2 id="miras-baslik">Ut enim ad minim veniam</h2>
+        <p>Maecenas sed diam eget risus varius blandit sit amet non magna. Integer posuere erat a ante venenatis dapibus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+        <p>Donec sed odio dui. Vestibulum id ligula porta felis euismod semper, cras justo odio dapibus ac facilisis in egestas eget quam.</p>
+        <div class="stamp-box" data-stamp>
+          <span class="stamp-box__label">Servis kaşesi</span>
+          <span class="stamp" aria-hidden="true"><span class="stamp__ink">Volan Otomotiv<small>Ankara · 1954</small></span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="finale" id="iletisim" aria-labelledby="iletisim-baslik">
+    <div class="finale__inner">
+      <figure class="plate plate--store">
+        <figcaption>Arşivimizden: Volvo Yetkili Servisi olarak çalıştığımız yıllar.</figcaption>
+        <div class="store">
+          <img class="store__photo" src="assets/img/arsiv-eski-dukkan.webp" width="1067" height="702" loading="lazy" alt="Arşiv fotoğrafı: “Anadolu · Volvo Yetkili” tabelalı eski servis binası, açık garaj kapısı ve önünde bir Volvo TIR.">
+          <img class="store__walls" src="assets/img/arsiv-eski-dukkan.webp" width="1067" height="702" loading="lazy" alt="" aria-hidden="true">
+        </div>
+      </figure>
+      <address class="dealer">
+        <h2 id="iletisim-baslik">İletişim</h2>
+        <dl class="dealer__list">
+          <div>
+            <dt>Adres</dt>
+            <dd>Bahçekapı Mah. 2547. Sokak No:3<br>Şaşmaz Oto Sanayi Sitesi<br>Etimesgut / Ankara</dd>
+          </div>
+          <div>
+            <dt>Telefon</dt>
+            <dd><a href="tel:+905337653378">0533 765 33 78</a><br><a href="tel:+903122786990">0312 278 69 90</a></dd>
+          </div>
+          <div>
+            <dt>WhatsApp</dt>
+            <dd><a href="https://wa.me/905337653378">0533 765 33 78</a></dd>
+          </div>
+          <div>
+            <dt>E-posta</dt>
+            <dd><a href="mailto:info@volan.com.tr">info@volan.com.tr</a></dd>
+          </div>
+          <div>
+            <dt>Çalışma saatleri</dt>
+            <dd>Hafta içi ve Cumartesi<br><span class="nowrap">08:30–18:00</span><br>Pazar kapalı</dd>
+          </div>
+          <div>
+            <dt>Instagram</dt>
+            <dd><a href="https://www.instagram.com/volanotomotiv">@volanotomotiv</a></dd>
+          </div>
+        </dl>
+        <nav class="stamps stamps--ink" aria-label="İletişim">
+          <a class="stamp-btn stamp-btn--primary" href="https://wa.me/905337653378?text=Merhaba%2C%20arac%C4%B1m%20i%C3%A7in%20randevu%20almak%20istiyorum.">Randevu al</a>
+          <a class="stamp-btn" href="tel:+905337653378">Ara</a>
+          <a class="stamp-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Volan%20Otomotiv%20Bah%C3%A7ekap%C4%B1%20Mah.%202547.%20Sokak%20No%3A3%20Etimesgut%20Ankara">Yol tarifi</a>
+        </nav>
+        <svg class="seal seal--dealer" aria-hidden="true" focusable="false"><use href="#seal"/></svg>
+      </address>
+    </div>
+  </section>
+</main>
+
+<footer class="colophon">
+  <p>© 2026 Volan Otomotiv · Bağımsız otomotiv servisi</p>
+  <p class="colophon__credits">3D modeller, uyarlanarak (<a href="https://creativecommons.org/licenses/by/4.0/deed.tr" rel="license">CC BY 4.0</a>): <a href="https://sketchfab.com/3d-models/mercedes-benz-c-class-2020-19d59344b7554e6ab614a6cc02e7ad0a">Mercedes-Benz C-Class 2020</a>, ItsDiyor · <a href="https://sketchfab.com/3d-models/volkswagen-golf-7-364f56c79e9a4bfbb0bfa981b9abb6a3">Volkswagen Golf 7</a>, Car2022</p>
+</footer>
+
+<!-- fab: quick contact, the same block on every page -->
+<div class="fab" data-fab>
+  <ul class="fab__list" id="fab-list">
+    <li class="fab__slot"><a class="fab__item" href="https://wa.me/905337653378" aria-label="WhatsApp: 0533 765 33 78"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg><span>WhatsApp</span></a></li>
+    <li class="fab__slot"><a class="fab__item" href="tel:+905337653378" aria-label="Ara: 0533 765 33 78"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span>Ara</span></a></li>
+    <li class="fab__slot"><a class="fab__item" href="https://www.google.com/maps/search/?api=1&amp;query=Volan%20Otomotiv%20Bah%C3%A7ekap%C4%B1%20Mah.%202547.%20Sokak%20No%3A3%20Etimesgut%20Ankara" aria-label="Yol tarifi (Google Haritalar)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg><span>Yol tarifi</span></a></li>
+  </ul>
+  <button class="fab__toggle" type="button" aria-expanded="false" aria-controls="fab-list" aria-label="Hızlı iletişim: WhatsApp, telefon, yol tarifi">
+    <svg class="fab__icon fab__icon--open" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+    <svg class="fab__icon fab__icon--close" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+</div>
+<!-- /fab -->
+
+</body>
+</html>

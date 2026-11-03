@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mock · hizmetler · v3 Dizin sekmeleri</title>
+<link rel="stylesheet" href="../_kit/kit.css">
+<style>
+  /* v3 · Thumb-index board. One navy board, eight thumb-index tabs cut into its fore-edge.
+     Turning a tab opens that service's leaf: a blueprint of the part it touches, a workshop
+     photo tipped in over the board's edge toward the road, and the service in foil type. */
+  .svc { position: relative; padding: 128px 0 144px; }
+  .board { grid-column: 3 / 12; position: relative; z-index: 2; background: var(--navy); color: var(--stock); padding: 72px 72px 80px; min-height: 664px; }
+  .board::before, .board::after { content: ""; position: absolute; pointer-events: none; }
+  .board::before { inset: 24px; border: 2px solid var(--gold); }
+  .board::after { inset: 31px; border: 1px solid rgba(133, 114, 68, 0.7); }
+  .board ::selection { background: var(--gold-ink); color: var(--navy); }
+
+  .board__head { position: relative; z-index: 1; display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 28px; padding-bottom: 28px; border-bottom: 1px solid rgba(133, 114, 68, 0.7); }
+  .board__title { color: var(--gold-ink); font: 400 2.75rem/1 var(--font-title); letter-spacing: -0.015em; }
+  .board__lead { color: var(--stock); font: 400 1.1875rem/1.4 var(--font-text); }
+  .board__lead em { font-style: italic; color: var(--gold-ink); }
+
+  /* Thumb-index tabs on the fore-edge */
+  .tabs { position: absolute; z-index: 1; top: 72px; left: 100%; width: 156px; margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; }
+  .tab { position: relative; display: flex; align-items: center; width: 100%; min-height: 60px; padding: 8px 14px 8px 18px; border: 1px solid var(--rule-strong); border-left: 0; background: var(--stock-deep); color: var(--navy); font: 600 0.75rem/1.25 var(--font-label); letter-spacing: 0.12em; text-transform: uppercase; text-align: left; cursor: pointer; transition: background-color 180ms var(--ease-out), transform 180ms var(--ease-out), color 180ms var(--ease-out); }
+  .tab:hover { background: #e9ecf3; transform: translateX(3px); }
+  .tab[aria-selected="true"] { background: var(--navy); color: var(--gold-ink); border-color: var(--navy); transform: none; margin-left: -1px; padding-left: 19px; }
+  .tab[aria-selected="true"]::after { content: ""; position: absolute; right: 10px; top: 50%; width: 14px; height: 1px; background: var(--gold-ink); }
+  .tab:focus-visible { outline: 2px solid var(--navy); outline-offset: 2px; }
+  .tab[aria-selected="true"]:focus-visible { outline-color: var(--gold-ink); outline-offset: -5px; }
+
+  .panel { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; padding-top: 48px; }
+  .panel[hidden] { display: none; }
+  .panel__art { position: relative; padding-top: 8px; }
+  .sheet { width: 100%; aspect-ratio: 16 / 10; box-shadow: 0 1px 1px rgba(10, 10, 30, 0.25), 0 12px 24px -10px rgba(10, 10, 30, 0.6); transform: rotate(0.6deg); }
+  .panel__photo { position: relative; width: 74%; margin: -36px 0 0 -176px; transform: rotate(-1.6deg); }
+  .panel__photo img { aspect-ratio: 4 / 3; object-fit: cover; }
+  .panel__photo figcaption { padding: 8px 2px 0; font-size: 0.8125rem; }
+  .panel__name { color: var(--gold-ink); font: 400 clamp(2.25rem, 3.4vw, 3.25rem)/1.05 var(--font-title); letter-spacing: -0.015em; text-wrap: balance; }
+  .panel__body { margin-top: 20px; max-width: 30rem; font: 400 1.125rem/1.6 var(--font-text); }
+  .panel__scope { margin: 24px 0 0; padding: 0; list-style: none; border-top: 1px solid rgba(133, 114, 68, 0.7); }
+  .panel__scope li { padding: 8px 0 7px; border-bottom: 1px solid rgba(133, 114, 68, 0.45); color: var(--stock); font: 400 0.9375rem/1.4 var(--font-typed); }
+  .panel__scope li::before { content: "— "; color: var(--gold-ink); }
+  .panel .stamps { margin-top: 36px; }
+
+  /* Tab turn: the new leaf slides in from the fore-edge. */
+  .panel.is-turning .panel__art, .panel.is-turning .panel__text { animation: turn 340ms var(--ease-out) both; }
+  .panel.is-turning .panel__text { animation-delay: 40ms; }
+  @keyframes turn { from { opacity: 0; transform: translateX(18px); } to { opacity: 1; transform: none; } }
+
+  .road--narrow { display: none; }
+
+  @media (max-width: 1240px) {
+    .board { grid-column: 3 / 11; }
+  }
+  @media (max-width: 899px) {
+    .svc { padding: 144px 0 112px; }
+    .inner { width: auto; margin: 0; padding-left: 80px; }
+    .board { grid-column: 1 / -1; padding: 40px 24px 48px; min-height: 0; }
+    .board::before { inset: 10px; }
+    .board::after { inset: 16px; }
+    .board__title { font-size: 2rem; }
+    .board__lead { font-size: 1.0625rem; }
+    .tabs { position: relative; top: auto; left: auto; width: auto; flex-direction: row; overflow-x: auto; gap: 4px; margin: 0 -24px 0; padding: 0 24px; scrollbar-width: none; }
+    .tabs::-webkit-scrollbar { display: none; }
+    .board { display: flex; flex-direction: column; }
+    .tabs { order: -1; margin: -88px -24px 40px; padding: 0; }
+    .tabs li { flex: none; }
+    .tab { min-height: 48px; border: 1px solid var(--rule-strong); border-bottom: 0; white-space: nowrap; padding: 6px 14px; }
+    .tab:hover { transform: none; }
+    .tab[aria-selected="true"] { margin-left: 0; padding-left: 14px; }
+    .tab[aria-selected="true"]::after { display: none; }
+    .panel { grid-template-columns: 1fr; gap: 32px; padding-top: 32px; }
+    .panel__art { order: 2; }
+    .panel__photo { margin: -28px 0 0 -76px; width: 70%; }
+    .panel__name { font-size: 2rem; }
+    .road--wide { display: none; }
+    .road--narrow { display: block; }
+  }
+</style>
+</head>
+<body>
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="ink" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="wobble"/>
+      <feDisplacementMap in="SourceGraphic" in2="wobble" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.7" numOctaves="2" seed="3" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.7 0 0 0 1.62" result="coverage"/>
+      <feComposite in="edge" in2="coverage" operator="in"/>
+    </filter>
+    <symbol id="seal" viewBox="0 0 200 200">
+      <path id="seal-arc" d="M100,100 m-70,0 a70,70 0 1,1 140,0 a70,70 0 1,1 -140,0" fill="none"/>
+      <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="5"/>
+      <circle cx="100" cy="100" r="85" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="100" cy="100" r="52" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text font-family="Archivo Narrow, sans-serif" font-weight="600" font-size="19" letter-spacing="3.2" fill="currentColor"><textPath href="#seal-arc" startOffset="0">VOLAN OTOMOTİV · ANKARA · VOLAN OTOMOTİV · ANKARA ·</textPath></text>
+      <text x="100" y="112" text-anchor="middle" font-family="Besley, serif" font-weight="600" font-size="34" fill="currentColor">1954</text>
+    </symbol>
+    <symbol id="tick" viewBox="0 0 32 32"><path d="M5 17.5l7.5 7.5L27.5 6" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <pattern id="road-net" width="64" height="8" patternUnits="userSpaceOnUse"><path d="M0,4 C10.7,-1.3 21.3,-1.3 32,4 S53.3,9.3 64,4 M0,4 C10.7,9.3 21.3,9.3 32,4 S53.3,-1.3 64,4" fill="none" stroke="#323277" stroke-opacity="0.16" stroke-width="0.7"/></pattern>
+  </defs>
+</svg>
+
+<section class="sec svc" aria-labelledby="svc-title">
+  <svg class="road road--wide" aria-hidden="true" viewBox="0 0 1440 1000" preserveAspectRatio="none">
+    <path class="road__edge" d="M150,0 V1000"/><path class="road__bed" d="M150,0 V1000"/><path class="road__net" d="M150,0 V1000"/><path class="road__line" d="M150,0 V1000"/>
+  </svg>
+  <svg class="road road--narrow" aria-hidden="true" viewBox="0 0 390 1000" preserveAspectRatio="none">
+    <path class="road__edge" d="M38,0 V1000"/><path class="road__bed" d="M38,0 V1000"/><path class="road__net" d="M38,0 V1000"/><path class="road__line" d="M38,0 V1000"/>
+  </svg>
+
+  <div class="inner">
+    <div class="board">
+      <div class="board__head">
+        <h2 class="board__title" id="svc-title">Hizmetlerimiz</h2>
+        <p class="board__lead"><em>Tek noktadan servis:</em> sekiz iş, tek teslim, tek muhatap.</p>
+      </div>
+      <ul class="tabs" role="tablist" aria-label="Hizmetler" aria-orientation="vertical">
+      <li role="presentation"><button class="tab" role="tab" id="t-bakim-onarim" aria-controls="p-bakim-onarim" aria-selected="true" tabindex="0" type="button">Bakım &amp; Onarım</button></li>
+      <li role="presentation"><button class="tab" role="tab" id="t-yedek-parca" aria-controls="p-yedek-parca" aria-selected="false" tabindex="-1" type="button">Yedek Parça</button></li>
+      <li role="presentation"><button class="tab" role="tab" id="t-ariza-tespiti" aria-controls="p-ariza-tespiti" aria-selected="false" tabindex="-1" type="button">Arıza Tespiti</button></li>
+      <li role="presentation"><button class="tab" role="tab" id="t-sigorta-kasko" aria-controls="p-sigorta-kasko" aria-selected="false" tabindex="-1" type="button">Sigorta / Kasko</button></li>
+      <li role="presentation"><button class="tab" role="tab" id="t-elektronik" aria-controls="p-elektronik" aria-selected="false" tabindex="-1" type="button">Elektronik</button></li>
+      <li role="presentation"><button class="tab" role="tab" id="t-kaporta" aria-controls="p-kaporta" aria-selected="false" tabindex="-1" type="button">Kaporta</button></li>
+      <li role="presentation"><button class="tab" role="tab" id="t-boya" aria-controls="p-boya" aria-selected="false" tabindex="-1" type="button">Boya</button></li>
+      <li role="presentation"><button class="tab" role="tab" id="t-mekanik-onarim" aria-controls="p-mekanik-onarim" aria-selected="false" tabindex="-1" type="button">Mekanik Onarım</button></li>
+      </ul>
+    <div class="panel" role="tabpanel" id="p-bakim-onarim" aria-labelledby="t-bakim-onarim">
+      <div class="panel__art">
+        <img class="sheet" src="/general-assets/3d-parcalar/cikti/blueprint/motor-volvo-drive-e-blueprint.webp" width="2560" height="1600" alt="">
+        <figure class="plate panel__photo"><img src="/gc-volan-1/assets/img/is-bakim-onarim.webp" width="1400" height="1050" alt="Bir usta lifteki XC90'ın altında."><figcaption>Bir usta lifteki XC90'ın altında.</figcaption></figure>
+      </div>
+      <div class="panel__text">
+        <h3 class="panel__name">Bakım &amp; Onarım</h3>
+        <p class="panel__body">Aracınızın yaşına ve kilometresine göre periyodik bakım. Yağdan filtreye, kontrol listesi aracınıza göre çıkar.</p>
+        <ul class="panel__scope"><li>Periyodik bakım</li><li>Yağ ve filtreler</li><li>Kontrol listesi</li></ul>
+        <div class="stamps"><a class="stamp-btn stamp-btn--primary" href="/gc-volan-1/hizmetlerimiz.html#bakim-onarim">Ayrıntılar</a><a class="stamp-btn" href="/gc-volan-1/hizmetlerimiz.html">Bütün hizmetler</a></div>
+      </div>
+    </div>
+    <div class="panel" role="tabpanel" id="p-yedek-parca" aria-labelledby="t-yedek-parca" hidden>
+      <div class="panel__art">
+        <img class="sheet" src="/general-assets/3d-parcalar/cikti/blueprint/motor-volvo-drive-e-patlatma-blueprint.webp" width="2560" height="1600" alt="">
+        <figure class="plate panel__photo"><img src="/gc-volan-1/assets/img/is-yedek-parca.webp" width="1400" height="1050" alt="Zincir ve dişliler, yakından."><figcaption>Zincir ve dişliler, yakından.</figcaption></figure>
+      </div>
+      <div class="panel__text">
+        <h3 class="panel__name">Yedek Parça</h3>
+        <p class="panel__body">Doğru parça, kaynağı belli. Hangi parçanın neden değiştiğini faturada görürsünüz.</p>
+        <ul class="panel__scope"><li>Orijinal ve eşdeğer</li><li>Faturalı</li><li>Parça bilgisi</li></ul>
+        <div class="stamps"><a class="stamp-btn stamp-btn--primary" href="/gc-volan-1/hizmetlerimiz.html#yedek-parca">Ayrıntılar</a><a class="stamp-btn" href="/gc-volan-1/hizmetlerimiz.html">Bütün hizmetler</a></div>
+      </div>
+    </div>
+    <div class="panel" role="tabpanel" id="p-ariza-tespiti" aria-labelledby="t-ariza-tespiti" hidden>
+      <div class="panel__art">
+        <img class="sheet" src="/general-assets/3d-parcalar/cikti/blueprint/elektrik-ecu-blueprint.webp" width="2560" height="1600" alt="">
+        <figure class="plate panel__photo"><img src="/gc-volan-1/assets/img/is-ariza-tespiti.webp" width="1400" height="1050" alt="Kafa lambasıyla kontrol."><figcaption>Kafa lambasıyla kontrol.</figcaption></figure>
+      </div>
+      <div class="panel__text">
+        <h3 class="panel__name">Araç Arıza Tespiti</h3>
+        <p class="panel__body">Önce nedeni buluyoruz, sonra onarıyoruz. Tespit sonucunu size anlatır, onayınızı alırız.</p>
+        <ul class="panel__scope"><li>Bilgisayarlı test</li><li>Yol testi</li><li>Yazılı sonuç</li></ul>
+        <div class="stamps"><a class="stamp-btn stamp-btn--primary" href="/gc-volan-1/hizmetlerimiz.html#ariza-tespiti">Ayrıntılar</a><a class="stamp-btn" href="/gc-volan-1/hizmetlerimiz.html">Bütün hizmetler</a></div>
+      </div>
+    </div>
+    <div class="panel" role="tabpanel" id="p-sigorta-kasko" aria-labelledby="t-sigorta-kasko" hidden>
+      <div class="panel__art">
+        <img class="sheet" src="/general-assets/3d-parcalar/cikti/blueprint/kaporta-on-kapi-blueprint.webp" width="2560" height="1600" alt="">
+        <figure class="plate panel__photo"><img src="/gc-volan-1/assets/img/is-sigorta-kasko.webp" width="1400" height="1050" alt="Dosya için ilk görüşme."><figcaption>Dosya için ilk görüşme.</figcaption></figure>
+      </div>
+      <div class="panel__text">
+        <h3 class="panel__name">Sigorta / Kasko Onarım İşlemleri</h3>
+        <p class="panel__body">Hasar dosyanızın takibini biz yaparız. Eksper, sigorta ve onarım tek elden yürür.</p>
+        <ul class="panel__scope"><li>Dosya takibi</li><li>Eksper görüşmesi</li><li>Onarım</li></ul>
+        <div class="stamps"><a class="stamp-btn stamp-btn--primary" href="/gc-volan-1/hizmetlerimiz.html#sigorta-kasko">Ayrıntılar</a><a class="stamp-btn" href="/gc-volan-1/hizmetlerimiz.html">Bütün hizmetler</a></div>
+      </div>
+    </div>
+    <div class="panel" role="tabpanel" id="p-elektronik" aria-labelledby="t-elektronik" hidden>
+      <div class="panel__art">
+        <img class="sheet" src="/general-assets/3d-parcalar/cikti/blueprint/elektrik-kablo-demeti-blueprint.webp" width="2560" height="1600" alt="">
+        <figure class="plate panel__photo"><img src="/gc-volan-1/assets/img/is-elektronik.webp" width="1400" height="1050" alt="Farlar yanık, lift önünde."><figcaption>Farlar yanık, lift önünde.</figcaption></figure>
+      </div>
+      <div class="panel__text">
+        <h3 class="panel__name">Elektronik Sistem Onarımları</h3>
+        <p class="panel__body">Beyin, sensör ve kablo arızaları. Uyarı lambasının nedenini bulur, kalıcı çözeriz.</p>
+        <ul class="panel__scope"><li>Beyin (ECU)</li><li>Sensörler</li><li>Kablo demeti</li></ul>
+        <div class="stamps"><a class="stamp-btn stamp-btn--primary" href="/gc-volan-1/hizmetlerimiz.html#elektronik">Ayrıntılar</a><a class="stamp-btn" href="/gc-volan-1/hizmetlerimiz.html">Bütün hizmetler</a></div>
+      </div>
+    </div>
+    <div class="panel" role="tabpanel" id="p-kaporta" aria-labelledby="t-kaporta" hidden>
+      <div class="panel__art">
+        <img class="sheet" src="/general-assets/3d-parcalar/cikti/blueprint/kaporta-camurluk-blueprint.webp" width="2560" height="1600" alt="">
+        <figure class="plate panel__photo"><img src="/gc-volan-1/assets/img/is-kaporta.webp" width="1400" height="1050" alt="Teslim alanında bir XC90."><figcaption>Teslim alanında bir XC90.</figcaption></figure>
+      </div>
+      <div class="panel__text">
+        <h3 class="panel__name">Kaporta</h3>
+        <p class="panel__body">Küçük göçükten ağır hasara. Parça değişimi ya da onarım, aracınıza göre.</p>
+        <ul class="panel__scope"><li>Göçük</li><li>Panel onarımı</li><li>Parça değişimi</li></ul>
+        <div class="stamps"><a class="stamp-btn stamp-btn--primary" href="/gc-volan-1/hizmetlerimiz.html#kaporta">Ayrıntılar</a><a class="stamp-btn" href="/gc-volan-1/hizmetlerimiz.html">Bütün hizmetler</a></div>
+      </div>
+    </div>
+    <div class="panel" role="tabpanel" id="p-boya" aria-labelledby="t-boya" hidden>
+      <div class="panel__art">
+        <img class="sheet" src="/general-assets/3d-parcalar/cikti/blueprint/kaporta-motor-kaputu-blueprint.webp" width="2560" height="1600" alt="">
+        <figure class="plate panel__photo"><img src="/gc-volan-1/assets/img/is-boya.webp" width="1400" height="1050" alt="Boya bölümünde bir araç."><figcaption>Boya bölümünde bir araç.</figcaption></figure>
+      </div>
+      <div class="panel__text">
+        <h3 class="panel__name">Boya</h3>
+        <p class="panel__body">Tek parçadan bütün araca. Renk eşleştirmeyle, aracınızın kendi rengine.</p>
+        <ul class="panel__scope"><li>Lokal boya</li><li>Parça boya</li><li>Renk eşleştirme</li></ul>
+        <div class="stamps"><a class="stamp-btn stamp-btn--primary" href="/gc-volan-1/hizmetlerimiz.html#boya">Ayrıntılar</a><a class="stamp-btn" href="/gc-volan-1/hizmetlerimiz.html">Bütün hizmetler</a></div>
+      </div>
+    </div>
+    <div class="panel" role="tabpanel" id="p-mekanik-onarim" aria-labelledby="t-mekanik-onarim" hidden>
+      <div class="panel__art">
+        <img class="sheet" src="/general-assets/3d-parcalar/cikti/blueprint/fren-seti-blueprint.webp" width="2560" height="1600" alt="">
+        <figure class="plate panel__photo"><img src="/gc-volan-1/assets/img/is-mekanik-onarim.webp" width="1400" height="1050" alt="Dört usta açık kaputun başında."><figcaption>Dört usta açık kaputun başında.</figcaption></figure>
+      </div>
+      <div class="panel__text">
+        <h3 class="panel__name">Mekanik Onarım</h3>
+        <p class="panel__body">Motordan frene, mekanik işlerin hepsi. Büyük işi de küçük işi de aynı ekip yapar.</p>
+        <ul class="panel__scope"><li>Motor</li><li>Şanzıman</li><li>Fren ve süspansiyon</li></ul>
+        <div class="stamps"><a class="stamp-btn stamp-btn--primary" href="/gc-volan-1/hizmetlerimiz.html#mekanik-onarim">Ayrıntılar</a><a class="stamp-btn" href="/gc-volan-1/hizmetlerimiz.html">Bütün hizmetler</a></div>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // One interaction: turning a thumb-index tab.
+  (function () {
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+    var still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function open(i, focus) {
+      tabs.forEach(function (t, j) {
+        var on = i === j, p = document.getElementById(t.getAttribute('aria-controls'));
+        t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1; p.hidden = !on;
+        p.classList.remove('is-turning');
+        if (on && !still) { void p.offsetWidth; p.classList.add('is-turning'); }
+      });
+      if (focus) tabs[i].focus();
+    }
+    tabs.forEach(function (t, i) {
+      t.addEventListener('click', function () { open(i); });
+      t.addEventListener('keydown', function (e) {
+        var k = e.key, n = tabs.length;
+        if (k === 'ArrowDown' || k === 'ArrowRight') { e.preventDefault(); open((i + 1) % n, true); }
+        if (k === 'ArrowUp' || k === 'ArrowLeft') { e.preventDefault(); open((i - 1 + n) % n, true); }
+        if (k === 'Home') { e.preventDefault(); open(0, true); }
+        if (k === 'End') { e.preventDefault(); open(n - 1, true); }
+      });
+    });
+  })();
+</script>
+</body>
+</html>

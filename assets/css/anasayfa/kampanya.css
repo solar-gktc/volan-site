@@ -1,0 +1,151 @@
+/* Kampanya — "Kapak bandı". The navy cover board breaks into the page as a band from the left
+   screen edge up to the road (right lane), with a perforated edge beside the lane. One campaign
+   fills it; two or three get index tabs on its top edge (behaviour: assets/js/anasayfa/kampanya.js).
+   The band stays out of the lane and out of the top ~130px where the road crosses in from the left. */
+
+.s-kampanya {
+  /* the gap between the screen edge and the 12-column measure */
+  --g: calc((100vw - min(var(--measure), 100vw - 2 * var(--gutter))) / 2);
+}
+.entry.s-kampanya { padding: 216px 0 176px; }
+
+.s-kampanya .band {
+  grid-column: 1 / -1;
+  /* bleed to the left screen edge; stop ~16px before the right lane (lane inset is 0.8 × the gap, road ~150px) */
+  margin-left: calc(-1 * var(--g));
+  margin-right: calc(100px - 0.2 * var(--g));
+  padding: 0;
+}
+.s-kampanya .band.cover::before,
+.s-kampanya .band.cover::after { left: -40px; }
+.s-kampanya .band__inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  column-gap: 32px;
+  padding: 104px 72px 104px var(--g);
+  min-height: 660px;
+}
+
+/* Perforated edge beside the road: square punched holes showing the stock. */
+.s-kampanya .perf {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 10px;
+  width: 6px;
+  background: repeating-linear-gradient(to bottom, transparent 0 8px, var(--stock) 8px 14px);
+}
+
+/* Index tabs on the band's top edge (hidden when there is one campaign). */
+.s-kampanya .tabs { position: absolute; z-index: 3; left: var(--g); bottom: 100%; display: flex; gap: 6px; }
+.s-kampanya .tabs[hidden] { display: none; }
+.s-kampanya .tab {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-height: 48px;
+  padding: 14px 20px 12px;
+  border: 1.5px solid var(--rule-strong);
+  border-bottom: 0;
+  background: var(--stock-deep);
+  color: var(--navy);
+  font: 600 0.8125rem/1 var(--font-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transform: translateY(6px);
+  transition: transform 200ms var(--ease-out), background-color 200ms var(--ease-out);
+}
+.s-kampanya .tab .typed { font: 400 0.8125rem/1 var(--font-typed); letter-spacing: 0; opacity: 0.8; }
+.s-kampanya .tab:hover { transform: translateY(2px); }
+.s-kampanya .tab[aria-selected="true"] { background: var(--navy); border-color: var(--navy); color: var(--gold-ink); transform: none; }
+.s-kampanya .tab:focus-visible { outline-offset: 2px; }
+
+/* All campaigns share one grid cell: the band keeps the tallest campaign's height, so it never
+   changes size when a tab is turned. */
+.s-kampanya .panel { grid-column: 1 / -1; grid-row: 1; display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: 32px; }
+.s-kampanya .panel[hidden] { display: grid; visibility: hidden; }
+
+.s-kampanya .offer { grid-column: 1; position: relative; z-index: 2; align-self: center; }
+.s-kampanya .offer h3 { margin: 0 0 28px; color: var(--stock); font: 600 2.25rem/1.15 var(--font-title); letter-spacing: -0.01em; text-wrap: balance; }
+.s-kampanya .offer h3 .big {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--gold-ink);
+  font-weight: 400;
+  font-size: clamp(4rem, 7.2vw, 6rem);
+  line-height: 0.95;
+  letter-spacing: -0.025em;
+}
+.s-kampanya .offer__lead { max-width: 36ch; margin-bottom: 36px; color: var(--stock); font-size: clamp(1.125rem, 1.55vw, 1.4rem); line-height: 1.42; }
+.s-kampanya .terms {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 10px 24px;
+  max-width: 560px;
+  margin: 0 0 40px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(133, 114, 68, 0.9);
+}
+.s-kampanya .terms dt { color: var(--gold-ink); font: 600 0.75rem/1.6 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; }
+.s-kampanya .terms dd { margin: 0; color: var(--stock); font: 400 0.9375rem/1.5 var(--font-typed); }
+.s-kampanya .offer__act { display: flex; flex-wrap: wrap; align-items: center; gap: 24px 36px; }
+.s-kampanya .sample { margin-top: 28px; color: var(--gold-ink); font: 400 0.875rem/1.4 var(--font-typed); }
+
+/* The last day in a foil-ruled box pressed into the board. */
+.s-kampanya .valid { display: inline-grid; gap: 6px; padding: 10px 16px 12px; border: 4px double var(--gold-ink); color: var(--gold-ink); transform: rotate(-2deg); }
+.s-kampanya .valid .label { color: var(--gold-ink); font-size: 0.6875rem; }
+.s-kampanya .valid b { color: var(--stock); font: 700 1.5rem/1 var(--font-typed); letter-spacing: 0.02em; }
+
+/* The part breaks out of the band; its blueprint line drawing sits behind it in light foil. */
+.s-kampanya .art { grid-column: 2; position: relative; pointer-events: none; }
+.s-kampanya .art__line {
+  position: absolute;
+  left: -46%;
+  top: 14%;
+  width: 118%;
+  aspect-ratio: 1;
+  background: var(--gold-ink);
+  opacity: 0.75;
+  /* the mask image is set inline on the element (page-relative URL) */
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+.s-kampanya .art__part { position: absolute; z-index: 2; left: -24%; top: -150px; width: 142%; max-width: none; }
+
+.s-kampanya .panel.is-in .offer { animation: kampanya-in 380ms var(--ease-out) both; }
+.s-kampanya .panel.is-in .art__part { animation: kampanya-part 520ms var(--ease-out) both; }
+@keyframes kampanya-in { from { opacity: 0; transform: translateY(10px); } }
+@keyframes kampanya-part { from { opacity: 0; transform: translateX(28px) rotate(4deg); } }
+
+@media (max-width: 899px) {
+  .s-kampanya { --g: var(--gutter); }
+  .entry.s-kampanya { padding: 208px 0 128px; }
+  /* narrow lane: centre 36px from the right edge, road ~54px */
+  .s-kampanya .band { margin-right: 56px; }
+  .s-kampanya .band__inner { grid-template-columns: minmax(0, 1fr); padding: 56px 36px 56px 24px; min-height: 0; }
+  .s-kampanya .panel { grid-template-columns: minmax(0, 1fr); }
+  .s-kampanya .art { grid-column: 1; grid-row: 1; height: 190px; margin: -24px -24px 12px 0; }
+  .s-kampanya .art__part { left: auto; right: 14px; top: 0; width: 200px; }
+  .s-kampanya .art__line { left: -10px; right: auto; top: 20px; width: 200px; }
+  .s-kampanya .offer { grid-column: 1; }
+  .s-kampanya .offer h3 { font-size: 1.625rem; }
+  .s-kampanya .offer h3 .big { font-size: 3.5rem; }
+  .s-kampanya .terms { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .s-kampanya .terms dd { margin-bottom: 10px; }
+  .s-kampanya .tabs { left: var(--g); right: 0; flex-wrap: wrap; gap: 4px; }
+  .s-kampanya .tab { padding: 12px 12px 10px; min-height: 44px; font-size: 0.75rem; }
+  .s-kampanya .tab .typed { display: none; }
+  .s-kampanya .stamp-btn { padding: 0 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .s-kampanya .tab { transition: none; }
+  .s-kampanya .panel.is-in .offer,
+  .s-kampanya .panel.is-in .art__part { animation: none; }
+}

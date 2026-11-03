@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mock · final · v1 — Son sayfa</title>
+<link rel="stylesheet" href="../_kit/kit.css">
+<style>
+  body { background: #eee7d6; } /* stock × aged, the page after the aging ramp */
+  .sec { position: relative; padding: 128px 0 128px; background: var(--stock); }
+  .sec .road { overflow: hidden; }
+  .aging { position: absolute; inset: 0; z-index: 1; pointer-events: none; mix-blend-mode: multiply; background: var(--aged); }
+  .inner { align-items: start; }
+
+  /* The 1954 garage. Photo under the 3D stage; the walls copy goes above it once the truck is in the door. */
+  .plate--store { grid-column: 2 / span 7; z-index: auto; transform: rotate(-0.6deg); }
+  .plate--store figcaption { padding: 2px 4px 12px; }
+  .store { position: relative; }
+  .store__photo { position: relative; z-index: 0; }
+  .store__walls { position: absolute; inset: 0; z-index: 2; visibility: hidden;
+    clip-path: polygon(0 0, 100% 0, 100% 86%, 47.4% 86%, 46.6% 37.4%, 15.6% 38.8%, 16.4% 86%, 0 86%); }
+  .store.is-shut .store__walls { visibility: visible; }
+  .door { position: absolute; left: 31.4%; top: 86%; width: 1px; height: 1px; }
+  .into { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; pointer-events: none; }
+  .into path { fill: none; stroke: var(--paper); stroke-opacity: 0.8; stroke-width: 2.5; stroke-dasharray: 14 12; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+
+  /* Dealer record with a tear-off appointment slip */
+  .dealer { grid-column: 9 / span 4; position: relative; z-index: 2; border: 4px double var(--navy); font-style: normal; margin-top: 24px; }
+  .dealer__body { padding: 32px 28px 32px; }
+  .dealer h2 { color: var(--navy); font: 600 2rem/1.2 var(--font-title); margin-bottom: 20px; }
+  .dl { margin: 0; }
+  .dl div { display: grid; grid-template-columns: 84px 1fr; column-gap: 12px; padding: 11px 0 12px; border-top: 1px solid rgba(110, 120, 160, 0.22); }
+  .dl dt { color: var(--navy); font: 600 0.75rem/1.2 var(--font-label); letter-spacing: 0.12em; text-transform: uppercase; padding-top: 4px; }
+  .dl dd { margin: 0; font: 400 0.9375rem/1.5 var(--font-typed); font-variant-numeric: tabular-nums; }
+  .dl a { text-decoration: underline; text-decoration-color: var(--rule-strong); }
+  .dl a:hover { text-decoration-color: currentColor; }
+  .nowrap { white-space: nowrap; }
+  .slip { position: relative; padding: 28px 28px 32px; border-top: 1.5px dashed var(--rule-strong); }
+  .slip__cut { position: absolute; left: 18px; top: -12px; width: 22px; height: 22px; padding: 0 2px; background: #eee7d6; fill: none; stroke: var(--navy); stroke-width: 1.5; }
+  .slip .label { display: block; margin-bottom: 16px; }
+  .slip .stamps { margin-top: 0; }
+  .slip p { margin-top: 16px; color: var(--ink-soft); font: 400 0.8125rem/1.4 var(--font-typed); }
+  .seal--dealer { width: 128px; height: 128px; right: -36px; top: -52px; opacity: 0; transform: scale(1.4) rotate(-30deg); transition: opacity 260ms var(--ease-out), transform 340ms var(--ease-out); }
+  .dealer.is-stamped .seal--dealer { opacity: 0.9; transform: scale(1) rotate(-16deg); }
+
+  /* Back page imprint */
+  .colophon { padding: 0 var(--gutter) 48px; color: var(--ink-soft); font: 400 0.875rem/1.5 var(--font-typed); text-align: center; }
+  .colophon__rule { width: min(var(--measure), 100%); margin: 0 auto 32px; height: 6px; border-top: 2px solid var(--navy); border-bottom: 1px solid var(--navy); opacity: 0.55; }
+  .colophon img { width: 132px; margin: 0 auto 16px; }
+  .colophon__credits { font-size: 0.75rem; margin-top: 4px; }
+  .colophon a { color: inherit; }
+
+  @media (max-width: 899px) {
+    .sec { padding: 96px 0 96px; }
+    .inner { row-gap: 0; }
+    .plate--store { grid-column: 1; margin-bottom: 176px; }
+    .dealer { grid-column: 1; margin: 0 0 0 0; }
+    .dealer__body { padding: 28px 20px; }
+    .slip { padding: 28px 20px 28px; }
+    .dl div { grid-template-columns: 1fr; row-gap: 2px; }
+    .seal--dealer { right: -6px; top: -56px; width: 104px; height: 104px; }
+  }
+  .still *, .still *::before, .still *::after { transition: none !important; }
+</style>
+</head>
+<body>
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="ink" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="wobble"/>
+      <feDisplacementMap in="SourceGraphic" in2="wobble" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.7" numOctaves="2" seed="3" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.7 0 0 0 1.62" result="coverage"/>
+      <feComposite in="edge" in2="coverage" operator="in"/>
+    </filter>
+    <symbol id="seal" viewBox="0 0 200 200">
+      <path id="seal-arc" d="M100,100 m-70,0 a70,70 0 1,1 140,0 a70,70 0 1,1 -140,0" fill="none"/>
+      <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="5"/>
+      <circle cx="100" cy="100" r="85" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="100" cy="100" r="52" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text font-family="Archivo Narrow, sans-serif" font-weight="600" font-size="19" letter-spacing="3.2" fill="currentColor"><textPath href="#seal-arc" startOffset="0">VOLAN OTOMOTİV · ANKARA · VOLAN OTOMOTİV · ANKARA ·</textPath></text>
+      <text x="100" y="112" text-anchor="middle" font-family="Besley, serif" font-weight="600" font-size="34" fill="currentColor">1954</text>
+    </symbol>
+    <symbol id="tick" viewBox="0 0 32 32"><path d="M5 17.5l7.5 7.5L27.5 6" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <pattern id="road-net" width="64" height="8" patternUnits="userSpaceOnUse"><path d="M0,4 C10.7,-1.3 21.3,-1.3 32,4 S53.3,9.3 64,4 M0,4 C10.7,9.3 21.3,9.3 32,4 S53.3,-1.3 64,4" fill="none" stroke="#323277" stroke-opacity="0.16" stroke-width="0.7"/></pattern>
+  </defs>
+</svg>
+
+<main>
+<section class="sec" id="iletisim" aria-labelledby="iletisim-baslik">
+  <svg class="road" aria-hidden="true" viewBox="0 0 1440 1100" preserveAspectRatio="none">
+    <path class="road__edge" d="M150,0 V1100"/><path class="road__bed" d="M150,0 V1100"/><path class="road__net" d="M150,0 V1100"/><path class="road__line" d="M150,0 V1100"/>
+  </svg>
+  <div class="aging" aria-hidden="true"></div>
+
+  <div class="inner">
+    <figure class="plate plate--store">
+      <figcaption>Arşivden, tarihsiz: “Anadolu · Volvo Yetkili” tabelalı garaj ve önünde bir Volvo TIR.</figcaption>
+      <div class="store">
+        <img class="store__photo" src="/general-assets/gorseller/arsiv-restore/arsiv-08-anadolu-volvo-yetkili-servis-cephe-tir-sb-restore-1600.webp" width="1600" height="1037" alt="Arşiv fotoğrafı: “Anadolu · Volvo Yetkili” tabelalı eski servis binası, açık garaj kapısı ve önünde bir Volvo TIR.">
+        <svg class="into" viewBox="0 0 1600 1037" preserveAspectRatio="none" aria-hidden="true"><path d="M502,1037 V640 M478,668 L502,640 L526,668"/></svg>
+        <img class="store__walls" src="/general-assets/gorseller/arsiv-restore/arsiv-08-anadolu-volvo-yetkili-servis-cephe-tir-sb-restore-1600.webp" width="1600" height="1037" alt="" aria-hidden="true">
+        <span class="door" data-door aria-hidden="true"></span>
+      </div>
+    </figure>
+
+    <address class="dealer" data-dealer>
+      <div class="dealer__body">
+        <h2 id="iletisim-baslik">Kapımız açık.</h2>
+        <dl class="dl">
+          <div><dt>Adres</dt><dd>Bahçekapı Mah.<br>2547. Sokak No:3<br>Şaşmaz Oto Sanayi Sitesi<br>Etimesgut / Ankara</dd></div>
+          <div><dt>Telefon</dt><dd><a href="tel:+905337653378">0533 765 33 78</a><br><a href="tel:+903122786990">0312 278 69 90</a></dd></div>
+          <div><dt>WhatsApp</dt><dd><a href="https://wa.me/905337653378">0533 765 33 78</a></dd></div>
+          <div><dt>E-posta</dt><dd><a href="mailto:info@volan.com.tr">info@volan.com.tr</a></dd></div>
+          <div><dt>Saatler</dt><dd>Hafta içi ve Cumartesi<br><span class="nowrap">08:30–18:00</span><br>Pazar kapalı</dd></div>
+          <div><dt>Instagram</dt><dd><a href="https://www.instagram.com/volanotomotiv">@volanotomotiv</a></dd></div>
+        </dl>
+      </div>
+      <div class="slip">
+        <svg class="slip__cut" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M8.2 8.2L21 18M8.2 15.8L21 6"/></svg>
+        <span class="label">Randevu fişi</span>
+        <nav class="stamps stamps--ink" aria-label="İletişim">
+          <a class="stamp-btn stamp-btn--primary" href="https://wa.me/905337653378?text=Merhaba%2C%20arac%C4%B1m%20i%C3%A7in%20randevu%20almak%20istiyorum.">Randevu al</a>
+          <a class="stamp-btn" href="tel:+905337653378">Ara</a>
+          <a class="stamp-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Volan%20Otomotiv%20Bah%C3%A7ekap%C4%B1%20Mah.%202547.%20Sokak%20No%3A3%20Etimesgut%20Ankara">Yol tarifi</a>
+        </nav>
+        <p>Randevu isteği WhatsApp ile gelir; size geri döneriz.</p>
+      </div>
+      <svg class="seal seal--dealer" aria-hidden="true" focusable="false"><use href="#seal"/></svg>
+    </address>
+  </div>
+</section>
+</main>
+
+<footer class="colophon">
+  <div class="colophon__rule" aria-hidden="true"></div>
+  <img src="/gc-volan-1/brand/logo-horizontal.svg" alt="Volan Premium Car Service" width="132" height="40">
+  <p>© 2026 Volan Otomotiv · Bağımsız otomotiv servisi · Since 1954</p>
+  <p class="colophon__credits">3D modeller, uyarlanarak (<a href="https://creativecommons.org/licenses/by/4.0/deed.tr" rel="license">CC BY 4.0</a>): <a href="https://sketchfab.com/3d-models/mercedes-benz-c-class-2020-19d59344b7554e6ab614a6cc02e7ad0a">Mercedes-Benz C-Class 2020</a>, ItsDiyor · <a href="https://sketchfab.com/3d-models/volkswagen-golf-7-364f56c79e9a4bfbb0bfa981b9abb6a3">Volkswagen Golf 7</a>, Car2022</p>
+</footer>
+
+<script>
+(() => {
+  const sec = document.querySelector('.sec'), svg = sec.querySelector('.road');
+  const mq = matchMedia('(max-width: 899px)');
+  const still = /[?&]shot/.test(location.search) || matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (still) document.documentElement.classList.add('still');
+  const box = el => { const a = el.getBoundingClientRect(), s = sec.getBoundingClientRect(); return { l: a.left - s.left, r: a.right - s.left, t: a.top - s.top, b: a.bottom - s.top }; };
+  function path(p, r) {
+    let d = 'M' + p[0];
+    for (let i = 1; i < p.length - 1; i++) {
+      const [a, b, c] = [p[i - 1], p[i], p[i + 1]];
+      const l1 = Math.hypot(b[0] - a[0], b[1] - a[1]), l2 = Math.hypot(c[0] - b[0], c[1] - b[1]), k = Math.min(r, l1 / 2, l2 / 2);
+      d += ` L${b[0] + (a[0] - b[0]) * k / l1},${b[1] + (a[1] - b[1]) * k / l1} Q${b} ${b[0] + (c[0] - b[0]) * k / l2},${b[1] + (c[1] - b[1]) * k / l2}`;
+    }
+    return d + ' L' + p[p.length - 1];
+  }
+  // Road: down the left lane, round under the garage, then up through the forecourt into the door.
+  function draw() {
+    const W = sec.clientWidth, H = sec.offsetHeight, m = mq.matches;
+    const x = m ? 36 : box(sec.querySelector('.inner')).l + 54;
+    const plate = box(sec.querySelector('.plate--store')), door = box(sec.querySelector('[data-door]'));
+    const turn = plate.b + (m ? 88 : 96);
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const d = path([[x, -80], [x, turn], [door.l, turn], [door.l, plate.b - 40]], m ? 56 : 88);
+    svg.querySelectorAll('path').forEach(p => p.setAttribute('d', d));
+  }
+  addEventListener('resize', draw); addEventListener('load', draw); draw();
+
+  // One interaction: the dealer seal presses in when the record arrives.
+  const dealer = sec.querySelector('[data-dealer]');
+  if (still) { dealer.classList.add('is-stamped'); return; }
+  new IntersectionObserver((es, io) => { if (es[0].isIntersecting) { setTimeout(() => dealer.classList.add('is-stamped'), 250); io.disconnect(); } }, { threshold: 0.6 }).observe(dealer);
+})();
+</script>
+</body>
+</html>

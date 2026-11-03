@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mock · hero2 · v3 Açık kitapçık</title>
+<!-- Mock only: the hero height is taken from the first viewport height, so the full-page
+     screenshot (which resizes the viewport to the page height) does not stretch the hero. -->
+<script>document.documentElement.style.setProperty('--vh0', innerHeight + 'px');</script>
+<link rel="stylesheet" href="../_kit/kit.css">
+<link rel="stylesheet" href="/gc-volan-1/assets/css/menu.css">
+<style>
+/* Hero v3 "Açık kitapçık": the service booklet lies open on the stock. Each slide is a
+   spread: text on the left page, picture on the right page. Switching turns a leaf over
+   the gutter. The cars park on the stock in front of the booklet, never on a picture. */
+
+.s-hero {
+  --hero-h: clamp(760px, calc(var(--vh0, 100svh) - 72px), 900px);
+  --bk-top: 24px;
+  --bk-h: calc(var(--hero-h) - 260px);
+  position: relative;
+  height: var(--hero-h);
+  min-height: 0;
+  background: var(--stock);
+}
+
+/* ---------- The booklet: navy cover board, page block edges, two pages ---------- */
+.s-hero .booklet {
+  position: absolute;
+  top: var(--bk-top);
+  left: max(var(--gutter), (100% - var(--measure)) / 2);
+  right: max(var(--gutter), (100% - var(--measure)) / 2);
+  height: var(--bk-h);
+  background: var(--navy);
+}
+/* Foil hairline on the board's visible rim. */
+.s-hero .booklet::before { content: ""; position: absolute; inset: 5px; border: 1px solid rgba(133, 114, 68, 0.85); pointer-events: none; }
+/* The page block: two sheets under the open pages, seen as hairline edges. */
+.s-hero .sheet { position: absolute; background: var(--paper); border: 1px solid rgba(50, 50, 119, 0.22); }
+.s-hero .sheet--2 { inset: 13px 10px 9px; }
+.s-hero .sheet--1 { inset: 13px 13px 11px; }
+.s-hero .spread { position: absolute; inset: 13px 16px 14px; background: var(--paper); }
+/* The pages dip into the fold at the top and bottom edge; the board shows in the dip. */
+.s-hero .dip { position: absolute; left: calc(50% - 150px); width: 300px; height: 9px; fill: var(--navy); pointer-events: none; }
+.s-hero .dip--t { top: 12px; }
+.s-hero .dip--b { bottom: 13px; transform: scaleY(-1); }
+
+/* The fold: one rule, with printed hatching that fades by spacing, not by gradient. */
+.s-hero .gutter { position: absolute; top: 0; height: 100%; left: calc(50% - 24px); width: 48px; pointer-events: none; }
+.s-hero .gutter path { stroke: var(--navy); stroke-width: 1; vector-effect: non-scaling-stroke; }
+
+.s-hero .pg { position: absolute; top: 0; bottom: 0; width: 50%; display: grid; }
+.s-hero .pg--l { left: 0; }
+.s-hero .pg--r { left: 50%; }
+.s-hero .pg > .slide { grid-area: 1 / 1; min-width: 0; }
+.menu ~ .banner.s-hero { min-height: 0; }
+.s-hero .slide:not(.is-on) { visibility: hidden; }
+
+/* ---------- Left page: the words ---------- */
+.s-hero .pg--l > .slide { display: flex; flex-direction: column; padding: clamp(72px, 13%, 104px) 56px 44px 64px; }
+.s-hero .copy { position: relative; z-index: 2; max-width: 30rem; }
+.s-hero .h-hero { margin: 0; color: var(--navy); font: 400 3.5rem/1.04 var(--font-title); letter-spacing: -0.022em; }
+.s-hero .h-hero .big { display: block; font-size: 5.25rem; line-height: 0.96; letter-spacing: -0.03em; }
+.s-hero .h-hero .rest { display: block; margin-top: 6px; font-size: 2.375rem; line-height: 1.1; letter-spacing: -0.012em; }
+.s-hero .lead { margin-top: 22px; max-width: 26em; color: var(--ink-soft); font: 400 1.1875rem/1.55 var(--font-text); }
+.s-hero .copy .stamps { margin-top: 34px; }
+.s-hero .foot { position: relative; z-index: 2; margin-top: auto; max-width: 23rem; color: var(--ink-soft); font: 400 0.8125rem/1.45 var(--font-typed); }
+
+/* ---------- Page corners: page numbers that turn the page ---------- */
+.s-hero .corner {
+  position: absolute; z-index: 2; top: 0; display: flex; align-items: center; gap: 8px;
+  height: 56px; padding: 0 20px; border: 0; background: none; color: var(--navy);
+  font: 400 0.875rem/1 var(--font-typed); cursor: pointer;
+}
+.s-hero .corner--prev { left: 0; padding-left: 22px; }
+.s-hero .corner--next { right: 0; padding-right: 22px; flex-direction: row-reverse; }
+.s-hero .corner__ear { position: absolute; top: 0; width: 30px; height: 30px; overflow: visible; transition: transform 220ms var(--ease-out); }
+.s-hero .corner--prev .corner__ear { left: 0; transform-origin: 0 0; transform: scaleX(-1) translateX(-100%); }
+.s-hero .corner--next .corner__ear { right: 0; transform-origin: 100% 0; }
+.s-hero .corner__ear .fold { fill: var(--stock-deep); stroke: rgba(50, 50, 119, 0.4); stroke-width: 1; }
+.s-hero .corner__ear .under { fill: var(--navy); }
+.s-hero .corner__num { position: relative; top: 1px; margin-inline: 22px 0; }
+.s-hero .corner--next .corner__num { margin-inline: 0 22px; }
+.s-hero .corner__arrow { width: 14px; height: 10px; fill: none; stroke: currentColor; stroke-width: 1.4; opacity: 0.6; transition: transform 220ms var(--ease-out), opacity 180ms; }
+.s-hero .corner--next:hover .corner__ear { transform: scale(1.3); }
+.s-hero .corner--prev:hover .corner__ear { transform: scaleX(-1.3) scaleY(1.3) translateX(-100%); }
+.s-hero .corner:hover .corner__arrow { opacity: 1; }
+.s-hero .corner--prev:hover .corner__arrow { transform: translateX(-3px); }
+.s-hero .corner--next:hover .corner__arrow { transform: translateX(3px); }
+.s-hero .corner:focus-visible { outline-offset: -4px; }
+
+/* ---------- Right page: the pictures ---------- */
+.s-hero .pg--r > .slide { position: relative; padding: 64px 56px 44px 56px; }
+
+/* Slide 1: a tipped-in photo with mounting corners. */
+.s-hero .plate { --tilt: 0.9deg; transform: rotate(var(--tilt)); }
+.s-hero .plate img { object-fit: cover; }
+.s-hero .plate .mount { position: absolute; width: 22px; height: 22px; background: var(--navy); }
+.s-hero .plate .mount--tl { top: -4px; left: -4px; clip-path: polygon(0 0, 100% 0, 0 100%); }
+.s-hero .plate .mount--tr { top: -4px; right: -4px; clip-path: polygon(0 0, 100% 0, 100% 100%); }
+.s-hero .plate .mount--bl { bottom: -4px; left: -4px; clip-path: polygon(0 0, 100% 100%, 0 100%); }
+.s-hero .plate .mount--br { bottom: -4px; right: -4px; clip-path: polygon(100% 0, 100% 100%, 0 100%); }
+.s-hero .s1-photo { width: 100%; }
+.s-hero .s1-photo img { aspect-ratio: 4 / 3; height: auto; object-position: 62% 46%; }
+
+/* Slide 2: the coupon page. A dashed cut line with scissors, a printed double frame inside. */
+.s-hero .coupon { position: relative; z-index: 2; height: 100%; max-height: 440px; padding: 12px; border: 1.5px dashed rgba(50, 50, 119, 0.55); }
+.s-hero .coupon__scissors { position: absolute; top: -11px; left: 28px; width: 30px; height: 20px; padding: 0 4px; background: var(--paper); fill: none; stroke: var(--navy); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; box-sizing: content-box; }
+.s-hero .coupon__in { position: relative; display: grid; grid-template-rows: auto 1fr auto; height: 100%; padding: 18px 22px 20px; border: 4px double rgba(50, 50, 119, 0.5); }
+.s-hero .coupon__head { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 12px; border-bottom: 1px solid var(--rule-strong); }
+.s-hero .coupon__head .label { font-size: 0.8125rem; }
+.s-hero .coupon__head .typed { color: var(--ink-soft); font-size: 0.8125rem; }
+.s-hero .coupon__body { display: grid; grid-template-columns: 1.05fr 1fr; align-items: center; gap: 8px; min-height: 0; }
+/* The render's faint studio haze reaches its canvas edge; an edge mask hides the cut. */
+.s-hero .coupon__wheel { width: 100%; max-width: 230px; margin: -6px 0 -10px -10px; -webkit-mask-image: radial-gradient(closest-side, #000 86%, transparent); mask-image: radial-gradient(closest-side, #000 86%, transparent); }
+.s-hero .scope { margin: 0; padding: 0; list-style: none; }
+.s-hero .scope .label { display: block; margin-bottom: 12px; }
+.s-hero .scope li { display: flex; align-items: center; gap: 12px; padding: 7px 0; border-bottom: 1px dotted rgba(50, 50, 119, 0.35); color: var(--ink); font: 400 1.0625rem/1.2 var(--font-text); }
+.s-hero .scope li:last-child { border-bottom: 0; }
+.s-hero .coupon__foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; padding-top: 14px; border-top: 1px solid var(--rule-strong); }
+.s-hero .lastday { display: inline-grid; gap: 6px; padding: 9px 14px 10px; border: 4px double var(--navy); transform: rotate(-1.5deg); }
+.s-hero .lastday .label { font-size: 0.6875rem; }
+.s-hero .lastday b { color: var(--navy); font: 700 1.5rem/1 var(--font-typed); letter-spacing: 0.02em; }
+.s-hero .coupon__terms { max-width: 15rem; color: var(--ink-soft); font: 400 0.75rem/1.45 var(--font-typed); text-align: right; }
+
+/* Slide 3: an archive print, the 1954 seal pressed over its corner, a typed ledger. */
+.s-hero .pg--r > .s3 { display: grid; grid-template-columns: minmax(0, 250px) minmax(0, 1fr); column-gap: 36px; align-items: end; padding-top: 72px; }
+.s-hero .s3-print { --tilt: -1.4deg; background: #fffaf0; align-self: start; }
+.s-hero .s3-print img { aspect-ratio: 1071 / 1600; height: auto; max-height: 340px; object-position: 50% 50%; }
+.s-hero .s3 .seal { width: 132px; height: 132px; left: 262px; top: 46px; transform: rotate(-12deg); opacity: 0.85; }
+.s-hero .ledger { position: relative; z-index: 2; margin: 0 0 6px; }
+.s-hero .ledger div { display: flex; align-items: baseline; gap: 8px; padding: 9px 0; border-bottom: 1px solid var(--rule-strong); }
+.s-hero .ledger div:first-child { border-top: 1px solid var(--rule-strong); }
+.s-hero .ledger dt { color: var(--ink-soft); font: 400 0.9375rem/1.2 var(--font-text); }
+.s-hero .ledger dt::after { content: ""; flex: 1; }
+.s-hero .ledger .lead-dots { flex: 1; border-bottom: 1px dotted rgba(50, 50, 119, 0.4); transform: translateY(-4px); }
+.s-hero .ledger dd { margin: 0; color: var(--navy); font: 700 1rem/1.2 var(--font-typed); }
+
+/* ---------- The leaf that turns (built by the script) ---------- */
+/* While it turns, the leaf lies over the page text (z 3), so it briefly covers a car roof at the page foot. */
+.s-hero .leaf { position: absolute; z-index: 3; top: 0; bottom: 0; width: 50%; transform-style: preserve-3d; pointer-events: none; }
+.s-hero .leaf--fwd { left: 50%; transform-origin: 0 50%; }
+.s-hero .leaf--back { left: 0; transform-origin: 100% 50%; }
+.s-hero .leaf__face { position: absolute; inset: 0; left: 0; width: 100%; background: var(--paper); backface-visibility: hidden; -webkit-backface-visibility: hidden; outline: 1px solid rgba(50, 50, 119, 0.14); }
+.s-hero .leaf__face--back { transform: rotateY(180deg); }
+.s-hero .leaf__tint { position: absolute; inset: 0; z-index: 4; background: var(--navy); opacity: 0; }
+
+/* ---------- Ribbon bookmarks + pause, hanging out under the booklet ---------- */
+.s-hero .marks { position: absolute; z-index: 2; top: calc(var(--bk-top) + var(--bk-h)); left: calc(max(var(--gutter), (100% - var(--measure)) / 2) + 56px); display: flex; align-items: flex-start; gap: 12px; }
+.s-hero .ribbon {
+  --len: 86px;
+  position: relative; display: block; width: 32px; height: var(--len); padding: 10px 0 0; border: 0;
+  background: var(--stock-deep); color: var(--navy); cursor: pointer;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% calc(100% - 11px), 0 100%);
+  transition: height 260ms var(--ease-out), background-color 180ms;
+}
+.s-hero .ribbon__label { display: block; writing-mode: vertical-rl; margin-inline: auto; font: 600 0.6875rem/1 var(--font-label); letter-spacing: 0.16em; text-transform: uppercase; white-space: nowrap; }
+.s-hero .ribbon__run { position: absolute; top: 0; right: 4px; width: 1.5px; height: calc(100% - 14px); background: var(--gold-ink); transform-origin: 50% 0; transform: scaleY(0); }
+.s-hero .ribbon:hover { --len: 94px; background: #d2d7e3; }
+.s-hero .ribbon[aria-current="true"] { --len: 108px; background: var(--navy); color: var(--gold-ink); }
+.s-hero .ribbon:focus-visible { outline: none; }
+.s-hero .ribbon:focus-visible .ribbon__label { outline: 2px solid currentColor; outline-offset: 4px; }
+.s-hero .play {
+  display: inline-flex; align-items: center; gap: 8px; margin: 12px 0 0 10px; padding: 6px 10px 5px;
+  border: 0; background: none; color: var(--navy); font: 400 0.8125rem/1 var(--font-typed);
+  text-decoration: underline; text-decoration-color: var(--rule-strong); text-underline-offset: 0.25em; cursor: pointer;
+}
+.s-hero .play:hover { text-decoration-color: currentColor; }
+.s-hero .play svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linejoin: round; }
+.s-hero .play .i-play { display: none; }
+.s-hero .play[aria-pressed="true"] .i-play { display: block; }
+.s-hero .play[aria-pressed="true"] .i-pause { display: none; }
+
+/* ---------- Cars: where they stand (on the stock, in front of the booklet) ---------- */
+.s-hero .park { position: absolute; width: 0; height: 0; }
+.s-hero .park[data-park="volvo"] { left: 50%; top: 92%; }
+.s-hero .park[data-park="mercedes"] { left: 79%; top: 85%; }
+.s-hero .park[data-park="vw"] { left: 89.5%; top: 94%; }
+/* Mock only: footprint (dashed) and body extent (dotted) of each car. */
+.s-hero .fp { position: absolute; z-index: 1; left: -240px; top: -224px; width: 480px; height: 312px; overflow: visible; transform-origin: 240px 224px; transform: scale(var(--s, 1)); pointer-events: none; }
+.s-hero .park[data-park="mercedes"] .fp, .s-hero .park[data-park="vw"] .fp { --s: 0.5; }
+.s-hero .fp .foot { fill: rgba(50, 50, 119, 0.05); stroke: var(--navy); stroke-width: 1.5; stroke-dasharray: 7 5; vector-effect: non-scaling-stroke; }
+.s-hero .fp .body { fill: none; stroke: var(--navy); stroke-opacity: 0.45; stroke-width: 1; stroke-dasharray: 2 4; vector-effect: non-scaling-stroke; }
+.s-hero .fp text { fill: var(--navy); font: 600 13px var(--font-label); letter-spacing: 0.14em; }
+.s-hero .park[data-park="mercedes"] .fp text, .s-hero .park[data-park="vw"] .fp text { font-size: 24px; }
+
+/* The road (mock: drawn by the script from the Volvo's spot). */
+.s-hero .road { height: auto; bottom: auto; }
+.next-stub { height: 200px; background: var(--stock); }
+
+/* ---------- Narrow screens: the booklet stands upright, text page over picture page ---------- */
+@media (max-width: 899px) {
+  .s-hero { --hero-h: auto; height: auto; padding: 16px 0 280px; }
+  .s-hero .booklet { position: relative; top: auto; left: auto; right: auto; height: auto; margin: 0 12px; padding: 10px 9px 12px; }
+  .s-hero .sheet--2 { inset: 10px 6px 7px; }
+  .s-hero .sheet--1 { inset: 10px 7.5px 9px; }
+  .s-hero .spread { position: relative; inset: auto; }
+  .s-hero .gutter, .s-hero .dip { display: none; }
+  .s-hero .pg { position: relative; width: auto; left: auto; }
+  .s-hero .pg--r { border-top: 1px solid var(--rule-strong); }
+  .s-hero .pg--l > .slide { padding: 60px 22px 26px; }
+  .s-hero .h-hero { font-size: 2.0625rem; line-height: 1.08; }
+  .s-hero .h-hero .big { font-size: 3.5rem; }
+  .s-hero .h-hero .rest { font-size: 1.75rem; }
+  .s-hero .lead { margin-top: 16px; font-size: 1.0625rem; line-height: 1.5; }
+  .s-hero .copy .stamps { margin-top: 26px; gap: 12px; }
+  .s-hero .copy .stamp-btn { padding: 0 14px; }
+  .s-hero .foot { margin-top: 26px; }
+  .s-hero .corner { height: 48px; }
+  .s-hero .corner--next { top: auto; bottom: 0; }
+  .s-hero .corner--next .corner__ear { top: auto; bottom: 0; transform-origin: 100% 100%; }
+  .s-hero .corner--next .corner__ear { transform-origin: 50% 50%; transform: scaleY(-1); }
+  .s-hero .corner--next:hover .corner__ear { transform: scaleY(-1); }
+  .s-hero .pg--r > .slide { display: flex; flex-direction: column; justify-content: center; padding: 26px 20px 52px; }
+  .s-hero .s1-photo img { aspect-ratio: 1 / 1; object-position: 60% 50%; }
+  .s-hero .coupon { height: auto; max-height: none; }
+  .s-hero .coupon__in { padding: 14px 14px 16px; }
+  .s-hero .coupon__head { flex-direction: column; gap: 6px; }
+  .s-hero .coupon__body { grid-template-columns: 120px 1fr; gap: 12px; padding: 10px 0; }
+  .s-hero .coupon__wheel { max-width: 140px; margin: 0 0 0 -10px; }
+  .s-hero .scope li { font-size: 0.9375rem; padding: 5px 0; }
+  .s-hero .coupon__foot { flex-direction: column; align-items: flex-start; }
+  .s-hero .coupon__terms { text-align: left; }
+  .s-hero .pg--r > .s3 { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); column-gap: 20px; row-gap: 28px; padding-top: 30px; }
+  .s-hero .s3-print img { max-height: 280px; }
+  .s-hero .s3 .seal { width: 112px; height: 112px; left: 50%; top: 64px; }
+  .s-hero .ledger { grid-column: 1 / -1; }
+  .s-hero .ledger dt { font-size: 0.8125rem; }
+  .s-hero .ledger dd { font-size: 0.875rem; }
+  .s-hero .marks { top: auto; left: 32px; margin-top: 0; position: absolute; }
+  .s-hero .ribbon { width: 28px; }
+  .s-hero .ribbon[aria-current="true"] { --len: 100px; }
+  .s-hero .park[data-park="volvo"] { left: 40%; top: calc(100% - 60px); }
+  .s-hero .park[data-park="mercedes"] { left: 77%; top: calc(100% - 140px); }
+  .s-hero .park[data-park="vw"] { left: 84%; top: calc(100% - 48px); }
+  .s-hero .fp { --s: 0.45; }
+  .s-hero .park[data-park="mercedes"] .fp, .s-hero .park[data-park="vw"] .fp { --s: 0.225; }
+  .s-hero .slide.is-in { animation: hero-in 420ms var(--ease-out); }
+}
+@keyframes hero-in { from { opacity: 0; transform: translateX(14px); } to { opacity: 1; transform: none; } }
+</style>
+</head>
+<body>
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="ink" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="wobble"/>
+      <feDisplacementMap in="SourceGraphic" in2="wobble" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.7" numOctaves="2" seed="3" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.7 0 0 0 1.62" result="coverage"/>
+      <feComposite in="edge" in2="coverage" operator="in"/>
+    </filter>
+    <symbol id="seal" viewBox="0 0 200 200">
+      <path id="seal-arc" d="M100,100 m-70,0 a70,70 0 1,1 140,0 a70,70 0 1,1 -140,0" fill="none"/>
+      <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="5"/>
+      <circle cx="100" cy="100" r="85" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="100" cy="100" r="52" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text font-family="Archivo Narrow, sans-serif" font-weight="600" font-size="19" letter-spacing="3.2" fill="currentColor"><textPath href="#seal-arc" startOffset="0">VOLAN OTOMOTİV · ANKARA · VOLAN OTOMOTİV · ANKARA ·</textPath></text>
+      <text x="100" y="112" text-anchor="middle" font-family="Besley, serif" font-weight="600" font-size="34" fill="currentColor">1954</text>
+    </symbol>
+    <symbol id="tick" viewBox="0 0 32 32"><path d="M5 17.5l7.5 7.5L27.5 6" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <pattern id="road-net" width="64" height="8" patternUnits="userSpaceOnUse"><path d="M0,4 C10.7,-1.3 21.3,-1.3 32,4 S53.3,9.3 64,4 M0,4 C10.7,9.3 21.3,9.3 32,4 S53.3,-1.3 64,4" fill="none" stroke="#323277" stroke-opacity="0.16" stroke-width="0.7"/></pattern>
+  </defs>
+</svg>
+
+<!-- menu -->
+<a class="skip-link" href="#icerik">İçeriğe geç</a>
+<div class="menu is-ready" data-menu data-top="navy">
+  <div class="menu__bar">
+    <a class="menu__logo" href="index.html"><img src="/gc-volan-1/brand/logo-oval.svg" width="677" height="292" alt="Volan Otomotiv ana sayfa"></a>
+    <button class="menu__toggle" type="button" aria-expanded="false" aria-controls="menu-nav"><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M0 1h14M0 5h14M0 9h9"/></svg><span class="menu__toggle-label">Menü</span></button>
+    <nav class="menu__nav" id="menu-nav" aria-label="Ana menü">
+      <p class="menu__title" aria-hidden="true">İçindekiler</p>
+      <ul class="menu__list">
+        <li class="menu__item"><a class="menu__tab" href="index.html" aria-current="page">Ana Sayfa</a></li>
+        <li class="menu__item menu__item--group">
+          <button class="menu__tab" type="button" aria-expanded="false" aria-controls="menu-hakkimizda">Hakkımızda<svg class="menu__chev" viewBox="0 0 10 7" aria-hidden="true"><path d="M1 1.2l4 4 4-4"/></svg></button>
+          <ul class="menu__sub" id="menu-hakkimizda">
+            <li><a class="menu__row" href="hakkimizda.html"><span class="menu__label">Hakkımızda</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark"><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M1 5h11.5M8.5 1l4 4-4 4"/></svg></span></a></li>
+            <li><a class="menu__row" href="miras.html"><span class="menu__label">Miras</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark"><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M1 5h11.5M8.5 1l4 4-4 4"/></svg></span></a></li>
+          </ul>
+        </li>
+        <li class="menu__item"><a class="menu__tab" href="hizmetlerimiz.html">Hizmetlerimiz</a></li>
+        <li class="menu__item"><a class="menu__tab" href="yakinda.html?s=haberler">Haberler<span class="menu__soon"> yakında</span></a></li>
+        <li class="menu__item"><a class="menu__tab" href="tesisimiz.html">Tesisimiz</a></li>
+        <li class="menu__item menu__item--group menu__item--end">
+          <button class="menu__tab" type="button" aria-expanded="false" aria-controls="menu-iletisim">İletişim<svg class="menu__chev" viewBox="0 0 10 7" aria-hidden="true"><path d="M1 1.2l4 4 4-4"/></svg></button>
+          <ul class="menu__sub" id="menu-iletisim">
+            <li><a class="menu__row" href="#iletisim"><span class="menu__label">İletişim Bilgileri</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark" title="Bu sayfada"><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M7 .5v8.5M3.5 5.5L7 9l3.5-3.5"/></svg></span></a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <div class="menu__actions" role="group" aria-label="Hızlı iletişim">
+      <a class="menu__action" href="https://wa.me/905337653378" aria-label="WhatsApp: 0533 765 33 78"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.380 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg><span class="menu__action-label">WhatsApp</span></a>
+      <a class="menu__action" href="https://www.google.com/maps/search/?api=1&amp;query=Volan%20Otomotiv%20Bah%C3%A7ekap%C4%B1%20Mah.%202547.%20Sokak%20No%3A3%20Etimesgut%20Ankara" aria-label="Yol tarifi (Google Haritalar)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg><span class="menu__action-label">Yol tarifi</span></a>
+      <a class="menu__action" href="tel:+905337653378" aria-label="Ara: 0533 765 33 78"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.840 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span class="menu__action-label">Ara</span></a>
+    </div>
+  </div>
+</div>
+<!-- /menu -->
+
+<header class="banner s-hero" id="icerik" aria-labelledby="hero-title" aria-roledescription="carousel" aria-label="Volan Otomotiv servis kitapçığı">
+  <!-- Road (mock): drawn by the script from the Volvo's spot down to the left lane. -->
+  <svg class="road" aria-hidden="true"><path class="road__edge"/><path class="road__bed"/><path class="road__net"/><path class="road__line"/></svg>
+
+  <div class="booklet" data-booklet>
+    <span class="sheet sheet--2" aria-hidden="true"></span>
+    <span class="sheet sheet--1" aria-hidden="true"></span>
+    <div class="spread" data-spread>
+      <svg class="gutter" aria-hidden="true" viewBox="0 0 48 100" preserveAspectRatio="none">
+        <path d="M24 0V100" stroke-opacity="0.34"/>
+        <path d="M20.5 0V100M27.5 0V100" stroke-opacity="0.12"/>
+        <path d="M15 0V100M33 0V100" stroke-opacity="0.07"/>
+        <path d="M7 0V100M41 0V100" stroke-opacity="0.04"/>
+      </svg>
+
+      <!-- Left page: the words of each spread. -->
+      <div class="pg pg--l" data-page="l">
+        <div class="slide is-on" data-slide="0" role="group" aria-roledescription="slayt" aria-label="1 / 3">
+          <div class="copy">
+            <h1 class="h-hero" id="hero-title">Aracınız bizim sorumluluğumuzda</h1>
+            <p class="lead">Garanti süreniz bittiği için servis kalitenizi düşürmek zorunda değilsiniz.</p>
+            <div class="stamps stamps--ink" role="group" aria-label="İletişim">
+              <a class="stamp-btn stamp-btn--primary" href="https://wa.me/905337653378?text=Merhaba%2C%20arac%C4%B1m%20i%C3%A7in%20randevu%20almak%20istiyorum." aria-label="Randevu al (WhatsApp mesajı)">Randevu al</a>
+              <a class="stamp-btn" href="tel:+905337653378">Ara</a>
+              <a class="stamp-btn" href="https://wa.me/905337653378">WhatsApp</a>
+            </div>
+          </div>
+          <p class="foot">0533 765 33 78 · Pzt–Cmt 08.30–18.00</p>
+        </div>
+
+        <div class="slide" data-slide="1" role="group" aria-roledescription="slayt" aria-label="2 / 3">
+          <div class="copy">
+            <h2 class="h-hero"><span class="big">Ücretsiz</span><span class="rest">yol öncesi kontrol</span></h2>
+            <p class="lead">Uzun yoldan önce lastik, fren ve sıvıları tek randevuda kontrol ediyoruz.</p>
+            <div class="stamps stamps--ink">
+              <a class="stamp-btn stamp-btn--primary" href="https://wa.me/905337653378?text=Merhaba%2C%20%C3%BCcretsiz%20yol%20%C3%B6ncesi%20kontrol%20i%C3%A7in%20randevu%20almak%20istiyorum." aria-label="Randevu al (WhatsApp mesajı)">Randevu al</a>
+              <a class="stamp-btn" href="tel:+905337653378">Ara</a>
+            </div>
+          </div>
+          <p class="foot">örnek kampanya · şartlar ve tarih örnektir</p>
+        </div>
+
+        <div class="slide" data-slide="2" role="group" aria-roledescription="slayt" aria-label="3 / 3">
+          <div class="copy">
+            <h2 class="h-hero"><span class="big">1954’ten</span><span class="rest">beri aynı özenle</span></h2>
+            <p class="lead">Uzun yıllar Volvo yetkili servisiydik. Bugün Volan Otomotiv adıyla Volvo, Mercedes-Benz ve Volkswagen’e bakıyoruz.</p>
+            <div class="stamps stamps--ink">
+              <a class="stamp-btn stamp-btn--primary" href="https://wa.me/905337653378?text=Merhaba%2C%20arac%C4%B1m%20i%C3%A7in%20randevu%20almak%20istiyorum." aria-label="Randevu al (WhatsApp mesajı)">Randevu al</a>
+              <a class="stamp-btn" href="/gc-volan-1/miras.html">Hikâyemiz</a>
+            </div>
+          </div>
+          <p class="foot">Etimesgut, Ankara · 1.800 m² · 5 lift</p>
+        </div>
+      </div>
+
+      <!-- Right page: the picture of each spread. -->
+      <div class="pg pg--r" data-page="r">
+        <div class="slide is-on" data-slide="0">
+          <figure class="plate s1-photo">
+            <img src="/gc-volan-1/assets/img/hakkimizda-xc90-lift.webp" width="1500" height="1000" alt="İki usta liftteki lacivert bir Volvo XC90'ın altında çalışıyor.">
+            <span class="mount mount--tl" aria-hidden="true"></span><span class="mount mount--tr" aria-hidden="true"></span>
+            <span class="mount mount--bl" aria-hidden="true"></span><span class="mount mount--br" aria-hidden="true"></span>
+          </figure>
+        </div>
+
+        <div class="slide" data-slide="1">
+          <div class="coupon">
+            <svg class="coupon__scissors" viewBox="0 0 30 20" aria-hidden="true"><circle cx="5.5" cy="5" r="3.6"/><circle cx="5.5" cy="15" r="3.6"/><path d="M8.6 6.9L28 15.2M8.6 13.1L28 4.8"/></svg>
+            <div class="coupon__in">
+              <div class="coupon__head"><span class="label">Kupon · yol öncesi kontrol</span><span class="typed">No. 0001 · örnek</span></div>
+              <div class="coupon__body">
+                <img class="coupon__wheel" src="/gc-volan-1/assets/img/anasayfa/kampanya-jant-volvo.webp" width="1200" height="1200" alt="">
+                <ul class="scope">
+                  <li class="label" aria-hidden="true" style="border:0;padding:0;font:600 0.75rem/1.2 var(--font-label);color:var(--navy)">Kapsam</li>
+                  <li class="is-stamped"><span class="tickbox"><svg class="tick"><use href="#tick"/></svg></span>Lastik</li>
+                  <li class="is-stamped"><span class="tickbox"><svg class="tick"><use href="#tick"/></svg></span>Fren</li>
+                  <li class="is-stamped"><span class="tickbox"><svg class="tick"><use href="#tick"/></svg></span>Motor yağı</li>
+                  <li class="is-stamped"><span class="tickbox"><svg class="tick"><use href="#tick"/></svg></span>Aydınlatma</li>
+                </ul>
+              </div>
+              <div class="coupon__foot">
+                <p class="lastday"><span class="label">Son gün</span><b>15.01.2027</b></p>
+                <p class="coupon__terms">Randevu ile. Parça ve işçilik ayrıca; onayınız olmadan işlem yapılmaz.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide s3" data-slide="2">
+          <figure class="plate s3-print">
+            <img src="/general-assets/gorseller/arsiv-restore/arsiv-13-volvo-servis-liftte-arac-restore-1600.webp" width="1071" height="1600" alt="Eski bir fotoğraf: Volvo servisinde liftin önünde gri bir Volvo sedan, arkada mavi tulumlu ustalar.">
+          </figure>
+          <svg class="seal" aria-hidden="true"><use href="#seal"/></svg>
+          <dl class="ledger">
+            <div><dt>Kuruluş</dt><span class="lead-dots"></span><dd>1954</dd></div>
+            <div><dt>Volan Otomotiv</dt><span class="lead-dots"></span><dd>2017</dd></div>
+            <div><dt>Çalışan</dt><span class="lead-dots"></span><dd>25</dd></div>
+            <div><dt>Markalar</dt><span class="lead-dots"></span><dd>3</dd></div>
+          </dl>
+        </div>
+      </div>
+
+      <button class="corner corner--prev" type="button" aria-label="Önceki sayfa" data-prev>
+        <svg class="corner__ear" viewBox="0 0 30 30" aria-hidden="true"><path class="under" d="M0 0H30V30Z"/><path class="fold" d="M0.5 0.5V29.5H29.5Z"/></svg>
+        <span class="corner__num" data-num-l>2</span>
+        <svg class="corner__arrow" viewBox="0 0 14 10" aria-hidden="true"><path d="M13 5H1.5M5.5 1l-4 4 4 4"/></svg>
+      </button>
+      <button class="corner corner--next" type="button" aria-label="Sonraki sayfa" data-next>
+        <svg class="corner__ear" viewBox="0 0 30 30" aria-hidden="true"><path class="under" d="M0 0H30V30Z"/><path class="fold" d="M0.5 0.5V29.5H29.5Z"/></svg>
+        <span class="corner__num" data-num-r>3</span>
+        <svg class="corner__arrow" viewBox="0 0 14 10" aria-hidden="true"><path d="M1 5h11.5M8.5 1l4 4-4 4"/></svg>
+      </button>
+    </div>
+    <svg class="dip dip--t" viewBox="0 0 300 9" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0C70 0 118 1 136 4.5C143 7 147 9 150 9C153 9 157 7 164 4.5C182 1 230 0 300 0Z"/></svg>
+    <svg class="dip dip--b" viewBox="0 0 300 9" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0C70 0 118 1 136 4.5C143 7 147 9 150 9C153 9 157 7 164 4.5C182 1 230 0 300 0Z"/></svg>
+  </div>
+
+  <div class="marks" role="group" aria-label="Sayfalar">
+    <button class="ribbon" type="button" data-go="0" aria-current="true"><span class="ribbon__label">Sözümüz</span><span class="ribbon__run" aria-hidden="true"></span></button>
+    <button class="ribbon" type="button" data-go="1" aria-current="false"><span class="ribbon__label">Kampanya</span><span class="ribbon__run" aria-hidden="true"></span></button>
+    <button class="ribbon" type="button" data-go="2" aria-current="false"><span class="ribbon__label">1954</span><span class="ribbon__run" aria-hidden="true"></span></button>
+    <button class="play" type="button" aria-pressed="false" data-play>
+      <svg class="i-pause" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.5 1.5v9M8.5 1.5v9"/></svg>
+      <svg class="i-play" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 1.5l8 4.5-8 4.5z"/></svg>
+      <span data-play-label>Durdur</span>
+    </button>
+  </div>
+
+  <!-- Where the cars stand. Mock: dashed footprint + dotted body extent. -->
+  <span class="park" data-park="volvo"><svg class="fp" viewBox="-240 -224 480 312" aria-hidden="true"><path class="body" d="M-236 -18V-206H236V-18"/><path class="foot" d="M-131 79L-235 21L131 -79L235 -21Z"/><text x="-60" y="62">VOLVO XC60</text></svg></span>
+  <span class="park" data-park="mercedes"><svg class="fp" viewBox="-240 -224 480 312" aria-hidden="true"><path class="body" d="M-236 -18V-206H236V-18"/><path class="foot" d="M-131 79L-235 21L131 -79L235 -21Z"/><text x="-90" y="70">MERCEDES</text></svg></span>
+  <span class="park" data-park="vw"><svg class="fp" viewBox="-240 -224 480 312" aria-hidden="true"><path class="body" d="M-236 -18V-206H236V-18"/><path class="foot" d="M-131 79L-235 21L131 -79L235 -21Z"/><text x="-30" y="70">VW</text></svg></span>
+</header>
+<div class="next-stub" aria-hidden="true"></div>
+
+<script>
+(() => {
+  const hero = document.querySelector('.s-hero');
+  if (!hero) return;
+  const spread = hero.querySelector('[data-spread]');
+  const L = [...hero.querySelectorAll('.pg--l > .slide')];
+  const R = [...hero.querySelectorAll('.pg--r > .slide')];
+  const ribbons = [...hero.querySelectorAll('.ribbon')];
+  const playBtn = hero.querySelector('[data-play]');
+  const playLabel = hero.querySelector('[data-play-label]');
+  const n = L.length, DUR = 6500, TURN = 1100;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const wide = matchMedia('(min-width: 900px)');
+  const fixed = new URLSearchParams(location.search).get('slide');
+  let cur = 0, busy = false, userPaused = reduce.matches, hover = false, focus = false, elapsed = 0, last = 0;
+
+  const setOn = (list, i) => list.forEach((el, k) => el.classList.toggle('is-on', k === i));
+  const clone = (el) => {
+    const c = el.cloneNode(true);
+    c.classList.add('is-on'); c.classList.remove('is-in');
+    c.removeAttribute('role'); c.removeAttribute('aria-label'); c.removeAttribute('aria-roledescription');
+    c.querySelectorAll('[id]').forEach((x) => x.removeAttribute('id'));
+    c.setAttribute('aria-hidden', 'true'); c.inert = true;
+    return c;
+  };
+  const face = (side, content, back) => {
+    const f = document.createElement('div');
+    f.className = `pg pg--${side} leaf__face${back ? ' leaf__face--back' : ''}`;
+    f.append(clone(content));
+    const t = document.createElement('span'); t.className = 'leaf__tint'; f.append(t);
+    return f;
+  };
+  function marks(i) {
+    ribbons.forEach((r, k) => r.setAttribute('aria-current', k === i ? 'true' : 'false'));
+    hero.querySelector('[data-num-l]').textContent = 2 * i + 2;
+    hero.querySelector('[data-num-r]').textContent = 2 * i + 3;
+    elapsed = 0; progress();
+  }
+  function go(next, dir) {
+    if (busy || next === cur) return;
+    next = (next + n) % n;
+    dir = dir || (next > cur ? 1 : -1);
+    marks(next);
+    if (!wide.matches || reduce.matches) {
+      setOn(L, next); setOn(R, next);
+      if (!reduce.matches) [L[next], R[next]].forEach((el) => { el.classList.remove('is-in'); void el.offsetWidth; el.classList.add('is-in'); });
+      cur = next; return;
+    }
+    busy = true;
+    const fwd = dir > 0;
+    const leaf = document.createElement('div');
+    leaf.className = `leaf leaf--${fwd ? 'fwd' : 'back'}`;
+    const front = face(fwd ? 'r' : 'l', fwd ? R[cur] : L[cur], false);
+    const back = face(fwd ? 'l' : 'r', fwd ? L[next] : R[next], true);
+    leaf.append(front, back);
+    // What lies under the turning leaf is already the next spread's page.
+    if (fwd) setOn(R, next); else setOn(L, next);
+    spread.append(leaf);
+    const ease = 'cubic-bezier(0.55, 0.06, 0.22, 1)';
+    const a = leaf.animate([
+      { transform: 'perspective(2600px) rotateY(0deg)' },
+      { transform: `perspective(2600px) rotateY(${fwd ? -180 : 180}deg)` },
+    ], { duration: TURN, easing: ease });
+    front.lastChild.animate([{ opacity: 0 }, { opacity: 0.07 }], { duration: TURN / 2, easing: 'ease-in', fill: 'forwards' });
+    back.lastChild.animate([{ opacity: 0.07 }, { opacity: 0 }], { duration: TURN / 2, delay: TURN / 2, easing: 'ease-out', fill: 'both' });
+    a.finished.then(() => { setOn(L, next); setOn(R, next); leaf.remove(); cur = next; busy = false; });
+  }
+  function progress() {
+    const run = ribbons[cur] && hero.querySelector('.ribbon[aria-current="true"] .ribbon__run');
+    ribbons.forEach((r) => { r.querySelector('.ribbon__run').style.transform = 'scaleY(0)'; });
+    if (run) run.style.transform = `scaleY(${Math.min(1, elapsed / DUR)})`;
+  }
+  function tick(t) {
+    const dt = last ? t - last : 0; last = t;
+    const stopped = userPaused || hover || focus || busy || document.hidden || fixed;
+    if (!stopped) {
+      elapsed += dt;
+      if (elapsed >= DUR) go(cur + 1, 1); else progress();
+    }
+    requestAnimationFrame(tick);
+  }
+  function setPaused(p) {
+    userPaused = p;
+    playBtn.setAttribute('aria-pressed', String(p));
+    playLabel.textContent = p ? 'Oynat' : 'Durdur';
+  }
+
+  ribbons.forEach((r) => r.addEventListener('click', () => go(+r.dataset.go)));
+  hero.querySelector('[data-prev]').addEventListener('click', () => go(cur - 1, -1));
+  hero.querySelector('[data-next]').addEventListener('click', () => go(cur + 1, 1));
+  playBtn.addEventListener('click', () => setPaused(!userPaused));
+  const book = hero.querySelector('[data-booklet]');
+  [book, hero.querySelector('.marks')].forEach((el) => {
+    el.addEventListener('pointerenter', () => { hover = true; });
+    el.addEventListener('pointerleave', () => { hover = false; });
+  });
+  hero.addEventListener('focusin', (e) => { focus = !e.target.matches('[data-play]'); });
+  hero.addEventListener('focusout', () => { focus = false; });
+
+  if (fixed) { const i = Math.max(0, Math.min(n - 1, +fixed - 1)); setOn(L, i); setOn(R, i); cur = i; marks(i); setPaused(false); }
+  else setPaused(reduce.matches);
+  requestAnimationFrame(tick);
+
+  // Mock: the road from the Volvo's spot down to the left lane, as the stage script draws it.
+  const road = hero.querySelector('.road');
+  function drawRoad() {
+    const W = hero.clientWidth, H = hero.offsetHeight, narrow = W < 900;
+    const g = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--gutter')) || Math.min(96, Math.max(20, W * 0.066));
+    const innerLeft = (W - Math.min(1248, W - 2 * g)) / 2;
+    const lane = narrow ? 36 : Math.max(26, innerLeft * 0.8);
+    const drop = narrow ? 24 : 36, r = narrow ? 72 : Math.min(150, W * 0.1);
+    const p = hero.querySelector('[data-park="volvo"]');
+    const x0 = p.offsetLeft, y0 = p.offsetTop;
+    const x1 = x0 - W * (narrow ? 0.2 : 0.1), y1 = H - drop, y2 = H + drop;
+    const d = `M${x0},${y0} C${x0},${y1} ${x1 + 60},${y1} ${x1},${y1} L${lane + r},${y1} Q${lane},${y1} ${lane},${y1 + r} L${lane},${H + 200}`;
+    road.setAttribute('viewBox', `0 0 ${W} ${H + 200}`);
+    road.style.height = `${H + 200}px`;
+    road.style.setProperty('--road-width', `${narrow ? 54 : 150}px`);
+    road.querySelectorAll('path').forEach((el) => el.setAttribute('d', d));
+  }
+  drawRoad();
+  addEventListener('resize', drawRoad);
+  document.fonts?.ready.then(drawRoad);
+})();
+</script>
+</body>
+</html>

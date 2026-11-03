@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mock · Tesis · v1 Kat sekmeleri</title>
+<link rel="stylesheet" href="../_kit/kit.css">
+<style>
+  .sec { overflow: clip; }
+  @media (max-width: 899px) { .sec { --road-width: 56px; } }
+
+  /* Text side (left, away from the road) */
+  .intro { grid-column: 1 / span 4; align-self: center; padding-bottom: 40px; }
+  .intro h2 { color: var(--navy); font: 600 2.5rem/48px var(--font-title); letter-spacing: -0.01em; }
+  .intro p { margin-top: 24px; max-width: 34ch; }
+
+  /* The facility card: a typed record, not a stat row */
+  .card { margin-top: 48px; border: 4px double var(--navy); background: var(--stock); padding: 22px 24px 26px; max-width: 360px; }
+  .card__title { color: var(--navy); font: 600 0.75rem/1.2 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; padding-bottom: 12px; border-bottom: 1.5px solid var(--rule-strong); }
+  .card dl { margin: 0; }
+  .card__row { display: grid; grid-template-columns: auto 1fr auto; align-items: baseline; gap: 8px; padding: 12px 0 10px; border-bottom: 1px solid rgba(110, 120, 160, 0.22); }
+  .card dt { color: var(--navy); font: 600 0.75rem/1 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; }
+  .card__row::after { content: none; }
+  .card__dots { align-self: end; margin-bottom: 5px; border-bottom: 1.5px dotted var(--rule-strong); }
+  .card dd { margin: 0; font: 400 1.25rem/1 var(--font-typed); font-variant-numeric: tabular-nums; color: var(--ink); }
+  .card__note { margin-top: 14px; color: var(--ink-soft); font: 400 0.8125rem/1.45 var(--font-typed); }
+
+  /* The fold-out: a page with thumb-index tabs along its top edge */
+  .fold { grid-column: 5 / span 7; position: relative; }
+  .tabs { display: flex; gap: 6px; padding-left: 28px; position: relative; z-index: 1; }
+  .tab { appearance: none; display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 18px 0 14px; border: 1.5px solid var(--rule-strong); border-bottom: 0; background: var(--stock-deep); color: var(--navy); font: 600 0.8125rem/1 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; transform: translateY(6px); transition: transform 200ms var(--ease-out), background-color 200ms var(--ease-out); }
+  .tab:hover { transform: translateY(2px); }
+  .tab[aria-selected="true"] { background: var(--paper); transform: translateY(1.5px); border-color: var(--navy); border-width: 1.5px; }
+  .tab svg { width: 20px; height: 18px; flex: none; }
+  .tab svg rect { fill: none; stroke: currentColor; stroke-width: 1.5; }
+  .tab svg rect.on { fill: currentColor; }
+  .page { position: relative; background: var(--paper); border: 1.5px solid var(--navy); padding: 28px 28px 32px; box-shadow: 0 1px 1px rgba(43, 42, 41, 0.1), 0 10px 22px -10px rgba(43, 42, 41, 0.38); transform: rotate(0.6deg); }
+  .page__head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding-bottom: 14px; border-bottom: 2px solid var(--rule-strong); }
+  .page__head h3 { margin: 0; color: var(--navy); font: 600 1.5rem/1.2 var(--font-title); }
+  .page__head span { color: var(--ink-soft); font: 400 0.875rem/1.3 var(--font-typed); }
+
+  .shot { position: relative; margin-top: 20px; aspect-ratio: 1.6; overflow: hidden; background: #c9c9c9; }
+  .shot img { position: absolute; max-width: none; width: calc(1600 / var(--cw) * 100%); left: calc(var(--cx) / var(--cw) * -100%); top: calc(var(--cy) / var(--ch) * -100%); }
+  .floors { display: grid; }
+  .floor { grid-area: 1 / 1; visibility: hidden; }
+  .floor.is-on { visibility: visible; }
+  .page.is-turning .shot img { animation: develop 520ms var(--ease-out); }
+  @keyframes develop { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+
+  .pin { position: absolute; left: var(--x); top: var(--y); transform: translate(-50%, -50%); display: grid; place-items: center; width: 30px; height: 30px; background: var(--navy); color: var(--stock); border: 2px solid var(--paper); outline: 1.5px solid var(--navy); font: 700 0.9375rem/1 var(--font-typed); transition: transform 160ms var(--ease-out), background-color 160ms var(--ease-out); }
+  .pin.is-hot { background: var(--stamp-ink); transform: translate(-50%, -50%) scale(1.18); }
+
+  .legend { list-style: none; margin: 24px 0 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0 32px; }
+  .legend li { display: grid; grid-template-columns: 30px 1fr; gap: 12px; padding: 12px 0 14px; border-top: 1px solid rgba(110, 120, 160, 0.3); cursor: default; }
+  .legend b { display: grid; place-items: center; width: 26px; height: 26px; border: 1.5px solid var(--navy); color: var(--navy); font: 700 0.875rem/1 var(--font-typed); }
+  .legend li.is-hot b { background: var(--navy); color: var(--stock); }
+  .legend strong { display: block; color: var(--navy); font: 600 1.0625rem/1.3 var(--font-title); }
+  .legend span { display: block; color: var(--ink-soft); font: 400 0.9375rem/1.45 var(--font-text); }
+
+  .seal { width: 128px; height: 128px; right: -40px; bottom: -54px; transform: rotate(-14deg); opacity: 0.85; }
+
+  @media (max-width: 899px) {
+    .inner { padding-right: 52px; }
+    .intro { grid-column: 1; padding-top: 0; }
+    .intro h2 { font-size: 1.75rem; line-height: 32px; }
+    .fold { grid-column: 1; margin-right: -8px; }
+    .tabs { padding-left: 8px; gap: 4px; }
+    .tab { padding: 0 10px; font-size: 0.75rem; letter-spacing: 0.1em; gap: 6px; }
+    .tab svg { display: none; }
+    .page { padding: 18px 14px 22px; transform: none; }
+    .page__head { flex-direction: column; gap: 2px; }
+    .legend { grid-template-columns: 1fr; }
+    .seal { width: 96px; height: 96px; right: -14px; bottom: -40px; }
+  }
+</style>
+</head>
+<body>
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="ink" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="wobble"/>
+      <feDisplacementMap in="SourceGraphic" in2="wobble" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.7" numOctaves="2" seed="3" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.7 0 0 0 1.62" result="coverage"/>
+      <feComposite in="edge" in2="coverage" operator="in"/>
+    </filter>
+    <symbol id="seal" viewBox="0 0 200 200">
+      <path id="seal-arc" d="M100,100 m-70,0 a70,70 0 1,1 140,0 a70,70 0 1,1 -140,0" fill="none"/>
+      <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="5"/>
+      <circle cx="100" cy="100" r="85" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="100" cy="100" r="52" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text font-family="Archivo Narrow, sans-serif" font-weight="600" font-size="19" letter-spacing="3.2" fill="currentColor"><textPath href="#seal-arc" startOffset="0">VOLAN OTOMOTİV · ANKARA · VOLAN OTOMOTİV · ANKARA ·</textPath></text>
+      <text x="100" y="112" text-anchor="middle" font-family="Besley, serif" font-weight="600" font-size="34" fill="currentColor">1954</text>
+    </symbol>
+    <symbol id="tick" viewBox="0 0 32 32"><path d="M5 17.5l7.5 7.5L27.5 6" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <pattern id="road-net" width="64" height="8" patternUnits="userSpaceOnUse"><path d="M0,4 C10.7,-1.3 21.3,-1.3 32,4 S53.3,9.3 64,4 M0,4 C10.7,9.3 21.3,9.3 32,4 S53.3,-1.3 64,4" fill="none" stroke="#323277" stroke-opacity="0.16" stroke-width="0.7"/></pattern>
+  </defs>
+</svg>
+
+<section class="sec" data-road="right-cross" style="position:relative; padding:128px 0 160px;" aria-labelledby="tesis-h">
+  <svg class="road" aria-hidden="true" preserveAspectRatio="none">
+    <path class="road__edge"/><path class="road__bed"/><path class="road__net"/><path class="road__line"/>
+  </svg>
+  <div class="inner">
+    <div class="intro">
+      <h2 id="tesis-h">Üç katta bir servis</h2>
+      <p>Mekanik atölyeler ana katta, kaporta ve boya alt katta, bekleme salonu üst katta. Bir kat seçin, bölümleri görün.</p>
+      <div class="card">
+        <div class="card__title">Tesis kartı</div>
+        <dl>
+          <div class="card__row"><dt>Kapalı alan</dt><span class="card__dots"></span><dd>1.800 m²</dd></div>
+          <div class="card__row"><dt>Lift</dt><span class="card__dots"></span><dd>5</dd></div>
+          <div class="card__row"><dt>Çalışan</dt><span class="card__dots"></span><dd>25</dd></div>
+          <div class="card__row"><dt>Yer</dt><span class="card__dots"></span><dd style="font-size:0.9375rem">Şaşmaz, Etimesgut</dd></div>
+        </dl>
+        <p class="card__note">Çizimler fotoğraflardan kurulan yaklaşık modelden alındı; ölçüler tahminidir.</p>
+      </div>
+    </div>
+
+    <div class="fold">
+      <div class="tabs" role="tablist" aria-label="Katlar">
+        <button class="tab" role="tab" id="t-ust" aria-controls="f-ust" aria-selected="false" tabindex="-1">
+          <svg viewBox="0 0 20 18" aria-hidden="true"><rect class="on" x="1" y="1" width="18" height="4"/><rect x="1" y="7" width="18" height="4"/><rect x="1" y="13" width="18" height="4"/></svg>Üst kat</button>
+        <button class="tab" role="tab" id="t-ana" aria-controls="f-ana" aria-selected="true">
+          <svg viewBox="0 0 20 18" aria-hidden="true"><rect x="1" y="1" width="18" height="4"/><rect class="on" x="1" y="7" width="18" height="4"/><rect x="1" y="13" width="18" height="4"/></svg>Ana kat</button>
+        <button class="tab" role="tab" id="t-alt" aria-controls="f-alt" aria-selected="false" tabindex="-1">
+          <svg viewBox="0 0 20 18" aria-hidden="true"><rect x="1" y="1" width="18" height="4"/><rect x="1" y="7" width="18" height="4"/><rect class="on" x="1" y="13" width="18" height="4"/></svg>Alt kat</button>
+      </div>
+      <div class="page"><div class="floors">
+        <div class="floor" id="f-ust" role="tabpanel" aria-labelledby="t-ust">
+          <div class="page__head"><h3>Üst kat · bekleme ve ofisler</h3><span>Merdivenle ana kattan</span></div>
+          <div class="shot" style="--cx:330;--cy:250;--cw:1100;--ch:688">
+            <img src="/facility-modelling/assets/renders/upper.jpg" alt="Üst katın kesit çizimi: solda iki ofis ve toplantı odası, sağda masalı bekleme salonu ve bar." loading="lazy" width="1600" height="1000">
+            <span class="pin" style="--x:24.5%;--y:16%" data-n="1">1</span>
+            <span class="pin" style="--x:39.1%;--y:39.2%" data-n="2">2</span>
+            <span class="pin" style="--x:63.6%;--y:36.3%" data-n="3">3</span>
+            <span class="pin" style="--x:71.8%;--y:56%" data-n="4">4</span>
+          </div>
+          <ol class="legend">
+            <li data-n="1"><b>1</b><div><strong>Ofisler</strong><span>Yönetim ofisleri, iki oda.</span></div></li>
+            <li data-n="2"><b>2</b><div><strong>Toplantı odası</strong><span>Sekiz kişilik masa, ekran.</span></div></li>
+            <li data-n="3"><b>3</b><div><strong>Çay-kahve barı</strong><span>Lorem ipsum dolor sit amet.</span></div></li>
+            <li data-n="4"><b>4</b><div><strong>Bekleme salonu</strong><span>Dört masa; aracınız alt katta.</span></div></li>
+          </ol>
+        </div>
+        <div class="floor is-on" id="f-ana" role="tabpanel" aria-labelledby="t-ana">
+          <div class="page__head"><h3>Ana kat · mekanik ve giriş</h3><span>Cepheden girilen kat</span></div>
+          <div class="shot" style="--cx:300;--cy:170;--cw:1120;--ch:700">
+            <img src="/facility-modelling/assets/renders/main.jpg" alt="Ana katın kesit çizimi: soldan sağa oto kuaför, Mekanik 1, giriş ve ofis, Mekanik 2 ve kaporta girişi." width="1600" height="1000">
+            <span class="pin" style="--x:14.3%;--y:22.9%" data-n="1">1</span>
+            <span class="pin" style="--x:35.7%;--y:28.6%" data-n="2">2</span>
+            <span class="pin" style="--x:47.3%;--y:38.6%" data-n="3">3</span>
+            <span class="pin" style="--x:66.9%;--y:44.3%" data-n="4">4</span>
+            <span class="pin" style="--x:85.7%;--y:84.3%" data-n="5">5</span>
+          </div>
+          <ol class="legend">
+            <li data-n="1"><b>1</b><div><strong>Oto kuaför</strong><span>Yıkama, pasta-cila, detaylı temizlik.</span></div></li>
+            <li data-n="2"><b>2</b><div><strong>Mekanik 1</strong><span>İki lift ve takım duvarı.</span></div></li>
+            <li data-n="3"><b>3</b><div><strong>Giriş ve ofis</strong><span>Karşılama ve servis danışmanı.</span></div></li>
+            <li data-n="4"><b>4</b><div><strong>Mekanik 2</strong><span>En büyük atölye, üç lift.</span></div></li>
+            <li data-n="5"><b>5</b><div><strong>Kaporta / boya girişi</strong><span>Sağdaki kapıdan rampayla alt kata.</span></div></li>
+          </ol>
+        </div>
+        <div class="floor" id="f-alt" role="tabpanel" aria-labelledby="t-alt">
+          <div class="page__head"><h3>Alt kat · kaporta ve boya</h3><span>Rampayla, sağ girişten</span></div>
+          <div class="shot" style="--cx:330;--cy:120;--cw:1150;--ch:719">
+            <img src="/facility-modelling/assets/renders/lower.jpg" alt="Alt katın kesit çizimi: solda boya fırını, ortada kaporta atölyesi, sağda kıvrımlı rampa." loading="lazy" width="1600" height="1000">
+            <span class="pin" style="--x:14.8%;--y:16.7%" data-n="1">1</span>
+            <span class="pin" style="--x:40.9%;--y:45.9%" data-n="2">2</span>
+            <span class="pin" style="--x:73.9%;--y:89%" data-n="3">3</span>
+          </div>
+          <ol class="legend">
+            <li data-n="1"><b>1</b><div><strong>Boya fırını</strong><span>Atölyenin uzak ucunda, kapalı.</span></div></li>
+            <li data-n="2"><b>2</b><div><strong>Kaporta atölyesi</strong><span>İki sıra araç, düzeltme sehpaları.</span></div></li>
+            <li data-n="3"><b>3</b><div><strong>Rampa</strong><span>Girişten sola dönerek iner.</span></div></li>
+          </ol>
+        </div>
+        </div><svg class="seal" aria-hidden="true"><use href="#seal"/></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+// Road: right lane, starting the crossing to the left at the foot of the section.
+(() => {
+  const sec = document.querySelector('[data-road]');
+  const svg = sec.querySelector('.road');
+  const paths = [...svg.querySelectorAll('path')];
+  const rounded = (pts, r) => {
+    let d = `M${pts[0].x},${pts[0].y}`;
+    for (let i = 1; i < pts.length - 1; i++) {
+      const p = pts[i - 1], c = pts[i], n = pts[i + 1];
+      const l1 = Math.hypot(c.x - p.x, c.y - p.y), l2 = Math.hypot(n.x - c.x, n.y - c.y);
+      const k = Math.min(r, l1 / 2, l2 / 2);
+      d += ` L${c.x + (p.x - c.x) * k / l1},${c.y + (p.y - c.y) * k / l1} Q${c.x},${c.y} ${c.x + (n.x - c.x) * k / l2},${c.y + (n.y - c.y) * k / l2}`;
+    }
+    const z = pts[pts.length - 1];
+    return `${d} L${z.x},${z.y}`;
+  };
+  const draw = () => {
+    const W = sec.clientWidth, H = sec.offsetHeight, narrow = W < 900;
+    const gutter = Math.min(96, Math.max(20, W * 0.066));
+    const inset = narrow ? 36 : Math.max(26, (W - Math.min(1248, W - 2 * gutter)) / 2 * 0.8);
+    const L = inset, R = W - inset, drop = narrow ? 24 : 36, rad = narrow ? 72 : Math.min(150, W * 0.1);
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const d = rounded([{ x: R, y: -10 }, { x: R, y: H - drop }, { x: L, y: H + drop }, { x: L, y: H + 400 }], rad);
+    paths.forEach((p) => p.setAttribute('d', d));
+  };
+  draw();
+  new ResizeObserver(draw).observe(sec);
+})();
+
+// Tabs: one floor at a time; the picture develops in from the left.
+(() => {
+  const tabs = [...document.querySelectorAll('.tab')];
+  const page = document.querySelector('.page');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const show = (tab) => {
+    tabs.forEach((t) => {
+      const on = t === tab;
+      t.setAttribute('aria-selected', on);
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).classList.toggle('is-on', on);
+    });
+    if (!reduce.matches) { page.classList.remove('is-turning'); void page.offsetWidth; page.classList.add('is-turning'); }
+  };
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => show(t));
+    t.addEventListener('keydown', (e) => {
+      const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!d) return;
+      const n = tabs[(i + d + tabs.length) % tabs.length];
+      n.focus(); show(n);
+    });
+  });
+  // Legend and pins light each other up.
+  document.querySelectorAll('.floor').forEach((f) => {
+    f.querySelectorAll('.legend li').forEach((li) => {
+      const pin = f.querySelector(`.pin[data-n="${li.dataset.n}"]`);
+      const on = (v) => { li.classList.toggle('is-hot', v); pin.classList.toggle('is-hot', v); };
+      li.addEventListener('mouseenter', () => on(true));
+      li.addEventListener('mouseleave', () => on(false));
+    });
+  });
+  const q = new URLSearchParams(location.search).get('kat');
+  if (q) { const t = document.getElementById(`t-${q}`); if (t) show(t); }
+})();
+</script>
+</body>
+</html>

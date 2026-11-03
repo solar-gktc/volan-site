@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><title>B · Kapak ve sahne</title><link rel="stylesheet" href="sketch.css">
+<style>
+body{height:900px}
+.cover{position:absolute;left:0;top:72px;bottom:0;width:480px;background:var(--navy);padding:56px 48px 0 56px;outline:2px solid var(--gold);outline-offset:-14px;z-index:2}
+.cover .photo{width:380px;height:250px;margin-top:36px;transform:rotate(-1.1deg)}
+.cover .btns{display:flex;gap:16px;margin-top:36px}
+.cover .cap{color:var(--stock);opacity:.8;margin-top:10px;font-size:14px}
+.stage{position:absolute;left:480px;right:0;top:72px;bottom:0}
+.stage .m{position:absolute;left:70px;top:190px;width:820px}
+.tab{position:absolute;display:flex;align-items:center;gap:10px;background:var(--paper);padding:6px 12px 6px 6px;box-shadow:var(--shadow);z-index:4}
+.tab img{width:52px;height:40px;object-fit:cover}
+.tab b{display:block;font-weight:600;font-size:16px;color:var(--navy);line-height:1.2}
+.tab i{font:normal 12px var(--typed);color:var(--soft)}
+.ctrl{position:absolute;right:40px;bottom:32px;display:flex;gap:8px;z-index:4}
+.ctrl span{border:2px solid var(--navy);padding:8px 12px;font:var(--label);letter-spacing:.14em;text-transform:uppercase;color:var(--navy);background:var(--stock)}
+.ctrl span.on{background:var(--navy);color:var(--gold-ink)}
+.pair{position:absolute;right:40px;top:120px;display:flex;gap:16px;z-index:5}
+.pair .card{position:relative;width:250px}
+.pair .card .ph{height:130px}
+</style></head><body>
+<div class="band"><span class="logo"></span>Ana Sayfa<span>Hakkımızda</span><span>Hizmetlerimiz</span><span>Haberler</span><b>Tesisimiz</b><span style="margin-left:auto">İletişim</span></div>
+<div class="cover">
+<h1>Tesisimiz</h1>
+<p class="lead" style="margin-top:20px">Dışarıdan gördüğünüz bina, içeride altı bölüm. Modeli döndürün, bir bölüme dokunun.</p>
+<div class="plate photo"><img src="../../../../assets/img/tesis-cephe.webp" alt=""></div>
+<p class="cap">Şaşmaz Oto Sanayi Sitesi · Etimesgut</p>
+<div class="btns"><span class="btn p">Randevu al</span><span class="btn">Ara</span></div>
+</div>
+<div class="stage ruled">
+<img class="m" src="render-kesit.webp" alt="">
+<svg class="lead-lines" width="960" height="828">
+<g stroke="#323277" stroke-width="1.2" fill="none" stroke-dasharray="3 3">
+<path d="M126 286 L126 236"/><path d="M226 290 L260 236"/><path d="M380 330 L420 236"/><path d="M640 300 L640 250"/><path d="M520 440 L420 640"/><path d="M760 500 L700 640"/></g>
+<path d="M620 420 L640 320 L700 260" stroke="#323277" stroke-width="2" fill="none"/></svg>
+<span class="pin" style="left:110px;top:270px">2</span><span class="pin on" style="left:212px;top:276px">1</span><span class="pin" style="left:364px;top:316px">3</span><span class="pin" style="left:624px;top:290px">4</span><span class="pin on" style="left:604px;top:404px">1</span><span class="pin" style="left:744px;top:488px">5</span><span class="pin" style="left:504px;top:428px">6</span>
+<div class="tab" style="left:40px;top:180px;transform:rotate(-1deg)"><img src="../../../../assets/img/is-oto-kuafor.webp" alt=""><span><b>Oto Kuaför</b><i>Ana kat · sol</i></span></div>
+<div class="tab" style="left:250px;top:150px;transform:rotate(.8deg)"><img src="model-office.jpg" alt=""><span><b>Ofis</b><i>Ana kat · orta</i></span></div>
+<div class="tab" style="left:450px;top:180px;transform:rotate(-.6deg)"><img src="model-upper.jpg" alt=""><span><b>Bekleme Salonu</b><i>Üst kat</i></span></div>
+<div class="tab" style="left:300px;top:640px;transform:rotate(1deg)"><img src="model-lower.jpg" alt=""><span><b>Kaporta</b><i>Alt kat</i></span></div>
+<div class="tab" style="left:620px;top:660px;transform:rotate(-1deg)"><img src="../../../../assets/img/is-boya.webp" alt=""><span><b>Boya</b><i>Alt kat · fırın</i></span></div>
+<div class="pair">
+<div class="card" style="transform:rotate(-1deg)"><div class="ph"><img src="../../../../assets/img/is-mekanik-onarim.webp" alt=""></div><p class="k">Ana kat · Mekanik 1 + 2</p><h3>Mekanik</h3><p>Bakım, fren, süspansiyon, motor.</p></div>
+<div class="card" style="transform:rotate(1.2deg);margin-top:24px"><span class="x">×</span><div class="ph"><img src="../../../../assets/img/is-elektronik.webp" alt=""></div><p class="k">Mekanik atölyelerinde</p><h3>Elektrik / Elektronik</h3><p>Arıza tespiti, yazılım ve elektrik işleri.</p></div>
+</div>
+<div class="ctrl"><span class="on">Kesit</span><span>Dış cephe</span><span>Katları ayır</span></div>
+<p class="note" style="left:40px;bottom:36px">Sürükle: döndür · Tekerlek: yakınlaş</p>
+</div>
+</body></html>

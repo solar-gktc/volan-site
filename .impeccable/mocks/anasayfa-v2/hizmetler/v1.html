@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mock · hizmetler · v1 Karakalem albümü</title>
+<link rel="stylesheet" href="../_kit/kit.css">
+<style>
+  /* v1 · Pencil album carousel. The eight services as pencil drawings from the workshop,
+     tipped in as an album strip that runs off the right edge. Road on the left; the strip starts past it. */
+  .svc { position: relative; padding: 128px 0 136px; overflow-x: clip; }
+  .svc__head { grid-column: 3 / 13; display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; }
+  .svc__intro { flex: 0 1 36rem; }
+  .svc__side { display: flex; flex-direction: column; align-items: flex-end; gap: 22px; }
+  .svc__title { color: var(--navy); font: 600 2.5rem/48px var(--font-title); letter-spacing: -0.01em; }
+  .svc__lead { margin-top: 20px; max-width: 34rem; font: 400 clamp(1.125rem, 1.5vw, 1.3rem)/1.45 var(--font-text); color: var(--ink); }
+  .svc__lead strong { color: var(--navy); font-weight: 600; }
+  .svc__ctrl { display: flex; align-items: center; justify-content: flex-end; gap: 20px; }
+  .svc__count { color: var(--ink-soft); font: 400 1rem/1 var(--font-typed); font-variant-numeric: tabular-nums; min-width: 4.5ch; text-align: right; }
+  .arrow { display: grid; place-items: center; width: 52px; height: 52px; border: 4px double var(--navy); background: transparent; color: var(--navy); cursor: pointer; transform: rotate(-1deg); transition: transform 180ms var(--ease-out), background-color 180ms var(--ease-out); }
+  .arrow + .arrow { transform: rotate(0.8deg); }
+  .arrow svg { width: 20px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.6; }
+  .arrow:hover { transform: rotate(0) translateY(-1px); background: rgba(50, 50, 119, 0.07); }
+  .arrow:disabled { opacity: 0.35; cursor: default; transform: none; background: none; }
+  .svc__all { color: var(--navy); font: 600 0.8125rem/1 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; text-decoration: underline; text-decoration-color: var(--rule-strong); text-underline-offset: 6px; white-space: nowrap; }
+  .svc__all:hover { text-decoration-color: currentColor; }
+
+  /* The strip */
+  .strip { position: relative; z-index: 2; margin-top: 64px; padding-left: calc(max(var(--gutter), (100% - var(--measure)) / 2) + 2 * ((min(var(--measure), 100% - 2 * var(--gutter)) - 11 * 32px) / 12 + 32px)); }
+  .strip__track { display: flex; gap: 44px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-left: inherit; padding: 24px 96px 40px 0; margin: 0; list-style: none; scrollbar-width: none; }
+  .strip__track::-webkit-scrollbar { display: none; }
+  .slide { flex: none; width: 400px; scroll-snap-align: start; }
+  .slide:nth-child(4n+1) { width: 470px; }
+  .slide:nth-child(4n+2) { width: 360px; }
+  .slide:nth-child(4n+3) { width: 420px; }
+  .slide:nth-child(4n+4) { width: 380px; }
+  .slide:nth-child(4n+2) { margin-top: 40px; }
+  .slide:nth-child(4n+3) { margin-top: 12px; }
+  .slide:nth-child(4n+4) { margin-top: 56px; }
+  .slide .plate { transform: rotate(var(--r, -1deg)); }
+  .slide:nth-child(even) .plate { --r: 1.1deg; }
+  .slide:nth-child(3n) .plate { --r: -0.5deg; }
+  .slide .plate img { aspect-ratio: 3 / 2; object-fit: cover; }
+  .slide .plate figcaption { padding: 0 2px 8px; font-size: 0.8125rem; }
+  .slide__name { margin-top: 26px; color: var(--navy); font: 600 1.625rem/1.2 var(--font-title); letter-spacing: -0.005em; }
+  .slide__text { margin-top: 8px; color: var(--ink); font: 400 1.0625rem/1.5 var(--font-text); max-width: 30ch; }
+  .slide__link { display: inline-flex; align-items: center; gap: 10px; margin-top: 14px; color: var(--navy); font: 600 0.75rem/1 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; padding: 6px 0; border-bottom: 1px solid var(--rule-strong); }
+  .slide__link svg { width: 16px; height: 10px; fill: none; stroke: currentColor; stroke-width: 1.5; transition: transform 180ms var(--ease-out); }
+  .slide__link:hover svg { transform: translateX(3px); }
+  .slide__link:hover { border-bottom-color: currentColor; }
+
+  .road--narrow { display: none; }
+
+  @media (max-width: 899px) {
+    .svc { padding: 96px 0 104px; }
+    .inner { padding-left: 68px; }
+    .svc__head { grid-column: 1 / -1; display: block; }
+    .svc__side { align-items: flex-start; }
+    .svc__title { font-size: 1.75rem; line-height: 32px; }
+    .svc__ctrl { justify-content: flex-start; margin-top: 28px; }
+    .svc__count { text-align: left; order: -1; margin-right: auto; }
+    .svc__all { display: inline-block; }
+    .strip { margin-top: 40px; padding-left: 0; }
+    .strip__track { gap: 28px; padding: 20px 24px 32px 88px; scroll-padding-left: 88px; }
+    .slide:nth-child(n) { width: 66vw; max-width: 300px; }
+    .slide:nth-child(n) { margin-top: 0; }
+    .slide__name { font-size: 1.375rem; }
+    .road--wide { display: none; }
+    .road--narrow { display: block; }
+  }
+</style>
+</head>
+<body>
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="ink" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="wobble"/>
+      <feDisplacementMap in="SourceGraphic" in2="wobble" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.7" numOctaves="2" seed="3" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.7 0 0 0 1.62" result="coverage"/>
+      <feComposite in="edge" in2="coverage" operator="in"/>
+    </filter>
+    <symbol id="seal" viewBox="0 0 200 200">
+      <path id="seal-arc" d="M100,100 m-70,0 a70,70 0 1,1 140,0 a70,70 0 1,1 -140,0" fill="none"/>
+      <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="5"/>
+      <circle cx="100" cy="100" r="85" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="100" cy="100" r="52" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text font-family="Archivo Narrow, sans-serif" font-weight="600" font-size="19" letter-spacing="3.2" fill="currentColor"><textPath href="#seal-arc" startOffset="0">VOLAN OTOMOTİV · ANKARA · VOLAN OTOMOTİV · ANKARA ·</textPath></text>
+      <text x="100" y="112" text-anchor="middle" font-family="Besley, serif" font-weight="600" font-size="34" fill="currentColor">1954</text>
+    </symbol>
+    <symbol id="tick" viewBox="0 0 32 32"><path d="M5 17.5l7.5 7.5L27.5 6" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <pattern id="road-net" width="64" height="8" patternUnits="userSpaceOnUse"><path d="M0,4 C10.7,-1.3 21.3,-1.3 32,4 S53.3,9.3 64,4 M0,4 C10.7,9.3 21.3,9.3 32,4 S53.3,-1.3 64,4" fill="none" stroke="#323277" stroke-opacity="0.16" stroke-width="0.7"/></pattern>
+  </defs>
+</svg>
+
+<section class="sec svc" aria-labelledby="svc-title">
+  <svg class="road road--wide" aria-hidden="true" viewBox="0 0 1440 1000" preserveAspectRatio="none">
+    <path class="road__edge" d="M150,0 V1000"/><path class="road__bed" d="M150,0 V1000"/><path class="road__net" d="M150,0 V1000"/><path class="road__line" d="M150,0 V1000"/>
+  </svg>
+  <svg class="road road--narrow" aria-hidden="true" viewBox="0 0 390 1000" preserveAspectRatio="none">
+    <path class="road__edge" d="M38,0 V1000"/><path class="road__bed" d="M38,0 V1000"/><path class="road__net" d="M38,0 V1000"/><path class="road__line" d="M38,0 V1000"/>
+  </svg>
+
+  <div class="inner">
+    <div class="svc__head">
+      <div class="svc__intro">
+        <h2 class="svc__title" id="svc-title">Hizmetlerimiz</h2>
+        <p class="svc__lead"><strong>Tek noktadan servis.</strong> Aracınızı bir kez teslim edersiniz; bakımdan boyaya bütün işler aynı çatı altında, aynı ekiple yürür.</p>
+      </div>
+      <div class="svc__side">
+      <div class="svc__ctrl">
+        <p class="svc__count" aria-live="polite"><span data-pos>1</span> / 8</p>
+        <button class="arrow" type="button" aria-label="Önceki hizmet" data-prev><svg viewBox="0 0 20 14" aria-hidden="true"><path d="M19 7H2M7.5 1.5 2 7l5.5 5.5"/></svg></button>
+        <button class="arrow" type="button" aria-label="Sonraki hizmet" data-next><svg viewBox="0 0 20 14" aria-hidden="true"><path d="M1 7h17M12.5 1.5 18 7l-5.5 5.5"/></svg></button>
+      </div>
+      <a class="svc__all" href="/gc-volan-1/hizmetlerimiz.html">Bütün hizmetler</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="strip">
+    <ul class="strip__track" data-track aria-label="Hizmetler">
+      <li class="slide">
+        <figure class="plate"><figcaption>Lift altında, XC90</figcaption><img src="/general-assets/gorseller/is-anlari-karakalem/xc90-lift-altinda-1600.webp" width="1600" height="1067" alt="Karakalem: iki usta lifte kaldırılmış bir Volvo XC90'ın altında çalışıyor."></figure>
+        <h3 class="slide__name">Bakım &amp; Onarım</h3>
+        <p class="slide__text">Aracınızın yaşına ve kilometresine göre periyodik bakım.</p>
+        <a class="slide__link" href="/gc-volan-1/hizmetlerimiz.html#bakim-onarim">Ayrıntı<svg viewBox="0 0 16 10" aria-hidden="true"><path d="M0 5h14.5M10.5 1l4 4-4 4"/></svg></a>
+      </li>
+      <li class="slide">
+        <figure class="plate"><figcaption>Turbo tezgâhı</figcaption><img src="/general-assets/gorseller/is-anlari-karakalem/turbo-tezgahi-volan-1600.webp" width="1600" height="1067" alt="Karakalem: iki usta tezgâhta bir turbo parçasına bakıyor, arkada VOLAN tabelası."></figure>
+        <h3 class="slide__name">Yedek Parça</h3>
+        <p class="slide__text">Doğru parça, kaynağı belli, faturası elinizde.</p>
+        <a class="slide__link" href="/gc-volan-1/hizmetlerimiz.html#yedek-parca">Ayrıntı<svg viewBox="0 0 16 10" aria-hidden="true"><path d="M0 5h14.5M10.5 1l4 4-4 4"/></svg></a>
+      </li>
+      <li class="slide">
+        <figure class="plate"><figcaption>Kafa lambasıyla kontrol</figcaption><img src="/general-assets/gorseller/is-anlari-karakalem/kafa-lambali-usta-1600.webp" width="1600" height="1067" alt="Karakalem: kafa lambalı bir usta aracın altını kontrol ediyor."></figure>
+        <h3 class="slide__name">Araç Arıza Tespiti</h3>
+        <p class="slide__text">Önce nedeni buluyoruz, sonra onarıyoruz.</p>
+        <a class="slide__link" href="/gc-volan-1/hizmetlerimiz.html#ariza-tespiti">Ayrıntı<svg viewBox="0 0 16 10" aria-hidden="true"><path d="M0 5h14.5M10.5 1l4 4-4 4"/></svg></a>
+      </li>
+      <li class="slide">
+        <figure class="plate"><figcaption>Teslim alanında, XC90</figcaption><img src="/general-assets/gorseller/nesne-karakalem/xc90-on-1600.webp" width="1600" height="1067" alt="Karakalem: önden bir Volvo XC90."></figure>
+        <h3 class="slide__name">Sigorta / Kasko Onarım İşlemleri</h3>
+        <p class="slide__text">Hasar dosyanızın takibini biz yaparız.</p>
+        <a class="slide__link" href="/gc-volan-1/hizmetlerimiz.html#sigorta-kasko">Ayrıntı<svg viewBox="0 0 16 10" aria-hidden="true"><path d="M0 5h14.5M10.5 1l4 4-4 4"/></svg></a>
+      </li>
+      <li class="slide">
+        <figure class="plate"><figcaption>Farlar yanık, lift başında</figcaption><img src="/general-assets/gorseller/nesne-karakalem/xc90-farlar-yanik-1600.webp" width="1600" height="1151" alt="Karakalem: farları yanan bir Volvo XC90 liftin önünde."></figure>
+        <h3 class="slide__name">Elektronik Sistem Onarımları</h3>
+        <p class="slide__text">Beyin, sensör ve kablo arızaları.</p>
+        <a class="slide__link" href="/gc-volan-1/hizmetlerimiz.html#elektronik">Ayrıntı<svg viewBox="0 0 16 10" aria-hidden="true"><path d="M0 5h14.5M10.5 1l4 4-4 4"/></svg></a>
+      </li>
+      <li class="slide">
+        <figure class="plate"><figcaption>Izgara ve ön panel</figcaption><img src="/general-assets/gorseller/nesne-karakalem/volvo-izgara-1600.webp" width="1600" height="923" alt="Karakalem: bir Volvo'nun ızgarası ve farı, yakından."></figure>
+        <h3 class="slide__name">Kaporta</h3>
+        <p class="slide__text">Küçük göçükten ağır hasara.</p>
+        <a class="slide__link" href="/gc-volan-1/hizmetlerimiz.html#kaporta">Ayrıntı<svg viewBox="0 0 16 10" aria-hidden="true"><path d="M0 5h14.5M10.5 1l4 4-4 4"/></svg></a>
+      </li>
+      <li class="slide">
+        <figure class="plate"><figcaption>Pasta ve cila</figcaption><img src="/general-assets/gorseller/is-anlari-karakalem/pasta-cila-1600.webp" width="1600" height="1067" alt="Karakalem: bir usta motor kaputunu makineyle parlatıyor."></figure>
+        <h3 class="slide__name">Boya</h3>
+        <p class="slide__text">Tek parçadan bütün araca, renk eşleştirmeyle.</p>
+        <a class="slide__link" href="/gc-volan-1/hizmetlerimiz.html#boya">Ayrıntı<svg viewBox="0 0 16 10" aria-hidden="true"><path d="M0 5h14.5M10.5 1l4 4-4 4"/></svg></a>
+      </li>
+      <li class="slide">
+        <figure class="plate"><figcaption>Motor bölmesinde</figcaption><img src="/general-assets/gorseller/is-anlari-karakalem/motor-bolmesinde-1600.webp" width="1600" height="1067" alt="Karakalem: bir usta açık kaputun altında motor üzerinde çalışıyor."></figure>
+        <h3 class="slide__name">Mekanik Onarım</h3>
+        <p class="slide__text">Motordan frene, mekanik işlerin hepsi.</p>
+        <a class="slide__link" href="/gc-volan-1/hizmetlerimiz.html#mekanik-onarim">Ayrıntı<svg viewBox="0 0 16 10" aria-hidden="true"><path d="M0 5h14.5M10.5 1l4 4-4 4"/></svg></a>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<script>
+  // One interaction: the album strip (buttons + native swipe/scroll).
+  (function () {
+    var track = document.querySelector('[data-track]');
+    var slides = Array.prototype.slice.call(track.children);
+    var pos = document.querySelector('[data-pos]');
+    var prev = document.querySelector('[data-prev]');
+    var next = document.querySelector('[data-next]');
+    var smooth = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+    function current() {
+      var x = track.scrollLeft, best = 0;
+      slides.forEach(function (s, i) { if (Math.abs(s.offsetLeft - track.offsetLeft - x) < Math.abs(slides[best].offsetLeft - track.offsetLeft - x)) best = i; });
+      return best;
+    }
+    function update() {
+      var i = current();
+      pos.textContent = i + 1;
+      prev.disabled = track.scrollLeft < 4;
+      next.disabled = track.scrollLeft > track.scrollWidth - track.clientWidth - 4;
+    }
+    function go(d) {
+      var i = Math.max(0, Math.min(slides.length - 1, current() + d));
+      track.scrollTo({ left: slides[i].offsetLeft - track.offsetLeft, behavior: smooth });
+    }
+    prev.addEventListener('click', function () { go(-1); });
+    next.addEventListener('click', function () { go(1); });
+    track.addEventListener('scroll', function () { requestAnimationFrame(update); }, { passive: true });
+    update();
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mock · hero2 · v2 Etiketli baskı</title>
+<!-- The hero markup below is hero/fragment.html; its CSS and JS are the integration files. -->
+<base href="/gc-volan-1/">
+<link rel="stylesheet" href="/gc-volan-1/.impeccable/mocks/anasayfa-v2/_kit/kit.css">
+<link rel="stylesheet" href="/gc-volan-1/assets/css/menu.css">
+<link rel="stylesheet" href="/gc-volan-1/assets/css/anasayfa/hero.css">
+<style>
+  /* Mock only. */
+  .park { position: absolute; width: 0; height: 0; }
+  .stage { position: relative; }
+  .stage > .road { z-index: 1; --road-width: 150px; }
+  .next { height: 300px; }
+  .foot { position: absolute; z-index: 3; width: var(--w); height: var(--h); margin: calc(var(--h) / -2) 0 0 calc(var(--w) / -2); border: 1.5px dashed rgba(50, 50, 119, 0.6); transform: skewX(-38deg); pointer-events: none; }
+  .foot span { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) skewX(38deg); padding: 3px 7px 2px; background: var(--stock); color: var(--navy); font: 400 0.75rem/1 var(--font-typed); white-space: nowrap; }
+  .foot--volvo { --w: 400px; --h: 104px; }
+  .foot--mercedes { --w: 400px; --h: 96px; }
+  .foot--vw { --w: 360px; --h: 96px; }
+  @media (max-width: 899px) {
+    .stage > .road { --road-width: 54px; }
+    .next { height: 260px; }
+    .foot--volvo { --w: 180px; --h: 46px; }
+    .foot--mercedes { --w: 176px; --h: 42px; }
+    .foot--vw { --w: 160px; --h: 42px; }
+    .foot span { font-size: 0.6875rem; }
+  }
+</style>
+</head>
+<body>
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="ink" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="wobble"/>
+      <feDisplacementMap in="SourceGraphic" in2="wobble" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.7" numOctaves="2" seed="3" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.7 0 0 0 1.62" result="coverage"/>
+      <feComposite in="edge" in2="coverage" operator="in"/>
+    </filter>
+    <symbol id="seal" viewBox="0 0 200 200">
+      <path id="seal-arc" d="M100,100 m-70,0 a70,70 0 1,1 140,0 a70,70 0 1,1 -140,0" fill="none"/>
+      <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="5"/>
+      <circle cx="100" cy="100" r="85" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="100" cy="100" r="52" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text font-family="Archivo Narrow, sans-serif" font-weight="600" font-size="19" letter-spacing="3.2" fill="currentColor"><textPath href="#seal-arc" startOffset="0">VOLAN OTOMOTİV · ANKARA · VOLAN OTOMOTİV · ANKARA ·</textPath></text>
+      <text x="100" y="112" text-anchor="middle" font-family="Besley, serif" font-weight="600" font-size="34" fill="currentColor">1954</text>
+    </symbol>
+    <symbol id="tick" viewBox="0 0 32 32"><path d="M5 17.5l7.5 7.5L27.5 6" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <pattern id="road-net" width="64" height="8" patternUnits="userSpaceOnUse"><path d="M0,4 C10.7,-1.3 21.3,-1.3 32,4 S53.3,9.3 64,4 M0,4 C10.7,9.3 21.3,9.3 32,4 S53.3,-1.3 64,4" fill="none" stroke="#323277" stroke-opacity="0.16" stroke-width="0.7"/></pattern>
+  </defs>
+</svg>
+
+<!-- menu -->
+<a class="skip-link" href="#icerik">İçeriğe geç</a>
+<div class="menu is-ready" data-menu data-top="navy">
+  <div class="menu__bar">
+    <a class="menu__logo" href="/gc-volan-1/index.html"><img src="/gc-volan-1/brand/logo-oval.svg" width="677" height="292" alt="Volan Otomotiv ana sayfa"></a>
+    <button class="menu__toggle" type="button" aria-expanded="false" aria-controls="menu-nav"><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M0 1h14M0 5h14M0 9h9"/></svg><span class="menu__toggle-label">Menü</span></button>
+    <nav class="menu__nav" id="menu-nav" aria-label="Ana menü">
+      <p class="menu__title" aria-hidden="true">İçindekiler</p>
+      <ul class="menu__list">
+        <li class="menu__item"><a class="menu__tab" href="/gc-volan-1/index.html" aria-current="page">Ana Sayfa</a></li>
+        <li class="menu__item menu__item--group">
+          <button class="menu__tab" type="button" aria-expanded="false" aria-controls="menu-hakkimizda">Hakkımızda<svg class="menu__chev" viewBox="0 0 10 7" aria-hidden="true"><path d="M1 1.2l4 4 4-4"/></svg></button>
+          <ul class="menu__sub" id="menu-hakkimizda">
+            <li><a class="menu__row" href="/gc-volan-1/hakkimizda.html"><span class="menu__label">Hakkımızda</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark"><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M1 5h11.5M8.5 1l4 4-4 4"/></svg></span></a></li>
+            <li><a class="menu__row" href="/gc-volan-1/miras.html"><span class="menu__label">Miras</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark"><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M1 5h11.5M8.5 1l4 4-4 4"/></svg></span></a></li>
+            <li><a class="menu__row" href="/gc-volan-1/yakinda.html?s=vizyon-misyon"><span class="menu__label">Vizyon &amp; Misyon</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+            <li><a class="menu__row" href="/gc-volan-1/yakinda.html?s=degerlerimiz"><span class="menu__label">Değerlerimiz</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+            <li><a class="menu__row" href="/gc-volan-1/yakinda.html?s=kalite-politikamiz"><span class="menu__label">Kalite Politikamız</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+            <li><a class="menu__row" href="/gc-volan-1/yakinda.html?s=surdurulebilirlik"><span class="menu__label">Sürdürülebilirlik Yaklaşımımız</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+            <li><a class="menu__row" href="/gc-volan-1/yakinda.html?s=markalara-ozel"><span class="menu__label">Markalara Özel Prensibimiz</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+            <li class="menu__subgroup">
+              <span class="menu__subhead" id="menu-multimedya">Multimedya</span>
+              <ul aria-labelledby="menu-multimedya">
+                <li><a class="menu__row" href="/gc-volan-1/yakinda.html?s=resimler"><span class="menu__label">Resimler</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+                <li><a class="menu__row" href="/gc-volan-1/yakinda.html?s=videolar"><span class="menu__label">Videolar</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+                <li><a class="menu__row" href="/gc-volan-1/yakinda.html?s=yorumlar"><span class="menu__label">Yorumlar</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li class="menu__item"><a class="menu__tab" href="/gc-volan-1/hizmetlerimiz.html">Hizmetlerimiz</a></li>
+        <li class="menu__item"><a class="menu__tab" href="/gc-volan-1/yakinda.html?s=haberler">Haberler<span class="menu__soon"> yakında</span></a></li>
+        <li class="menu__item"><a class="menu__tab" href="/gc-volan-1/tesisimiz.html">Tesisimiz</a></li>
+        <li class="menu__item menu__item--group menu__item--end">
+          <button class="menu__tab" type="button" aria-expanded="false" aria-controls="menu-iletisim">İletişim<svg class="menu__chev" viewBox="0 0 10 7" aria-hidden="true"><path d="M1 1.2l4 4 4-4"/></svg></button>
+          <ul class="menu__sub" id="menu-iletisim">
+            <li><a class="menu__row" href="#iletisim"><span class="menu__label">İletişim Bilgileri</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark" title="Bu sayfada"><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M7 .5v8.5M3.5 5.5L7 9l3.5-3.5"/></svg></span></a></li>
+            <li><a class="menu__row" href="/gc-volan-1/yakinda.html?s=insan-kaynaklari"><span class="menu__label">İnsan Kaynakları</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+          </ul>
+        </li>
+      </ul>
+      <div class="menu__contact">
+        <div class="stamps" role="group" aria-label="Hızlı iletişim">
+          <a class="stamp-btn stamp-btn--primary" href="https://wa.me/905337653378?text=Merhaba%2C%20arac%C4%B1m%20i%C3%A7in%20randevu%20almak%20istiyorum." aria-label="Randevu al (WhatsApp mesajı)">Randevu al</a>
+          <a class="stamp-btn" href="tel:+905337653378">Ara</a>
+          <a class="stamp-btn" href="https://wa.me/905337653378">WhatsApp</a>
+        </div>
+      </div>
+    </nav>
+    <div class="menu__actions" role="group" aria-label="Hızlı iletişim">
+      <a class="menu__action" href="https://wa.me/905337653378" aria-label="WhatsApp: 0533 765 33 78"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg><span class="menu__action-label">WhatsApp</span></a>
+      <a class="menu__action" href="https://www.google.com/maps/search/?api=1&amp;query=Volan%20Otomotiv%20Bah%C3%A7ekap%C4%B1%20Mah.%202547.%20Sokak%20No%3A3%20Etimesgut%20Ankara" aria-label="Yol tarifi (Google Haritalar)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg><span class="menu__action-label">Yol tarifi</span></a>
+      <a class="menu__action" href="tel:+905337653378" aria-label="Ara: 0533 765 33 78"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span class="menu__action-label">Ara</span></a>
+    </div>
+  </div>
+</div>
+<!-- /menu -->
+
+<div class="stage">
+<header class="banner s-hero" id="icerik" aria-labelledby="hero-title">
+  <h1 class="visually-hidden" id="hero-title">Volan Otomotiv · Ankara'da Volvo, Mercedes-Benz ve Volkswagen servisi</h1>
+
+  <div class="hero__slides" role="group" aria-roledescription="carousel" aria-label="Öne çıkanlar">
+    <div class="prints" data-prints>
+      <figure class="print is-current" data-print="1">
+        <div class="print__img">
+          <picture>
+            <source media="(max-width: 899px)" srcset="assets/img/anasayfa/hero-cephe-dar.webp" width="800" height="500">
+            <img src="assets/img/anasayfa/hero-cephe-genis.webp" width="2880" height="1235" alt="Volan Otomotiv binası mavi saatte: ışıkları yanan Oto Kuaför ve Mekanik kapıları, cam giriş ve VOLAN tabelası.">
+          </picture>
+        </div>
+      </figure>
+
+      <figure class="print" data-print="2" aria-hidden="true">
+        <div class="print__img">
+          <picture>
+            <source media="(max-width: 899px)" srcset="assets/img/anasayfa/hero-atolye-dar.webp" width="800" height="500">
+            <img src="assets/img/anasayfa/hero-atolye-genis.webp" width="2880" height="1215" alt="Lifte kaldırılmış bir Volvo XC90'ın altında çalışan iki usta." loading="lazy">
+          </picture>
+        </div>
+      </figure>
+
+      <figure class="print" data-print="3" aria-hidden="true">
+        <div class="print__img">
+          <div class="ad">
+            <span class="ad__lines" aria-hidden="true"></span>
+            <img class="ad__wheel" src="assets/img/anasayfa/hero-jant.webp" width="800" height="863" alt="" loading="lazy">
+            <p class="ad__word" aria-hidden="true">Ücretsiz</p>
+            <p class="ad__scope" aria-hidden="true">
+              <span><i class="ad__box"><svg class="ad__tick"><use href="#tick"/></svg></i>Lastik</span>
+              <span><i class="ad__box"><svg class="ad__tick"><use href="#tick"/></svg></i>Fren</span>
+              <span><i class="ad__box"><svg class="ad__tick"><use href="#tick"/></svg></i>Motor yağı</span>
+              <span><i class="ad__box"><svg class="ad__tick"><use href="#tick"/></svg></i>Aydınlatma</span>
+            </p>
+            <span class="ad__frame" aria-hidden="true"></span>
+          </div>
+        </div>
+      </figure>
+    </div>
+
+    <div class="hcard" data-card>
+      <svg class="staple staple--l" viewBox="0 0 40 22" aria-hidden="true"><path d="M4 9.5v3.5h32V9.5" fill="none" stroke="#6f7180" stroke-width="3.4" stroke-linejoin="round"/><path d="M5.5 12h29" fill="none" stroke="#d6d8df" stroke-width="1.2"/></svg>
+      <svg class="staple staple--r" viewBox="0 0 40 22" aria-hidden="true"><path d="M4 9.5v3.5h32V9.5" fill="none" stroke="#6f7180" stroke-width="3.4" stroke-linejoin="round"/><path d="M5.5 12h29" fill="none" stroke="#d6d8df" stroke-width="1.2"/></svg>
+
+      <div class="hcard__body" data-body="1" role="group" aria-roledescription="slayt" aria-label="1 / 3">
+        <h2 class="hcard__title">Aracınız bizim sorumluluğumuzda</h2>
+        <p class="hcard__text">Garanti süreniz bittiği için servis kalitenizi düşürmek zorunda değilsiniz.</p>
+        <div class="stamps stamps--ink" role="group" aria-label="İletişim">
+          <a class="stamp-btn stamp-btn--primary" href="https://wa.me/905337653378?text=Merhaba%2C%20arac%C4%B1m%20i%C3%A7in%20randevu%20almak%20istiyorum." aria-label="Randevu al (WhatsApp mesajı)">Randevu al</a>
+          <a class="stamp-btn" href="tel:+905337653378">Ara</a>
+          <a class="stamp-btn" href="https://wa.me/905337653378">WhatsApp</a>
+        </div>
+        <p class="hcard__foot"><b>1954'ten beri</b> · Etimesgut, Ankara<span class="hcard__phone"><span class="hcard__sep"> · </span><span class="hcard__nowrap">0533 765 33 78</span></span></p>
+      </div>
+
+      <div class="hcard__body" data-body="2" role="group" aria-roledescription="slayt" aria-label="2 / 3" aria-hidden="true" inert>
+        <h2 class="hcard__title">Markanızı bilen ustalar</h2>
+        <p class="hcard__text">Volvo, Mercedes-Benz ve Volkswagen için bakım, onarım ve arıza tespiti tek atölyede.</p>
+        <div class="stamps stamps--ink" role="group" aria-label="Atölye">
+          <a class="stamp-btn stamp-btn--primary" href="hizmetlerimiz.html">Hizmetlerimiz</a>
+          <a class="stamp-btn" href="https://wa.me/905337653378?text=Merhaba%2C%20arac%C4%B1m%20i%C3%A7in%20randevu%20almak%20istiyorum." aria-label="Randevu al (WhatsApp mesajı)">Randevu al</a>
+        </div>
+        <p class="hcard__foot"><b>1.800 m²</b> atölye · <b>5</b> lift · <b>25</b> kişilik ekip</p>
+      </div>
+
+      <div class="hcard__body" data-body="3" role="group" aria-roledescription="slayt" aria-label="3 / 3" aria-hidden="true" inert>
+        <h2 class="hcard__title"><span class="visually-hidden">Ücretsiz </span>Yol öncesi kontrol</h2>
+        <p class="hcard__text">Uzun yoldan önce lastik, fren ve sıvıları tek randevuda kontrol ediyoruz.</p>
+        <div class="hcard__row">
+          <div class="stamps stamps--ink" role="group" aria-label="Kampanya">
+            <a class="stamp-btn stamp-btn--primary" href="https://wa.me/905337653378?text=Merhaba%2C%20yol%20%C3%B6ncesi%20kontrol%20i%C3%A7in%20randevu%20almak%20istiyorum." aria-label="Randevu al (WhatsApp mesajı)">Randevu al</a>
+            <a class="stamp-btn" href="tel:+905337653378">Ara</a>
+          </div>
+          <div class="lastday" data-lastday>
+            <span class="stamp"><span class="stamp__ink">Son gün<strong>15.01.2027</strong></span></span>
+          </div>
+        </div>
+        <p class="hcard__terms"><b>Şart</b> Randevu ile. Parça ve işçilik ayrıca; onayınız olmadan işlem yapılmaz.</p>
+        <p class="hcard__foot"><span class="hcard__note">örnek kampanya</span> · şartlar ve tarih örnektir</p>
+      </div>
+    </div>
+
+    <div class="hero__nav" data-nav hidden>
+      <button class="hero__arrow hero__arrow--prev" type="button" aria-label="Önceki" data-step="-1"><svg viewBox="0 0 22 14" aria-hidden="true"><path d="M21 7H2M8 1L2 7l6 6"/></svg></button>
+      <button class="hero__arrow hero__arrow--next" type="button" aria-label="Sonraki" data-step="1"><svg viewBox="0 0 22 14" aria-hidden="true"><path d="M1 7h19M14 1l6 6-6 6"/></svg></button>
+      <div class="hero__dots" role="group" aria-label="Slaytlar">
+        <button class="hero__dot" type="button" aria-label="1. slayt" aria-current="true" data-go="0"></button>
+        <button class="hero__dot" type="button" aria-label="2. slayt" data-go="1"></button>
+        <button class="hero__dot" type="button" aria-label="3. slayt" data-go="2"></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="forecourt">
+    <span class="park" data-park="volvo"></span>
+    <span class="park" data-park="mercedes"></span>
+    <span class="park" data-park="vw"></span>
+  </div>
+</header>
+
+<div class="next" aria-hidden="true"></div>
+<svg class="road" aria-hidden="true" data-road><path class="road__edge"/><path class="road__bed"/><path class="road__net"/><path class="road__line"/></svg>
+</div>
+
+<script type="module" src="/gc-volan-1/assets/js/anasayfa/hero.js"></script>
+<script type="module">
+  // Mock only: ?slide=N picks slide N (as a visitor's dot click would), footprints and the road.
+  const hero = document.querySelector('.s-hero');
+  const n = parseInt(new URLSearchParams(location.search).get('slide'), 10);
+  if (n >= 1 && n <= 3) hero.querySelectorAll('.hero__dot')[n - 1].click();
+  const names = { volvo: 'Volvo XC60 · yol başı', mercedes: 'Mercedes C', vw: 'VW Golf' };
+  const court = hero.querySelector('.forecourt');
+  for (const k of Object.keys(names)) {
+    const f = document.createElement('span');
+    f.className = `foot foot--${k}`; f.dataset.foot = k; f.setAttribute('aria-hidden', 'true');
+    f.innerHTML = `<span>${names[k]}</span>`;
+    court.append(f);
+  }
+  const stage = document.querySelector('.stage'), road = document.querySelector('[data-road]');
+  function draw() {
+    hero.querySelectorAll('.park').forEach((p) => {
+      const f = hero.querySelector(`[data-foot="${p.dataset.park}"]`), cs = getComputedStyle(p);
+      f.style.left = cs.left; f.style.top = cs.top;
+    });
+    const s = stage.getBoundingClientRect(), v = hero.querySelector('[data-park="volvo"]').getBoundingClientRect();
+    const narrow = innerWidth < 900, W = s.width, H = s.height;
+    const inner = Math.min(1248, W - 2 * Math.min(Math.max(20, W * 0.066), 96));
+    const lx = narrow ? 36 : Math.max(26, (W - inner) / 2 * 0.8), r = narrow ? 48 : 144;
+    const vx = v.left - s.left, vy = v.top - s.top, yc = hero.offsetHeight + (narrow ? 70 : 96);
+    const d = `M${vx},${vy} V${yc - r} A${r},${r} 0 0 1 ${vx - r},${yc} H${lx + r} A${r},${r} 0 0 0 ${lx},${yc + r} V${H}`;
+    road.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    road.querySelectorAll('path').forEach((p) => p.setAttribute('d', d));
+  }
+  draw(); addEventListener('load', draw);
+</script>
+</body>
+</html>

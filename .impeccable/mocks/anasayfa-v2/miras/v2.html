@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mock · miras · v2 — Albüm yaprağı</title>
+<link rel="stylesheet" href="../_kit/kit.css">
+<style>
+  .sec { position: relative; padding: 192px 0 160px; }
+  .sec .road { overflow: hidden; }
+  /* The leaf turns at a cut edge: stock above, archive cream below (Aged Stock Rule: no ramp). */
+  .edge { position: absolute; left: 0; right: 0; top: 96px; z-index: 1; height: 8px; border-top: 2px solid var(--rule-strong); }
+  .edge::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 4.5px; background: rgba(251, 251, 253, 0.8); border-bottom: 1.5px solid rgba(50, 50, 119, 0.4); }
+  .cream { position: absolute; left: 0; right: 0; top: 104px; bottom: 0; z-index: 1; background: var(--aged); mix-blend-mode: multiply; pointer-events: none; }
+
+  .album { grid-column: 1 / span 8; position: relative; height: 1100px; }
+  .print { position: absolute; margin: 0; transform: rotate(var(--r, 0deg)); }
+  .print .plate { padding: 10px; }
+  .print figcaption { padding: 2px 4px 10px; font-size: 0.875rem; }
+  .print img { aspect-ratio: var(--ar); object-fit: cover; }
+  /* Album photo corners: four paper pockets over the plate's corners. */
+  .print i { position: absolute; z-index: 3; width: 24px; height: 24px; background: var(--navy-deep); }
+  .print i:nth-of-type(1) { left: -5px; top: -5px; clip-path: polygon(0 0, 100% 0, 0 100%); }
+  .print i:nth-of-type(2) { right: -5px; top: -5px; clip-path: polygon(0 0, 100% 0, 100% 100%); }
+  .print i:nth-of-type(3) { left: -5px; bottom: -5px; clip-path: polygon(0 0, 100% 100%, 0 100%); }
+  .print i:nth-of-type(4) { right: -5px; bottom: -5px; clip-path: polygon(100% 0, 100% 100%, 0 100%); }
+
+  .p-a { left: 0; top: 0; width: 36%; --r: -1.4deg; }
+  .p-b { left: 41%; top: 24px; width: 33%; --r: 1.1deg; }
+  .p-c { left: 78%; top: 120px; width: 22%; --r: -0.7deg; }
+  .p-d { left: 38%; top: 430px; width: 44%; --r: -0.9deg; }
+  .p-e { left: 6%; top: 700px; width: 64%; --r: 0.7deg; }
+
+  .film { position: relative; aspect-ratio: 16 / 9; background: var(--navy-deep); }
+  .film video { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .film__cap { display: flex; justify-content: space-between; gap: 16px; }
+  .film__bar { display: flex; justify-content: flex-end; padding-top: 10px; }
+  .ctl { min-height: 40px; padding: 0 14px; border: 4px double var(--navy); background: transparent; color: var(--navy); font: 600 0.8125rem/1 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; transform: rotate(-0.8deg); transition: transform 180ms var(--ease-out), background-color 180ms var(--ease-out); }
+  .ctl:hover { transform: none; background: rgba(50, 50, 119, 0.07); }
+  .ctl[hidden] { display: none; }
+
+  .text { grid-column: 9 / span 4; padding-top: 32px; }
+  .text h2 { color: var(--navy); font: 600 2.5rem/48px var(--font-title); letter-spacing: -0.01em; margin-bottom: 32px; }
+  .text > p { margin-bottom: 48px; }
+  .line { list-style: none; margin: 0 0 48px; padding: 0; }
+  .line li { display: grid; grid-template-columns: 72px 1fr; column-gap: 16px; align-items: baseline; padding: 14px 0 15px; border-top: 1px solid var(--rule-strong); }
+  .line li:last-child { border-bottom: 1px solid var(--rule-strong); }
+  .line b { color: var(--navy); font: 400 1rem/1.4 var(--font-typed); font-variant-numeric: tabular-nums; }
+  .line span { font: 400 1.0625rem/1.5 var(--font-text); }
+  .line strong { color: var(--navy); font-weight: 600; }
+  .blank { display: inline-flex; gap: 5px; vertical-align: middle; }
+  .blank i { width: 0.7em; height: 3px; background: currentColor; }
+  .note { color: var(--ink-soft); font: 400 0.9375rem/1.4 var(--font-typed); margin-top: 24px; }
+  .stamp-btn svg { width: 18px; height: 18px; margin-left: 12px; fill: none; stroke: currentColor; stroke-width: 1.75; }
+
+  @media (max-width: 899px) {
+    .sec { padding: 160px 0 128px; }
+    .edge { top: 64px; } .cream { top: 72px; }
+    .album { grid-column: 1; height: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 40px 20px; align-items: start; }
+    .print { position: relative; left: auto; top: auto; width: auto; }
+    .p-d, .p-e, .p-b { grid-column: 1 / -1; }
+    .p-b { width: 78%; justify-self: end; }
+    .p-c { margin-top: 64px; order: 1; }
+    .p-a { order: 0; } .p-b { order: 2; } .p-d { order: 3; } .p-e { order: 4; }
+    .text { grid-column: 1; padding: 0 0 0 64px; }
+    .text h2 { font-size: 1.75rem; line-height: 32px; }
+    .line li { grid-template-columns: 64px 1fr; }
+  }
+  .still *, .still *::before, .still *::after { transition: none !important; }
+</style>
+</head>
+<body>
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="ink" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="wobble"/>
+      <feDisplacementMap in="SourceGraphic" in2="wobble" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.7" numOctaves="2" seed="3" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.7 0 0 0 1.62" result="coverage"/>
+      <feComposite in="edge" in2="coverage" operator="in"/>
+    </filter>
+    <symbol id="seal" viewBox="0 0 200 200">
+      <path id="seal-arc" d="M100,100 m-70,0 a70,70 0 1,1 140,0 a70,70 0 1,1 -140,0" fill="none"/>
+      <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="5"/>
+      <circle cx="100" cy="100" r="85" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="100" cy="100" r="52" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text font-family="Archivo Narrow, sans-serif" font-weight="600" font-size="19" letter-spacing="3.2" fill="currentColor"><textPath href="#seal-arc" startOffset="0">VOLAN OTOMOTİV · ANKARA · VOLAN OTOMOTİV · ANKARA ·</textPath></text>
+      <text x="100" y="112" text-anchor="middle" font-family="Besley, serif" font-weight="600" font-size="34" fill="currentColor">1954</text>
+    </symbol>
+    <symbol id="tick" viewBox="0 0 32 32"><path d="M5 17.5l7.5 7.5L27.5 6" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <pattern id="road-net" width="64" height="8" patternUnits="userSpaceOnUse"><path d="M0,4 C10.7,-1.3 21.3,-1.3 32,4 S53.3,9.3 64,4 M0,4 C10.7,9.3 21.3,9.3 32,4 S53.3,-1.3 64,4" fill="none" stroke="#323277" stroke-opacity="0.16" stroke-width="0.7"/></pattern>
+  </defs>
+</svg>
+
+<section class="sec" aria-labelledby="miras-baslik">
+  <div class="edge" aria-hidden="true"></div>
+  <svg class="road" aria-hidden="true" viewBox="0 0 1440 1500" preserveAspectRatio="none">
+    <path class="road__edge" d="M150,0 V1500"/><path class="road__bed" d="M150,0 V1500"/><path class="road__net" d="M150,0 V1500"/><path class="road__line" d="M150,0 V1500"/>
+  </svg>
+  <div class="cream" aria-hidden="true"></div>
+
+  <div class="inner">
+    <div class="album">
+      <figure class="print p-a" style="--ar: 989/1600">
+        <div class="plate"><figcaption>Arşivden, tarihsiz: J.M. Keith çekicisi.</figcaption>
+          <img src="/general-assets/gorseller/arsiv-restore/arsiv-06-kamyon-cocuk-jm-keith-international-sb-restore-1600.webp" width="989" height="1600" alt="Arşiv fotoğrafı: J.M. Keith International yazılı Volvo çekicinin kapısına tırmanan çocuk."></div>
+        <i></i><i></i><i></i><i></i>
+      </figure>
+      <figure class="print p-b" style="--ar: 1545/1600">
+        <div class="plate"><figcaption>Arşivden, tarihsiz: kamyonlar ve bir Volvo 240.</figcaption>
+          <img src="/general-assets/gorseller/arsiv-restore/arsiv-07-kamyon-filosu-volvo-240-06-rk-528-restore-1600.webp" width="1545" height="1600" alt="Arşiv fotoğrafı: sıra sıra Volvo kamyonlar ve önlerinde bir Volvo 240."></div>
+        <i></i><i></i><i></i><i></i>
+      </figure>
+      <figure class="print p-c" style="--ar: 1053/1600">
+        <div class="plate"><figcaption>Arşivden, tarihsiz: E.H. Harms, Bremen.</figcaption>
+          <img src="/general-assets/gorseller/arsiv-restore/arsiv-05-volvo-kamyon-cocuk-eh-harms-bremen-sb-restore-1600.webp" width="1053" height="1600" alt="Arşiv fotoğrafı: E.H. Harms Bremen yazılı Volvo kamyonun kapısında bir çocuk."></div>
+        <i></i><i></i><i></i><i></i>
+      </figure>
+      <figure class="print p-d" style="--ar: 1600/967">
+        <div class="plate"><figcaption>Arşivden, tarihsiz: anahtar duvarı önünde ekip.</figcaption>
+          <img src="/general-assets/gorseller/arsiv-restore/arsiv-02-atolye-ekip-portresi-anahtar-duvari-sb-restore-1600.webp" width="1600" height="967" alt="Arşiv fotoğrafı: atölyede, anahtar duvarının önünde poz veren ustalar."></div>
+        <i></i><i></i><i></i><i></i>
+      </figure>
+      <figure class="print p-e">
+        <div class="plate">
+          <figcaption class="film__cap"><span>Dün · Anadolu Volvo Yetkili</span><span>Bugün · Etimesgut</span></figcaption>
+          <div class="film">
+            <video muted loop playsinline preload="metadata" poster="/general-assets/video/once-simdi/once-simdi-cephe-wipe-loop-poster.webp" aria-label="Eski Volvo yetkili servis binasından bugünkü Volan binasına geçen döngü film.">
+              <source src="/general-assets/video/once-simdi/once-simdi-cephe-wipe-loop.webm" type="video/webm">
+              <source src="/general-assets/video/once-simdi/once-simdi-cephe-wipe-loop.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="film__bar"><button class="ctl" type="button" hidden>Durdur</button></div>
+        </div>
+        <i></i><i></i><i></i><i></i>
+      </figure>
+    </div>
+
+    <div class="text">
+      <h2 id="miras-baslik">Albümden birkaç yaprak</h2>
+      <p>Bu kapıdan yıllardır kamyonlar, otomobiller ve ustalar geçti. Adımız değişti; aracınıza gösterdiğimiz özen değişmedi.</p>
+      <ol class="line">
+        <li><b>1954</b><span><strong>Volan Küçükyılmaz</strong> adıyla kuruluş.</span></li>
+        <li><b><span class="blank" role="img" aria-label="Tarih bilinmiyor"><i></i><i></i><i></i><i></i></span></b><span>Uzun yıllar <strong>Volvo Yetkili Servisi</strong>.</span></li>
+        <li><b>2017</b><span><strong>Volan Otomotiv</strong>, özel servis.</span></li>
+        <li><b>Bugün</b><span>Volvo, Mercedes-Benz ve Volkswagen; 1.800 m², 5 lift.</span></li>
+      </ol>
+      <div class="stamps stamps--ink">
+        <a class="stamp-btn" href="/gc-volan-1/hakkimizda.html">Hikâyenin tamamı<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <p class="note">Fotoğrafların tarihleri kayıtlı değil.</p>
+    </div>
+  </div>
+</section>
+
+<script>
+(() => {
+  const sec = document.querySelector('.sec'), svg = sec.querySelector('.road');
+  const mq = matchMedia('(max-width: 899px)');
+  const still = /[?&]shot/.test(location.search) || matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (still) document.documentElement.classList.add('still');
+  const rel = el => { const a = el.getBoundingClientRect(), s = sec.getBoundingClientRect(); return { l: a.left - s.left, t: a.top - s.top }; };
+  function draw() {
+    const W = sec.clientWidth, H = sec.offsetHeight, x = mq.matches ? 36 : rel(sec.querySelector('.inner')).l + 54;
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.querySelectorAll('path').forEach(p => p.setAttribute('d', `M${x},-80 V${H + 80}`));
+  }
+  addEventListener('resize', draw); addEventListener('load', draw); draw();
+
+  // One interaction: the then/now film plays, with a stop control; it pauses off-screen.
+  const v = sec.querySelector('video'), b = sec.querySelector('.ctl');
+  let held = still;
+  b.hidden = false;
+  const label = () => { b.textContent = v.paused ? 'Oynat' : 'Durdur'; };
+  b.addEventListener('click', () => { if (v.paused) { held = false; v.play(); } else { held = true; v.pause(); } });
+  v.addEventListener('play', label); v.addEventListener('pause', label); label();
+  new IntersectionObserver(([e]) => { if (e.isIntersecting && !held) v.play().catch(() => {}); else if (!e.isIntersecting) v.pause(); }, { threshold: 0.25 }).observe(v);
+})();
+</script>
+</body>
+</html>

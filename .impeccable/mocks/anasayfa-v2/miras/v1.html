@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mock · miras · v1 — Kayıt defteri</title>
+<link rel="stylesheet" href="../_kit/kit.css">
+<style>
+  .sec { position: relative; padding: 128px 0 160px; }
+  .sec .road { overflow: hidden; }
+  /* The page ages here: the existing .aging ramp from site.css, multiplied over stock and road. */
+  .aging { position: absolute; inset: 0; z-index: 1; pointer-events: none; mix-blend-mode: multiply;
+    background: linear-gradient(to bottom, rgba(255, 245, 223, 0) 22%, var(--aged) 68%); }
+
+  .album { grid-column: 1 / span 5; position: relative; padding-bottom: 32px; }
+  .plate--truck { width: 79%; transform: rotate(-1.1deg); }
+  .plate--hall { width: 62%; margin: -136px 0 0 auto; transform: rotate(1.6deg); }
+  .plate figcaption { padding: 2px 4px 10px; }
+
+  .text { grid-column: 7 / span 6; padding-top: 15px; }
+  .text h2 { color: var(--navy); font: 600 2.5rem/48px var(--font-title); letter-spacing: -0.01em; margin-bottom: 32px; max-width: 16ch; }
+  .text > p { max-width: 52ch; }
+
+  /* The register: one ruled form, one row per name/status. */
+  .reg { margin: 64px 0 0; border-top: 2px solid var(--navy); }
+  .reg__title { display: flex; justify-content: space-between; align-items: baseline; height: 32px; padding-top: 9px; border-bottom: 1px solid var(--rule-strong); }
+  .reg__cols { display: grid; grid-template-columns: 96px 1fr 184px; }
+  .reg__cols span { padding-top: 9px; height: 32px; border-bottom: 1px solid rgba(110, 120, 160, 0.22); color: var(--ink-soft); }
+  .reg__row { display: grid; grid-template-columns: 96px 1fr 184px; align-items: center; min-height: 128px; border-bottom: 1px solid rgba(110, 120, 160, 0.22); }
+  .reg__row:last-child { border-bottom: 2px solid var(--navy); }
+  .reg__year { color: var(--navy); font: 400 1.125rem/1 var(--font-typed); font-variant-numeric: tabular-nums; }
+  .reg__name { color: var(--navy); font: 600 1.375rem/32px var(--font-title); }
+  .reg__note { display: block; color: var(--ink-soft); font: 400 1rem/32px var(--font-text); }
+  .reg__stamp { display: grid; place-items: center; height: 96px; }
+  .reg .stamp__ink { font-size: 0.9375rem; padding: 8px 12px 7px; }
+  .reg__row.is-stamped .stamp { transform: scale(1) rotate(var(--r, -6deg)); opacity: 0.92; filter: blur(0); }
+  .reg__row .seal { position: relative; width: 104px; height: 104px; opacity: 0; transform: scale(1.4) rotate(-30deg); transition: opacity 260ms var(--ease-out), transform 340ms var(--ease-out); }
+  .reg__row.is-stamped .seal { opacity: 0.9; transform: scale(1) rotate(-14deg); }
+
+  .blank { display: inline-flex; gap: 6px; vertical-align: middle; }
+  .blank i { width: 0.75em; height: 3px; background: currentColor; }
+
+  .foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px 32px; margin-top: 32px; }
+  .foot p { color: var(--ink-soft); font: 400 0.9375rem/1.4 var(--font-typed); max-width: 30ch; }
+  .stamps--ink .stamp-btn { color: var(--navy); }
+  .stamp-btn svg { width: 18px; height: 18px; margin-left: 12px; fill: none; stroke: currentColor; stroke-width: 1.75; }
+
+  @media (max-width: 899px) {
+    .sec { padding: 96px 0 128px; }
+    .album { grid-column: 1; padding-left: 0; }
+    .plate--truck { width: 78%; margin-left: 8%; }
+    .plate--hall { width: 70%; margin-top: -72px; }
+    .text { grid-column: 1; padding: 0 0 0 64px; }
+    .text h2 { font-size: 1.75rem; line-height: 32px; }
+    .reg__cols, .reg__row { grid-template-columns: 76px 1fr; }
+    .reg__cols span:last-child { display: none; }
+    .reg__row { min-height: 0; padding: 16px 0; }
+    .reg__stamp { grid-column: 2; justify-items: start; height: auto; padding-top: 12px; }
+    .reg__name { font-size: 1.1875rem; }
+    .reg__year .blank { gap: 4px; }
+    .reg__year .blank i { width: 11px; }
+  }
+  .still *, .still *::before, .still *::after { transition: none !important; }
+</style>
+</head>
+<body>
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="ink" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="wobble"/>
+      <feDisplacementMap in="SourceGraphic" in2="wobble" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.7" numOctaves="2" seed="3" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.7 0 0 0 1.62" result="coverage"/>
+      <feComposite in="edge" in2="coverage" operator="in"/>
+    </filter>
+    <symbol id="seal" viewBox="0 0 200 200">
+      <path id="seal-arc" d="M100,100 m-70,0 a70,70 0 1,1 140,0 a70,70 0 1,1 -140,0" fill="none"/>
+      <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="5"/>
+      <circle cx="100" cy="100" r="85" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="100" cy="100" r="52" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text font-family="Archivo Narrow, sans-serif" font-weight="600" font-size="19" letter-spacing="3.2" fill="currentColor"><textPath href="#seal-arc" startOffset="0">VOLAN OTOMOTİV · ANKARA · VOLAN OTOMOTİV · ANKARA ·</textPath></text>
+      <text x="100" y="112" text-anchor="middle" font-family="Besley, serif" font-weight="600" font-size="34" fill="currentColor">1954</text>
+    </symbol>
+    <symbol id="tick" viewBox="0 0 32 32"><path d="M5 17.5l7.5 7.5L27.5 6" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <pattern id="road-net" width="64" height="8" patternUnits="userSpaceOnUse"><path d="M0,4 C10.7,-1.3 21.3,-1.3 32,4 S53.3,9.3 64,4 M0,4 C10.7,9.3 21.3,9.3 32,4 S53.3,-1.3 64,4" fill="none" stroke="#323277" stroke-opacity="0.16" stroke-width="0.7"/></pattern>
+  </defs>
+</svg>
+
+<section class="sec" aria-labelledby="miras-baslik">
+  <svg class="road" aria-hidden="true" viewBox="0 0 1440 1400" preserveAspectRatio="none">
+    <path class="road__edge" d="M150,0 V1400"/><path class="road__bed" d="M150,0 V1400"/><path class="road__net" d="M150,0 V1400"/><path class="road__line" d="M150,0 V1400"/>
+  </svg>
+  <div class="aging" aria-hidden="true"></div>
+
+  <div class="inner">
+    <div class="album">
+      <figure class="plate plate--truck">
+        <figcaption>Arşivden, tarihsiz: J.M. Keith çekicisinin basamağında bir çocuk.</figcaption>
+        <img src="/general-assets/gorseller/arsiv-restore/arsiv-06-kamyon-cocuk-jm-keith-international-sb-restore-1600.webp" width="989" height="1600" alt="Arşiv fotoğrafı: J.M. Keith International yazılı bir Volvo çekicinin kapısına tırmanan çocuk.">
+      </figure>
+      <figure class="plate plate--hall">
+        <figcaption>Arşivden, tarihsiz: motor revizyon salonu.</figcaption>
+        <img src="/general-assets/gorseller/arsiv-restore/arsiv-12-volvo-servis-motor-revizyon-salonu-restore-1600.webp" width="1600" height="1123" alt="Arşiv fotoğrafı: Volvo tabelalı serviste sökülmüş motorların başında iki usta.">
+      </figure>
+    </div>
+
+    <div class="text">
+      <h2 id="miras-baslik">Adımız değişti, işimiz aynı kaldı.</h2>
+      <p>1954’te Volan Küçükyılmaz adıyla kurulduk. Uzun yıllar Volvo’nun yetkili servisi olduk. Bugün aynı işi, aynı titizlikle Volan Otomotiv adıyla sürdürüyoruz.</p>
+
+      <div class="reg" role="table" aria-label="Unvan ve yetki kayıtları">
+        <div class="reg__title"><span class="label">Unvan ve yetki kayıtları</span><span class="label" style="color:var(--ink-soft)">Sayfa 1/1</span></div>
+        <div class="reg__cols label" role="row"><span role="columnheader">Yıl</span><span role="columnheader">Kayıt</span><span role="columnheader">Kaşe</span></div>
+        <div class="reg__row" role="row" style="--r:-7deg">
+          <span class="reg__year" role="cell">1954</span>
+          <span role="cell"><span class="reg__name">Volan Küçükyılmaz</span><span class="reg__note">Kuruluş, Ankara.</span></span>
+          <span class="reg__stamp" role="cell"><span class="stamp" aria-hidden="true"><span class="stamp__ink">Kuruluş<small>Ankara</small></span></span></span>
+        </div>
+        <div class="reg__row" role="row" style="--r:-3deg">
+          <span class="reg__year" role="cell"><span class="blank" role="img" aria-label="Tarih bilinmiyor"><i></i><i></i><i></i><i></i></span></span>
+          <span role="cell"><span class="reg__name">Volvo Yetkili Servisi</span><span class="reg__note">Uzun yıllar.</span></span>
+          <span class="reg__stamp" role="cell"><span class="stamp" aria-hidden="true"><span class="stamp__ink">Volvo<small>Yetkili servis</small></span></span></span>
+        </div>
+        <div class="reg__row" role="row" style="--r:-8deg">
+          <span class="reg__year" role="cell">2017</span>
+          <span role="cell"><span class="reg__name">Volan Otomotiv</span><span class="reg__note">Özel servis: Volvo, Mercedes-Benz, Volkswagen.</span></span>
+          <span class="reg__stamp" role="cell"><span class="stamp" aria-hidden="true"><span class="stamp__ink">Özel servis<small>Etimesgut</small></span></span></span>
+        </div>
+        <div class="reg__row" role="row">
+          <span class="reg__year" role="cell">Bugün</span>
+          <span role="cell"><span class="reg__name">1.800 m², 25 kişi, 5 lift</span><span class="reg__note">Şaşmaz Oto Sanayi Sitesi.</span></span>
+          <span class="reg__stamp" role="cell"><svg class="seal" aria-hidden="true" focusable="false"><use href="#seal"/></svg></span>
+        </div>
+      </div>
+
+      <div class="foot">
+        <p>Volvo yetkili servis yıllarının tarihi kayıtlı değil; o satır boş bırakıldı.</p>
+        <div class="stamps stamps--ink">
+          <a class="stamp-btn" href="/gc-volan-1/hakkimizda.html">Hikâyenin tamamı<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(() => {
+  const sec = document.querySelector('.sec'), svg = sec.querySelector('.road');
+  const mq = matchMedia('(max-width: 899px)');
+  const still = /[?&]shot/.test(location.search) || matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (still) document.documentElement.classList.add('still');
+  const rel = el => { const a = el.getBoundingClientRect(), s = sec.getBoundingClientRect(); return { l: a.left - s.left, t: a.top - s.top }; };
+  function draw() {
+    const W = sec.clientWidth, H = sec.offsetHeight, x = mq.matches ? 36 : rel(sec.querySelector('.inner')).l + 54;
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.querySelectorAll('path').forEach(p => p.setAttribute('d', `M${x},-80 V${H + 80}`));
+  }
+  addEventListener('resize', draw); addEventListener('load', draw); draw();
+
+  // One interaction: the register is stamped row by row when it comes into view.
+  const rows = [...sec.querySelectorAll('.reg__row')];
+  if (still) { rows.forEach(r => r.classList.add('is-stamped')); return; }
+  new IntersectionObserver((es, io) => {
+    if (!es.some(e => e.isIntersecting)) return;
+    rows.forEach((r, i) => setTimeout(() => r.classList.add('is-stamped'), 300 + i * 380));
+    io.disconnect();
+  }, { threshold: 0.45 }).observe(sec.querySelector('.reg'));
+})();
+</script>
+</body>
+</html>

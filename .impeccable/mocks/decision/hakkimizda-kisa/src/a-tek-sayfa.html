@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<!--HEAD-->
+<title>Hakkımızda · Seçenek A · Tek Sayfa</title>
+<style>
+  /* ---------- Option A: one booklet page, as sketched ---------- */
+  .giris {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 32px;
+    align-items: start;
+    min-height: clamp(640px, calc(100svh - var(--menu-h)), 1000px);
+    padding: clamp(40px, 5vh, 64px) 0 64px;
+  }
+  .giris__metin { grid-column: 1 / span 5; padding-top: 8px; }
+  .giris__gorsel { position: relative; grid-column: 6 / span 7; }
+
+  h1 { color: var(--navy); font-size: clamp(3rem, 5.2vw, 4.5rem); line-height: 1; letter-spacing: -0.02em; }
+  .giris__ilke { margin-top: 28px; color: var(--navy); font: italic 400 clamp(1.2rem, 1.6vw, 1.4rem)/1.4 var(--font-title); }
+  .giris__ozet { margin-top: 16px; max-width: 44ch; }
+
+  .kunye { display: grid; grid-template-columns: 1fr 1fr; gap: 0 32px; margin: 32px 0 0; }
+  .kunye > div { padding: 14px 0 16px; border-top: 2px solid var(--rule-strong); }
+  .kunye dd { margin: 10px 0 0; }
+  .kunye .kutular { font-size: 1.25rem; }
+  .kunye__not { margin-top: 8px !important; color: var(--ink-soft); font-size: 0.9375rem; line-height: 1.45; }
+  .plate--bina { position: relative; z-index: 3; width: 64%; margin-left: 2%; transform: rotate(-1.1deg); }
+  .plate--bina img { aspect-ratio: 3 / 2; object-fit: cover; object-position: 50% 40%; }
+  .giris .arac { right: -5%; top: 19%; width: 50%; aspect-ratio: 16 / 10; }
+  .murekkep--ekip { position: relative; z-index: 2; margin-top: -17%; }
+  .murekkep--ekip figcaption { margin-top: 0; text-align: right; }
+
+  /* ---------- Sections ---------- */
+  .bolum { padding-top: 128px; }
+  .bolum__baslik { color: var(--navy); font-size: 2.5rem; line-height: 48px; letter-spacing: -0.01em; }
+  .bolum__giris { margin-top: 16px; max-width: 58ch; }
+  .bolum__ust { padding-top: 24px; border-top: 2px solid var(--rule-strong); }
+
+  .ekip { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 32px; row-gap: 48px; margin-top: 48px; align-items: start; }
+  .birimler-kutu { grid-column: 1 / span 6; }
+  .birimler { margin: 0; }
+  .birimler > div { display: grid; grid-template-columns: auto 1fr auto; align-items: baseline; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--rule-strong); }
+  .birimler dt { font-size: 1.0625rem; }
+  .birimler__lider { border-bottom: 1.5px dotted var(--rule-strong); transform: translateY(-5px); }
+  .birimler dd { margin: 0; color: var(--navy); font: 700 1.375rem/1 var(--font-typed); font-variant-numeric: tabular-nums; }
+  .birimler dd small { margin-left: 6px; color: var(--ink-soft); font: 400 0.875rem/1 var(--font-typed); }
+  .ekip .taslak-not { margin-top: 14px; }
+  .ekip__kalite { grid-column: 1 / span 6; margin: 0; padding: 0; list-style: none; }
+  .ekip__kalite li { display: flex; gap: 14px; align-items: flex-start; padding: 6px 0; }
+  .ekip__kalite .tickbox { margin-top: 7px; }
+  .plate--is { grid-column: 8 / span 5; grid-row: 1 / span 2; transform: rotate(1deg); }
+  .plate--is img { mix-blend-mode: multiply; }
+
+  .belgeler { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; margin-top: 48px; }
+  .belgeler .belge:nth-child(odd) { transform: rotate(-0.8deg); }
+  .belgeler .belge:nth-child(even) { transform: rotate(0.9deg) translateY(16px); }
+
+  .hikaye { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 32px; align-items: center; margin-top: 48px; }
+  .hikaye__plaka { grid-column: 1 / span 7; transform: rotate(-0.6deg); }
+  .hikaye__metin { grid-column: 9 / span 4; }
+  .hikaye__metin p + p { margin-top: 16px; }
+  .hikaye__metin .stamp-box { margin-top: 32px; }
+
+  @media (max-width: 900px) {
+    .giris { grid-template-columns: 1fr; row-gap: 40px; padding-top: 32px; min-height: 0; }
+    .giris__metin, .giris__gorsel { grid-column: 1; }
+    .kunye { grid-template-columns: 1fr; }
+    .ekip, .hikaye { grid-template-columns: 1fr; row-gap: 40px; }
+    .birimler-kutu, .ekip__kalite, .plate--is, .hikaye__plaka, .hikaye__metin { grid-column: 1; grid-row: auto; }
+    .belgeler { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .bolum { padding-top: 96px; }
+    .bolum__baslik { font-size: 1.75rem; line-height: 32px; }
+  }
+</style>
+</head>
+<body>
+<!--MENU-->
+<!--DEFS-->
+
+<main id="icerik">
+  <section class="wrap giris" aria-labelledby="hk-baslik">
+    <div class="giris__metin">
+      <h1 id="hk-baslik" class="baslik">Hakkımızda<svg class="baslik__cizgi" viewBox="0 0 300 30" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" stroke-width="5" d="M4 18 C 60 9, 140 22, 210 12 S 285 10, 296 15"/><path pathLength="1" stroke-width="2.4" d="M30 25 C 90 19, 170 27, 262 20"/></svg></h1>
+      <p class="giris__ilke">Gücümüz tecrübemizden, kalitemiz prensiplerimizden geliyor.</p>
+      <p class="giris__ozet">Volan Otomotiv 1954’te “Volan Küçükyılmaz” adıyla kuruldu ve uzun yıllar Volvo Yetkili Servisi olarak çalıştı. 2017’den beri özel servis olarak Volvo, Volkswagen ve Mercedes araçlara yetkili servis kalitesinde; daha esnek, ulaşılabilir ve müşteri odaklı bir hizmet sunuyoruz.</p>
+      <dl class="kunye">
+        <div>
+          <dt class="etiket">Mirasımız</dt>
+          <dd><span class="kutular" aria-hidden="true"><span>7</span><span>2</span><span class="kutular__birim">yıl</span></span><span class="visually-hidden"><span data-years>72</span> yıl</span></dd>
+          <dd class="kunye__not">1954’ten bu yana aynı adla.</dd>
+        </div>
+        <div>
+          <dt class="etiket">Tesisimiz</dt>
+          <dd><span class="kutular" aria-hidden="true"><span>1</span><span class="kutular__ayrac">.</span><span>8</span><span>0</span><span>0</span><span class="kutular__birim">m²</span></span><span class="visually-hidden">1.800 m²</span></dd>
+          <dd class="kunye__not">Şaşmaz Oto Sanayi Sitesi, Etimesgut.</dd>
+        </div>
+        <div>
+          <dt class="etiket">Kalitemiz</dt>
+          <dd><span class="kutular" aria-hidden="true"><span>3</span><span class="kutular__birim">marka</span></span><span class="visually-hidden">3 marka</span></dd>
+          <dd class="kunye__not">Volvo, Volkswagen, Mercedes; yetkili servis kalitesinde.</dd>
+        </div>
+        <div>
+          <dt class="etiket">İstatistiklerimiz</dt>
+          <dd class="taslak"><span class="kutular" aria-hidden="true"><span>4</span><span class="kutular__birim">lift</span></span><span class="visually-hidden">4 lift</span></dd>
+          <dd class="kunye__not">2 mekanik atölyesi: Mekanik 1 ve Mekanik 2.</dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="giris__gorsel">
+      <figure class="plate plate--bina">
+        <figcaption>Binamız bugün: Şaşmaz Oto Sanayi Sitesi.</figcaption>
+        <img src="img/bina-temiz-1600.webp" width="1600" height="1067" fetchpriority="high" alt="Volan binasının cephesi: oval VOLAN tabelası, Mekanik 1 ve Mekanik 2 atölye kapıları.">
+      </figure>
+      <div class="arac" data-arac data-yaw="-2.5" aria-hidden="true"><canvas></canvas></div>
+      <figure class="murekkep murekkep--ekip" data-murekkep data-drops="0.47,0.66,0,0.36;0.17,0.7,320,0.24;0.8,0.66,520,0.27;0.62,0.86,760,0.2;0.33,0.86,900,0.18">
+        <img src="img/ekip-ayakta-alfa.webp" width="1800" height="1200" alt="Karakalem çizim: Volan ekibi, Mekanik 1 atölyesinin önünde ayakta, yan yana.">
+        <figcaption>Ekibimiz, Mekanik 1’in önünde. Fotoğraftan karakalem.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="wrap bolum" aria-labelledby="hk-ekip">
+    <div class="bolum__ust">
+      <h2 class="bolum__baslik" id="hk-ekip">Tesis, birimler ve ekip</h2>
+      <p class="bolum__giris">Arıza tespiti, mekanik onarım, kaporta, boya ve sigorta işlemleri aynı çatı altında. Aracınız tesisten çıkmadan bütün süreç tamamlanır.</p>
+    </div>
+    <div class="ekip">
+      <div class="birimler-kutu">
+        <dl class="birimler">
+          <div><dt>Tesis alanı</dt><span class="birimler__lider" aria-hidden="true"></span><dd>1.800<small>m²</small></dd></div>
+          <div><dt>Mekanik atölyesi</dt><span class="birimler__lider" aria-hidden="true"></span><dd>2<small>Mekanik 1 · 2</small></dd></div>
+          <div><dt>Lift</dt><span class="birimler__lider" aria-hidden="true"></span><dd class="taslak">4</dd></div>
+          <div><dt>Mekanik ustası</dt><span class="birimler__lider" aria-hidden="true"></span><dd class="taslak">4</dd></div>
+          <div><dt>Kaporta ve boya ustası</dt><span class="birimler__lider" aria-hidden="true"></span><dd class="taslak">2</dd></div>
+          <div><dt>Hasar danışmanı</dt><span class="birimler__lider" aria-hidden="true"></span><dd class="taslak">1</dd></div>
+          <div><dt>Servis danışmanı</dt><span class="birimler__lider" aria-hidden="true"></span><dd class="taslak">3</dd></div>
+        </dl>
+        <p class="taslak-not">Dalgalı çizgili sayılar eski siteden alındı; güncelliği teyit edilecek.</p>
+      </div>
+      <ul class="ekip__kalite">
+        <li data-stamp><span class="tickbox" aria-hidden="true"><svg class="tick"><use href="#tick"/></svg></span>Alanında uzman, sürekli eğitim alan teknik kadro</li>
+        <li data-stamp><span class="tickbox" aria-hidden="true"><svg class="tick"><use href="#tick"/></svg></span>Güncel ekipman ve teknolojik altyapı</li>
+        <li data-stamp><span class="tickbox" aria-hidden="true"><svg class="tick"><use href="#tick"/></svg></span>Kurumsal disiplin ve süreç yönetimi</li>
+        <li data-stamp><span class="tickbox" aria-hidden="true"><svg class="tick"><use href="#tick"/></svg></span>Şeffaf iletişim ve müşteri memnuniyeti</li>
+      </ul>
+      <figure class="plate plate--is">
+        <figcaption>Lift altında üç usta. Fotoğraftan karakalem.</figcaption>
+        <img src="img/lift-altinda-uc-usta-1600.webp" width="1600" height="1067" loading="lazy" alt="Karakalem çizim: lifte kaldırılmış bir aracın altında çalışan üç usta.">
+      </figure>
+    </div>
+  </section>
+
+  <section class="wrap bolum" aria-labelledby="hk-belge">
+    <div class="bolum__ust">
+      <h2 class="bolum__baslik" id="hk-belge">Sertifika ve uzmanlık belgeleri</h2>
+      <p class="bolum__giris">Ustalarımızın eğitim ve uzmanlık belgeleri.</p>
+    </div>
+    <div class="belgeler">
+      <figure class="belge"><div class="belge__alan"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="M8 4h14l6 6v22H8z M22 4v6h6 M12 17h12 M12 22h12 M12 27h7"/></svg>Belge bekleniyor</div><figcaption>Kaporta ve boya</figcaption></figure>
+      <figure class="belge"><div class="belge__alan"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="M8 4h14l6 6v22H8z M22 4v6h6 M12 17h12 M12 22h12 M12 27h7"/></svg>Belge bekleniyor</div><figcaption>Mekanik eğitim</figcaption></figure>
+      <figure class="belge"><div class="belge__alan"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="M8 4h14l6 6v22H8z M22 4v6h6 M12 17h12 M12 22h12 M12 27h7"/></svg>Belge bekleniyor</div><figcaption>Elektronik sistemler</figcaption></figure>
+      <figure class="belge"><div class="belge__alan"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="M8 4h14l6 6v22H8z M22 4v6h6 M12 17h12 M12 22h12 M12 27h7"/></svg>Belge bekleniyor</div><figcaption>Hasar danışmanlığı</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="wrap bolum" aria-labelledby="hk-hikaye">
+    <div class="bolum__ust">
+      <h2 class="bolum__baslik" id="hk-hikaye">Volan Otomotiv’in hikâyesi</h2>
+    </div>
+    <div class="hikaye">
+      <div class="plate hikaye__plaka">
+        <div class="karsilastir" data-karsilastir>
+          <img src="img/bina-temiz-1600.webp" width="1600" height="1067" loading="lazy" alt="Bugün: Volan binası, Şaşmaz Oto Sanayi Sitesi.">
+          <img class="karsilastir__dun" src="img/arsiv-bayi.webp" width="1600" height="1082" loading="lazy" alt="Arşivden, tarihsiz: “Ömer Küçükyılmaz ve Ort.” yazılı Volvo tabelalı servis binası ve önünde Volvo otomobiller.">
+          <span class="karsilastir__etiket karsilastir__etiket--dun">Dün</span>
+          <span class="karsilastir__etiket karsilastir__etiket--bugun">Bugün</span>
+          <span class="karsilastir__cizgi" aria-hidden="true"><span class="karsilastir__tutamac"><svg viewBox="0 0 22 12"><path d="M6 1L1 6l5 5M16 1l5 5-5 5"/></svg></span></span>
+          <input type="range" min="0" max="100" value="50" aria-label="Dün ve bugün fotoğraflarını karşılaştır">
+        </div>
+      </div>
+      <div class="hikaye__metin">
+        <p>1954’te “Volan Küçükyılmaz” adıyla kurulduk. Uzun yıllar Volvo Yetkili Servisi olarak çalıştık.</p>
+        <p>2017’den beri “Volan Otomotiv” adıyla özel servis olarak çalışıyoruz; bugün Şaşmaz Oto Sanayi Sitesi’ndeki 1.800 m² tesisimizdeyiz.</p>
+        <div class="stamp-box" data-stamp>
+          <span class="stamp-box__label">Servis kaşesi</span>
+          <span class="stamp" aria-hidden="true"><span class="stamp__ink">Volan<small>1954’ten beri</small></span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!--KAPANIS-->
+<!--ILETISIM-->
+<p class="mock-etiket">Seçenek A · Tek Sayfa</p>
+</body>
+</html>

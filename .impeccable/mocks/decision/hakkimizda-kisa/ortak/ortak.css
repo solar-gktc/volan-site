@@ -1,0 +1,296 @@
+/* Shared parts of the short Hakkımızda options. Loaded after site.css and menu.css. */
+
+body { background: var(--stock); }
+
+.wrap {
+  width: min(1248px, 100% - 2 * var(--gutter));
+  margin-inline: auto;
+}
+
+/* ---------- Ink-drop drawing ---------- */
+.murekkep { position: relative; margin: 0; }
+.murekkep img { width: 100%; height: auto; }
+.murekkep.is-live img { opacity: 0; }
+.murekkep__tuval {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+}
+.murekkep figcaption {
+  margin-top: 8px;
+  color: var(--ink-soft);
+  font: 400 0.9375rem/1.4 var(--font-typed);
+}
+
+/* ---------- Parked 3D car ---------- */
+.arac { position: absolute; z-index: 4; }
+.arac canvas { display: block; width: 100%; height: 100%; cursor: grab; touch-action: pan-y; opacity: 0; transition: opacity 500ms var(--ease-out); }
+.arac.is-ready canvas { opacity: 1; }
+.arac.is-dragging canvas { cursor: grabbing; }
+
+/* ---------- Plate caption (typed, inside the border) ---------- */
+.plate figcaption {
+  padding: 2px 4px 10px;
+  color: var(--ink-soft);
+  font: 400 0.875rem/1.4 var(--font-typed);
+}
+
+/* ---------- Ink underline under the page title ---------- */
+.baslik { position: relative; display: inline-block; }
+.baslik__cizgi {
+  position: absolute;
+  left: -2%;
+  bottom: -0.18em;
+  width: 104%;
+  height: 0.42em;
+  overflow: visible;
+  color: var(--navy);
+  pointer-events: none;
+}
+.baslik__cizgi path {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  animation: cizgi 900ms 500ms var(--ease-out) backwards;
+}
+@keyframes cizgi { from { stroke-dashoffset: 1; } }
+
+/* ---------- Typed digit boxes (form fields) ---------- */
+.kutular { display: inline-flex; align-items: flex-end; gap: 3px; font: 400 1.5rem/1 var(--font-typed); color: var(--ink); }
+.kutular > span:not(.kutular__ayrac):not(.kutular__birim) {
+  display: grid;
+  place-items: center;
+  width: 1.3em;
+  height: 1.6em;
+  border: 1.5px solid var(--navy);
+  background: var(--paper);
+}
+.kutular__ayrac { padding-bottom: 0.15em; }
+.kutular__birim { padding: 0 0 0.12em 6px; color: var(--navy); font-size: 0.8em; }
+
+.etiket {
+  display: block;
+  color: var(--navy);
+  font: 600 0.75rem/1.2 var(--font-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Values that come from the old site and still need checking. */
+.taslak {
+  text-decoration: underline wavy rgba(161, 42, 34, 0.55);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+}
+.taslak-not {
+  color: var(--ink-red);
+  font: 400 0.8125rem/1.4 var(--font-typed);
+}
+
+/* ---------- Stamp buttons on stock ---------- */
+.stamps--ink .stamp-btn { color: var(--navy); }
+.stamps--ink .stamp-btn:hover { background-color: rgba(50, 50, 119, 0.07); }
+.stamps--ink .stamp-btn:focus-visible { outline-color: var(--navy); }
+.stamps--ink .stamp-btn--primary { background: var(--navy); border-color: var(--stock); color: var(--stock); outline: 0; }
+.stamps--ink .stamp-btn--primary:hover { background: var(--navy-deep); }
+.stamps--ink .stamp-btn--primary:focus-visible { outline: 2px solid var(--navy); }
+
+/* ---------- Floating contact seal ---------- */
+.iletisim {
+  position: fixed;
+  right: clamp(16px, 2.6vw, 36px);
+  bottom: clamp(16px, 2.6vw, 36px);
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 14px;
+}
+.iletisim__muhur {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 92px;
+  height: 92px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--navy);
+  color: var(--gold-ink);
+  cursor: pointer;
+  transform: rotate(-8deg);
+  box-shadow: 0 1px 1px rgba(43, 42, 41, 0.12), 0 12px 24px -12px rgba(43, 42, 41, 0.5);
+  transition: transform 220ms var(--ease-out), background-color 180ms var(--ease-out);
+}
+.iletisim__muhur:hover { transform: rotate(0deg) translateY(-1px); background: var(--navy-deep); }
+.iletisim__muhur:focus-visible { outline: 2px solid var(--navy); outline-offset: 5px; }
+.iletisim__muhur svg.halka { position: absolute; inset: 0; width: 100%; height: 100%; }
+.iletisim__ikon { position: relative; width: 26px; height: 26px; transition: transform 220ms var(--ease-out); }
+.iletisim__ikon path { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.iletisim__ikon .kapat { opacity: 0; }
+.is-open .iletisim__ikon .ac { opacity: 0; }
+.is-open .iletisim__ikon .kapat { opacity: 1; }
+.is-open .iletisim__muhur { transform: rotate(0deg); }
+
+.iletisim__liste {
+  display: grid;
+  gap: 10px;
+  justify-items: end;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.iletisim__liste a {
+  --tilt: -1deg;
+  display: grid;
+  grid-template-columns: 22px auto;
+  column-gap: 12px;
+  align-items: center;
+  min-width: 232px;
+  padding: 10px 18px 10px 14px;
+  border: 4px double var(--navy);
+  background: var(--paper);
+  color: var(--navy);
+  text-decoration: none;
+  box-shadow: 0 1px 1px rgba(43, 42, 41, 0.1), 0 10px 22px -10px rgba(43, 42, 41, 0.38);
+  opacity: 0;
+  transform: translateY(14px) scale(1.06) rotate(-6deg);
+  transition: opacity 200ms var(--ease-out), transform 300ms var(--ease-out), background-color 160ms;
+}
+.iletisim__liste li:nth-child(2) a { --tilt: 0.8deg; }
+.iletisim__liste li:nth-child(3) a { --tilt: -0.4deg; }
+.is-open .iletisim__liste a { opacity: 1; transform: rotate(var(--tilt)); }
+.is-open .iletisim__liste li:nth-child(3) a { transition-delay: 0ms; }
+.is-open .iletisim__liste li:nth-child(2) a { transition-delay: 50ms; }
+.is-open .iletisim__liste li:nth-child(1) a { transition-delay: 100ms; }
+.iletisim__liste a:hover { background: #fff; transform: rotate(0deg) translateY(-1px); }
+.iletisim__liste a:focus-visible { outline: 2px solid var(--navy); outline-offset: 4px; }
+.iletisim__liste svg { grid-row: span 2; width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.iletisim__liste b { font: 600 0.9375rem/1.2 var(--font-label); letter-spacing: 0.12em; text-transform: uppercase; }
+.iletisim__liste small { color: var(--ink-soft); font: 400 0.8125rem/1.3 var(--font-typed); }
+
+/* ---------- Dün / Bugün compare ---------- */
+.karsilastir {
+  --ayrim: 50%;
+  position: relative;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background: var(--paper);
+  user-select: none;
+}
+.karsilastir img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.karsilastir .karsilastir__dun { clip-path: inset(0 calc(100% - var(--ayrim)) 0 0); filter: sepia(0.25); }
+.karsilastir__cizgi {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--ayrim);
+  width: 3px;
+  background: var(--paper);
+  pointer-events: none;
+}
+.karsilastir__tutamac {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 4px double var(--navy);
+  background: var(--paper);
+  color: var(--navy);
+  transform: translate(-50%, -50%) rotate(-4deg);
+}
+.karsilastir__tutamac svg { width: 22px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.karsilastir input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: ew-resize;
+}
+.karsilastir:has(input:focus-visible) .karsilastir__tutamac { outline: 2px solid var(--navy); outline-offset: 3px; }
+.karsilastir__etiket {
+  position: absolute;
+  top: 14px;
+  padding: 5px 10px 4px;
+  background: var(--paper);
+  color: var(--navy);
+  font: 600 0.75rem/1 var(--font-label);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+.karsilastir__etiket--dun { left: 14px; }
+.karsilastir__etiket--bugun { right: 14px; }
+
+/* ---------- Certificate slots (documents not supplied yet) ---------- */
+.belge {
+  position: relative;
+  margin: 0;
+  padding: 10px;
+  background: var(--paper);
+  box-shadow: 0 1px 1px rgba(43, 42, 41, 0.1), 0 10px 22px -10px rgba(43, 42, 41, 0.38);
+}
+.belge__alan {
+  display: grid;
+  place-content: center;
+  gap: 6px;
+  aspect-ratio: 210 / 297;
+  border: 1.5px dashed var(--rule-strong);
+  color: var(--ink-soft);
+  text-align: center;
+  font: 400 0.875rem/1.4 var(--font-typed);
+}
+.belge__alan svg { justify-self: center; width: 36px; height: 36px; fill: none; stroke: var(--navy); stroke-width: 1.4; opacity: 0.6; }
+.belge figcaption { padding-top: 10px; color: var(--navy); font: 600 0.75rem/1.3 var(--font-label); letter-spacing: 0.12em; text-transform: uppercase; }
+
+/* ---------- Navy close ---------- */
+.kapanis {
+  position: relative;
+  margin-top: 128px;
+  padding: clamp(72px, 8vw, 112px) 0 clamp(72px, 8vw, 112px);
+  background: var(--navy);
+  color: var(--stock);
+}
+.kapanis::before,
+.kapanis::after { content: ""; position: absolute; pointer-events: none; }
+.kapanis::before { inset: clamp(16px, 2.2vw, 32px); border: 2px solid var(--gold); }
+.kapanis::after { inset: calc(clamp(16px, 2.2vw, 32px) + 7px); border: 1px solid rgba(133, 114, 68, 0.7); }
+.kapanis__inner { position: relative; z-index: 1; display: grid; grid-template-columns: 7fr 4fr; gap: 32px 64px; align-items: start; }
+.kapanis__ilke { margin: 0; color: var(--gold-ink); font: 400 clamp(2.25rem, 4vw, 3.5rem)/1.06 var(--font-title); letter-spacing: -0.012em; text-wrap: balance; }
+.kapanis__alt { margin-top: 20px; max-width: 44ch; font: italic 400 1.2rem/1.5 var(--font-title); }
+.kapanis dl { display: grid; gap: 18px; margin: 0; }
+.kapanis dt { color: var(--gold-ink); font: 600 0.75rem/1.2 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; }
+.kapanis dd { margin: 4px 0 0; font: 400 1rem/1.5 var(--font-typed); font-variant-numeric: tabular-nums; }
+.kapanis a { text-decoration-color: rgba(238, 240, 245, 0.45); }
+.kapanis a:focus-visible { outline-color: var(--gold-ink); }
+
+.mock-etiket {
+  position: fixed;
+  left: 12px;
+  bottom: 12px;
+  z-index: 50;
+  padding: 6px 10px;
+  background: var(--ink);
+  color: var(--stock);
+  font: 400 0.75rem/1.2 var(--font-typed);
+}
+
+@media (max-width: 900px) {
+  .kapanis__inner { grid-template-columns: 1fr; }
+  .iletisim__muhur { width: 76px; height: 76px; }
+  .mock-etiket { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .baslik__cizgi path { animation: none; }
+  .iletisim__liste a, .iletisim__muhur { transition: none; }
+}

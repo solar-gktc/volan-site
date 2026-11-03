@@ -1,0 +1,556 @@
+/* Tesisimiz: the real facade opens into the building.
+   Without JavaScript or WebGL the page is a plain booklet leaf: the photo with its cover
+   panel, a still of the model, and every unit card in a grid. tesis.js adds .is-live and
+   turns the section into a pinned scene: the photo hands over to the 3D model on scroll,
+   then numbered pins open the cards beside the model on leader lines. */
+
+.page-tesis { background: var(--stock); }
+.page-tesis h2 { margin: 0; font-family: var(--font-title); text-wrap: balance; }
+
+/* Bracketed facts the client still has to fill in (same as Hizmetlerimiz). */
+.ph {
+  background: var(--aged);
+  box-shadow: 0 0 0 2px var(--aged);
+  color: var(--ink-amber);
+  font-family: var(--font-typed);
+  font-size: 0.92em;
+}
+
+/* ---------- The facade ---------- */
+
+.tour__frame { position: relative; }
+
+.tour__photo {
+  position: relative;
+  height: clamp(560px, calc(100svh - var(--menu-h)), 1040px);
+  margin: 0;
+  overflow: hidden;
+  background: var(--navy);
+}
+.tour__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 54% 34%;
+}
+
+/* The cover panel: navy board with the double gold foil rule, set over the photo. */
+.tour__cover {
+  position: absolute;
+  left: 0;
+  top: clamp(560px, calc(100svh - var(--menu-h)), 1040px);
+  z-index: 6;
+  width: min(640px, 100%);
+  padding: clamp(36px, 4vw, 52px) clamp(28px, 4vw, 56px) clamp(40px, 4.4vw, 56px);
+  background: var(--navy);
+  transform: translateY(-100%);
+}
+.tour__cover::before,
+.tour__cover::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+.tour__cover::before { inset: 14px; border: 2px solid var(--gold); }
+.tour__cover::after { inset: 20px; border: 1px solid var(--gold); opacity: 0.7; }
+.tour__cover h1 {
+  color: var(--gold-ink);
+  font-size: clamp(2.5rem, 4.3vw, 3.875rem);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -0.012em;
+}
+.tour__lead {
+  max-width: 28rem;
+  margin-top: 18px;
+  color: var(--stock);
+  font-size: clamp(1.125rem, 1.55vw, 1.4rem);
+  line-height: 1.42;
+}
+.tour__cover .stamps { position: relative; z-index: 1; margin-top: 32px; }
+
+/* The address, typed on a slip of paper tucked into the photo. */
+.tour__address {
+  position: absolute;
+  right: clamp(96px, 8vw, 128px); /* clear of the quick-contact seal */
+  top: calc(clamp(560px, calc(100svh - var(--menu-h)), 1040px) - 40px);
+  z-index: 5;
+  padding: 10px 16px;
+  background: var(--paper);
+  box-shadow: 0 1px 1px rgba(43, 42, 41, 0.1), 0 10px 22px -10px rgba(43, 42, 41, 0.38);
+  color: var(--navy);
+  font: 400 0.9375rem/1.45 var(--font-typed);
+  transform: translateY(-100%) rotate(1deg);
+}
+
+/* ---------- The building (static leaf) ---------- */
+
+.tour__stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(72px, 8vw, 128px) var(--gutter);
+  border-top: 2px solid var(--rule-strong);
+}
+.tour__stage > .tour__head { order: -1; width: 100%; }
+.tour__canvas,
+.tour__leads,
+.tour__pins,
+.tour__tools,
+.tour__units,
+.tour__status,
+.tour__hint { display: none; }
+
+.tour__head { max-width: var(--measure); margin: 0 auto; }
+.tour__head h2 { color: var(--navy); font-size: 2.5rem; line-height: 1.2; }
+
+.tour__still {
+  align-self: center;
+  width: min(100%, 880px);
+  margin: 32px auto 64px;
+}
+
+.tour__cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 48px 32px;
+  max-width: var(--measure);
+  margin: 0 auto;
+}
+
+/* ---------- A unit card: a plate with its caption, a title, a paragraph, one action ---------- */
+
+.ucard {
+  --tilt: 0.4deg;
+  position: relative;
+  padding: 10px 10px 22px;
+  background: var(--paper);
+  box-shadow: 0 1px 1px rgba(43, 42, 41, 0.1), 0 10px 22px -10px rgba(43, 42, 41, 0.38);
+  transform: rotate(var(--tilt));
+}
+.ucard:nth-child(even) { --tilt: -0.5deg; }
+.ucard__plate { margin: 0; }
+.ucard__plate figcaption {
+  padding: 8px 4px 0;
+  color: var(--ink-soft);
+  font: 400 0.875rem/1.4 var(--font-typed);
+}
+.ucard__plate img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.ucard__title {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 18px 12px 0 !important;
+  color: var(--navy);
+  font-size: clamp(1.125rem, 1.55vw, 1.4rem);
+  line-height: 1.3;
+}
+.ucard__num {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--navy);
+  color: var(--gold-ink);
+  font: 700 0.875rem/1 var(--font-typed);
+  transform: translateY(-3px);
+}
+.ucard p {
+  margin: 10px 12px 0;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+.ucard strong { color: var(--navy); font-weight: 600; }
+.ucard__go {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin: 18px 12px 0;
+  padding: 0 16px;
+  border: 4px double var(--navy);
+  color: var(--navy);
+  font: 600 0.875rem/1 var(--font-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transform: rotate(-1deg);
+  transition: transform 180ms var(--ease-out), background-color 180ms var(--ease-out);
+}
+.ucard__go:hover { transform: rotate(0deg) translateY(-1px); background-color: rgba(50, 50, 119, 0.07); text-decoration: none; }
+.ucard__go:active { transform: rotate(0deg) translateY(1px); }
+.ucard__close { display: none; }
+
+/* ---------- The live scene ---------- */
+
+.tour.is-live { height: 290svh; margin-top: calc(-1 * var(--menu-h)); }
+.tour.is-live.is-still { margin-top: 0; }
+.tour.is-live .tour__frame {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+}
+.tour.is-live .tour__photo {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  height: auto;
+  will-change: opacity, transform;
+}
+.tour.is-live .tour__cover { top: 100%; }
+.tour.is-live .tour__address { top: calc(100% - 40px); }
+
+.tour.is-live .tour__stage {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  padding: 0;
+  border: 0;
+}
+.tour.is-live .tour__still {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(72vw, 900px);
+  margin: 0;
+  transform: translate(-50%, -46%);
+  transition: opacity 400ms var(--ease-out);
+}
+.tour.is-ready .tour__still { opacity: 0; }
+
+.tour.is-live .tour__canvas {
+  display: block;
+  position: absolute;
+  inset: 0;
+  outline: none;
+}
+.tour.is-live .tour__canvas canvas { display: block; width: 100%; height: 100%; touch-action: pan-y; }
+.tour.is-live .tour__canvas:focus-visible { box-shadow: inset 0 0 0 2px var(--navy); }
+.tour.is-live .tour__canvas.is-pointing canvas { cursor: pointer; }
+
+/* What only appears once the building has opened. */
+.tour.is-live .tour__head,
+.tour.is-live .tour__units,
+.tour.is-live .tour__tools,
+.tour.is-live .tour__pins,
+.tour.is-live .tour__leads {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 320ms var(--ease-out), visibility 0s linear 320ms;
+}
+.tour.is-open .tour__head,
+.tour.is-open .tour__units,
+.tour.is-open .tour__tools,
+.tour.is-open .tour__pins,
+.tour.is-open .tour__leads {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 320ms var(--ease-out), visibility 0s;
+}
+
+.tour.is-live .tour__head {
+  position: absolute;
+  left: var(--gutter);
+  top: calc(var(--menu-offset, 0px) + clamp(24px, 4.4vh, 48px));
+  z-index: 3;
+  max-width: 26rem;
+  margin: 0;
+  transition-property: opacity, visibility, top;
+}
+.tour.is-live .tour__hint { display: block; margin-top: 8px; color: var(--ink-soft); font: 400 0.9375rem/1.45 var(--font-typed); }
+.tour__hint--touch { display: none; }
+@media (hover: none) and (pointer: coarse) {
+  .tour__hint--fine { display: none; }
+  .tour__hint--touch { display: inline; }
+}
+
+/* Pins: numbered seals that follow the model. */
+.tour.is-live .tour__pins { display: block; position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+.tour__pin {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  margin: -18px 0 0 -18px;
+  padding: 0;
+  border: 2px solid var(--navy);
+  border-radius: 50%;
+  background: var(--paper);
+  box-shadow: 0 0 0 3px rgba(251, 251, 253, 0.7); /* a paper ring, so the pin reads on the model */
+  color: var(--navy);
+  font: 700 0.9375rem/1 var(--font-typed);
+  cursor: pointer;
+  pointer-events: auto;
+  transition: background-color 180ms var(--ease-out), color 180ms var(--ease-out), transform 180ms var(--ease-out), opacity 200ms var(--ease-out);
+}
+.tour__pin:hover { transform: scale(1.08); }
+.tour__pin:focus-visible { outline: 2px solid var(--navy); outline-offset: 4px; }
+.tour__pin[aria-pressed="true"] { background: var(--navy); color: var(--gold-ink); }
+.tour__pin[hidden] { display: none; }
+.tour__pin-label {
+  position: absolute;
+  left: calc(100% + 8px);
+  top: 50%;
+  padding: 4px 8px;
+  background: var(--paper);
+  color: var(--navy);
+  font: 600 0.75rem/1.2 var(--font-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate(-4px, -50%);
+  transition: opacity 160ms var(--ease-out), transform 160ms var(--ease-out);
+  pointer-events: none;
+}
+.tour__pin:hover .tour__pin-label,
+.tour__pin:focus-visible .tour__pin-label { opacity: 1; transform: translate(0, -50%); }
+
+/* Leader lines from a pin to its card. */
+.tour.is-live .tour__leads { display: block; position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.tour__lead-line { fill: none; stroke: var(--navy); stroke-width: 1.5; }
+
+/* Zoom and "whole building". */
+.tour.is-live .tour__tools {
+  display: flex;
+  position: absolute;
+  right: var(--gutter);
+  top: calc(var(--menu-offset, 0px) + clamp(24px, 4.4vh, 48px));
+  z-index: 3;
+  gap: 8px;
+  transition-property: opacity, visibility, top;
+}
+.tour__tool {
+  display: grid;
+  place-items: center;
+  min-width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 2px solid var(--navy);
+  background: var(--stock);
+  color: var(--navy);
+  cursor: pointer;
+  transition: background-color 180ms var(--ease-out), color 180ms var(--ease-out);
+}
+.tour__tool svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
+.tour__tool--wide { padding: 0 14px; font: 600 0.8125rem/1 var(--font-label); letter-spacing: 0.12em; text-transform: uppercase; }
+.tour__tool:hover { background: var(--navy); color: var(--stock); }
+.tour__tool:focus-visible { outline: 2px solid var(--navy); outline-offset: 3px; }
+.tour__tool[hidden] { display: none; }
+
+/* The numbered bar along the bottom: the same seven units as the pins. */
+.tour.is-live .tour__units {
+  display: block;
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: clamp(16px, 3.2vh, 32px);
+  z-index: 5;
+}
+.tour__units ol {
+  display: flex;
+  margin: 0 auto;
+  max-width: 1320px;
+  padding: 0;
+  list-style: none;
+  border: 4px double var(--navy);
+  background: var(--stock);
+}
+.tour__units li { flex: 1 1 auto; display: flex; }
+.tour__units li + li { border-left: 1px solid var(--rule-strong); }
+.tour__units button {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 6px 12px;
+  border: 0;
+  background: transparent;
+  color: var(--navy);
+  font: 600 0.75rem/1.2 var(--font-label);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 180ms var(--ease-out), color 180ms var(--ease-out);
+}
+.tour__units button:hover { background: rgba(50, 50, 119, 0.07); }
+.tour__units button:focus-visible { outline: 2px solid var(--navy); outline-offset: -6px; }
+.tour__units button[aria-pressed="true"] { background: var(--navy); color: var(--gold-ink); }
+.tour__num {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  font: 700 0.75rem/1 var(--font-typed);
+  letter-spacing: 0;
+}
+
+/* Cards beside the model: tipped in when a unit is picked. */
+.tour.is-live .tour__cards {
+  position: absolute;
+  right: var(--gutter);
+  top: calc(var(--menu-offset, 0px) + clamp(84px, 11vh, 120px));
+  bottom: calc(clamp(16px, 3.2vh, 32px) + 76px);
+  z-index: 6;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+  max-width: none;
+  margin: 0;
+  pointer-events: none;
+  transition: top 260ms var(--ease-out);
+}
+.tour.is-live .ucard {
+  display: none;
+  width: clamp(260px, 21vw, 320px);
+  max-height: 100%;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  pointer-events: auto;
+}
+.tour.is-live .ucard.is-shown { display: block; animation: tipin 340ms var(--ease-out) both; }
+.tour.is-live .ucard.is-shown + .ucard.is-shown { animation-delay: 70ms; }
+.tour.is-live .ucard__close {
+  display: grid;
+  place-items: center;
+  position: absolute;
+  right: 18px;
+  top: 18px;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 2px solid var(--navy);
+  background: var(--paper);
+  color: var(--navy);
+  cursor: pointer;
+}
+.ucard__close svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.8; }
+.ucard__close:hover { background: var(--navy); color: var(--paper); }
+.ucard__close:focus-visible { outline: 2px solid var(--navy); outline-offset: 3px; }
+@keyframes tipin {
+  from { opacity: 0; transform: translateY(14px) rotate(calc(var(--tilt) * 3)); }
+  to { opacity: 1; transform: rotate(var(--tilt)); }
+}
+
+.tour.is-live .tour__status {
+  display: block;
+  position: absolute;
+  left: 50%;
+  bottom: calc(clamp(16px, 3.2vh, 32px) + 84px);
+  z-index: 5;
+  transform: translateX(-50%);
+  color: var(--ink-soft);
+  font: 400 0.9375rem/1.4 var(--font-typed);
+  text-align: center;
+}
+.tour__status:empty { display: none !important; }
+
+/* Reduced motion: no pinned scene. The photo, then the building, one after the other. */
+.tour.is-live.is-still { height: auto; }
+.tour.is-live.is-still .tour__frame { position: relative; height: auto; overflow: visible; }
+.tour.is-live.is-still .tour__photo { position: relative; height: clamp(560px, calc(100svh - var(--menu-h)), 1040px); }
+.tour.is-live.is-still .tour__cover { top: clamp(560px, calc(100svh - var(--menu-h)), 1040px); }
+.tour.is-live.is-still .tour__address { top: calc(clamp(560px, calc(100svh - var(--menu-h)), 1040px) - 40px); }
+.tour.is-live.is-still .tour__stage { position: relative; height: 100svh; min-height: 640px; border-top: 2px solid var(--rule-strong); }
+.tour.is-live.is-still .tour__head,
+.tour.is-live.is-still .tour__tools { top: clamp(24px, 4.4vh, 48px); }
+.tour.is-live.is-still .tour__cards { top: clamp(84px, 11vh, 120px); }
+@media (prefers-reduced-motion: reduce) {
+  .tour.is-live .ucard.is-shown { animation: none; }
+  .tour__pin, .tour__units button, .ucard__go { transition: none; }
+}
+
+/* ---------- Contact (same as Hizmetlerimiz) ---------- */
+
+.close { padding: clamp(64px, 7vw, 104px) var(--gutter) clamp(64px, 7vw, 96px); overflow-x: clip; border-top: 2px solid var(--rule-strong); }
+.close__inner {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 40px clamp(20px, 2.4vw, 32px);
+  align-items: center;
+  max-width: var(--measure);
+  margin: 0 auto;
+}
+.close__plate { grid-column: 2 / span 4; transform: rotate(-1.4deg); }
+.close__plate figcaption { margin-top: 10px; color: var(--ink-soft); font: 400 0.875rem/1.4 var(--font-typed); }
+.close__dealer { grid-column: 7 / span 5; }
+
+/* ---------- Narrow screens ---------- */
+
+@media (max-width: 1099.98px) {
+  .tour__units button { letter-spacing: 0.05em; padding: 6px 8px; }
+}
+
+@media (max-width: 899.98px) {
+  .tour__photo img { object-position: 68% 30%; }
+  .tour__cover { width: 100%; }
+  .tour__address { top: calc(var(--menu-h) + 16px); transform: rotate(1deg); }
+  .tour.is-live .tour__address { top: calc(var(--menu-h) + 16px); }
+  .tour.is-live.is-still .tour__address { top: 16px; }
+
+  .tour.is-live .tour__still { width: 92vw; }
+  .tour.is-live .tour__head { right: var(--gutter); max-width: none; }
+  .tour.is-live .tour__head h2 { font-size: 2rem; }
+  .tour.is-live .tour__hint { font-size: 0.9375rem; line-height: 1.4; }
+  .tour.is-live .tour__tools { top: auto; right: auto; left: var(--gutter); bottom: calc(clamp(16px, 3.2vh, 32px) + 64px); }
+
+  /* The bar scrolls sideways; every number stays a full touch target. */
+  .tour.is-live .tour__units { left: 0; right: 0; bottom: 12px; }
+  .tour__units ol {
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    border-left: 0;
+    border-right: 0;
+  }
+  .tour__units ol::-webkit-scrollbar { display: none; }
+  .tour__units li { flex: none; scroll-snap-align: start; }
+  .tour__address { right: clamp(20px, 4vw, 56px); }
+  /* The quick-contact seal stands above the bar while the building is open. */
+  .tesis-stage-open .fab { bottom: calc(max(24px, env(safe-area-inset-bottom)) + 64px); }
+  /* An open card sheet takes the bottom: the bar, the tools and the seal step aside. */
+  .tesis-cards-open .fab,
+  .tesis-cards-open .tour.is-live .tour__units,
+  .tesis-cards-open .tour.is-live .tour__tools { opacity: 0; visibility: hidden; }
+  .tesis-cards-open .tour__hint { display: none !important; }
+  .tesis-cards-open .tour.is-live .tour__head { opacity: 0; visibility: hidden; }
+  .tour__units button { font-size: 0.75rem; letter-spacing: 0.08em; padding: 6px 14px; white-space: nowrap; }
+
+  /* Cards come up from the bottom, over the bar; two cards scroll sideways. */
+  .tour.is-live .tour__cards {
+    left: 0;
+    right: 0;
+    top: auto;
+    bottom: 0;
+    height: min(62svh, 520px);
+    flex-direction: row;
+    align-items: stretch;
+    gap: 12px;
+    padding: 18px 16px 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+  }
+  .tour.is-live .ucard { flex: none; width: min(86vw, 380px); max-height: none; scroll-snap-align: center; --tilt: 0deg; }
+  .tour.is-live .ucard:only-child,
+  .tour.is-live .ucard.is-shown:first-of-type:last-of-type { width: 100%; }
+  .tour.is-live .ucard__plate img { aspect-ratio: 16 / 9; }
+  .tour.is-live .ucard p { font-size: 0.9375rem; line-height: 1.55; }
+
+  .close__inner { grid-template-columns: minmax(0, 1fr); }
+  .close__plate { grid-column: 1; width: min(100%, 380px); margin: 0 auto; }
+  .close__dealer { grid-column: 1; }
+}

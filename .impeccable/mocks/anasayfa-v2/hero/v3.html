@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mock · hero · v3 Kuşak</title>
+<link rel="stylesheet" href="../_kit/kit.css">
+<style>
+  .menu-stub { position: relative; z-index: 4; height: 72px; display: flex; align-items: center; padding-inline: var(--gutter); background: var(--navy); border-bottom: 1px solid var(--gold); color: var(--gold-ink); font: 500 0.6875rem/1 var(--font-label); letter-spacing: 0.16em; text-transform: uppercase; }
+
+  /* v3 · The belly band. The whole banner is the facade, printed full bleed on the leaf
+     (paper level, so the 3D cars park on the real forecourt in the photo). A navy band with
+     gold foil edges wraps across it and carries the words, like the paper band around a new booklet. */
+  .hero { position: relative; height: clamp(640px, calc(100svh - 72px), 1000px); overflow: clip; background: var(--stock); }
+  .print { position: absolute; inset: 0; z-index: 0; margin: 0; }
+  .print video { width: 100%; height: 100%; object-fit: cover; object-position: 60% 30%; }
+
+  .band { position: absolute; z-index: 2; left: 0; right: 0; top: 56px; background: var(--navy); color: var(--stock); padding: 44px 0 46px; }
+  .band::before, .band::after { content: ""; position: absolute; left: 0; right: 0; height: 9px; border-top: 2px solid var(--gold); border-bottom: 1px solid rgba(133, 114, 68, 0.7); pointer-events: none; }
+  .band::before { top: 14px; }
+  .band::after { bottom: 14px; transform: scaleY(-1); }
+  .band__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 32px; row-gap: 22px; width: min(var(--measure), 100% - 2 * var(--gutter)); margin-inline: auto; align-items: center; }
+  .band__logo { grid-column: 1 / 3; grid-row: 1 / 3; align-self: center; width: 100%; max-width: 188px; }
+  .band__title { grid-column: 3 / 13; color: var(--gold-ink); font: 400 clamp(2.5rem, 4.15vw, 3.75rem)/1 var(--font-title); letter-spacing: -0.02em; white-space: nowrap; }
+  .band__sub { grid-column: 3 / 8; max-width: 30rem; color: var(--stock); font: 400 clamp(1.0625rem, 1.3vw, 1.25rem)/1.42 var(--font-text); }
+  .band .stamps { grid-column: 8 / 13; justify-content: flex-end; }
+
+  .print__tag { position: absolute; z-index: 2; left: max(var(--gutter), (100% - var(--measure)) / 2); bottom: 28px; padding: 6px 10px 5px; background: var(--paper); color: var(--ink-soft); font: 400 0.8125rem/1 var(--font-typed); }
+
+  .park-area { position: absolute; z-index: 2; left: 46%; right: 3%; top: 64%; bottom: 3%; border: 1.5px dashed rgba(251, 251, 253, 0.85); pointer-events: none; }
+  .park-area__label, .slot span { position: absolute; color: var(--ink-soft); font: 400 0.8125rem/1 var(--font-typed); background: var(--paper); padding: 4px 6px 3px; }
+  .park-area__label { left: 8px; top: 8px; }
+  .slot { position: absolute; border: 1px dashed rgba(251, 251, 253, 0.8); }
+  .slot span { left: 6px; bottom: 6px; font-size: 0.75rem; }
+  .slot--volvo { left: 12%; top: 16%; width: 52%; height: 78%; }
+  .slot--volvo span { top: 6px; bottom: auto; }
+  .slot--merc { right: 3%; top: 6%; width: 25%; height: 40%; }
+  .slot--vw { right: 5%; bottom: 6%; width: 25%; height: 40%; }
+
+  .road { z-index: 1; }
+  .road--narrow { display: none; }
+
+  @media (max-width: 1180px) {
+    .band__title { white-space: normal; font-size: clamp(2.25rem, 5vw, 3.25rem); }
+  }
+  @media (max-width: 899px) {
+    .hero { height: auto; overflow: visible; display: flex; flex-direction: column; }
+    .band { position: relative; top: auto; order: 1; padding: 44px 0 48px; }
+    .band::before { top: 12px; }
+    .band::after { bottom: 12px; }
+    .band__grid { display: block; width: auto; padding-inline: 20px; }
+    .band__logo { width: 140px; margin-bottom: 24px; }
+    .band__title { font-size: clamp(1.875rem, 8.6vw, 2.5rem); line-height: 1.04; }
+    .band__sub { margin-top: 18px; }
+    .band .stamps { margin-top: 28px; justify-content: flex-start; }
+    .print { position: relative; order: 2; height: 460px; }
+    .print video { object-position: 66% 50%; }
+    .print__tag { left: 16px; top: 16px; bottom: auto; }
+    .park-area { left: 12px; right: 12px; top: auto; bottom: 16px; height: 200px; }
+    .slot--volvo { left: 4%; top: 22%; width: 58%; height: 70%; }
+    .slot--merc { right: 3%; top: 14%; width: 30%; height: 36%; }
+    .slot--vw { right: 3%; bottom: 7%; width: 30%; height: 36%; }
+    .road--wide { display: none; }
+    .road--narrow { display: block; }
+  }
+</style>
+</head>
+<body>
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="ink" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="wobble"/>
+      <feDisplacementMap in="SourceGraphic" in2="wobble" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.7" numOctaves="2" seed="3" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.7 0 0 0 1.62" result="coverage"/>
+      <feComposite in="edge" in2="coverage" operator="in"/>
+    </filter>
+    <symbol id="seal" viewBox="0 0 200 200">
+      <path id="seal-arc" d="M100,100 m-70,0 a70,70 0 1,1 140,0 a70,70 0 1,1 -140,0" fill="none"/>
+      <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="5"/>
+      <circle cx="100" cy="100" r="85" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="100" cy="100" r="52" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text font-family="Archivo Narrow, sans-serif" font-weight="600" font-size="19" letter-spacing="3.2" fill="currentColor"><textPath href="#seal-arc" startOffset="0">VOLAN OTOMOTİV · ANKARA · VOLAN OTOMOTİV · ANKARA ·</textPath></text>
+      <text x="100" y="112" text-anchor="middle" font-family="Besley, serif" font-weight="600" font-size="34" fill="currentColor">1954</text>
+    </symbol>
+    <symbol id="tick" viewBox="0 0 32 32"><path d="M5 17.5l7.5 7.5L27.5 6" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <pattern id="road-net" width="64" height="8" patternUnits="userSpaceOnUse"><path d="M0,4 C10.7,-1.3 21.3,-1.3 32,4 S53.3,9.3 64,4 M0,4 C10.7,9.3 21.3,9.3 32,4 S53.3,-1.3 64,4" fill="none" stroke="#323277" stroke-opacity="0.16" stroke-width="0.7"/></pattern>
+  </defs>
+</svg>
+
+<div class="menu-stub" aria-hidden="true">Site menüsü · 72px</div>
+
+<section class="hero" aria-labelledby="hero-title">
+  <figure class="print">
+    <video src="/general-assets/video/cephe/cephe-gunesli-bulut-loop.mp4" poster="/general-assets/video/cephe/cephe-gunesli-bulut-loop-poster.webp" muted loop playsinline autoplay aria-label="Volan Otomotiv binası, güneşli bir günde." data-loop></video>
+    <svg class="road road--narrow" aria-hidden="true" viewBox="0 0 390 460" preserveAspectRatio="none">
+      <path class="road__edge" d="M130,390 C130,430 150,440 150,470"/><path class="road__bed" d="M130,390 C130,430 150,440 150,470"/><path class="road__net" d="M130,390 C130,430 150,440 150,470"/><path class="road__line" d="M130,390 C130,430 150,440 150,470"/>
+    </svg>
+    <figcaption class="print__tag">Bugün · Şaşmaz Oto Sanayi Sitesi, Etimesgut</figcaption>
+    <div class="park-area" aria-hidden="true">
+      <span class="park-area__label">3D araçlar</span>
+      <div class="slot slot--volvo"><span>Volvo XC60 · yol burada başlar</span></div>
+      <div class="slot slot--merc"><span>Mercedes</span></div>
+      <div class="slot slot--vw"><span>VW</span></div>
+    </div>
+  </figure>
+
+  <svg class="road road--wide" aria-hidden="true" viewBox="0 0 1440 828" preserveAspectRatio="xMidYMid slice">
+    <path class="road__edge" d="M920,720 C920,800 860,810 820,850"/><path class="road__bed" d="M920,720 C920,800 860,810 820,850"/><path class="road__net" d="M920,720 C920,800 860,810 820,850"/><path class="road__line" d="M920,720 C920,800 860,810 820,850"/>
+  </svg>
+
+  <div class="band">
+    <div class="band__grid">
+      <img class="band__logo" src="/gc-volan-1/brand/logo-oval.svg" width="677" height="292" alt="Volan Otomotiv · Premium Car Service">
+      <h1 class="band__title" id="hero-title">Aracınız bizim sorumluluğumuzda</h1>
+      <p class="band__sub">Garanti süreniz bittiği için servis kalitenizi düşürmek zorunda değilsiniz.</p>
+      <div class="stamps" role="group" aria-label="İletişim">
+        <a class="stamp-btn stamp-btn--primary" href="https://wa.me/905337653378?text=Merhaba%2C%20arac%C4%B1m%20i%C3%A7in%20randevu%20almak%20istiyorum.">Randevu al</a>
+        <a class="stamp-btn" href="tel:+905337653378">Ara</a>
+        <a class="stamp-btn" href="https://wa.me/905337653378">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // One motion: the facade loop (clouds). Held for reduced motion and for screenshots.
+  (function () {
+    var v = document.querySelector('[data-loop]');
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches || location.search.indexOf('shot') > -1) { v.removeAttribute('autoplay'); v.pause(); }
+  })();
+</script>
+</body>
+</html>

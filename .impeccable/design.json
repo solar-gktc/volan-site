@@ -1,0 +1,677 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-03T00:00:00+00:00",
+  "title": "Design System: Volan Otomotiv",
+  "extensions": {
+    "colorMeta": {
+      "navy": {
+        "role": "primary",
+        "displayName": "Volan Navy",
+        "canonical": "#323277",
+        "oklch": "oklch(35.9% 0.115 278.9)",
+        "tonalRamp": [
+          "#090033",
+          "#1d1958",
+          "#37387c",
+          "#55599c",
+          "#767cbc",
+          "#989fdd",
+          "#bdc4ff",
+          "#e3eaff"
+        ]
+      },
+      "navy-deep": {
+        "role": "primary",
+        "displayName": "Deep Cover Navy",
+        "canonical": "#27275f",
+        "oklch": "oklch(30.8% 0.097 279.0)",
+        "tonalRamp": [
+          "#08012e",
+          "#1d1c51",
+          "#383b72",
+          "#575b92",
+          "#787db2",
+          "#9ba1d3",
+          "#bfc5f5",
+          "#e5ebff"
+        ]
+      },
+      "gold": {
+        "role": "secondary",
+        "displayName": "Foil Gold",
+        "canonical": "#857244",
+        "oklch": "oklch(55.9% 0.068 87.8)",
+        "tonalRamp": [
+          "#140900",
+          "#302300",
+          "#504018",
+          "#715f34",
+          "#938053",
+          "#b5a379",
+          "#d9c89f",
+          "#fdedc7"
+        ]
+      },
+      "gold-ink": {
+        "role": "secondary",
+        "displayName": "Light Foil Gold",
+        "canonical": "#cdb585",
+        "oklch": "oklch(78.2% 0.069 84.3)",
+        "tonalRamp": [
+          "#130900",
+          "#302305",
+          "#4f401f",
+          "#715f3a",
+          "#948057",
+          "#b9a275",
+          "#dec697",
+          "#ffecbf"
+        ]
+      },
+      "stamp-ink": {
+        "role": "tertiary",
+        "displayName": "Stamp Violet",
+        "canonical": "#3b3f8f",
+        "oklch": "oklch(41.1% 0.130 276.9)",
+        "tonalRamp": [
+          "#080037",
+          "#1b175c",
+          "#333684",
+          "#5158a6",
+          "#717bc6",
+          "#949fe7",
+          "#b9c4ff",
+          "#dfeaff"
+        ]
+      },
+      "stock": {
+        "role": "neutral",
+        "displayName": "Card Stock",
+        "canonical": "#e6e9f0",
+        "oklch": "oklch(93.4% 0.010 267.4)",
+        "tonalRamp": [
+          "#0a0b0d",
+          "#242528",
+          "#404246",
+          "#5f6166",
+          "#808287",
+          "#a2a5ab",
+          "#c6c9cf",
+          "#ebeef5"
+        ]
+      },
+      "stock-deep": {
+        "role": "neutral",
+        "displayName": "Deep Stock",
+        "canonical": "#dde1ea",
+        "oklch": "oklch(90.9% 0.013 266.7)",
+        "tonalRamp": [
+          "#0a0b0e",
+          "#232529",
+          "#404247",
+          "#5f6167",
+          "#7f8289",
+          "#a2a5ac",
+          "#c5c9d1",
+          "#eaeef7"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Plate White",
+        "canonical": "#fbfbfd",
+        "oklch": "oklch(98.9% 0.003 286.4)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#252526",
+          "#424243",
+          "#616162",
+          "#828283",
+          "#a5a5a6",
+          "#c9c9cb",
+          "#eeeef0"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Body Ink",
+        "canonical": "#2b2a29",
+        "oklch": "oklch(28.6% 0.002 67.7)",
+        "tonalRamp": [
+          "#0c0b0a",
+          "#262524",
+          "#434241",
+          "#626160",
+          "#838281",
+          "#a6a5a4",
+          "#cac9c8",
+          "#efeeed"
+        ]
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "Soft Ink",
+        "canonical": "#4d4c5c",
+        "oklch": "oklch(42.4% 0.026 288.1)",
+        "tonalRamp": [
+          "#0b0a14",
+          "#242330",
+          "#41404f",
+          "#605f6f",
+          "#818090",
+          "#a4a3b2",
+          "#c8c7d6",
+          "#ededfa"
+        ]
+      },
+      "silver": {
+        "role": "neutral",
+        "displayName": "Logo Silver",
+        "canonical": "#cfd0d0",
+        "oklch": "oklch(85.7% 0.001 197.1)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#414242",
+          "#616161",
+          "#828282",
+          "#a4a5a5",
+          "#c8c9c9",
+          "#eeefef"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Ruling",
+        "canonical": "rgba(110, 120, 160, 0.22)",
+        "tonalRamp": [
+          "#06081e",
+          "#1d233e",
+          "#38405f",
+          "#565f83",
+          "#7680a8",
+          "#99a3ca",
+          "#bec7ed",
+          "#e3edff"
+        ]
+      },
+      "rule-strong": {
+        "role": "neutral",
+        "displayName": "Strong Rule",
+        "canonical": "rgba(50, 50, 119, 0.32)",
+        "tonalRamp": [
+          "#090033",
+          "#1d1958",
+          "#37387c",
+          "#55599c",
+          "#767cbc",
+          "#989fdd",
+          "#bdc4ff",
+          "#e3eaff"
+        ]
+      },
+      "tone-2017": {
+        "role": "neutral",
+        "displayName": "Faded Stock",
+        "canonical": "#eeede9",
+        "oklch": "oklch(94.6% 0.005 95.1)",
+        "tonalRamp": [
+          "#0b0b0a",
+          "#242422",
+          "#40403d",
+          "#5e5e5a",
+          "#81807d",
+          "#a5a5a1",
+          "#cbcac7",
+          "#efeeec"
+        ]
+      },
+      "tone-volvo": {
+        "role": "neutral",
+        "displayName": "Yellowed Stock",
+        "canonical": "#efe9dd",
+        "oklch": "oklch(93.5% 0.017 84.6)",
+        "tonalRamp": [
+          "#0c0b08",
+          "#27241e",
+          "#443f36",
+          "#625d53",
+          "#858075",
+          "#aaa499",
+          "#cfcabf",
+          "#f2eee6"
+        ]
+      },
+      "tone-1954": {
+        "role": "neutral",
+        "displayName": "Archive Cream",
+        "canonical": "#efe5d0",
+        "oklch": "oklch(92.4% 0.030 85.6)",
+        "tonalRamp": [
+          "#0d0b06",
+          "#292318",
+          "#473f2e",
+          "#655d4b",
+          "#887f6c",
+          "#ada490",
+          "#d3cab6",
+          "#f5eee0"
+        ]
+      },
+      "endpaper": {
+        "role": "neutral",
+        "displayName": "Endpaper",
+        "canonical": "#d8dde8",
+        "oklch": "oklch(89.7% 0.016 266.3)",
+        "tonalRamp": [
+          "#090b0f",
+          "#222429",
+          "#3d4047",
+          "#5a5e66",
+          "#797d87",
+          "#9a9ea7",
+          "#c1c4cc",
+          "#eceef5"
+        ]
+      },
+      "aged": {
+        "role": "neutral",
+        "displayName": "Aged Cream",
+        "canonical": "#fff5df",
+        "oklch": "oklch(97.2% 0.031 86.5)",
+        "tonalRamp": [
+          "#0e0b04",
+          "#282318",
+          "#453f31",
+          "#655d4c",
+          "#857c6a",
+          "#a59e8d",
+          "#cac3b5",
+          "#f4eee2"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The cover title only, in light foil gold."
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "The cover subhead, in stock."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Entry page headings in navy; first baseline snapped to the 32px ruling. 28px on 32px lines below 900px. Declared 600 renders the Regular file."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Dealer block heading. Declared 600 renders the Regular file."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Running entry text on the 32px ruling, max 62ch."
+      },
+      "typed": {
+        "displayName": "Typed",
+        "purpose": "Record data: dealer values (16px), plate captions (15px/1.4), colophon (14px)."
+      },
+      "label": {
+        "displayName": "Form Label",
+        "purpose": "Uppercase form labels in the dealer list (0.14em) and stamp boxes (500, 0.12em). Declared 600 renders the Medium file."
+      },
+      "button": {
+        "displayName": "Button",
+        "purpose": "Stamp-box button text; stamp text uses the same face at 17px."
+      },
+      "label-small": {
+        "displayName": "Label Small",
+        "purpose": "Homepage v2: Archivo Narrow 600, 11px, uppercase, 0.14 to 0.16em. Type-plate cell labels, work-order meta and column heads, the last-day label, the blueprint title block, the postcard head and car line."
+      }
+    },
+    "shadows": [
+      {
+        "name": "plate-on-stock",
+        "value": "0 1px 1px rgba(43, 42, 41, 0.1), 0 10px 22px -10px rgba(43, 42, 41, 0.38)",
+        "purpose": "Every tipped-in photo plate. The only shadow in the system."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "All CSS transitions."
+      },
+      {
+        "name": "button-straighten",
+        "value": "180ms",
+        "purpose": "Stamp-box buttons rotate to 0deg and lift 1px on hover, drop 1px on press."
+      },
+      {
+        "name": "stamp-press",
+        "value": "opacity 260ms, transform 320ms, filter 260ms",
+        "purpose": "Entry stamp settles from scale 1.35, -14deg, blur 3px to scale 1, -6deg as the car passes."
+      },
+      {
+        "name": "seal-press",
+        "value": "opacity 260ms, transform 340ms",
+        "purpose": "Dealer seal settles from scale 1.4, -30deg to -16deg at the end of the drive."
+      },
+      {
+        "name": "stage-reveal",
+        "value": "opacity 600ms",
+        "purpose": "The 3D canvas fades in once models are ready."
+      },
+      {
+        "name": "drive-follow",
+        "value": "progress += (target - progress) * (1 - exp(-dt * 7)); heading rate 14",
+        "purpose": "Scroll-driven drive; the vehicle settles at 58% of viewport height."
+      },
+      {
+        "name": "car-to-truck",
+        "value": "3D noise dissolve, edge #d9bd7a",
+        "purpose": "Vehicle change; never a shape morph."
+      },
+      {
+        "name": "garage-shade",
+        "value": "darken past door threshold toward #75624e (sampled from the archive photo), then dissolve",
+        "purpose": "The truck disappears into the 1954 garage."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "no transitions; fixed poses; all stamps applied",
+        "purpose": "prefers-reduced-motion and no-WebGL end state."
+      },
+      {
+        "name": "digit-roll",
+        "value": "720ms cubic-bezier(0.16, 1, 0.3, 1), 70ms stagger per digit",
+        "purpose": "Margin rail year readout: each digit strip rolls to the year of the leaf being read."
+      },
+      {
+        "name": "leaf-tone",
+        "value": "400ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Readout (and narrow-screen top bar) background follows the tone of the leaf under it."
+      },
+      {
+        "name": "foil-seal-press",
+        "value": "opacity 260ms, transform 340ms, cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Foil seal on the front cover settles from scale 1.4, -30deg to -14deg when the cover arrives."
+      },
+      {
+        "name": "seam-sweep",
+        "value": "2200ms, ease-out cubic (1 - (1 - t)^3), 300ms delay; from 100% to 52%",
+        "purpose": "Miras cover then/now plate: the seam sweeps once from all-archive to its rest mark when the photo has loaded and half the plate is in view. Any touch stops it. Reduced motion: rests at 52%."
+      },
+      {
+        "name": "plate-develop",
+        "value": "filter 1800ms, opacity 1200ms, cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Miras archive plates develop from pale soft paper to the full print at 35% in view. Script-gated; reduced motion shows them developed."
+      },
+      {
+        "name": "board-open",
+        "value": "320ms cubic-bezier(0.16, 1, 0.3, 1), from opacity 0, scale 0.97, rotate -0.6deg",
+        "purpose": "Miras viewing board (native dialog) opening. None under reduced motion."
+      },
+      {
+        "name": "film-hold",
+        "value": "pause off-screen; Durdur/Oynat toggle",
+        "purpose": "Miras facade film: stops when off-screen and on request; no autoplay under reduced motion."
+      },
+      {
+        "name": "tab-turn",
+        "value": "340ms ease-out, text +40ms",
+        "purpose": "Homepage v2 service board: a new leaf slides in 18px from the fore-edge."
+      },
+      {
+        "name": "paraf-write",
+        "value": "stroke-dashoffset 700ms cubic-bezier(0.45, 0.05, 0.35, 1); tick +520ms",
+        "purpose": "Homepage v2 work order: the paraf writes itself when the car draws level, then the tick presses in."
+      },
+      {
+        "name": "tick-press",
+        "value": "opacity 200ms, transform 260ms",
+        "purpose": "Tick boxes: the stamp-violet tick presses in from scale 1.4, -8deg."
+      },
+      {
+        "name": "deck-move",
+        "value": "transform 520ms, opacity 360ms",
+        "purpose": "Homepage v2 postcards move between deck slots."
+      },
+      {
+        "name": "floor-wipe",
+        "value": "clip-path inset 520ms",
+        "purpose": "Homepage v2 floor page: the floor drawing wipes in from the left on a tab change."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "narrow",
+        "value": "max-width: 899px",
+        "purpose": "Cover stacks above the leaf; entries become one column."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Stamp-Box Button, Cover Primary",
+      "kind": "button",
+      "refersTo": "button-stamp-primary",
+      "description": "Primary call to action on the navy cover.",
+      "html": "<div class=\"ds-cover\"><a class=\"ds-stamp-btn ds-stamp-btn--primary\" href=\"#\">Randevu al</a></div>",
+      "css": ":host{--navy:#323277;--navy-deep:#27275f;--gold:#857244;--gold-ink:#cdb585;--ink:#2b2a29;--ink-soft:#4d4c5c;--stock:#e6e9f0;--rule:rgba(110,120,160,0.22);--rule-strong:rgba(50,50,119,0.32);--stamp-ink:#3b3f8f;--paper:#fbfbfd;--ease-out:cubic-bezier(0.16,1,0.3,1);} .ds-stamp-btn{display:inline-flex;align-items:center;min-height:52px;padding:0 22px;border:4px double currentColor;border-radius:0;font:600 0.9375rem/1 'Archivo Narrow','Arial Narrow',sans-serif;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;transform:rotate(-1.2deg);transition:transform 180ms var(--ease-out),background-color 180ms var(--ease-out),color 180ms var(--ease-out);} .ds-stamp-btn:hover{transform:rotate(0deg) translateY(-1px);} .ds-stamp-btn:active{transform:rotate(0deg) translateY(1px);} .ds-cover{background:var(--navy);padding:32px;} .ds-stamp-btn--primary{background:var(--gold-ink);border-color:var(--navy);color:var(--navy);} .ds-stamp-btn--primary:hover{background:#dac596;} .ds-stamp-btn--primary:focus-visible{outline:2px solid var(--gold-ink);outline-offset:5px;}"
+    },
+    {
+      "name": "Stamp-Box Button, Cover Secondary",
+      "kind": "button",
+      "refersTo": "button-stamp",
+      "description": "Secondary contact actions on the navy cover.",
+      "html": "<div class=\"ds-cover\"><a class=\"ds-stamp-btn ds-stamp-btn--ghost\" href=\"#\">Ara</a></div>",
+      "css": ":host{--navy:#323277;--navy-deep:#27275f;--gold:#857244;--gold-ink:#cdb585;--ink:#2b2a29;--ink-soft:#4d4c5c;--stock:#e6e9f0;--rule:rgba(110,120,160,0.22);--rule-strong:rgba(50,50,119,0.32);--stamp-ink:#3b3f8f;--paper:#fbfbfd;--ease-out:cubic-bezier(0.16,1,0.3,1);} .ds-stamp-btn{display:inline-flex;align-items:center;min-height:52px;padding:0 22px;border:4px double currentColor;border-radius:0;font:600 0.9375rem/1 'Archivo Narrow','Arial Narrow',sans-serif;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;transform:rotate(-1.2deg);transition:transform 180ms var(--ease-out),background-color 180ms var(--ease-out),color 180ms var(--ease-out);} .ds-stamp-btn:hover{transform:rotate(0deg) translateY(-1px);} .ds-stamp-btn:active{transform:rotate(0deg) translateY(1px);} .ds-cover{background:var(--navy);padding:32px;} .ds-stamp-btn--ghost{color:var(--stock);background:transparent;transform:rotate(0.8deg);} .ds-stamp-btn--ghost:hover{background-color:rgba(230,233,240,0.08);} .ds-stamp-btn--ghost:focus-visible{outline:2px solid var(--gold-ink);outline-offset:5px;}"
+    },
+    {
+      "name": "Stamp-Box Button, Ink Primary",
+      "kind": "button",
+      "refersTo": "button-stamp-ink-primary",
+      "description": "Primary action on stock, in the dealer block.",
+      "html": "<a class=\"ds-stamp-btn ds-stamp-btn--ink-primary\" href=\"#\">Randevu al</a>",
+      "css": ":host{--navy:#323277;--navy-deep:#27275f;--gold:#857244;--gold-ink:#cdb585;--ink:#2b2a29;--ink-soft:#4d4c5c;--stock:#e6e9f0;--rule:rgba(110,120,160,0.22);--rule-strong:rgba(50,50,119,0.32);--stamp-ink:#3b3f8f;--paper:#fbfbfd;--ease-out:cubic-bezier(0.16,1,0.3,1);} .ds-stamp-btn{display:inline-flex;align-items:center;min-height:52px;padding:0 22px;border:4px double currentColor;border-radius:0;font:600 0.9375rem/1 'Archivo Narrow','Arial Narrow',sans-serif;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;transform:rotate(-1.2deg);transition:transform 180ms var(--ease-out),background-color 180ms var(--ease-out),color 180ms var(--ease-out);} .ds-stamp-btn:hover{transform:rotate(0deg) translateY(-1px);} .ds-stamp-btn:active{transform:rotate(0deg) translateY(1px);} .ds-stamp-btn--ink-primary{min-height:48px;padding:0 18px;background:var(--navy);border-color:var(--stock);color:var(--stock);} .ds-stamp-btn--ink-primary:hover{background:var(--navy-deep);} .ds-stamp-btn--ink-primary:focus-visible{outline:2px solid var(--navy);outline-offset:5px;}"
+    },
+    {
+      "name": "Stamp-Box Button, Ink",
+      "kind": "button",
+      "refersTo": "button-stamp-ink",
+      "description": "Secondary action on stock, in the dealer block.",
+      "html": "<a class=\"ds-stamp-btn ds-stamp-btn--ink\" href=\"#\">Yol tarifi</a>",
+      "css": ":host{--navy:#323277;--navy-deep:#27275f;--gold:#857244;--gold-ink:#cdb585;--ink:#2b2a29;--ink-soft:#4d4c5c;--stock:#e6e9f0;--rule:rgba(110,120,160,0.22);--rule-strong:rgba(50,50,119,0.32);--stamp-ink:#3b3f8f;--paper:#fbfbfd;--ease-out:cubic-bezier(0.16,1,0.3,1);} .ds-stamp-btn{display:inline-flex;align-items:center;min-height:52px;padding:0 22px;border:4px double currentColor;border-radius:0;font:600 0.9375rem/1 'Archivo Narrow','Arial Narrow',sans-serif;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;transform:rotate(-1.2deg);transition:transform 180ms var(--ease-out),background-color 180ms var(--ease-out),color 180ms var(--ease-out);} .ds-stamp-btn:hover{transform:rotate(0deg) translateY(-1px);} .ds-stamp-btn:active{transform:rotate(0deg) translateY(1px);} .ds-stamp-btn--ink{min-height:48px;padding:0 18px;color:var(--navy);transform:rotate(-0.5deg);} .ds-stamp-btn--ink:hover{background-color:rgba(50,50,119,0.07);} .ds-stamp-btn--ink:focus-visible{outline:2px solid var(--navy);outline-offset:5px;}"
+    },
+    {
+      "name": "Plate",
+      "kind": "card",
+      "refersTo": "plate",
+      "description": "A photo tipped into the booklet: white border, paper shadow, slight rotation.",
+      "html": "<figure class=\"ds-plate\"><div class=\"ds-plate__img\"></div><figcaption>Arşivimizden: 1954.</figcaption></figure>",
+      "css": ":host{--navy:#323277;--navy-deep:#27275f;--gold:#857244;--gold-ink:#cdb585;--ink:#2b2a29;--ink-soft:#4d4c5c;--stock:#e6e9f0;--rule:rgba(110,120,160,0.22);--rule-strong:rgba(50,50,119,0.32);--stamp-ink:#3b3f8f;--paper:#fbfbfd;--ease-out:cubic-bezier(0.16,1,0.3,1);} .ds-plate{margin:0;padding:10px;width:240px;background:var(--paper);box-shadow:0 1px 1px rgba(43,42,41,0.1),0 10px 22px -10px rgba(43,42,41,0.38);transform:rotate(-1.2deg);} .ds-plate__img{height:160px;background:#8a8378;} .ds-plate figcaption{padding:8px 4px 2px;color:var(--ink-soft);font:400 0.9375rem/1.4 'Courier Prime','Courier New',monospace;}"
+    },
+    {
+      "name": "Stamp Box with Entry Stamp",
+      "kind": "custom",
+      "refersTo": "stamp-box",
+      "description": "The dashed field each entry stamp presses into.",
+      "html": "<div class=\"ds-stamp-box\"><span class=\"ds-stamp-box__label\">Servis kaşesi</span><span class=\"ds-stamp\"><span class=\"ds-stamp__ink\">Volan Otomotiv<small>Ankara · 1954</small></span></span></div>",
+      "css": ":host{--navy:#323277;--navy-deep:#27275f;--gold:#857244;--gold-ink:#cdb585;--ink:#2b2a29;--ink-soft:#4d4c5c;--stock:#e6e9f0;--rule:rgba(110,120,160,0.22);--rule-strong:rgba(50,50,119,0.32);--stamp-ink:#3b3f8f;--paper:#fbfbfd;--ease-out:cubic-bezier(0.16,1,0.3,1);} .ds-stamp-box{position:relative;display:grid;place-items:center;width:232px;height:128px;border:1.5px dashed var(--rule-strong);background:var(--stock);} .ds-stamp-box__label{position:absolute;left:10px;bottom:6px;color:var(--navy);font:500 0.75rem/1 'Archivo Narrow','Arial Narrow',sans-serif;letter-spacing:0.12em;text-transform:uppercase;opacity:0.8;} .ds-stamp{display:block;color:var(--stamp-ink);mix-blend-mode:multiply;opacity:0.92;transform:rotate(-6deg);transition:transform 320ms var(--ease-out);} .ds-stamp-box:hover .ds-stamp{transform:scale(1.04) rotate(-6deg);} .ds-stamp__ink{display:block;padding:10px 16px 9px;border:3px solid currentColor;outline:1.5px solid currentColor;outline-offset:3px;font:600 1.0625rem/1.1 'Archivo Narrow','Arial Narrow',sans-serif;letter-spacing:0.12em;text-align:center;text-transform:uppercase;} .ds-stamp__ink small{display:block;margin-top:4px;font-size:0.75rem;letter-spacing:0.22em;}"
+    },
+    {
+      "name": "Dealer Block",
+      "kind": "card",
+      "refersTo": "dealer-block",
+      "description": "The contact record: double navy rule, form labels over typed values.",
+      "html": "<address class=\"ds-dealer\"><h2>İletişim</h2><dl><div><dt>Telefon</dt><dd><a href=\"#\">0533 765 33 78</a></dd></div><div><dt>Çalışma saatleri</dt><dd>Hafta içi ve Cumartesi<br>08:30–18:00</dd></div></dl></address>",
+      "css": ":host{--navy:#323277;--navy-deep:#27275f;--gold:#857244;--gold-ink:#cdb585;--ink:#2b2a29;--ink-soft:#4d4c5c;--stock:#e6e9f0;--rule:rgba(110,120,160,0.22);--rule-strong:rgba(50,50,119,0.32);--stamp-ink:#3b3f8f;--paper:#fbfbfd;--ease-out:cubic-bezier(0.16,1,0.3,1);} .ds-dealer{width:300px;padding:32px 32px 40px;background:var(--stock);border:4px double var(--navy);font-style:normal;color:var(--ink);} .ds-dealer h2{margin:0 0 24px;color:var(--navy);font:600 2rem/1.2 Besley,Georgia,serif;} .ds-dealer dl{margin:0;display:grid;gap:18px;} .ds-dealer dl div{display:grid;gap:4px;} .ds-dealer dt{color:var(--navy);font:600 0.75rem/1.2 'Archivo Narrow','Arial Narrow',sans-serif;letter-spacing:0.14em;text-transform:uppercase;} .ds-dealer dd{margin:0;font:400 1rem/1.5 'Courier Prime','Courier New',monospace;font-variant-numeric:tabular-nums;} .ds-dealer a{color:inherit;text-decoration:underline;text-decoration-color:var(--rule-strong);text-underline-offset:0.22em;} .ds-dealer a:hover{text-decoration-color:currentColor;} .ds-dealer a:focus-visible{outline:2px solid var(--navy);outline-offset:4px;}"
+    },
+    {
+      "name": "Cover",
+      "kind": "custom",
+      "refersTo": "navy",
+      "description": "The navy booklet cover with its double gold-foil frame.",
+      "html": "<div class=\"ds-cover-full\"><h1>Aracınız bizim sorumluluğumuzda</h1><p>Garanti süreniz bittiği için servis kalitenizi düşürmek zorunda değilsiniz.</p></div>",
+      "css": ":host{--navy:#323277;--navy-deep:#27275f;--gold:#857244;--gold-ink:#cdb585;--ink:#2b2a29;--ink-soft:#4d4c5c;--stock:#e6e9f0;--rule:rgba(110,120,160,0.22);--rule-strong:rgba(50,50,119,0.32);--stamp-ink:#3b3f8f;--paper:#fbfbfd;--ease-out:cubic-bezier(0.16,1,0.3,1);} .ds-cover-full{position:relative;padding:56px;background:var(--navy);color:var(--stock);} .ds-cover-full::before{content:'';position:absolute;inset:20px;border:2px solid var(--gold);pointer-events:none;} .ds-cover-full::after{content:'';position:absolute;inset:27px;border:1px solid rgba(133,114,68,0.7);pointer-events:none;} .ds-cover-full h1{margin:0;color:var(--gold-ink);font:400 2.5rem/1.04 Besley,Georgia,serif;letter-spacing:-0.012em;} .ds-cover-full p{margin:20px 0 0;font:400 1.125rem/1.42 Besley,Georgia,serif;}"
+    },
+    {
+      "name": "Ruled Entry Page",
+      "kind": "custom",
+      "refersTo": "stock",
+      "description": "Card stock ruled every 32px, with heading and body on the ruling.",
+      "html": "<section class=\"ds-entry\"><h2>Lorem ipsum dolor</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante venenatis dapibus.</p></section>",
+      "css": ":host{--navy:#323277;--navy-deep:#27275f;--gold:#857244;--gold-ink:#cdb585;--ink:#2b2a29;--ink-soft:#4d4c5c;--stock:#e6e9f0;--rule:rgba(110,120,160,0.22);--rule-strong:rgba(50,50,119,0.32);--stamp-ink:#3b3f8f;--paper:#fbfbfd;--ease-out:cubic-bezier(0.16,1,0.3,1);} .ds-entry{padding:64px 32px;border-top:2px solid var(--rule-strong);background-color:var(--stock);background-image:repeating-linear-gradient(to bottom,transparent 0 31px,var(--rule) 31px 32px);color:var(--ink);font:400 1.125rem/32px Besley,Georgia,serif;} .ds-entry h2{position:relative;top:15px;margin:0 0 32px;color:var(--navy);font:600 2.5rem/48px Besley,Georgia,serif;letter-spacing:-0.01em;} .ds-entry p{margin:0;max-width:62ch;}"
+    },
+    {
+      "name": "Margin Rail Year Readout",
+      "kind": "custom",
+      "refersTo": "margin-rail",
+      "description": "Sticky typed year at the top of the margin rail; each digit rolls in its own window. An undated year shows four separate blank underlines.",
+      "html": "<div class=\"ds-readout\"><span class=\"ds-readout__label\">Karne yılı</span><span class=\"ds-readout__year\"><span class=\"ds-digit ds-digit--blank\"></span><span class=\"ds-digit ds-digit--blank\"></span><span class=\"ds-digit ds-digit--blank\"></span><span class=\"ds-digit ds-digit--blank\"></span></span><span class=\"ds-readout__note\">Uzun yıllar</span></div>",
+      "css": ".ds-readout { display: grid; gap: 8px; width: 118px; padding: 38px 0 16px 32px; background: #efe9dd; border-right: 2px solid rgba(50, 50, 119, 0.32); transition: background-color 400ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-readout__label { color: #323277; font: 600 0.75rem/1.2 'Archivo Narrow', 'Arial Narrow', sans-serif; letter-spacing: 0.14em; text-transform: uppercase; } .ds-readout__year { display: flex; height: 1em; overflow: hidden; color: #323277; font: 700 2.5rem/1 'Courier Prime', 'Courier New', monospace; letter-spacing: -0.02em; } .ds-digit { position: relative; display: block; width: 0.6em; height: 1em; } .ds-digit--blank::after { content: ''; position: absolute; left: 16%; right: 16%; bottom: 0.1em; height: 3px; background: currentColor; } .ds-readout__note { color: #4d4c5c; font: 400 0.875rem/1.3 'Courier Prime', 'Courier New', monospace; }"
+    },
+    {
+      "name": "Then/Now Plate (Miras)",
+      "kind": "custom",
+      "refersTo": "plate",
+      "description": "One plate, two photos of the same place; a native range input moves the seam by transforms only (a sliding window with a counter-slid photo). Round navy handle with a light-foil-gold double ring, no shadow; plate-white focus ring.",
+      "html": "<figure class=\"ds-tn\"><div class=\"ds-tn__cap\"><span>Dün · arşivden</span><span>Bugün · Etimesgut</span></div><div class=\"ds-tn__box\" style=\"--ayrim:52%\"><div class=\"ds-tn__now\"></div><div class=\"ds-tn__then\"></div><span class=\"ds-tn__line\"><span class=\"ds-tn__handle\"><svg viewBox=\"0 0 22 12\"><path d=\"M6 1L1 6l5 5M16 1l5 5-5 5\"/></svg></span></span><input type=\"range\" min=\"0\" max=\"100\" value=\"52\" aria-label=\"Dün ve bugün fotoğraflarını karşılaştır\" aria-valuetext=\"Dün %52, bugün %48\" oninput=\"this.parentNode.style.setProperty('--ayrim', this.value + '%')\"></div></figure>",
+      "css": ".ds-tn { margin: 0; padding: 10px; background: var(--paper, #fbfbfd); box-shadow: 0 1px 1px rgba(43,42,41,0.1), 0 10px 22px -10px rgba(43,42,41,0.38); transform: rotate(1.1deg); max-width: 520px; } .ds-tn__cap { display: flex; justify-content: space-between; padding: 2px 4px 10px; color: #4d4c5c; font: 400 0.9375rem/1.4 'Courier Prime', 'Courier New', monospace; } .ds-tn__box { position: relative; aspect-ratio: 3 / 2; overflow: hidden; touch-action: pan-y; } .ds-tn__now, .ds-tn__then { position: absolute; inset: 0; } .ds-tn__now { background: #5d6f86; } .ds-tn__then { background: #c9b48e; clip-path: inset(0 calc(100% - var(--ayrim)) 0 0); } .ds-tn__line { position: absolute; top: 0; bottom: 0; left: var(--ayrim); width: 3px; margin-left: -1.5px; background: #fbfbfd; pointer-events: none; } .ds-tn__handle { position: absolute; top: 50%; left: 50%; display: grid; place-items: center; width: 60px; height: 60px; border: 4px double #cdb585; border-radius: 50%; background: #323277; color: #cdb585; transform: translate(-50%, -50%); transition: transform 180ms cubic-bezier(0.16,1,0.3,1); } .ds-tn__handle svg { width: 22px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; } .ds-tn__box input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; } .ds-tn__box:hover .ds-tn__handle { transform: translate(-50%, -50%) scale(1.06); } .ds-tn__box:has(input:focus-visible) .ds-tn__handle { outline: 2px solid #fbfbfd; outline-offset: 3px; }"
+    },
+    {
+      "name": "Owner Quote (Miras)",
+      "kind": "custom",
+      "description": "Slot for the owners' words: italic Besley with a hanging quote mark (navy on stock, light foil gold on navy) and a typed cite. Placeholder copy.",
+      "html": "<figure class=\"ds-soz\"><blockquote><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p></blockquote><figcaption>Ad Soyad, kurucu aileden</figcaption></figure>",
+      "css": ".ds-soz { position: relative; margin: 0 0 0 48px; max-width: 30rem; } .ds-soz blockquote { position: relative; margin: 0; } .ds-soz blockquote::before { content: '\\201C'; position: absolute; top: -0.2em; left: -0.58em; color: #323277; font: 400 4.5rem/1 Besley, Georgia, serif; } .ds-soz p { margin: 0; color: #2b2a29; font: italic 400 1.5rem/1.4 Besley, Georgia, serif; } .ds-soz figcaption { margin-top: 14px; color: #4d4c5c; font: 400 0.9375rem/1.4 'Courier Prime', 'Courier New', monospace; } .ds-soz figcaption::before { content: '\\2014  '; }"
+    },
+    {
+      "name": "Index Tabs (homepage v2)",
+      "kind": "nav",
+      "refersTo": "index-tab",
+      "description": "Thumb-index tabs on the top edge of a paper page; the open tab is plate white with a navy border.",
+      "html": "<div class=\"ds-tabs\" role=\"tablist\"><button class=\"ds-tab\" role=\"tab\" aria-selected=\"true\">Zemin kat</button><button class=\"ds-tab\" role=\"tab\" aria-selected=\"false\">1. kat</button><button class=\"ds-tab\" role=\"tab\" aria-selected=\"false\">2. kat</button></div><div class=\"ds-tabpage\">Kat planı</div>",
+      "css": ":host{--navy:#323277;--navy-deep:#27275f;--gold:#857244;--gold-ink:#cdb585;--ink:#2b2a29;--ink-soft:#4d4c5c;--stock:#e6e9f0;--stock-deep:#dde1ea;--rule-strong:rgba(50,50,119,0.32);--stamp-ink:#3b3f8f;--paper:#fbfbfd;--ease-out:cubic-bezier(0.16,1,0.3,1);} .ds-tabs{display:flex;gap:6px;padding-left:28px;position:relative;z-index:1;} .ds-tab{appearance:none;display:inline-flex;align-items:center;min-height:48px;padding:0 18px 0 14px;border:1.5px solid var(--rule-strong);border-bottom:0;border-radius:0;background:var(--stock-deep);color:var(--navy);font:600 0.8125rem/1 'Archivo Narrow','Arial Narrow',sans-serif;letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;transform:translateY(6px);transition:transform 200ms var(--ease-out),background-color 200ms var(--ease-out);} .ds-tab:hover{transform:translateY(2px);} .ds-tab[aria-selected=\"true\"]{background:var(--paper);border-color:var(--navy);transform:translateY(1.5px);} .ds-tab:focus-visible{outline:2px solid var(--navy);outline-offset:3px;} .ds-tabpage{position:relative;z-index:2;background:var(--paper);border:1.5px solid var(--navy);padding:28px;color:var(--navy);font:600 1.5rem/1.2 Besley,Georgia,serif;box-shadow:0 1px 1px rgba(43,42,41,0.1),0 10px 22px -10px rgba(43,42,41,0.38);}"
+    },
+    {
+      "name": "Type Plate (homepage v2)",
+      "kind": "card",
+      "refersTo": "",
+      "description": "The facility's maker's plate: navy-ruled cells, small labels over Courier Prime Bold figures, bolts at the corners.",
+      "html": "<dl class=\"ds-dp\"><div class=\"ds-dp__band\">Volan Otomotiv · Tip plakası</div><div class=\"ds-dp__grid\"><div><dt>Kuruluş</dt><dd>1954</dd></div><div><dt>Kat</dt><dd>3</dd></div><div><dt>Lift</dt><dd>12</dd></div><div><dt>Usta</dt><dd>18</dd></div></div></dl>",
+      "css": ":host{--navy:#323277;--navy-deep:#27275f;--gold:#857244;--gold-ink:#cdb585;--ink:#2b2a29;--ink-soft:#4d4c5c;--stock:#e6e9f0;--stock-deep:#dde1ea;--rule-strong:rgba(50,50,119,0.32);--stamp-ink:#3b3f8f;--paper:#fbfbfd;--ease-out:cubic-bezier(0.16,1,0.3,1);} .ds-dp{position:relative;margin:0;padding:26px 26px 22px;width:460px;background:#e2e5ec;border:1.5px solid var(--navy);box-shadow:0 1px 1px rgba(43,42,41,0.1),0 10px 22px -10px rgba(43,42,41,0.38);transform:rotate(-0.5deg);} .ds-dp::before{content:'';position:absolute;inset:6px;border:1px solid rgba(50,50,119,0.45);pointer-events:none;} .ds-dp__band{padding:12px 18px;background:var(--navy);color:var(--gold-ink);font:600 0.8125rem/1 'Archivo Narrow','Arial Narrow',sans-serif;letter-spacing:0.2em;text-transform:uppercase;} .ds-dp__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:18px;border-top:1.5px solid var(--navy);border-left:1.5px solid var(--navy);} .ds-dp__grid>div{padding:10px 14px 12px;border-right:1.5px solid var(--navy);border-bottom:1.5px solid var(--navy);} .ds-dp dt{color:var(--navy);font:600 0.6875rem/1.2 'Archivo Narrow','Arial Narrow',sans-serif;letter-spacing:0.16em;text-transform:uppercase;} .ds-dp dd{margin:6px 0 0;color:var(--ink);font:700 1.75rem/1 'Courier Prime','Courier New',monospace;font-variant-numeric:tabular-nums;letter-spacing:0.02em;}"
+    },
+    {
+      "name": "Postcard (homepage v2)",
+      "kind": "card",
+      "refersTo": "postcard",
+      "description": "A Google review as a postcard on the navy board: message side and address side split by a strong rule.",
+      "html": "<div class=\"ds-board\"><article class=\"ds-pc\"><div class=\"ds-pc__msg\"><p class=\"ds-pc__quote\">Aracımı söz verilen saatte, yapılan her işin yazılı olduğu bir formla teslim aldım.</p><p class=\"ds-pc__from\">Ayşe K. · örnek</p></div><div class=\"ds-pc__addr\"><ul><li>Volan Otomotiv</li><li>Etimesgut, Ankara</li></ul></div></article></div>",
+      "css": ":host{--navy:#323277;--navy-deep:#27275f;--gold:#857244;--gold-ink:#cdb585;--ink:#2b2a29;--ink-soft:#4d4c5c;--stock:#e6e9f0;--stock-deep:#dde1ea;--rule-strong:rgba(50,50,119,0.32);--stamp-ink:#3b3f8f;--paper:#fbfbfd;--ease-out:cubic-bezier(0.16,1,0.3,1);} .ds-board{background:var(--navy);padding:40px;} .ds-pc{display:grid;grid-template-columns:58fr 42fr;width:520px;padding:34px 30px 28px;background:var(--paper);color:var(--ink);border-radius:0;box-shadow:0 1px 1px rgba(43,42,41,0.1),0 10px 22px -10px rgba(43,42,41,0.38);transform:rotate(-1.5deg);transition:transform 520ms var(--ease-out);} .ds-pc:hover{transform:rotate(0deg);} .ds-pc__msg{padding-right:26px;border-right:1px solid var(--rule-strong);} .ds-pc__quote{margin:0;font:italic 400 1.5rem/1.34 Besley,Georgia,serif;} .ds-pc__from{margin:12px 0 0;font:400 1rem/1.4 'Courier Prime','Courier New',monospace;} .ds-pc__addr{padding-left:24px;display:flex;align-items:flex-end;} .ds-pc__addr ul{list-style:none;margin:0;padding:0;width:100%;} .ds-pc__addr li{padding:10px 0 3px;border-bottom:1px solid rgba(50,50,119,0.35);font:400 0.9375rem/1.3 'Courier Prime','Courier New',monospace;}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Service Booklet",
+    "overview": "The site is a car's service booklet, printed and handled. A navy cover with a gold-foil frame opens onto pale blue-grey card stock ruled every 32px. Archive and current photos are tipped in as white-bordered plates. Violet-blue rubber stamps mark each page. A faint printed road runs down the stock, and the 3D cars drive it. Every surface is a physical booklet material: cover board, ruled stock, photo plate, stamp ink, foil. Nothing is a screen panel.\n\nDensity is that of a filled-in booklet: generous ruled pages, one entry per page, text on one side and a plate on the other, sides alternating with the road. The type is a working document's mix: a Clarendon-style serif for titles and running text, a typewriter face for typed-in record data, and a condensed grotesk for printed form labels. Colour is few and flat: navy, gold, stock, ink, and stamp violet.\n\nThe world refuses the dark showroom hero and the row of rounded service cards. Depth comes from paper on paper (a plate lying on stock) and from the 3D stage, never from glass, glow, or gradient.",
+    "keyCharacteristics": [
+      "Navy cover board framed by a double gold-foil rule.",
+      "Pale ruled card stock; vertical rhythm locked to the 32px ruling.",
+      "Photos as tipped-in plates: white border, slight rotation, soft paper shadow.",
+      "Rubber stamps in violet-blue ink with a noise-roughened edge, slightly rotated, multiplied onto the paper.",
+      "Double-ruled stamp-box buttons with a small tilt; square corners everywhere.",
+      "A faint navy-ink road that the 3D vehicles follow on scroll."
+    ],
+    "rules": [
+      {
+        "name": "The Brand Record Rule",
+        "body": "Navy, gold, silver, near-black, and white come from LOGO_2026.pdf and are not retuned. Stock, rules, stamp violet, and the lighter gold are design decisions and may be adjusted; brand values may not.",
+        "section": "colors"
+      },
+      {
+        "name": "The Foil Is Not Ink Rule",
+        "body": "Foil gold draws lines on navy. Text on navy uses light foil gold or stock.",
+        "section": "colors"
+      },
+      {
+        "name": "The Typed Data Rule",
+        "body": "Addresses, phone numbers, hours, captions, and the colophon are typed record data and use Courier Prime. Running prose stays in Besley.",
+        "section": "typography"
+      },
+      {
+        "name": "The Form Label Rule",
+        "body": "Archivo Narrow appears only as short uppercase labels, button text, and stamp text, never as running copy.",
+        "section": "typography"
+      },
+      {
+        "name": "The Paper On Paper Rule",
+        "body": "The only shadow is a plate resting on stock. Buttons, stamps, and the dealer block stay flat.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Aged Stock Rule",
+        "body": "On a page that turns back through time, each leaf is one flat stock tone, and older leaves are warmer: card stock, then faded stock, yellowed stock, archive cream. The tone changes only at a leaf's cut edge, never as a gradient inside a leaf. Aged tones are for dated leaves only; they are not a general surface palette.",
+        "section": "colors"
+      },
+      {
+        "name": "The Cut Edge Rule",
+        "body": "The page-block edge is drawn, not cast: flat strips and lines only, no shadow and no gradient. It is a printed edge, so it does not break the Paper On Paper Rule.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Foil Seal Rule",
+        "body": "On navy the seal is foil, not ink: light foil gold, crisp, unblended. Stamp violet with the ink filter and multiply stays on stock.",
+        "section": "components"
+      },
+      {
+        "name": "The Ceremonial Edition Rule",
+        "body": "The 72px chapter headings and the 96px title are the heritage page's edition of the booklet, led by navy board. Other pages keep the base ramp (headline at 40px, 600).",
+        "section": "typography"
+      },
+      {
+        "name": "The Handle Is A Seal Rule",
+        "body": "The then/now handle is a small foil seal on navy: round, flat, double-ringed in light foil gold. It is the second circle in the system, after the round seal.",
+        "section": "components"
+      },
+      {
+        "name": "The Booklet Pages Edition Rule",
+        "body": "The 60px to 104px sizes belong to navy boards, the back cover, and printed figures on anasayfa-v2.html. A section heading set on stock keeps the base headline (40px, 600) unless it opens the heritage part of the page.",
+        "section": "typography"
+      },
+      {
+        "name": "The Index Tab Rule",
+        "body": "Choices inside a section are square index tabs on the edge of the board or page they open.",
+        "section": "components"
+      }
+    ],
+    "dos": [
+      "**Do** keep every vertical measure on the stock a multiple of the 32px ruling, and snap any off-grid heading back onto it.",
+      "**Do** tip photos in as plates: 10px white border, the plate shadow, a small lane-matched rotation.",
+      "**Do** apply stamps in stamp violet with the ink filter and multiply blending, slightly rotated.",
+      "**Do** use double-ruled, square stamp boxes for calls to action, with one primary per set.",
+      "**Do** keep record data (address, phone, hours, captions) in Courier Prime and form labels in uppercase Archivo Narrow.",
+      "**Do** use foil gold only as lines on navy, and light foil gold for text and fills on navy.",
+      "**Do** give every motion a reduced-motion end state where stamps are already applied and vehicles stand still.",
+      "Do give each leaf of a reverse-turned page one flat aged-stock tone, warmer as it gets older.",
+      "Do show an undated year as four separate blank underlines and caption undated archive plates \"Arşivden, tarihsiz: …\".",
+      "Do press the seal in light foil gold, without the ink filter or multiply, when it sits on navy.",
+      "**Do** give every then/now plate a native range input with `aria-valuetext`, and let reduced motion rest the seam at its mark.",
+      "**Do** give every moving film a stop control and pause it off-screen.",
+      "Do keep boards, plates, and text clear of the road lane; on narrow screens give the lane side 48px to 80px of padding.",
+      "Do set large figures (plate values, scores, dates) in Courier Prime Bold with tabular numerals.",
+      "Do offer choices inside a section as square index tabs on the edge of the board or page, as ARIA tabs with arrow keys, Home and End."
+    ],
+    "donts": [
+      "**Don't** round corners. The booklet is cut square.",
+      "**Don't** add shadows to buttons, stamps, or the dealer block; the only shadow is a plate resting on stock.",
+      "**Don't** use gradients, glass, glow, or a dark showroom backdrop behind the cover or the stage.",
+      "**Don't** retune the brand navy, gold, silver, near-black, or white from LOGO_2026.pdf.",
+      "**Don't** set foil gold text on navy; it fails contrast.",
+      "**Don't** set running copy in Archivo Narrow or Courier Prime.",
+      "**Don't** let the browser synthesize bold for Besley or Archivo Narrow.",
+      "**Don't** morph vehicle shapes into each other; vehicle changes are noise dissolves.",
+      "Don't draw the page-block edge with a shadow or a gradient; it is flat strips and cut lines."
+    ]
+  }
+}

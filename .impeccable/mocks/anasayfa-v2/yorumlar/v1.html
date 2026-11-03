@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mock · Yorumlar · v1 Karne notları</title>
+<link rel="stylesheet" href="../_kit/kit.css">
+<style>
+  .sec { overflow: clip; }
+  @media (max-width: 899px) { .sec { --road-width: 56px; } }
+
+  /* Road side (left): the plate near the turn, the booklet page number under it */
+  .side { grid-column: 1 / span 3; padding-top: 24px; }
+  .side .plate { transform: rotate(-1.2deg); }
+  .side .plate img { aspect-ratio: 3 / 4; object-fit: cover; }
+  .side__folio { margin-top: 40px; padding-left: 12px; color: var(--ink-soft); font: 400 0.875rem/1.6 var(--font-typed); }
+  .side__folio b { display: block; color: var(--navy); font: 600 0.75rem/1.2 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; }
+
+  .page { grid-column: 5 / span 8; }
+  .page h2 { color: var(--navy); font: 600 2.5rem/48px var(--font-title); letter-spacing: -0.01em; }
+  .page__lead { margin-top: 16px; max-width: 52ch; }
+
+  /* The ledger: one row per visit; the remarks field is ruled for writing */
+  .ledger { margin-top: 48px; border-top: 2px solid var(--navy); }
+  .ledger__head, .entry { display: grid; grid-template-columns: 44px 216px minmax(0, 1fr) 150px; column-gap: 24px; }
+  .ledger__head { padding: 10px 0 8px; border-bottom: 1px solid var(--rule-strong); color: var(--navy); font: 600 0.6875rem/1.2 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; }
+  .entry { padding: 22px 0 24px; border-bottom: 1px solid var(--rule-strong); }
+  .entry__no { color: var(--navy); font: 400 0.9375rem/32px var(--font-typed); }
+  .entry__car strong { display: block; color: var(--navy); font: 600 1.125rem/32px var(--font-title); }
+  .entry__car span { display: block; color: var(--ink-soft); font: 400 0.875rem/1.5 var(--font-typed); }
+  .entry__remark { margin: 0; padding: 0 4px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='32'%3E%3Cpath d='M0 31.5H8' stroke='%236e78a0' stroke-opacity='.32'/%3E%3C/svg%3E"); }
+  .entry__remark p { color: var(--ink); font: italic 400 1.1875rem/32px var(--font-text); }
+  .entry__sign { position: relative; align-self: end; padding-top: 6px; border-top: 1px dotted var(--rule-strong); }
+  .entry__sign svg { position: absolute; left: -6px; bottom: 44px; width: 132px; height: 46px; fill: none; stroke: #2e3177; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; transform: rotate(-4deg); }
+  .entry__sign b { display: block; color: var(--ink); font: 400 0.9375rem/1.4 var(--font-typed); }
+  .sample { display: inline-block; margin-top: 6px; padding: 1px 6px; border: 1px dashed var(--rule-strong); color: var(--ink-soft); font: 400 0.75rem/1.5 var(--font-typed); }
+
+  .entry--wide .entry__remark p { font-size: 1.3125rem; }
+
+  .more { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 32px; }
+  .more p { color: var(--ink-soft); font: 400 0.875rem/1.4 var(--font-typed); }
+
+  .ledger .seal { width: 120px; height: 120px; right: -36px; top: -84px; transform: rotate(-12deg); opacity: 0.8; }
+
+  @media (max-width: 899px) {
+    .inner { padding-left: 52px; row-gap: 48px; }
+    .side, .page { grid-column: 1; }
+    .side { order: 2; padding-top: 0; }
+    .side .plate { width: 78%; margin-inline: auto 0; }
+    .side__folio { display: none; }
+    .page h2 { font-size: 1.75rem; line-height: 32px; }
+    .ledger__head { display: none; }
+    .entry { grid-template-columns: 36px minmax(0, 1fr); row-gap: 12px; }
+    .entry__remark { grid-column: 1 / -1; }
+    .entry__sign { grid-column: 1 / -1; justify-self: end; width: 160px; margin-top: 40px; }
+    .entry--wide .entry__remark p, .entry__remark p { font-size: 1.125rem; }
+    .ledger .seal { width: 92px; height: 92px; right: -12px; top: -64px; }
+  }
+</style>
+</head>
+<body>
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="ink" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="wobble"/>
+      <feDisplacementMap in="SourceGraphic" in2="wobble" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.7" numOctaves="2" seed="3" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.7 0 0 0 1.62" result="coverage"/>
+      <feComposite in="edge" in2="coverage" operator="in"/>
+    </filter>
+    <symbol id="seal" viewBox="0 0 200 200">
+      <path id="seal-arc" d="M100,100 m-70,0 a70,70 0 1,1 140,0 a70,70 0 1,1 -140,0" fill="none"/>
+      <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="5"/>
+      <circle cx="100" cy="100" r="85" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="100" cy="100" r="52" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text font-family="Archivo Narrow, sans-serif" font-weight="600" font-size="19" letter-spacing="3.2" fill="currentColor"><textPath href="#seal-arc" startOffset="0">VOLAN OTOMOTİV · ANKARA · VOLAN OTOMOTİV · ANKARA ·</textPath></text>
+      <text x="100" y="112" text-anchor="middle" font-family="Besley, serif" font-weight="600" font-size="34" fill="currentColor">1954</text>
+    </symbol>
+    <symbol id="tick" viewBox="0 0 32 32"><path d="M5 17.5l7.5 7.5L27.5 6" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <pattern id="road-net" width="64" height="8" patternUnits="userSpaceOnUse"><path d="M0,4 C10.7,-1.3 21.3,-1.3 32,4 S53.3,9.3 64,4 M0,4 C10.7,9.3 21.3,9.3 32,4 S53.3,-1.3 64,4" fill="none" stroke="#323277" stroke-opacity="0.16" stroke-width="0.7"/></pattern>
+  </defs>
+</svg>
+
+<section class="sec" data-road="cross-left" style="position:relative; padding:192px 0 128px;" aria-labelledby="yorum-h">
+  <svg class="road" aria-hidden="true" preserveAspectRatio="none">
+    <path class="road__edge"/><path class="road__bed"/><path class="road__net"/><path class="road__line"/>
+  </svg>
+  <div class="inner">
+    <aside class="side">
+      <figure class="plate">
+        <figcaption>Giriş, Etimesgut</figcaption>
+        <img src="/general-assets/gorseller/nesne-karakalem/giris-since-1954-1600.webp" alt="Karakalem çizim: Volan girişi, üstte oval VOLAN tabelası ve Since 1954 yazısı, iki yanda saksılar." width="1200" height="1600" loading="lazy">
+      </figure>
+      <p class="side__folio"><b>Servis karnesi</b>Sayfa 8 · müşteri görüşü</p>
+    </aside>
+
+    <div class="page">
+      <h2 id="yorum-h">Karneye yazılan notlar</h2>
+      <p class="page__lead">Aracını teslim alan müşterilerimizin bıraktığı birkaç satır. Buradakiler örnek metindir; gerçek yorumlar izinle eklenecek.</p>
+
+      <div class="ledger" style="position:relative">
+        <svg class="seal" aria-hidden="true"><use href="#seal"/></svg>
+        <div class="ledger__head" aria-hidden="true"><span>No</span><span>Araç ve işlem</span><span>Müşteri görüşü</span><span>İmza</span></div>
+
+        <article class="entry">
+          <div class="entry__no">01</div>
+          <div class="entry__car"><strong>Volvo XC60</strong><span>Periyodik bakım</span></div>
+          <blockquote class="entry__remark"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.</p></blockquote>
+          <div class="entry__sign">
+            <svg viewBox="0 0 140 48" aria-hidden="true"><path d="M6,34 C10,14 14,10 16,30 C18,12 24,10 26,32 C28,22 32,20 36,28 M44,12 L40,36 M42,26 C50,18 54,16 58,14 M44,26 C50,30 54,34 60,38 C70,30 90,26 132,22"/></svg>
+            <b>M. K.</b><span class="sample">örnek yorum</span>
+          </div>
+        </article>
+
+        <article class="entry entry--wide">
+          <div class="entry__no">02</div>
+          <div class="entry__car"><strong>Mercedes-Benz C 200</strong><span>Arıza tespiti, elektronik onarım</span></div>
+          <blockquote class="entry__remark"><p>Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper.</p></blockquote>
+          <div class="entry__sign">
+            <svg viewBox="0 0 140 48" aria-hidden="true"><path d="M30,14 C18,8 8,18 22,24 C36,30 30,40 12,38 M48,38 C54,12 58,10 66,38 M52,28 L64,26 C80,24 96,30 130,18"/></svg>
+            <b>S. A.</b><span class="sample">örnek yorum</span>
+          </div>
+        </article>
+
+        <article class="entry">
+          <div class="entry__no">03</div>
+          <div class="entry__car"><strong>Volkswagen Golf</strong><span>Kaporta ve boya</span></div>
+          <blockquote class="entry__remark"><p>Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur. Nullam quis risus eget urna mollis ornare vel eu leo.</p></blockquote>
+          <div class="entry__sign">
+            <svg viewBox="0 0 140 48" aria-hidden="true"><path d="M30,12 C14,12 14,38 30,36 M16,24 L28,24 M44,12 L72,10 M58,11 C56,24 54,32 52,40 C64,34 80,30 128,30"/></svg>
+            <b>E. T.</b><span class="sample">örnek yorum</span>
+          </div>
+        </article>
+      </div>
+
+      <div class="more stamps stamps--ink">
+        <a class="stamp-btn" href="#" aria-describedby="g-note">Google yorumları</a>
+        <p id="g-note">Bağlantı eklenecek.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+// Road: the crossing from the right lane comes in across the top, then the left lane.
+(() => {
+  const sec = document.querySelector('[data-road]');
+  const svg = sec.querySelector('.road');
+  const paths = [...svg.querySelectorAll('path')];
+  const rounded = (pts, r) => {
+    let d = `M${pts[0].x},${pts[0].y}`;
+    for (let i = 1; i < pts.length - 1; i++) {
+      const p = pts[i - 1], c = pts[i], n = pts[i + 1];
+      const l1 = Math.hypot(c.x - p.x, c.y - p.y), l2 = Math.hypot(n.x - c.x, n.y - c.y);
+      const k = Math.min(r, l1 / 2, l2 / 2);
+      d += ` L${c.x + (p.x - c.x) * k / l1},${c.y + (p.y - c.y) * k / l1} Q${c.x},${c.y} ${c.x + (n.x - c.x) * k / l2},${c.y + (n.y - c.y) * k / l2}`;
+    }
+    const z = pts[pts.length - 1];
+    return `${d} L${z.x},${z.y}`;
+  };
+  const draw = () => {
+    const W = sec.clientWidth, H = sec.offsetHeight, narrow = W < 900;
+    const gutter = Math.min(96, Math.max(20, W * 0.066));
+    const inset = narrow ? 36 : Math.max(26, (W - Math.min(1248, W - 2 * gutter)) / 2 * 0.8);
+    const L = inset, R = W - inset, drop = narrow ? 24 : 36, rad = narrow ? 72 : Math.min(150, W * 0.1);
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const d = rounded([{ x: R, y: -400 }, { x: R, y: -drop }, { x: L, y: drop }, { x: L, y: H + 10 }], rad);
+    paths.forEach((p) => p.setAttribute('d', d));
+  };
+  draw();
+  new ResizeObserver(draw).observe(sec);
+})();
+</script>
+</body>
+</html>

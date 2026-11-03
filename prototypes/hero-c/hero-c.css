@@ -1,0 +1,321 @@
+/* Hero C, "Üç marka, tek tezgâh". The services leaf opens on one workbench: a live engine
+   of the make chosen on the bench's front edge, opened into its parts. Each part group is
+   called out like a workshop-manual diagram, and each callout is a link to the service
+   that works on those parts. The bench front is cover board (navy, gold foil rule on top);
+   the engine stands on the stock just above it.
+   Builds on site.css tokens and the stamp-box buttons. Own class names only. */
+
+.tezgah {
+  --bench-h: clamp(104px, 13vh, 128px);
+  --callout-w: 196px;
+  position: relative;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  overflow-x: clip;
+  background: var(--stock);
+}
+
+.tezgah__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  column-gap: clamp(20px, 2.4vw, 32px);
+  width: 100%;
+  max-width: calc(var(--measure) + 2 * var(--gutter));
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  min-height: 0;
+}
+
+/* ---------- Text column: the same copy and size as the current page ---------- */
+
+.tezgah__text {
+  position: relative;
+  z-index: 3;
+  align-self: center;
+  padding: clamp(28px, 4vh, 48px) 0;
+}
+.tezgah__title {
+  display: inline-block;
+  padding-bottom: 12px;
+  border-bottom: 4px double var(--navy);
+  color: var(--navy);
+  font-size: clamp(2.75rem, 5vw, 4.5rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.024em;
+}
+.tezgah__lead {
+  margin-top: 24px;
+  color: var(--navy);
+  font-size: clamp(1.1875rem, 1.6vw, 1.4375rem);
+  line-height: 1.4;
+}
+.tezgah__body { margin-top: 18px; max-width: 34em; font-size: 1.0625rem; line-height: 1.65; }
+.tezgah__stamps { margin-top: 28px; }
+
+/* ---------- The stage: canvas, leader lines, callouts ---------- */
+
+.tezgah__stage {
+  position: relative;
+  min-height: 0;
+}
+.tezgah__canvas,
+.tezgah__lines,
+.tezgah__poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.tezgah__canvas { z-index: 1; display: block; opacity: 0; transition: opacity 420ms var(--ease-out); }
+.tezgah__lines { z-index: 2; overflow: visible; pointer-events: none; }
+.tezgah.is-live .tezgah__canvas { opacity: 1; }
+.tezgah.is-switching .tezgah__canvas { opacity: 0; transition-duration: 260ms; }
+.tezgah.is-hot .tezgah__canvas { cursor: pointer; }
+
+/* The poster is the fallback without WebGL: the exploded studio render of the same engine. */
+.tezgah__poster { display: none; object-fit: contain; object-position: 50% 100%; }
+.tezgah:not(.js-stage) .tezgah__poster,
+.tezgah.is-flat .tezgah__poster { position: relative; display: block; height: auto; max-height: 520px; margin: 0 auto; mix-blend-mode: multiply; -webkit-mask-image: linear-gradient(#000 78%, transparent 99%); mask-image: linear-gradient(#000 78%, transparent 99%); }
+
+/* With scripts on, the stage waits for the engine instead of showing the fallback first.
+   If the module never runs, the fallback comes back by itself after 8 s. */
+.js .tezgah:not(.js-stage) .tezgah__poster { display: none; animation: tezgah-poster 0s 8s forwards; }
+.js .tezgah:not(.js-stage) .callouts { visibility: hidden; animation: tezgah-fallback 0s 8s forwards; }
+@keyframes tezgah-poster { to { display: block; } }
+.js .tezgah:not(.js-stage) .tezgah__status { animation: tezgah-fallback-out 0s 8s forwards; }
+html:not(.js) .tezgah__status { display: none; }
+@keyframes tezgah-fallback { to { visibility: visible; } }
+@keyframes tezgah-fallback-out { to { visibility: hidden; } }
+
+/* Loading: a typed line and a 1px meter, where the engine will stand. */
+.tezgah__status {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: 52%;
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  width: max-content;
+  max-width: 90%;
+  color: var(--ink-soft);
+  font: 400 0.875rem/1.4 var(--font-typed);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  transition: opacity 240ms var(--ease-out);
+}
+.tezgah__meter { display: block; width: 180px; height: 1px; background: var(--rule-strong); }
+.tezgah__meter span { display: block; width: 100%; height: 1px; background: var(--navy); transform: scaleX(var(--p, 0)); transform-origin: 0 50%; }
+.tezgah__status:empty,
+.tezgah:not(.is-loading) .tezgah__status { opacity: 0; pointer-events: none; }
+.tezgah.is-error .tezgah__status { opacity: 1; }
+
+/* Leader lines: navy hairlines from the callout to each part, with a dot on the part. */
+.leader { opacity: 0; transition: opacity 200ms var(--ease-out); }
+.leader path {
+  fill: none;
+  stroke: var(--navy);
+  stroke-width: 1.25;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 620ms var(--ease-out), stroke-width 160ms var(--ease-out);
+}
+.leader circle { fill: var(--navy); stroke: var(--paper); stroke-width: 1.5; transform-box: fill-box; transform-origin: center; transform: scale(0); transition: transform 260ms var(--ease-out) 380ms; }
+.leader circle.leader__root { fill: var(--stock); stroke: var(--navy); stroke-width: 1.25; transition-delay: 0ms; }
+.leader.is-on { opacity: 1; }
+.leader.is-on path:not(.leader__more) { stroke-dashoffset: 0; }
+.leader.is-on circle:not(.leader__more) { transform: scale(1); }
+/* The group's other parts are drawn in only while it is pointed at or focused. */
+.leader circle.leader__more { transition-delay: 160ms; }
+.leader.is-on.is-hot path.leader__more { stroke-dashoffset: 0; transition-duration: 380ms; }
+.leader.is-on.is-hot circle.leader__more { transform: scale(1); }
+.tezgah.has-hot .leader:not(.is-hot) { opacity: 0.28; }
+.leader.is-hot path { stroke-width: 2; }
+.leader.is-hot circle { transform: scale(1.3); }
+
+/* Callouts: a printed form label (the service) over typed part names. Each is a link. */
+.callouts { margin: 0; padding: 0; list-style: none; }
+.callout a {
+  display: block;
+  padding: 6px 0 8px;
+  color: var(--navy);
+  text-decoration: none;
+}
+.callout__svc {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--rule-strong);
+  font: 600 0.8125rem/1.2 var(--font-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: border-color 160ms var(--ease-out);
+}
+.callout__svc svg { width: 14px; height: 10px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.6; transition: transform 180ms var(--ease-out); }
+.callout__parts {
+  display: block;
+  margin-top: 6px;
+  color: var(--ink-soft);
+  font: 400 0.875rem/1.35 var(--font-typed);
+}
+.callout a:hover .callout__svc,
+.callout.is-hot .callout__svc { border-bottom: 1px solid var(--navy); box-shadow: 0 2px 0 -1px var(--stock), 0 3px 0 -1px var(--navy); }
+.callout a:hover .callout__svc svg,
+.callout.is-hot .callout__svc svg { transform: translateX(3px); }
+.callout a:focus-visible { outline: 2px solid var(--navy); outline-offset: 4px; }
+
+/* Placed by the script beside the engine; otherwise a plain list under the picture. */
+.tezgah.is-live .callouts,
+.tezgah.is-switching .callouts { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+.tezgah.is-live .callout,
+.tezgah.is-switching .callout {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--callout-w);
+  pointer-events: auto;
+  transform: translate(var(--x, 0px), var(--y, 0px));
+  clip-path: inset(-12px -12px -12px -12px);
+  transition: clip-path 520ms var(--ease-out), opacity 200ms var(--ease-out);
+}
+.tezgah.is-live .callout:not(.is-on) { clip-path: inset(0 100% 0 0); opacity: 0; }
+.tezgah.is-switching .callout { opacity: 0; }
+.tezgah.has-hot .callout:not(.is-hot) { opacity: 0.55; }
+.tezgah:not(.is-live):not(.is-switching) .callouts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 24px;
+  margin-top: 16px;
+}
+
+/* ---------- The bench front: cover board with the make switcher ---------- */
+
+.tezgah__bench {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px 40px;
+  min-height: var(--bench-h);
+  padding: 16px calc(var(--gutter) + 72px) 14px var(--gutter);
+  background: var(--navy);
+  color: var(--stock);
+}
+/* The gold foil rule along the bench's top edge: a 2px line with a hairline under it. */
+.tezgah__bench::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 6px;
+  border-top: 2px solid var(--gold);
+  border-bottom: 1px solid rgba(133, 114, 68, 0.7);
+  pointer-events: none;
+}
+
+.makes { display: flex; align-items: center; min-width: 0; margin: 0; padding: 0; border: 0; }
+.makes__label {
+  float: left;
+  margin-right: clamp(24px, 3vw, 48px);
+  padding: 0;
+  color: var(--gold-ink);
+  font: 600 0.75rem/1.2 var(--font-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.makes__list { display: flex; align-items: baseline; gap: 8px clamp(20px, 2.8vw, 44px); }
+.make {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-areas: "box name" ". code";
+  column-gap: 12px;
+  align-items: baseline;
+  padding: 6px 4px 8px;
+  cursor: pointer;
+  color: rgba(238, 240, 245, 0.78);
+  transition: color 180ms var(--ease-out);
+}
+.make input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.make__box {
+  grid-area: box;
+  align-self: center;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid currentColor;
+  transform: translateY(-1px);
+}
+.make__box svg { display: block; width: 100%; height: 100%; fill: none; stroke: var(--gold-ink); stroke-width: 2.2; stroke-dasharray: 16; stroke-dashoffset: 16; transition: stroke-dashoffset 260ms var(--ease-out); }
+.make__name {
+  grid-area: name;
+  font: 400 clamp(1.5rem, 2.25vw, 2.125rem)/1.05 var(--font-title);
+  letter-spacing: -0.015em;
+  white-space: nowrap;
+}
+.make__code {
+  grid-area: code;
+  margin-top: 6px;
+  font: 400 0.8125rem/1.2 var(--font-typed);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  opacity: 0.86;
+}
+.make:hover { color: var(--stock); }
+.make:has(input:checked) { color: var(--gold-ink); }
+.make:has(input:checked) .make__box svg { stroke-dashoffset: 0; }
+.make:has(input:focus-visible) { outline: 2px solid var(--gold-ink); outline-offset: 2px; }
+
+.tezgah__note {
+  flex: none;
+  max-width: 13.5rem;
+  color: rgba(238, 240, 245, 0.8);
+  font: 400 0.8125rem/1.45 var(--font-typed);
+  text-align: right;
+}
+
+/* ---------- Narrow screens: text, then the engine, then the bench ---------- */
+
+@media (max-width: 1099px) {
+  .tezgah { --callout-w: 168px; }
+  .tezgah__note { display: none; }
+}
+
+@media (max-width: 899px) {
+  .tezgah { --callout-w: min(150px, calc(50vw - 36px)); grid-template-rows: auto auto; }
+  .tezgah__inner { grid-template-columns: minmax(0, 1fr); }
+  .tezgah__text { padding: 32px 0 8px; }
+  .tezgah__stage { height: clamp(540px, 152vw, 640px); margin: 0 calc(-1 * var(--gutter)); }
+  .tezgah.is-flat .tezgah__stage,
+  .tezgah:not(.js-stage) .tezgah__stage { height: auto; margin: 0; padding-bottom: 24px; }
+  .callout__svc { font-size: 0.75rem; letter-spacing: 0.12em; gap: 6px; }
+  .callout__parts { font-size: 0.8125rem; }
+  .tezgah.is-live .callout[data-col="left"] { text-align: right; }
+  .tezgah__bench { padding: 18px var(--gutter) 20px; }
+  .makes { display: block; width: 100%; }
+  .makes__label { float: none; display: block; margin: 0 0 6px; }
+  .makes__list { display: grid; gap: 0; }
+  .make { grid-template-columns: auto auto 1fr; grid-template-areas: "box name code"; padding: 9px 2px; border-bottom: 1px solid rgba(238, 240, 245, 0.16); }
+  .make:last-child { border-bottom: 0; }
+  .make__name { font-size: 1.5rem; }
+  .make__code { margin: 0 0 0 4px; }
+}
+
+@media (min-width: 900px) {
+  .tezgah { min-height: max(640px, calc(100svh - var(--menu-h))); }
+}
+@media (min-width: 900px) and (max-width: 1359px) {
+  .tezgah__inner { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tezgah__canvas,
+  .leader,
+  .leader path,
+  .leader circle,
+  .tezgah.is-live .callout,
+  .make__box svg { transition: none; }
+}

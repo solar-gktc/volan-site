@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mock · hero2 · v1 Kapak ve levhalar</title>
+<link rel="stylesheet" href="../_kit/kit.css">
+<link rel="stylesheet" href="/gc-volan-1/assets/css/menu.css">
+<style>
+  /* v1 · Kapak ve levhalar (cover and plates).
+     The hero is the navy cover board of the service booklet. Left: the slide text and the stamp
+     buttons. Right: a small stack of tipped-in plates; a switch lifts the top plate off and the
+     next one settles. Along the bottom: a strip of pale stock (the forecourt) that never changes;
+     the 3D cars park there, the road starts under the Volvo. The board has no z-index, so a car
+     roof may overlap its lower edge; text, plates and tabs are z 2. */
+
+  .s-hero {
+    --hero-h: clamp(640px, calc(100svh - var(--menu-h, 72px)), 1000px);
+    --strip-h: clamp(224px, calc(var(--hero-h) * 0.34), 300px);
+    --frame: 24px;
+    position: relative;
+    height: var(--hero-h);
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) var(--strip-h);
+    grid-template-columns: minmax(0, 1fr);
+    overflow: clip;
+    background: var(--stock);
+  }
+
+  /* ---------- The cover board ---------- */
+  .s-hero .board {
+    position: relative;
+    background: var(--navy);
+    color: var(--stock);
+  }
+  /* Gold foil double rule: the sides drop from the menu's own foil rule and close at the bottom. */
+  .s-hero .board::before, .s-hero .board::after { content: ""; position: absolute; pointer-events: none; }
+  .s-hero .board::before { top: 0; left: var(--frame); right: var(--frame); bottom: var(--frame); border: 2px solid var(--gold); border-top: 0; }
+  .s-hero .board::after { top: 0; left: calc(var(--frame) + 7px); right: calc(var(--frame) + 7px); bottom: calc(var(--frame) + 7px); border: 1px solid rgba(133, 114, 68, 0.7); border-top: 0; }
+  .s-hero .board ::selection { background: var(--gold-ink); color: var(--navy); }
+
+  .s-hero .board__grid {
+    position: relative;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 32px;
+    align-items: center;
+    width: min(var(--measure), 100% - 2 * var(--gutter));
+    margin-inline: auto;
+    padding: 40px 0 56px;
+  }
+
+  /* ---------- Slide text (all slides share one grid cell, so the height never jumps) ---------- */
+  .s-hero .copy { grid-column: 1 / 7; display: grid; position: relative; z-index: 2; }
+  .s-hero .slide { grid-area: 1 / 1; align-self: center; }
+  .s-hero .slide[aria-hidden="true"] { visibility: hidden; opacity: 0; transform: translateY(10px); }
+  .s-hero .slide { transition: opacity 420ms var(--ease-out) 140ms, transform 520ms var(--ease-out) 140ms, visibility 0s linear 0s; }
+  .s-hero .slide[aria-hidden="true"] { transition: opacity 180ms ease-in, transform 180ms ease-in, visibility 0s linear 180ms; }
+
+  .s-hero .slide__title {
+    color: var(--gold-ink);
+    font: 400 clamp(2.75rem, 4.45vw, 4rem)/1.06 var(--font-title);
+    letter-spacing: -0.022em;
+    max-width: 11.5em;
+  }
+  .s-hero .slide__title em { font-style: normal; color: var(--stock); }
+  .s-hero .slide__sub {
+    margin-top: 22px;
+    max-width: 29rem;
+    color: var(--stock);
+    font: 400 clamp(1.0625rem, 1.38vw, 1.25rem)/1.5 var(--font-text);
+  }
+  .s-hero .slide .stamps { margin-top: 36px; }
+  .s-hero .slide__note { margin-top: 18px; color: rgba(238, 240, 245, 0.62); font: 400 0.8125rem/1.3 var(--font-typed); }
+
+  /* ---------- The plate stack ---------- */
+  .s-hero .stack {
+    --w: min(500px, 36vw, calc((var(--hero-h) - var(--strip-h) - 150px) * 1.3));
+    grid-column: 8 / 13;
+    justify-self: end;
+    align-self: start;
+    margin-top: 30px;
+    position: relative;
+    z-index: 2;
+    width: var(--w);
+    aspect-ratio: 520 / 392;
+    margin-right: 10px;
+  }
+  .s-hero .leaf {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    transform-origin: 50% 60%;
+    transition: transform 640ms var(--ease-out), opacity 300ms ease-out;
+  }
+  .s-hero .leaf[data-pos="0"] { z-index: 3; transform: rotate(-1.4deg); }
+  .s-hero .leaf[data-pos="1"] { z-index: 2; transform: translate(3.4%, -4.2%) rotate(2.6deg); }
+  .s-hero .leaf[data-pos="2"] { z-index: 1; transform: translate(-3.6%, 3.4%) rotate(-4.6deg); }
+  /* Lifted off: up and to the right, turning, then it goes to the back of the stack. */
+  .s-hero .leaf.is-lifting { z-index: 4; transform: translate(14%, -26%) rotate(9deg); opacity: 0; transition: transform 420ms cubic-bezier(0.5, 0, 0.75, 0), opacity 260ms ease-in 160ms; }
+  .s-hero .leaf.is-parked { transition: none; opacity: 0; }
+
+  .s-hero .photo { height: 100%; display: flex; flex-direction: column; }
+  .s-hero .photo img { flex: 1; min-height: 0; width: 100%; object-fit: cover; }
+  .s-hero .leaf--xc90 img { object-position: 50% 30%; }
+  .s-hero .leaf--arsiv img { object-position: 50% 58%; filter: sepia(0.18); }
+  .s-hero .leaf--arsiv .seal { width: 128px; height: 128px; right: -34px; bottom: 14px; transform: rotate(-12deg); opacity: 0.9; transition: opacity 240ms ease-out; }
+  /* Leaves under the top one show only their border and picture edge: no seal. */
+  .s-hero .leaf:not([data-pos="0"]) .seal { opacity: 0; }
+
+  /* The campaign leaf: a perforated coupon printed on card. The wheel has broken out of its die-cut. */
+  .s-hero .coupon {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 58px minmax(0, 1fr);
+    padding: 10px;
+    background: var(--paper);
+    color: var(--navy);
+  }
+  .s-hero .coupon__stub {
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid var(--rule-strong); border-right: 0;
+  }
+  .s-hero .coupon__stub span { writing-mode: vertical-rl; transform: rotate(180deg); font: 500 0.6875rem/1 var(--font-label); letter-spacing: 0.22em; text-transform: uppercase; white-space: nowrap; }
+  .s-hero .coupon__stub span b { font: 400 0.75rem/1 var(--font-typed); letter-spacing: 0.04em; text-transform: none; margin-top: 10px; }
+  /* Perforation: a row of punched holes between stub and coupon. */
+  .s-hero .coupon__body { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 36%; column-gap: 14px; padding: 24px 22px 20px 28px; border: 1px solid var(--rule-strong); border-left: 2px dotted rgba(50, 50, 119, 0.55); }
+  .s-hero .coupon__body::before { content: ""; position: absolute; inset: 5px; border: 1px solid rgba(50, 50, 119, 0.16); pointer-events: none; }
+  .s-hero .coupon__main { display: flex; flex-direction: column; min-width: 0; }
+  .s-hero .coupon__big { font: 400 clamp(2.75rem, 3.6vw, 3.25rem)/0.95 var(--font-title); letter-spacing: -0.03em; }
+  .s-hero .coupon__what { margin-top: 8px; font: 400 clamp(1.0625rem, 1.3vw, 1.25rem)/1.2 var(--font-title); }
+  .s-hero .coupon__scope { margin: 22px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+  .s-hero .coupon__scope li { display: flex; align-items: center; gap: 11px; font: 500 0.75rem/1 var(--font-label); letter-spacing: 0.13em; text-transform: uppercase; }
+  .s-hero .coupon__scope .tickbox { width: 15px; height: 15px; }
+  .s-hero .coupon__scope .tick { width: 26px; height: 26px; }
+  .s-hero .coupon__sample { margin-top: auto; padding-top: 12px; font: 400 0.75rem/1.3 var(--font-typed); color: var(--ink-soft); }
+  .s-hero .coupon__side { position: relative; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end; }
+  .s-hero .lastday { display: grid; gap: 5px; padding: 8px 11px 7px; border: 4px double var(--navy); transform: rotate(-2deg); }
+  .s-hero .lastday .label { font-size: 0.6875rem; }
+  .s-hero .lastday b { font: 700 1.125rem/1 var(--font-typed); letter-spacing: 0.01em; }
+  /* The die-cut the wheel came out of: a punched circle (the one round shape here, like the seal). */
+  .s-hero .cutout { position: absolute; top: 0; right: 0; width: 100%; aspect-ratio: 1; border: 1.5px dashed rgba(50, 50, 119, 0.5); border-radius: 50%; }
+  .s-hero .wheel {
+    position: absolute; z-index: 5; pointer-events: none;
+    top: -19%; right: -15%; width: 52%;
+    transform: rotate(-8deg);
+    filter: drop-shadow(0 14px 14px rgba(43, 42, 41, 0.28));
+    transition: opacity 260ms ease-out, transform 640ms var(--ease-out);
+  }
+  .s-hero .leaf:not([data-pos="0"]) .wheel, .s-hero .leaf.is-lifting .wheel { opacity: 0; transform: rotate(-20deg) translate(-12%, 10%); }
+
+  /* ---------- Index tabs on the board's lower edge ---------- */
+  .s-hero .tabs {
+    position: absolute; z-index: 2;
+    left: max(var(--gutter), (100% - var(--measure)) / 2);
+    top: 100%;
+    display: flex; align-items: flex-start; gap: 4px;
+  }
+  .s-hero .tab {
+    position: relative;
+    display: flex; align-items: baseline; gap: 9px;
+    height: 38px; padding: 9px 16px 0;
+    border: 0; background: var(--navy); color: rgba(238, 240, 245, 0.72);
+    font: 500 0.75rem/1 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase;
+    cursor: pointer;
+    transition: height 260ms var(--ease-out), color 160ms ease-out;
+  }
+  .s-hero .tab .typed { font-size: 0.8125rem; letter-spacing: 0; color: var(--gold-ink); }
+  .s-hero .tab:hover { color: var(--stock); height: 42px; }
+  .s-hero .tab[aria-selected="true"] { height: 50px; color: var(--stock); }
+  .s-hero .tab__bar { position: absolute; left: 16px; right: 16px; bottom: 9px; height: 2px; background: rgba(133, 114, 68, 0.5); opacity: 0; }
+  .s-hero .tab__bar::after { content: ""; position: absolute; inset: 0; background: var(--gold-ink); transform-origin: 0 50%; transform: scaleX(0); }
+  .s-hero .tab[aria-selected="true"] .tab__bar { opacity: 1; }
+  .s-hero .tab[aria-selected="true"] .tab__bar::after { transform: scaleX(1); }
+  .s-hero.is-auto .tab[aria-selected="true"] .tab__bar::after { animation: hero-fill var(--dwell, 6500ms) linear both; }
+  .s-hero.is-auto.is-held .tab[aria-selected="true"] .tab__bar::after { animation-play-state: paused; }
+  @keyframes hero-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  .s-hero .tab:focus-visible { outline: 2px solid var(--navy); outline-offset: 3px; }
+  .s-hero .tab--pause { margin-left: 10px; padding: 0 14px; align-items: center; height: 38px; gap: 8px; color: var(--stock); }
+  .s-hero .tab--pause svg { width: 10px; height: 12px; fill: currentColor; }
+  .s-hero .tab--pause:hover { height: 38px; background: var(--navy-deep); }
+  .s-hero .tab[hidden] { display: none; }
+
+  /* ---------- The forecourt strip: pale stock, never changes ---------- */
+  .s-hero .forecourt { position: relative; }
+
+  .s-hero .park { position: absolute; width: 0; height: 0; }
+  .s-hero .park[data-park="volvo"] { left: 52%; top: 54%; }
+  .s-hero .park[data-park="mercedes"] { left: 77%; top: 36%; }
+  .s-hero .park[data-park="vw"] { left: 87%; top: 76%; }
+
+  /* Mock only: dashed footprints where the 3D cars stand. */
+  .mock-foot { position: absolute; z-index: 3; left: 0; top: 0; width: var(--fw, 360px); height: var(--fh, 80px); transform: translate(-50%, -50%) skewX(-34deg); border: 1.5px dashed rgba(178, 40, 60, 0.75); }
+  .mock-foot::after { content: attr(data-label); position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) skewX(34deg); color: rgba(178, 40, 60, 0.9); font: 600 0.75rem/1 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; white-space: nowrap; }
+  .park[data-park="vw"] .mock-foot { --fw: 330px; --fh: 76px; }
+
+  /* The road: starts under the Volvo and leaves down the left lane (drawn by the mock script). */
+  .s-hero .road { --road-width: 150px; }
+
+  /* ---------- Narrow ---------- */
+  @media (max-width: 899px) {
+    .s-hero { height: auto; grid-template-rows: auto 250px; --strip-h: 250px; --frame: 12px; }
+    .s-hero .board__grid { display: block; width: auto; padding: 40px 28px 64px; }
+    .s-hero .slide__title { font-size: clamp(2rem, 8.9vw, 2.75rem); line-height: 1.08; }
+    .s-hero .slide__sub { margin-top: 16px; font-size: 1.0625rem; }
+    .s-hero .slide .stamps { margin-top: 26px; gap: 12px; }
+    .s-hero .stamp-btn { min-height: 48px; padding: 0 15px; }
+    .s-hero .slide .stamps { gap: 12px 10px; }
+    .s-hero .stack { --w: calc(100vw - 72px); width: var(--w); margin: 48px auto 6px; }
+    .s-hero .wheel { width: 46%; top: -16%; right: -8%; }
+    .s-hero .coupon { grid-template-columns: 34px minmax(0, 1fr); padding: 7px; }
+    .s-hero .coupon__stub span { font-size: 0.5625rem; letter-spacing: 0.18em; }
+    .s-hero .coupon__stub span b { font-size: 0.625rem; }
+    .s-hero .coupon__body { column-gap: 8px; padding: 13px 12px 11px 15px; grid-template-columns: minmax(0, 1fr) 37%; }
+    .s-hero .coupon__big { font-size: 2rem; }
+    .s-hero .coupon__what { margin-top: 4px; font-size: 0.9375rem; }
+    .s-hero .coupon__scope { margin-top: 12px; gap: 6px; }
+    .s-hero .coupon__scope li { font-size: 0.625rem; gap: 7px; letter-spacing: 0.1em; }
+    .s-hero .coupon__scope .tickbox { width: 11px; height: 11px; border-width: 1.2px; }
+    .s-hero .coupon__scope .tick { width: 19px; height: 19px; }
+    .s-hero .coupon__sample { padding-top: 6px; font-size: 0.625rem; }
+    .s-hero .lastday { gap: 3px; padding: 4px 6px 3px; border-width: 3px; }
+    .s-hero .lastday b { font-size: 0.75rem; }
+    .s-hero .lastday .label { font-size: 0.5rem; }
+    .s-hero .leaf--arsiv .seal { width: 84px; height: 84px; right: -16px; bottom: 6px; }
+    .s-hero .tabs { left: 28px; gap: 3px; }
+    .s-hero .tab { padding: 9px 11px 0; gap: 6px; letter-spacing: 0.1em; }
+    .s-hero .tab__bar { left: 11px; right: 11px; }
+    .s-hero .tab--pause { margin-left: 6px; padding: 0 12px; }
+    .s-hero .tab--pause span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+    .s-hero .park[data-park="volvo"] { left: 42%; top: 60%; }
+    .s-hero .park[data-park="mercedes"] { left: 73%; top: 30%; }
+    .s-hero .park[data-park="vw"] { left: 76%; top: 80%; }
+    .mock-foot { --fw: 170px; --fh: 44px; }
+    .park[data-park="vw"] .mock-foot { --fw: 154px; --fh: 40px; }
+    .mock-foot::after { font-size: 0.625rem; }
+    .s-hero .road { --road-width: 54px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .s-hero .leaf, .s-hero .slide, .s-hero .wheel, .s-hero .tab { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<!-- Shared SVG defs: ink filter, seal, tick, road net. Keep in every mock. -->
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="ink" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="wobble"/>
+      <feDisplacementMap in="SourceGraphic" in2="wobble" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.7" numOctaves="2" seed="3" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.7 0 0 0 1.62" result="coverage"/>
+      <feComposite in="edge" in2="coverage" operator="in"/>
+    </filter>
+    <symbol id="seal" viewBox="0 0 200 200">
+      <path id="seal-arc" d="M100,100 m-70,0 a70,70 0 1,1 140,0 a70,70 0 1,1 -140,0" fill="none"/>
+      <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="5"/>
+      <circle cx="100" cy="100" r="85" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="100" cy="100" r="52" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text font-family="Archivo Narrow, sans-serif" font-weight="600" font-size="19" letter-spacing="3.2" fill="currentColor"><textPath href="#seal-arc" startOffset="0">VOLAN OTOMOTİV · ANKARA · VOLAN OTOMOTİV · ANKARA ·</textPath></text>
+      <text x="100" y="112" text-anchor="middle" font-family="Besley, serif" font-weight="600" font-size="34" fill="currentColor">1954</text>
+    </symbol>
+    <symbol id="tick" viewBox="0 0 32 32"><path d="M5 17.5l7.5 7.5L27.5 6" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <pattern id="road-net" width="64" height="8" patternUnits="userSpaceOnUse"><path d="M0,4 C10.7,-1.3 21.3,-1.3 32,4 S53.3,9.3 64,4 M0,4 C10.7,9.3 21.3,9.3 32,4 S53.3,-1.3 64,4" fill="none" stroke="#323277" stroke-opacity="0.16" stroke-width="0.7"/></pattern>
+  </defs>
+</svg>
+
+<!-- menu -->
+<a class="skip-link" href="#icerik">İçeriğe geç</a>
+<div class="menu is-ready" data-menu data-top="navy">
+  <div class="menu__bar">
+    <a class="menu__logo" href="/gc-volan-1/index.html"><img src="/gc-volan-1/brand/logo-oval.svg" width="677" height="292" alt="Volan Otomotiv ana sayfa"></a>
+    <button class="menu__toggle" type="button" aria-expanded="false" aria-controls="menu-nav"><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M0 1h14M0 5h14M0 9h9"/></svg><span class="menu__toggle-label">Menü</span></button>
+    <nav class="menu__nav" id="menu-nav" aria-label="Ana menü">
+      <p class="menu__title" aria-hidden="true">İçindekiler</p>
+      <ul class="menu__list">
+        <li class="menu__item"><a class="menu__tab" href="/gc-volan-1/index.html" aria-current="page">Ana Sayfa</a></li>
+        <li class="menu__item menu__item--group">
+          <button class="menu__tab" type="button" aria-expanded="false" aria-controls="menu-hakkimizda">Hakkımızda<svg class="menu__chev" viewBox="0 0 10 7" aria-hidden="true"><path d="M1 1.2l4 4 4-4"/></svg></button>
+          <ul class="menu__sub" id="menu-hakkimizda">
+            <li><a class="menu__row" href="/gc-volan-1/hakkimizda.html"><span class="menu__label">Hakkımızda</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark"><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M1 5h11.5M8.5 1l4 4-4 4"/></svg></span></a></li>
+            <li><a class="menu__row" href="/gc-volan-1/miras.html"><span class="menu__label">Miras</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark"><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M1 5h11.5M8.5 1l4 4-4 4"/></svg></span></a></li>
+            <li><a class="menu__row" href="/gc-volan-1/yakinda.html?s=vizyon-misyon"><span class="menu__label">Vizyon &amp; Misyon</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+            <li><a class="menu__row" href="/gc-volan-1/yakinda.html?s=degerlerimiz"><span class="menu__label">Değerlerimiz</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+            <li><a class="menu__row" href="/gc-volan-1/yakinda.html?s=kalite-politikamiz"><span class="menu__label">Kalite Politikamız</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+            <li><a class="menu__row" href="/gc-volan-1/yakinda.html?s=surdurulebilirlik"><span class="menu__label">Sürdürülebilirlik Yaklaşımımız</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+            <li><a class="menu__row" href="/gc-volan-1/yakinda.html?s=markalara-ozel"><span class="menu__label">Markalara Özel Prensibimiz</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+            <li class="menu__subgroup">
+              <span class="menu__subhead" id="menu-multimedya">Multimedya</span>
+              <ul aria-labelledby="menu-multimedya">
+                <li><a class="menu__row" href="/gc-volan-1/yakinda.html?s=resimler"><span class="menu__label">Resimler</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+                <li><a class="menu__row" href="/gc-volan-1/yakinda.html?s=videolar"><span class="menu__label">Videolar</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+                <li><a class="menu__row" href="/gc-volan-1/yakinda.html?s=yorumlar"><span class="menu__label">Yorumlar</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li class="menu__item"><a class="menu__tab" href="/gc-volan-1/hizmetlerimiz.html">Hizmetlerimiz</a></li>
+        <li class="menu__item"><a class="menu__tab" href="/gc-volan-1/yakinda.html?s=haberler">Haberler<span class="menu__soon"> yakında</span></a></li>
+        <li class="menu__item"><a class="menu__tab" href="/gc-volan-1/tesisimiz.html">Tesisimiz</a></li>
+        <li class="menu__item menu__item--group menu__item--end">
+          <button class="menu__tab" type="button" aria-expanded="false" aria-controls="menu-iletisim">İletişim<svg class="menu__chev" viewBox="0 0 10 7" aria-hidden="true"><path d="M1 1.2l4 4 4-4"/></svg></button>
+          <ul class="menu__sub" id="menu-iletisim">
+            <li><a class="menu__row" href="#iletisim"><span class="menu__label">İletişim Bilgileri</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark" title="Bu sayfada"><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M7 .5v8.5M3.5 5.5L7 9l3.5-3.5"/></svg></span></a></li>
+            <li><a class="menu__row" href="/gc-volan-1/yakinda.html?s=insan-kaynaklari"><span class="menu__label">İnsan Kaynakları</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+          </ul>
+        </li>
+      </ul>
+      <div class="menu__contact">
+        <div class="stamps" role="group" aria-label="Hızlı iletişim">
+          <a class="stamp-btn stamp-btn--primary" href="https://wa.me/905337653378?text=Merhaba%2C%20arac%C4%B1m%20i%C3%A7in%20randevu%20almak%20istiyorum." aria-label="Randevu al (WhatsApp mesajı)">Randevu al</a>
+          <a class="stamp-btn" href="tel:+905337653378">Ara</a>
+          <a class="stamp-btn" href="https://wa.me/905337653378">WhatsApp</a>
+        </div>
+      </div>
+    </nav>
+    <div class="menu__actions" role="group" aria-label="Hızlı iletişim">
+      <a class="menu__action" href="https://wa.me/905337653378" aria-label="WhatsApp: 0533 765 33 78"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg><span class="menu__action-label">WhatsApp</span></a>
+      <a class="menu__action" href="https://www.google.com/maps/search/?api=1&amp;query=Volan%20Otomotiv%20Bah%C3%A7ekap%C4%B1%20Mah.%202547.%20Sokak%20No%3A3%20Etimesgut%20Ankara" aria-label="Yol tarifi (Google Haritalar)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg><span class="menu__action-label">Yol tarifi</span></a>
+      <a class="menu__action" href="tel:+905337653378" aria-label="Ara: 0533 765 33 78"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span class="menu__action-label">Ara</span></a>
+    </div>
+  </div>
+</div>
+<!-- /menu -->
+
+<header class="banner s-hero" id="icerik" aria-roledescription="carousel" aria-label="Öne çıkanlar" data-hero>
+  <div class="board">
+    <div class="board__grid">
+
+      <div class="copy" id="hero-slides" aria-live="off">
+        <div class="slide" role="tabpanel" id="hero-s1" aria-labelledby="hero-t1" aria-roledescription="slayt" data-slide="1">
+          <h1 class="slide__title" id="hero-title">Aracınız bizim sorumluluğumuzda</h1>
+          <p class="slide__sub">Garanti süreniz bittiği için servis kalitenizi düşürmek zorunda değilsiniz.</p>
+          <div class="stamps" role="group" aria-label="İletişim">
+            <a class="stamp-btn stamp-btn--primary" href="https://wa.me/905337653378?text=Merhaba%2C%20arac%C4%B1m%20i%C3%A7in%20randevu%20almak%20istiyorum." aria-label="Randevu al (WhatsApp mesajı)">Randevu al</a>
+            <a class="stamp-btn" href="tel:+905337653378">Ara</a>
+            <a class="stamp-btn" href="https://wa.me/905337653378">WhatsApp</a>
+          </div>
+        </div>
+
+        <div class="slide" role="tabpanel" id="hero-s2" aria-labelledby="hero-t2" aria-roledescription="slayt" data-slide="2" aria-hidden="true">
+          <h2 class="slide__title">Uzun yoldan önce <em>ücretsiz</em> kontrol</h2>
+          <p class="slide__sub">Lastik, fren ve sıvıları tek randevuda kontrol ediyoruz. Yola içiniz rahat çıkın.</p>
+          <div class="stamps" role="group" aria-label="Kampanya için iletişim">
+            <a class="stamp-btn stamp-btn--primary" href="https://wa.me/905337653378?text=Merhaba%2C%20%C3%BCcretsiz%20yol%20%C3%B6ncesi%20kontrol%20i%C3%A7in%20randevu%20almak%20istiyorum." aria-label="Randevu al (WhatsApp mesajı)">Randevu al</a>
+            <a class="stamp-btn" href="tel:+905337653378">Ara</a>
+          </div>
+          <p class="slide__note">örnek kampanya · şartlar ve tarih örnektir</p>
+        </div>
+
+        <div class="slide" role="tabpanel" id="hero-s3" aria-labelledby="hero-t3" aria-roledescription="slayt" data-slide="3" aria-hidden="true">
+          <h2 class="slide__title">1954’ten beri aynı işin başındayız</h2>
+          <p class="slide__sub">Yıllarca Volvo yetkili servisi olduk. Bugün Volvo, Mercedes-Benz ve Volkswagen’e aynı titizlikle bakıyoruz.</p>
+          <div class="stamps" role="group" aria-label="Hakkımızda ve randevu">
+            <a class="stamp-btn stamp-btn--primary" href="https://wa.me/905337653378?text=Merhaba%2C%20arac%C4%B1m%20i%C3%A7in%20randevu%20almak%20istiyorum." aria-label="Randevu al (WhatsApp mesajı)">Randevu al</a>
+            <a class="stamp-btn" href="/gc-volan-1/hakkimizda.html">Hikâyemiz</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- The plate stack. data-pos 0 is on top. Only the top leaf is exposed to assistive tech. -->
+      <div class="stack" data-stack>
+        <figure class="leaf leaf--xc90 plate photo" data-leaf="1" data-pos="0">
+          <img src="/gc-volan-1/assets/img/hakkimizda-xc90-lift.webp" width="1500" height="1000" alt="İki usta, lifte kaldırılmış lacivert bir Volvo XC90’ın altında çalışıyor.">
+        </figure>
+
+        <div class="leaf plate coupon" data-leaf="2" data-pos="1" aria-hidden="true">
+          <div class="coupon__stub"><span>Kupon <b>No 0001</b></span></div>
+          <div class="coupon__body">
+            <div class="coupon__main">
+              <p class="coupon__big">Ücretsiz</p>
+              <p class="coupon__what">yol öncesi kontrol</p>
+              <ul class="coupon__scope" aria-label="Kapsam">
+                <li class="is-stamped"><span class="tickbox"><svg class="tick"><use href="#tick"/></svg></span>Lastik</li>
+                <li class="is-stamped"><span class="tickbox"><svg class="tick"><use href="#tick"/></svg></span>Fren</li>
+                <li class="is-stamped"><span class="tickbox"><svg class="tick"><use href="#tick"/></svg></span>Motor yağı</li>
+                <li class="is-stamped"><span class="tickbox"><svg class="tick"><use href="#tick"/></svg></span>Aydınlatma</li>
+              </ul>
+              <p class="coupon__sample">örnek kampanya · randevu ile</p>
+            </div>
+            <div class="coupon__side">
+              <span class="cutout" aria-hidden="true"></span>
+              <p class="lastday"><span class="label">Son gün</span><b>15.01.2027</b></p>
+            </div>
+          </div>
+          <img class="wheel" src="/gc-volan-1/assets/img/anasayfa/kampanya-jant-volvo.webp" width="1200" height="1200" alt="">
+        </div>
+
+        <figure class="leaf leaf--arsiv plate photo" data-leaf="3" data-pos="2" aria-hidden="true">
+          <img src="/general-assets/gorseller/arsiv-restore/arsiv-01-atolye-tezgah-matkap-sb-restore-1600.webp" width="1600" height="981" alt="Arşiv fotoğrafı: eski atölyede üç usta tezgâh ve matkap başında çalışıyor.">
+          <svg class="seal" aria-hidden="true"><use href="#seal"/></svg>
+        </figure>
+      </div>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Slaytlar">
+      <button class="tab" type="button" role="tab" id="hero-t1" aria-controls="hero-s1" aria-selected="true"><span class="typed">1</span>Söz<span class="tab__bar" aria-hidden="true"></span></button>
+      <button class="tab" type="button" role="tab" id="hero-t2" aria-controls="hero-s2" aria-selected="false" tabindex="-1"><span class="typed">2</span>Kampanya<span class="tab__bar" aria-hidden="true"></span></button>
+      <button class="tab" type="button" role="tab" id="hero-t3" aria-controls="hero-s3" aria-selected="false" tabindex="-1"><span class="typed">3</span>1954<span class="tab__bar" aria-hidden="true"></span></button>
+      <button class="tab tab--pause" type="button" aria-pressed="false" data-pause><svg viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0h3.5v12H0zM6.5 0H10v12H6.5z"/></svg><span>Durdur</span></button>
+    </div>
+  </div>
+
+  <div class="forecourt">
+    <span class="park" data-park="volvo"><span class="mock-foot" data-label="Volvo XC60"></span></span>
+    <span class="park" data-park="mercedes"><span class="mock-foot" data-label="Mercedes C"></span></span>
+    <span class="park" data-park="vw"><span class="mock-foot" data-label="VW Golf"></span></span>
+  </div>
+
+  <!-- Mock only: the road from the Volvo's spot to the left lane, drawn by the script below. -->
+  <svg class="road" aria-hidden="true" data-road><path class="road__edge"/><path class="road__bed"/><path class="road__net"/><path class="road__line"/></svg>
+</header>
+
+<script>
+(() => {
+  const hero = document.querySelector('[data-hero]');
+  if (!hero) return;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const tabs = [...hero.querySelectorAll('[role="tab"]')];
+  const slides = [...hero.querySelectorAll('[data-slide]')];
+  const leaves = [...hero.querySelectorAll('[data-leaf]')];
+  const pauseBtn = hero.querySelector('[data-pause]');
+  const n = slides.length;
+  let current = 0, paused = false, hold = 0;
+
+  const param = new URLSearchParams(location.search).get('slide');
+  const fixed = param ? Math.min(n, Math.max(1, +param)) - 1 : null;
+
+  function show(i, animate = true) {
+    i = (i + n) % n;
+    if (i === current && animate) return;
+    const steps = (i - current + n) % n;
+    const quiet = !animate || reduce.matches;
+    // Leaves: the ones before the target lift off in turn and go to the back of the stack.
+    leaves.forEach((leaf, k) => {
+      const oldPos = (k - current + n) % n;
+      const newPos = (k - i + n) % n;
+      const wasAbove = oldPos < steps;
+      leaf.dataset.pos = newPos;
+      leaf.toggleAttribute('aria-hidden', newPos !== 0);
+      if (!quiet && wasAbove) {
+        leaf.dataset.pos = oldPos;
+        leaf.classList.add('is-lifting');
+        setTimeout(() => {
+          leaf.classList.remove('is-lifting');
+          leaf.classList.add('is-parked');
+          leaf.dataset.pos = newPos;
+          leaf.offsetWidth;
+          leaf.classList.remove('is-parked');
+        }, 440);
+      }
+    });
+    slides.forEach((s, k) => { if (k === i) s.removeAttribute('aria-hidden'); else s.setAttribute('aria-hidden', 'true'); s.inert = k !== i; });
+    tabs.forEach((t, k) => { t.setAttribute('aria-selected', k === i); t.tabIndex = k === i ? 0 : -1; });
+    current = i;
+    restartBar();
+  }
+
+  // Auto-advance runs on the gold bar in the current tab: when its fill animation ends, turn the leaf.
+  function restartBar() {
+    const bar = tabs[current].querySelector('.tab__bar');
+    hero.classList.remove('is-auto'); bar.offsetWidth;
+    if (!paused && !reduce.matches && fixed === null) hero.classList.add('is-auto');
+  }
+  hero.addEventListener('animationend', e => { if (e.animationName === 'hero-fill') show(current + 1); });
+
+  function setPaused(p) {
+    paused = p;
+    pauseBtn.setAttribute('aria-pressed', p);
+    pauseBtn.querySelector('span').textContent = p ? 'Oynat' : 'Durdur';
+    pauseBtn.querySelector('svg').innerHTML = p ? '<path d="M0 0l10 6-10 6z"/>' : '<path d="M0 0h3.5v12H0zM6.5 0H10v12H6.5z"/>';
+    restartBar();
+  }
+  pauseBtn.addEventListener('click', () => setPaused(!paused));
+
+  // Hold (not stop) while the pointer or focus is inside the hero.
+  const held = d => { hold = Math.max(0, hold + d); hero.classList.toggle('is-held', hold > 0); };
+  hero.addEventListener('pointerenter', () => held(1));
+  hero.addEventListener('pointerleave', () => held(-1));
+  hero.addEventListener('focusin', () => { if (!hero.dataset.f) { hero.dataset.f = 1; held(1); } });
+  hero.addEventListener('focusout', e => { if (!hero.contains(e.relatedTarget)) { delete hero.dataset.f; held(-1); } });
+
+  tabs.forEach((t, k) => {
+    t.addEventListener('click', () => show(k));
+    t.addEventListener('keydown', e => {
+      const d = { ArrowRight: 1, ArrowLeft: -1, Home: -k, End: n - 1 - k }[e.key];
+      if (d === undefined) return;
+      e.preventDefault(); show(k + d); tabs[(k + d + n) % n].focus();
+    });
+  });
+
+  // Reduced motion: no auto-advance, so no pause control either. ?slide=N (screenshots) holds the slide.
+  pauseBtn.hidden = reduce.matches;
+  if (reduce.matches) setPaused(true);
+  show(fixed ?? 0, false);
+  slides.forEach((s, k) => s.inert = k !== current);
+
+  // ---------- Mock only: draw the parking bays and the road from the Volvo to the left lane ----------
+  const road = hero.querySelector('[data-road]');
+  function draw() {
+    const H = hero.getBoundingClientRect(), W = H.width, narrow = W < 900;
+    const p = s => { const r = hero.querySelector(`[data-park="${s}"]`).getBoundingClientRect(); return [r.left - H.left, r.top - H.top]; };
+    const [vx, vy] = p('volvo');
+    const gutter = Math.min(96, Math.max(20, W * 0.066));
+    const innerLeft = (W - Math.min(1248, W - 2 * gutter)) / 2;
+    const lane = narrow ? 36 : Math.max(26, innerLeft * 0.8);
+    const R = narrow ? 64 : 144;
+    const d = `M${vx + (narrow ? 30 : 70)},${vy} H${lane + R} A${R},${R} 0 0 0 ${lane},${vy + R} V${H.height + 200}`;
+    road.querySelectorAll('path').forEach(el => el.setAttribute('d', d));
+  }
+  draw();
+  addEventListener('resize', draw);
+  document.fonts && document.fonts.ready.then(draw);
+})();
+</script>
+</body>
+</html>

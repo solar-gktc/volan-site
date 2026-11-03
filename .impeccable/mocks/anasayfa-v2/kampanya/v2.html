@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mock · kampanya · v2 Kapak bandı</title>
+<link rel="stylesheet" href="../_kit/kit.css">
+<style>
+  /* v2 — Kapak bandı (the boldest): the navy cover board breaks into the page as a band that
+     runs from the left edge of the screen up to the road, with a perforated edge beside the lane.
+     One campaign fills it; two or three become index tabs on its top edge. */
+  .sec { --iw: min(var(--measure), 100vw - 2 * var(--gutter)); position: relative; padding: 216px 0 176px; }
+
+  .band { position: relative; z-index: 2; width: calc(50% + var(--iw) / 2 - 150px); padding: 0; }
+  .band.cover::before, .band.cover::after { left: -40px; }
+  .band__inner { position: relative; display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: 32px; padding: 104px 72px 104px calc((100vw - var(--iw)) / 2); min-height: 660px; }
+
+  /* perforated edge beside the road: square punched holes */
+  .perf { position: absolute; top: 0; bottom: 0; right: 10px; width: 6px; background: repeating-linear-gradient(to bottom, transparent 0 8px, var(--stock) 8px 14px); }
+
+  /* Index tabs on the top edge (only when there is more than one campaign) */
+  .tabs { position: absolute; z-index: 3; left: calc((100vw - var(--iw)) / 2); bottom: 100%; display: flex; gap: 6px; }
+  .tabs[hidden] { display: none; }
+  .tab { display: flex; align-items: baseline; gap: 10px; min-height: 48px; padding: 14px 20px 12px; border: 1.5px solid var(--rule-strong); border-bottom: 0; background: var(--stock-deep); color: var(--navy); font: 600 0.8125rem/1 var(--font-label); letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; transform: translateY(6px); transition: transform 200ms var(--ease-out), background-color 200ms var(--ease-out); }
+  .tab .typed { font: 400 0.8125rem/1 var(--font-typed); letter-spacing: 0; opacity: 0.8; }
+  .tab:hover { transform: translateY(2px); }
+  .tab[aria-selected="true"] { background: var(--navy); border-color: var(--navy); color: var(--gold-ink); transform: none; }
+  .tab:focus-visible { outline-offset: 2px; }
+
+  .panel { display: contents; }
+  .panel[hidden] { display: none; }
+  .offer { grid-column: 1; position: relative; z-index: 2; align-self: center; }
+  .offer h3 { margin: 0 0 28px; color: var(--stock); font: 600 2.25rem/1.15 var(--font-title); letter-spacing: -0.01em; text-wrap: balance; }
+  .offer h3 .big { display: block; margin-bottom: 6px; color: var(--gold-ink); font-weight: 400; font-size: clamp(4rem, 7.2vw, 6rem); line-height: 0.95; letter-spacing: -0.025em; }
+  .offer__lead { max-width: 36ch; color: var(--stock); font-size: clamp(1.125rem, 1.55vw, 1.4rem); line-height: 1.42; margin-bottom: 36px; }
+  .terms { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 10px 24px; margin: 0 0 40px; max-width: 560px; padding-top: 22px; border-top: 1px solid rgba(133,114,68,.9); }
+  .terms dt { color: var(--gold-ink); font: 600 0.75rem/1.6 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; }
+  .terms dd { margin: 0; color: var(--stock); font: 400 0.9375rem/1.5 var(--font-typed); }
+  .offer__act { display: flex; flex-wrap: wrap; align-items: center; gap: 24px 36px; }
+  .sample { margin-top: 28px; color: var(--gold-ink); font: 400 0.875rem/1.4 var(--font-typed); }
+
+  /* The validity date as a foil-ruled box, pressed into the board */
+  .valid { display: inline-grid; gap: 6px; padding: 10px 16px 12px; border: 4px double var(--gold-ink); color: var(--gold-ink); transform: rotate(-2deg); }
+  .valid .label { color: var(--gold-ink); font-size: 0.6875rem; }
+  .valid b { font: 700 1.5rem/1 var(--font-typed); letter-spacing: 0.02em; color: var(--stock); }
+
+  /* The part breaks out of the band at the top and bottom */
+  .art { grid-column: 2; position: relative; pointer-events: none; }
+  .art__line { position: absolute; left: -46%; top: 14%; width: 118%; aspect-ratio: 1; background: var(--gold-ink); opacity: 0.75; -webkit-mask: var(--line) center / contain no-repeat; mask: var(--line) center / contain no-repeat; }
+  .art__part { position: absolute; z-index: 2; left: -24%; top: -200px; width: 142%; max-width: none; filter: url(#cut); }
+
+  .panel.is-in .offer, .panel.is-in .art__part { animation: panel-in 380ms var(--ease-out) both; }
+  .panel.is-in .art__part { animation-name: part-in; animation-duration: 520ms; }
+  @keyframes panel-in { from { opacity: 0; transform: translateY(10px); } }
+  @keyframes part-in { from { opacity: 0; transform: translateX(28px) rotate(4deg); } }
+
+  .mock-n { position: fixed; z-index: 50; left: 12px; bottom: 12px; display: flex; gap: 6px; align-items: center; padding: 6px 8px; background: var(--paper); border: 1px solid var(--rule-strong); font: 500 0.75rem/1 var(--font-label); letter-spacing: 0.1em; text-transform: uppercase; color: var(--navy); }
+  .mock-n[hidden] { display: none; }
+  .mock-n a { padding: 4px 7px; border: 1px solid var(--rule-strong); text-decoration: none; }
+  .mock-n a[aria-current] { background: var(--navy); color: var(--stock); }
+
+  @media (max-width: 899px) {
+    .sec { padding: 152px 0 120px; }
+    .band { width: calc(100% - 92px); }
+    .band.cover::before, .band.cover::after { left: -40px; }
+    .band__inner { grid-template-columns: minmax(0, 1fr); padding: 56px 36px 56px 24px; min-height: 0; }
+    .art { grid-column: 1; grid-row: 1; height: 190px; margin: -24px -24px 12px 0; }
+    .art__part { left: auto; right: 14px; top: 0; width: 200px; }
+    .art__line { left: -10px; right: auto; top: 20px; width: 200px; }
+    .offer { grid-column: 1; }
+    .offer h3 { font-size: 1.625rem; }
+    .offer h3 .big { font-size: 3.5rem; }
+    .terms { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+    .terms dd { margin-bottom: 10px; }
+    .tabs { left: 20px; right: 0; flex-wrap: wrap; gap: 4px; }
+    .tab { padding: 12px 12px 10px; min-height: 44px; font-size: 0.75rem; }
+    .tab .typed { display: none; }
+    .stamp-btn { padding: 0 18px; }
+  }
+</style>
+</head>
+<body>
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="ink" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="wobble"/>
+      <feDisplacementMap in="SourceGraphic" in2="wobble" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.7" numOctaves="2" seed="3" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.7 0 0 0 1.62" result="coverage"/>
+      <feComposite in="edge" in2="coverage" operator="in"/>
+    </filter>
+    <filter id="cut" color-interpolation-filters="sRGB"><feComponentTransfer><feFuncA type="table" tableValues="0 0 0.25 1 1"/></feComponentTransfer></filter>
+    <symbol id="seal" viewBox="0 0 200 200">
+      <path id="seal-arc" d="M100,100 m-70,0 a70,70 0 1,1 140,0 a70,70 0 1,1 -140,0" fill="none"/>
+      <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="5"/>
+      <circle cx="100" cy="100" r="85" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="100" cy="100" r="52" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text font-family="Archivo Narrow, sans-serif" font-weight="600" font-size="19" letter-spacing="3.2" fill="currentColor"><textPath href="#seal-arc" startOffset="0">VOLAN OTOMOTİV · ANKARA · VOLAN OTOMOTİV · ANKARA ·</textPath></text>
+      <text x="100" y="112" text-anchor="middle" font-family="Besley, serif" font-weight="600" font-size="34" fill="currentColor">1954</text>
+    </symbol>
+    <pattern id="road-net" width="64" height="8" patternUnits="userSpaceOnUse"><path d="M0,4 C10.7,-1.3 21.3,-1.3 32,4 S53.3,9.3 64,4 M0,4 C10.7,9.3 21.3,9.3 32,4 S53.3,-1.3 64,4" fill="none" stroke="#323277" stroke-opacity="0.16" stroke-width="0.7"/></pattern>
+  </defs>
+</svg>
+
+<section class="sec" data-from="left" data-lane="right" aria-labelledby="kampanya-baslik">
+  <svg class="road" aria-hidden="true"><path class="road__edge"/><path class="road__bed"/><path class="road__net"/><path class="road__line"/></svg>
+  <h2 id="kampanya-baslik" class="visually-hidden">Kampanyalar</h2>
+
+  <div class="band cover">
+    <div class="tabs" role="tablist" aria-label="Kampanyalar">
+      <button class="tab" role="tab" id="tab-1" aria-controls="panel-1" aria-selected="true">Yol öncesi <span class="typed">15.01</span></button>
+      <button class="tab" role="tab" id="tab-2" aria-controls="panel-2" aria-selected="false" tabindex="-1">Kış kontrolü <span class="typed">28.02</span></button>
+      <button class="tab" role="tab" id="tab-3" aria-controls="panel-3" aria-selected="false" tabindex="-1">Fren işçiliği <span class="typed">31.01</span></button>
+    </div>
+    <span class="perf" aria-hidden="true"></span>
+    <div class="band__inner">
+
+      <div class="panel" role="tabpanel" id="panel-1" aria-labelledby="tab-1">
+        <div class="offer">
+          <h3><span class="big">Ücretsiz</span> yol öncesi kontrol</h3>
+          <p class="offer__lead">Uzun yoldan önce lastik, fren ve sıvıları tek randevuda kontrol ediyoruz.</p>
+          <dl class="terms">
+            <dt>Kapsam</dt><dd>Lastik, fren, motor yağı, aydınlatma</dd>
+            <dt>Araçlar</dt><dd>Volvo, Mercedes-Benz, Volkswagen</dd>
+            <dt>Şart</dt><dd>Randevu ile. Parça ve işçilik ayrıca; onayınız olmadan işlem yapılmaz.</dd>
+          </dl>
+          <div class="offer__act">
+            <div class="stamps">
+              <a class="stamp-btn stamp-btn--primary" href="https://wa.me/905337653378?text=Merhaba%2C%20%C3%BCcretsiz%20yol%20%C3%B6ncesi%20kontrol%20i%C3%A7in%20randevu%20almak%20istiyorum.">Randevu al</a>
+              <a class="stamp-btn" href="tel:+905337653378">Ara</a>
+            </div>
+            <p class="valid"><span class="label">Son gün</span><b>15.01.2027</b></p>
+          </div>
+          <p class="sample">örnek kampanya · şartlar ve tarih örnektir</p>
+        </div>
+        <div class="art" aria-hidden="true">
+          <span class="art__line" style="--line: url(/general-assets/3d-parcalar/cikti/blueprint/jant-volvo-cizgi.webp)"></span>
+          <img class="art__part" src="/general-assets/3d-parcalar/cikti/png/jant-volvo.webp" alt="" width="1024" height="1024">
+        </div>
+      </div>
+
+      <div class="panel" role="tabpanel" id="panel-2" aria-labelledby="tab-2" hidden>
+        <div class="offer">
+          <h3><span class="big">Ücretsiz</span> kış kontrolü</h3>
+          <p class="offer__lead">Soğuk sabahlardan önce akü, antifriz ve lastikleri ölçüyoruz.</p>
+          <dl class="terms">
+            <dt>Kapsam</dt><dd>Akü testi, antifriz, lastik, silecek, far</dd>
+            <dt>Araçlar</dt><dd>Volvo, Mercedes-Benz, Volkswagen</dd>
+            <dt>Şart</dt><dd>Randevu ile. Yalnızca kontrol ücretsizdir.</dd>
+          </dl>
+          <div class="offer__act">
+            <div class="stamps">
+              <a class="stamp-btn stamp-btn--primary" href="https://wa.me/905337653378?text=Merhaba%2C%20%C3%BCcretsiz%20k%C4%B1%C5%9F%20kontrol%C3%BC%20i%C3%A7in%20randevu%20almak%20istiyorum.">Randevu al</a>
+              <a class="stamp-btn" href="tel:+905337653378">Ara</a>
+            </div>
+            <p class="valid"><span class="label">Son gün</span><b>28.02.2027</b></p>
+          </div>
+          <p class="sample">örnek kampanya · şartlar ve tarih örnektir</p>
+        </div>
+        <div class="art" aria-hidden="true">
+          <span class="art__line" style="--line: url(/general-assets/3d-parcalar/cikti/blueprint/elektrik-aku-cizgi.webp)"></span>
+          <img class="art__part" src="/general-assets/3d-parcalar/cikti/png/elektrik-aku.webp" alt="" width="1024" height="1024">
+        </div>
+      </div>
+
+      <div class="panel" role="tabpanel" id="panel-3" aria-labelledby="tab-3" hidden>
+        <div class="offer">
+          <h3><span class="big">%20</span> fren işçiliğinde indirim</h3>
+          <p class="offer__lead">Disk ve balata değişiminde işçilik bedelinin beşte biri bizden.</p>
+          <dl class="terms">
+            <dt>Kapsam</dt><dd>Disk ve balata değişimi işçiliği</dd>
+            <dt>Araçlar</dt><dd>Volvo, Mercedes-Benz, Volkswagen</dd>
+            <dt>Şart</dt><dd>Parçalar ayrıca fiyatlandırılır. Başka kampanyayla birleşmez.</dd>
+          </dl>
+          <div class="offer__act">
+            <div class="stamps">
+              <a class="stamp-btn stamp-btn--primary" href="https://wa.me/905337653378?text=Merhaba%2C%20fren%20i%C5%9F%C3%A7ili%C4%9Fi%20kampanyas%C4%B1%20i%C3%A7in%20randevu%20almak%20istiyorum.">Randevu al</a>
+              <a class="stamp-btn" href="tel:+905337653378">Ara</a>
+            </div>
+            <p class="valid"><span class="label">Son gün</span><b>31.01.2027</b></p>
+          </div>
+          <p class="sample">örnek kampanya · şartlar ve tarih örnektir</p>
+        </div>
+        <div class="art" aria-hidden="true">
+          <span class="art__line" style="--line: url(/general-assets/3d-parcalar/cikti/blueprint/fren-seti-cizgi.webp)"></span>
+          <img class="art__part" src="/general-assets/3d-parcalar/cikti/png/fren-seti-gumus.webp" alt="" width="1024" height="1024">
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<nav class="mock-n" aria-label="Mock: kampanya sayısı">Mock · kampanya <a href="?n=1">1</a><a href="?n=2">2</a><a href="?n=3">3</a></nav>
+
+<script>
+(function () {
+  const q = new URLSearchParams(location.search);
+  const n = Math.min(3, Math.max(1, +q.get('n') || 2));
+  const tabs = [...document.querySelectorAll('.tab')], panels = [...document.querySelectorAll('.panel')];
+  tabs.forEach((t, i) => { if (i >= n) t.remove(); });
+  panels.forEach((p, i) => { if (i >= n) p.remove(); });
+  const live = tabs.slice(0, n);
+  const list = document.querySelector('.tabs');
+  if (n === 1) { list.hidden = true; panels[0].removeAttribute('role'); panels[0].removeAttribute('aria-labelledby'); }
+  document.querySelectorAll('.mock-n a').forEach(a => { if (a.textContent == n) a.setAttribute('aria-current', 'true'); });
+  if (q.has('shot')) document.querySelector('.mock-n').hidden = true;
+
+  // The one interaction: index tabs turn the band to another campaign.
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function select(i, focus) {
+    live.forEach((t, k) => { t.setAttribute('aria-selected', k === i); t.tabIndex = k === i ? 0 : -1; });
+    panels.slice(0, n).forEach((p, k) => {
+      p.hidden = k !== i; p.classList.remove('is-in');
+      if (k === i && !reduce) { void p.offsetWidth; p.classList.add('is-in'); }
+    });
+    if (focus) live[i].focus();
+  }
+  live.forEach((t, i) => {
+    t.addEventListener('click', () => select(i));
+    t.addEventListener('keydown', e => {
+      const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+      if (k) { e.preventDefault(); select((i + k + n) % n, true); }
+      if (e.key === 'Home') { e.preventDefault(); select(0, true); }
+      if (e.key === 'End') { e.preventDefault(); select(n - 1, true); }
+    });
+  });
+
+  // Mock road: enters on the left lane, crosses at the top, runs down the right lane.
+  const sec = document.querySelector('.sec'), svg = sec.querySelector('.road');
+  function draw() {
+    const W = sec.clientWidth, H = sec.offsetHeight, narrow = W < 900;
+    const iw = Math.min(1248, W - 2 * Math.min(96, Math.max(20, W * 0.066)));
+    const L = narrow ? 36 : (W - iw) / 2 + 54, R = narrow ? W - 36 : (W + iw) / 2 - 54;
+    const yc = narrow ? 48 : 100, r = yc, s = 1;
+    const d = `M${L},0 V${yc - r} Q${L},${yc} ${L + s * r},${yc} H${R - s * r} Q${R},${yc} ${R},${yc + r} V${H}`;
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.querySelectorAll('path').forEach(p => p.setAttribute('d', d));
+  }
+  draw(); new ResizeObserver(draw).observe(sec);
+})();
+</script>
+</body>
+</html>

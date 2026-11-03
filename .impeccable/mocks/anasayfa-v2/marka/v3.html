@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mock · marka · v3 Söz koçanı</title>
+<link rel="stylesheet" href="../_kit/kit.css">
+<style>
+  .road { overflow: hidden; }
+  .sec { position: relative; padding: 128px 0 256px; }
+  .podium__glow { fill: url(#podium-glow); }
+  .podium__shadow { fill: url(#podium-shadow); }
+  .podium__side { fill: url(#podium-side); }
+  .podium__foil { fill: none; stroke: var(--gold-ink); stroke-width: 1.5; }
+  .podium__top { fill: var(--paper); stroke: var(--rule-strong); stroke-width: 1; }
+  .podium__ring { fill: none; stroke: var(--gold); stroke-width: 2; }
+  .podium__ring--fine { stroke-width: 1; stroke-opacity: 0.7; }
+  .arrow { fill: none; stroke: var(--stamp-ink); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; filter: url(#ink); opacity: 0.92; }
+
+  .inner { grid-template-rows: auto auto; row-gap: 0; align-items: start; }
+
+  /* Giant brand names: the selector */
+  .pick { grid-column: 3 / span 5; grid-row: 1; padding-bottom: 168px; }
+  .notes { display: grid; margin-top: 32px; padding-left: 22px; max-width: 30rem; }
+  .notes > div { grid-area: 1 / 1; }
+  .notes > div:not(.is-current) { visibility: hidden; }
+  .pick h2 { color: var(--navy); font: 600 1.5rem/32px var(--font-title); }
+  .names { display: grid; justify-items: start; gap: 4px; margin: 20px 0 0; padding: 0; border: 0; }
+  .name { position: relative; cursor: pointer; }
+  .name input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+  .name span { display: block; padding: 2px 18px 8px; border: 4px double transparent; color: #5b5d8e; font: 400 clamp(2.75rem, 4.4vw, 4rem)/1 var(--font-title); letter-spacing: -0.025em; white-space: nowrap; transition: color 180ms var(--ease-out), border-color 180ms var(--ease-out), transform 180ms var(--ease-out); }
+  .name:hover span { color: var(--navy); }
+  .name input:checked + span { color: var(--navy); border-color: var(--navy); transform: rotate(-1.2deg); }
+  .name input:focus-visible + span { outline: 2px solid var(--navy); outline-offset: 5px; }
+
+  /* Brand detail: exploded engine standing on the stock */
+  .detail { grid-column: 8 / span 5; grid-row: 1; display: grid; }
+  .part { grid-area: 1 / 1; }
+  .detail > .part:not(.is-current) { visibility: hidden; }
+  .part { margin: 24px 0 0 32px; transform: rotate(1.2deg); }
+  .part img { background: var(--paper); aspect-ratio: 1.15; object-fit: cover; }
+  .part figcaption { padding: 2px 4px 8px; }
+  .notes p { max-width: 40ch; }
+  .notes .stamp { opacity: 0.92; transform: rotate(-4deg); filter: none; display: inline-block; margin-top: 20px; }
+  .notes .stamp__ink { font-size: 0.9375rem; }
+  .notes .scope { display: inline-block; margin-top: 20px; padding: 8px 0; border-top: 1.5px solid var(--rule-strong); border-bottom: 1.5px solid var(--rule-strong); color: var(--navy); font: 400 0.9375rem/1.3 var(--font-typed); }
+
+  .bay { grid-column: 2 / span 5; grid-row: 2; aspect-ratio: 4 / 3; }
+
+  /* The navy board, bled to the right edge, holding the tear-off promise */
+  .board { grid-column: 8 / span 5; grid-row: 2; position: relative; z-index: 2; margin-right: calc(-1 * (100vw - min(var(--measure), 100vw - 2 * var(--gutter))) / 2); margin-top: 32px; padding: 72px clamp(48px, 5vw, 80px) 88px clamp(48px, 4.4vw, 72px); background: var(--navy); color: var(--stock); }
+  .board::before, .board::after { content: ""; position: absolute; pointer-events: none; }
+  .board::before { inset: 22px 0 22px 22px; border: 2px solid var(--gold); border-right: 0; }
+  .board::after { inset: 29px 0 29px 29px; border: 1px solid rgba(133, 114, 68, 0.7); border-right: 0; }
+  .board h3 { margin: 0; color: var(--gold-ink); font: 400 clamp(2.5rem, 3.6vw, 3.25rem)/1.02 var(--font-title); letter-spacing: -0.02em; max-width: 12ch; }
+  .board > p { margin-top: 16px; max-width: 34ch; color: var(--stock); }
+  .stub { position: relative; display: grid; grid-template-columns: 44px 1fr; margin-top: 40px; max-width: 520px; background: var(--paper); color: var(--ink); box-shadow: 0 1px 1px rgba(43, 42, 41, 0.1), 0 10px 22px -10px rgba(0, 0, 0, 0.5); transform: rotate(-0.8deg); }
+  .stub__spine { display: grid; place-items: center; border-right: 2px dashed var(--rule-strong); }
+  .stub__spine span { writing-mode: vertical-rl; transform: rotate(180deg); color: var(--navy); font: 600 0.6875rem/1 var(--font-label); letter-spacing: 0.2em; text-transform: uppercase; white-space: nowrap; }
+  .coupons { margin: 0; padding: 0; list-style: none; }
+  .coupon { position: relative; display: grid; grid-template-columns: 92px 1fr; align-items: center; min-height: 128px; padding: 14px 22px 14px 14px; }
+  .coupon + .coupon { border-top: 2px dashed var(--rule-strong); }
+  .coupon + .coupon::before { content: ""; position: absolute; top: -12px; right: 18px; width: 22px; height: 22px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22' fill='none' stroke='%23323277' stroke-width='1.5'%3E%3Cpath d='M3 6.5h4.5M3 15.5h4.5'/%3E%3Cpath d='M7.5 4l4 4-4 4zM7.5 10l4 4-4 4z' fill='%23fbfbfd'/%3E%3Cpath d='M11 8.5L20 4M11 13.5L20 18'/%3E%3C/svg%3E") center / contain no-repeat; background-color: var(--paper); }
+  .coupon__n { color: var(--navy); font: 400 6rem/0.8 var(--font-title); letter-spacing: -0.04em; text-align: center; }
+  .coupon b { display: block; color: var(--navy); font: 600 1rem/1.2 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; }
+  .coupon p { margin-top: 6px; font-size: 1rem; line-height: 26px; }
+  .coupon .sig { display: flex; align-items: flex-end; gap: 10px; margin-top: 14px; color: var(--ink-soft); font: 400 0.8125rem/1 var(--font-typed); }
+  .coupon .sig i { flex: 1; border-bottom: 1.5px solid var(--navy); height: 1px; }
+  .board .seal { width: 168px; height: 168px; right: clamp(32px, 3.4vw, 56px); top: 196px; transform: rotate(-14deg); }
+
+  @media (max-width: 899px) {
+    .sec { padding: 96px 0 256px; }
+    .inner { row-gap: 40px; }
+    .pick, .detail, .board { grid-column: 1; grid-row: auto; }
+    .pick { padding: 0 0 0 72px; }
+    .name span { font-size: min(2.125rem, 8.4vw); padding: 2px 12px 6px; }
+    .detail { padding-left: 72px; }
+    .board { margin: 24px calc(-1 * var(--gutter)) 0; padding: 64px 28px 72px 36px; }
+    .board::before { inset: 14px 0 14px 14px; }
+    .board::after { inset: 21px 0 21px 21px; }
+    .stub { grid-template-columns: 30px 1fr; }
+    .coupon { grid-template-columns: 56px 1fr; min-height: 0; padding: 16px 14px 18px 8px; }
+    .coupon__n { font-size: 3.75rem; }
+    .board .seal { width: 112px; height: 112px; right: 20px; top: 28px; }
+    .notes { padding-left: 12px; }
+    .part { margin: 0 0 0 16px; }
+    .bay { display: none; }
+  }
+</style>
+</head>
+<body>
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="ink" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="wobble"/>
+      <feDisplacementMap in="SourceGraphic" in2="wobble" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.7" numOctaves="2" seed="3" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.7 0 0 0 1.62" result="coverage"/>
+      <feComposite in="edge" in2="coverage" operator="in"/>
+    </filter>
+    <symbol id="seal" viewBox="0 0 200 200">
+      <path id="seal-arc" d="M100,100 m-70,0 a70,70 0 1,1 140,0 a70,70 0 1,1 -140,0" fill="none"/>
+      <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="5"/>
+      <circle cx="100" cy="100" r="85" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="100" cy="100" r="52" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text font-family="Archivo Narrow, sans-serif" font-weight="600" font-size="19" letter-spacing="3.2" fill="currentColor"><textPath href="#seal-arc" startOffset="0">VOLAN OTOMOTİV · ANKARA · VOLAN OTOMOTİV · ANKARA ·</textPath></text>
+      <text x="100" y="112" text-anchor="middle" font-family="Besley, serif" font-weight="600" font-size="34" fill="currentColor">1954</text>
+    </symbol>
+    <symbol id="tick" viewBox="0 0 32 32"><path d="M5 17.5l7.5 7.5L27.5 6" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <pattern id="road-net" width="64" height="8" patternUnits="userSpaceOnUse"><path d="M0,4 C10.7,-1.3 21.3,-1.3 32,4 S53.3,9.3 64,4 M0,4 C10.7,9.3 21.3,9.3 32,4 S53.3,-1.3 64,4" fill="none" stroke="#323277" stroke-opacity="0.16" stroke-width="0.7"/></pattern>
+    <radialGradient id="podium-glow"><stop offset="0" stop-color="#fbfbfd" stop-opacity="0.95"/><stop offset="1" stop-color="#fbfbfd" stop-opacity="0"/></radialGradient>
+    <radialGradient id="podium-shadow"><stop offset="0.55" stop-color="#27275f" stop-opacity="0.32"/><stop offset="1" stop-color="#27275f" stop-opacity="0"/></radialGradient>
+    <linearGradient id="podium-side"><stop offset="0" stop-color="#1d1d4a"/><stop offset="0.4" stop-color="#323277"/><stop offset="1" stop-color="#1d1d4a"/></linearGradient>
+  </defs>
+</svg>
+
+<section class="sec" data-sec aria-labelledby="marka-baslik">
+  <svg class="road" aria-hidden="true">
+    <path class="road__edge" data-road/><path class="road__bed" data-road/><path class="road__net" data-road/><path class="road__line" data-road/>
+    <g data-podium></g>
+    <g data-arrow></g>
+  </svg>
+  <div class="inner">
+    <div class="pick">
+      <h2 id="marka-baslik">Marka uzmanlığımız</h2>
+      <fieldset class="names" data-brands>
+        <legend class="visually-hidden">Marka seçin</legend>
+        <label class="name"><input type="radio" name="marka" value="volvo" checked><span>Volvo</span></label>
+        <label class="name"><input type="radio" name="marka" value="mercedes"><span>Mercedes&#8209;Benz</span></label>
+        <label class="name"><input type="radio" name="marka" value="vw"><span>Volkswagen</span></label>
+      </fieldset>
+      <div class="notes" aria-live="polite">
+        <div class="is-current" data-note="volvo">
+          <p>Volvo bizim en derin uzmanlığımız. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <span class="stamp" aria-hidden="true"><span class="stamp__ink">Uzun yıllar Volvo<small>yetkili servisi</small></span></span>
+        </div>
+        <div data-note="mercedes">
+          <p>Mercedes-Benz araçlarda bakım ve onarım. Integer posuere erat a ante venenatis dapibus.</p>
+          <span class="scope">Bakım · arıza tespiti · mekanik onarım</span>
+        </div>
+        <div data-note="vw">
+          <p>Volkswagen araçlarda bakım ve onarım. Donec sed odio dui, cras justo odio dapibus.</p>
+          <span class="scope">Bakım · arıza tespiti · mekanik onarım</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail">
+      <figure class="plate part is-current" data-note="volvo">
+        <figcaption>Drive-E tipi motor, sökülmüş · 3B çizim</figcaption>
+        <img src="/general-assets/3d-parcalar/cikti/png/motor-volvo-drive-e-patlatilmis.webp" width="1024" height="1024" alt="Volvo Drive-E tipi motor, parçalarına ayrılmış.">
+      </figure>
+      <figure class="plate part" data-note="mercedes">
+        <figcaption>OM654 tipi motor, sökülmüş · 3B çizim</figcaption>
+        <img src="/general-assets/3d-parcalar/cikti/png/motor-mercedes-om654-patlatilmis.webp" width="1024" height="1024" alt="Mercedes-Benz OM654 tipi motor, parçalarına ayrılmış." loading="lazy">
+      </figure>
+      <figure class="plate part" data-note="vw">
+        <figcaption>EA888 TSI tipi motor, sökülmüş · 3B çizim</figcaption>
+        <img src="/general-assets/3d-parcalar/cikti/png/motor-vw-ea888-tsi-patlatilmis.webp" width="1024" height="1024" alt="Volkswagen EA888 TSI tipi motor, parçalarına ayrılmış." loading="lazy">
+      </figure>
+    </div>
+
+    <div class="bay" data-bay></div>
+
+    <article class="board" data-box aria-labelledby="soz">
+      <h3 id="soz">Onayınız olmadan işe başlamayız.</h3>
+      <p>Her araç için aynı üç adım. Lorem ipsum dolor sit amet.</p>
+      <div class="stub">
+        <div class="stub__spine" aria-hidden="true"><span>Volan · söz koçanı</span></div>
+        <ol class="coupons">
+          <li class="coupon"><span class="coupon__n" aria-hidden="true">1</span><div><b>Ücretsiz tespit</b><p>Aracınızı inceler, sorunu buluruz. Ücret alınmaz.</p></div></li>
+          <li class="coupon"><span class="coupon__n" aria-hidden="true">2</span><div><b>Teklif</b><p>Yapılacak işi ve tutarını önceden görürsünüz.</p></div></li>
+          <li class="coupon"><span class="coupon__n" aria-hidden="true">3</span><div><b>Onayınızdan sonra işlem</b><p>Siz onay verince işe başlarız.</p><div class="sig" aria-hidden="true">İmza <i></i></div></div></li>
+        </ol>
+      </div>
+      <svg class="seal seal--foil" aria-hidden="true"><use href="#seal"/></svg>
+    </article>
+  </div>
+</section>
+
+<script>
+(() => {
+  const sec = document.querySelector('[data-sec]');
+  const svg = sec.querySelector('.road');
+  const bayEl = sec.querySelector('[data-bay]');
+  const boxEl = sec.querySelector('[data-box]');
+  const R0 = 2.75, RIM = 0.3, ELEV = 0.42;
+  function rounded(pts, r) {
+    let d = `M${pts[0][0]},${pts[0][1]}`;
+    for (let i = 1; i < pts.length - 1; i++) {
+      const [x0, y0] = pts[i - 1], [x, y] = pts[i], [x1, y1] = pts[i + 1];
+      const l0 = Math.hypot(x - x0, y - y0) || 1, l1 = Math.hypot(x1 - x, y1 - y) || 1;
+      const a = Math.min(r, l0 / 2), b = Math.min(r, l1 / 2);
+      d += ` L${x - (x - x0) / l0 * a},${y - (y - y0) / l0 * a} Q${x},${y} ${x + (x1 - x) / l1 * b},${y + (y1 - y) / l1 * b}`;
+    }
+    const l = pts[pts.length - 1];
+    return d + ` L${l[0]},${l[1]}`;
+  }
+  const rel = (el) => { const s = sec.getBoundingClientRect(), r = el.getBoundingClientRect(); return { l: r.left - s.left, t: r.top - s.top, r: r.right - s.left, b: r.bottom - s.top, w: r.width, h: r.height }; };
+  function draw() {
+    const W = sec.clientWidth, H = sec.clientHeight, narrow = W < 900;
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const inner = rel(sec.querySelector('.inner'));
+    const L = narrow ? 40 : inner.l + 54, Rl = W - L;
+    const podium = svg.querySelector('[data-podium]'), arrow = svg.querySelector('[data-arrow]');
+    let pts;
+    if (narrow || !bayEl.getClientRects().length) {
+      pts = [[L, 0], [L, H - 120], [Rl, H - 120], [Rl, H]];
+      podium.innerHTML = ''; arrow.innerHTML = '';
+    } else {
+      const bay = rel(bayEl), R = bay.w / 2, ry = R * Math.sin(ELEV), rim = RIM * Math.cos(ELEV) * R / R0;
+      const x = bay.l + R, y = bay.b - ry - rim - 8;
+      const yIn = bay.t - 56, yOut = H - 128;
+      pts = [[L, 0], [L, yIn], [x, yIn], [x, yOut], [Rl, yOut], [Rl, H]];
+      const e = ry / R;
+      const ring = (r) => `<ellipse class="podium__ring${r < R * 0.9 ? ' podium__ring--fine' : ''}" cx="${x}" cy="${y}" rx="${r}" ry="${r * e}"/>`;
+      podium.innerHTML = `<ellipse class="podium__glow" cx="${x}" cy="${y + rim}" rx="${R * 1.45}" ry="${ry * 1.9}"/>`
+        + `<ellipse class="podium__shadow" cx="${x}" cy="${y + rim + 4}" rx="${R * 1.06}" ry="${ry * 1.16}"/>`
+        + `<path class="podium__side" d="M${x - R},${y} V${y + rim} A${R},${ry} 0 0 0 ${x + R},${y + rim} V${y} Z"/>`
+        + `<path class="podium__foil" d="M${x - R},${y + rim * 0.55} A${R},${ry} 0 0 0 ${x + R},${y + rim * 0.55}"/>`
+        + `<ellipse class="podium__top" cx="${x}" cy="${y}" rx="${R}" ry="${ry}"/>` + ring(R * 0.9) + ring(R * 0.9 - 7);
+      const box = rel(boxEl);
+      const ax = x + R + 16, ay = y + 8, bx = box.l - 18, by = y + 8;
+      arrow.innerHTML = `<path class="arrow" d="M${ax},${ay} C${ax + 30},${ay - 34} ${bx - 40},${by - 34} ${bx},${by}"/>`
+        + `<path class="arrow" d="M${bx - 18},${by - 14} L${bx},${by} L${bx - 20},${by + 9}"/>`;
+    }
+    svg.querySelectorAll('[data-road]').forEach((p) => p.setAttribute('d', rounded(pts, narrow ? 60 : 90)));
+    document.documentElement.dataset.h = document.documentElement.scrollHeight;
+  }
+  sec.querySelector('[data-brands]').addEventListener('change', (ev) => {
+    sec.querySelectorAll('[data-note]').forEach((n) => n.classList.toggle('is-current', n.dataset.note === ev.target.value));
+  });
+  new ResizeObserver(draw).observe(sec);
+  document.fonts.ready.then(draw);
+  draw();
+})();
+</script>
+</body>
+</html>

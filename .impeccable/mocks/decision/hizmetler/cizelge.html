@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1440">
+<title>Hizmetlerimiz · Bakım Çizelgesi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600&family=Besley:wght@400;600&family=Courier+Prime&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#323277;--navy-deep:#27275f;--gold:#857244;--gold-ink:#cdb585;--ink:#2b2a29;--ink-soft:#4d4c5c;--stock:#eef0f5;--stock-deep:#dde1ea;--rule:rgba(110,120,160,.22);--rule-strong:rgba(50,50,119,.32);--stamp:#3b3f8f;--paper:#fbfbfd;
+--title:"Besley",Georgia,serif;--label:"Archivo Narrow","Arial Narrow",sans-serif;--typed:"Courier Prime","Courier New",monospace}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;width:1440px;height:900px;overflow:hidden}
+body{background:var(--stock) repeating-linear-gradient(to bottom,transparent 0 31px,var(--rule) 31px 32px);color:var(--ink);font:400 18px/32px var(--title)}
+h1,p{margin:0}
+.defs{position:absolute;width:0;height:0}
+/* Cover band */
+.cover{position:relative;height:192px;background:var(--navy);display:grid;grid-template-columns:200px 1fr auto;align-items:center;gap:40px;padding:0 64px 0 56px}
+.cover::before,.cover::after{content:"";position:absolute;pointer-events:none}
+.cover::before{inset:14px;border:2px solid var(--gold)}
+.cover::after{inset:20px;border:1px solid rgba(133,114,68,.7)}
+.cover img{width:184px;height:auto;display:block}
+.cover h1{color:var(--gold-ink);font-weight:400;font-size:44px;line-height:1.04;letter-spacing:-.012em;max-width:15.5em}
+.cover .sub{margin-top:10px;color:var(--stock);font:15px/1.4 var(--typed)}
+.btns{display:flex;gap:14px}
+.sb{--tilt:-1.2deg;display:inline-flex;align-items:center;height:52px;padding:0 22px;border:4px double currentColor;color:var(--stock);font:600 15px/1 var(--label);letter-spacing:.12em;text-transform:uppercase;text-decoration:none;transform:rotate(var(--tilt))}
+.sb:nth-child(2){--tilt:.8deg}.sb:nth-child(3){--tilt:-.5deg}
+.sb--p{background:var(--gold-ink);border-color:var(--navy);color:var(--navy);outline:1px solid var(--gold-ink)}
+.sb--ink{color:var(--navy);height:48px;padding:0 18px}
+.sb--ink.sb--p{background:var(--navy);color:var(--stock);border-color:var(--stock);outline:1px solid var(--navy)}
+/* Form strip above the table */
+.strip{display:flex;justify-content:space-between;align-items:end;height:64px;padding:0 48px 7px}
+.strip b{color:var(--navy);font:600 13px/1 var(--label);letter-spacing:.16em;text-transform:uppercase}
+.strip span{font:14px/1 var(--typed);color:var(--ink-soft)}
+.strip svg{width:18px;height:18px;vertical-align:-4px;color:var(--stamp)}
+/* The schedule */
+table{margin:0 48px;width:1344px;border-collapse:collapse;table-layout:fixed;background:var(--stock);border:4px double var(--navy)}
+th{height:56px;padding:0 6px 8px;vertical-align:bottom;text-align:center;color:var(--navy);font:600 11.5px/1.25 var(--label);letter-spacing:.1em;text-transform:uppercase;border-bottom:2px solid var(--navy);border-left:1px solid var(--rule-strong)}
+th:nth-child(-n+3){text-align:left;padding-left:14px}
+td{height:46px;border-top:1px solid var(--rule-strong);border-left:1px solid var(--rule-strong);text-align:center;vertical-align:middle;padding:0}
+th:first-child,td:first-child{border-left:0}
+td.n{font:15px var(--typed);color:var(--ink-soft)}
+td.s{text-align:left;padding-left:14px;color:var(--navy);font:600 16.5px/1.15 var(--title)}
+td.d{text-align:left;padding:0 14px;font:13.5px/1.3 var(--typed);color:var(--ink)}
+td.a{background:rgba(221,225,234,.35)}
+.t{width:28px;height:28px;color:var(--stamp);filter:url(#ink);mix-blend-mode:multiply;opacity:.9}
+tr:nth-child(odd) .t{transform:rotate(-6deg)} tr:nth-child(even) .t{transform:rotate(4deg) translateY(-1px)}
+.k{display:inline-block;padding:3px 8px 2px;border:2px solid var(--stamp);outline:1px solid var(--stamp);outline-offset:2px;color:var(--stamp);font:600 10.5px/1.1 var(--label);letter-spacing:.14em;filter:url(#ink);mix-blend-mode:multiply;opacity:.88;transform:rotate(-7deg)}
+tr:nth-child(3n) .k{transform:rotate(-3deg) translateX(-6px)} tr:nth-child(3n+1) .k{transform:rotate(-10deg) translateX(5px)}
+/* Opened row */
+tr.open td{background:var(--stock-deep);border-top:2px solid var(--navy)}
+tr.open td.s::after{content:"";display:inline-block;margin-left:10px;border:6px solid transparent;border-top:7px solid var(--navy);vertical-align:-3px}
+tr.detail td{height:200px;border-top:1px dashed var(--rule-strong);background:var(--stock);text-align:left;vertical-align:top}
+.det{position:relative;display:grid;grid-template-columns:316px 680px 1fr;gap:44px;padding:20px 24px 0 62px;height:198px}
+.plate{margin:-6px 0 0;padding:10px;background:var(--paper);box-shadow:0 1px 1px rgba(43,42,41,.1),0 10px 22px -10px rgba(43,42,41,.38);transform:rotate(-1.2deg);height:fit-content}
+.plate figcaption{font:13px/1.3 var(--typed);color:var(--ink-soft);margin:0 0 8px}
+.plate img{display:block;width:100%;height:142px;object-fit:cover}
+.det p{max-width:36em;margin-top:6px}
+.det .lbl{display:block;color:var(--navy);font:600 12px/1 var(--label);letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px}
+.det .btns{margin-top:22px}
+.seal{position:absolute;right:30px;top:12px;width:146px;height:146px;color:var(--stamp);filter:url(#ink);mix-blend-mode:multiply;opacity:.88;transform:rotate(-14deg)}
+.box{position:absolute;right:16px;top:14px;width:176px;height:168px;border:1.5px dashed var(--rule-strong)}
+.box span{position:absolute;left:8px;bottom:6px;color:var(--navy);font:500 11px/1 var(--label);letter-spacing:.12em;text-transform:uppercase;opacity:.8}
+</style>
+</head>
+<body>
+<svg class="defs" aria-hidden="true" focusable="false"><defs>
+  <filter id="ink" x="-8%" y="-8%" width="116%" height="116%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="wobble"/>
+    <feDisplacementMap in="SourceGraphic" in2="wobble" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.05 0.7" numOctaves="2" seed="3" result="grain"/>
+    <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.7 0 0 0 1.62" result="coverage"/>
+    <feComposite in="edge" in2="coverage" operator="in"/>
+  </filter>
+  <symbol id="tick" viewBox="0 0 32 32"><path d="M5 17.5l7.5 7.5L27.5 6" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="seal" viewBox="0 0 200 200">
+    <path id="seal-arc" d="M100,100 m-70,0 a70,70 0 1,1 140,0 a70,70 0 1,1 -140,0" fill="none"/>
+    <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="5"/>
+    <circle cx="100" cy="100" r="85" fill="none" stroke="currentColor" stroke-width="1.6"/>
+    <circle cx="100" cy="100" r="52" fill="none" stroke="currentColor" stroke-width="1.6"/>
+    <text font-family="Archivo Narrow, sans-serif" font-weight="600" font-size="19" letter-spacing="3.2" fill="currentColor"><textPath href="#seal-arc">VOLAN OTOMOTİV · ANKARA · VOLAN OTOMOTİV · ANKARA ·</textPath></text>
+    <text x="100" y="112" text-anchor="middle" font-family="Besley, serif" font-weight="600" font-size="34" fill="currentColor">1954</text>
+  </symbol>
+</defs></svg>
+
+<header class="cover">
+  <img src="../../../../assets/img/logo-oval.svg" alt="Volan Premium Car Service">
+  <div>
+    <h1>Aracınızın tüm ihtiyaçları için tek noktadan çözüm</h1>
+    <p class="sub">Hizmetlerimiz · Volvo, Mercedes-Benz ve Volkswagen · Ankara</p>
+  </div>
+  <nav class="btns" aria-label="İletişim">
+    <a class="sb sb--p" href="#randevu">Randevu al</a><a class="sb" href="#ara">Ara</a><a class="sb" href="#whatsapp">WhatsApp</a>
+  </nav>
+</header>
+
+<div class="strip">
+  <b>Bakım çizelgesi · Hizmetlerimiz</b>
+  <span><svg aria-hidden="true"><use href="#tick"/></svg> işlemin dokunduğu bölge &nbsp;·&nbsp; satırı açın, ayrıntısını okuyun</span>
+</div>
+
+<table>
+  <colgroup><col style="width:52px"><col style="width:300px"><col style="width:402px"><col span="7" style="width:68px"><col style="width:114px"></colgroup>
+  <thead><tr><th>No</th><th>Hizmet</th><th>Kapsam</th><th>Motor</th><th>Şanzıman</th><th>Fren &amp; Süsp.</th><th>Elek&shy;tronik</th><th>Kaporta</th><th>Boya</th><th>Parça</th><th>Volan kaşesi</th></tr></thead>
+  <tbody>
+    <tr><td class="n">01</td><td class="s">Bakım &amp; Onarım</td><td class="d">Yıllık ve kilometre bakımları; orijinal ya da 1. sınıf muadil parça.</td>
+      <td class="a"><svg class="t"><use href="#tick"/></svg></td><td class="a"><svg class="t"><use href="#tick"/></svg></td><td class="a"><svg class="t"><use href="#tick"/></svg></td><td></td><td></td><td></td><td class="a"><svg class="t"><use href="#tick"/></svg></td><td><span class="k">VOLAN</span></td></tr>
+    <tr><td class="n">02</td><td class="s">Yedek Parça</td><td class="d">Orijinal ve 1. sınıf muadil parça temini.</td>
+      <td class="a"><svg class="t"><use href="#tick"/></svg></td><td class="a"><svg class="t"><use href="#tick"/></svg></td><td class="a"><svg class="t"><use href="#tick"/></svg></td><td class="a"><svg class="t"><use href="#tick"/></svg></td><td class="a"><svg class="t"><use href="#tick"/></svg></td><td></td><td class="a"><svg class="t"><use href="#tick"/></svg></td><td><span class="k">VOLAN</span></td></tr>
+    <tr class="open"><td class="n">03</td><td class="s">Araç Arıza Tespiti</td><td class="d">Güncel cihazlarla bilgisayarlı arıza tespiti.</td>
+      <td class="a"><svg class="t"><use href="#tick"/></svg></td><td class="a"><svg class="t"><use href="#tick"/></svg></td><td class="a"><svg class="t"><use href="#tick"/></svg></td><td class="a"><svg class="t"><use href="#tick"/></svg></td><td></td><td></td><td></td><td></td></tr>
+    <tr class="detail"><td colspan="11"><div class="det">
+      <figure class="plate"><figcaption>Arıza tespiti · Volan atölyesi</figcaption><img src="../../../../assets/img/hizmet-ariza-tespiti.webp" alt="Volan atölyesinde bilgisayarlı arıza tespiti"></figure>
+      <div><span class="lbl">03 · Araç Arıza Tespiti</span>
+        <p>Arıza lambası yandığında ya da araçta bir sorun hissettiğinizde, güncel cihazlarla bilgisayarlı arıza tespiti yapılır.</p>
+        <div class="btns"><a class="sb sb--ink sb--p" href="#randevu">Randevu al</a><a class="sb sb--ink" href="#ara">Ara</a></div></div>
+      <div class="box"><span>Servis kaşesi</span></div><svg class="seal" aria-hidden="true"><use href="#seal"/></svg>
+    </div></td></tr>
+    <tr><td class="n">04</td><td class="s">Sigorta / Kasko Onarım İşlemleri</td><td class="d">Hasar ihbarından teslimata kadar süreci biz takip ederiz.</td>
+      <td></td><td></td><td class="a"><svg class="t"><use href="#tick"/></svg></td><td></td><td class="a"><svg class="t"><use href="#tick"/></svg></td><td class="a"><svg class="t"><use href="#tick"/></svg></td><td class="a"><svg class="t"><use href="#tick"/></svg></td><td><span class="k">VOLAN</span></td></tr>
+    <tr><td class="n">05</td><td class="s">Elektronik Sistem Onarımları</td><td class="d">Elektrik ve elektronik arızaların tespiti ve onarımı.</td>
+      <td class="a"><svg class="t"><use href="#tick"/></svg></td><td></td><td></td><td class="a"><svg class="t"><use href="#tick"/></svg></td><td></td><td></td><td class="a"><svg class="t"><use href="#tick"/></svg></td><td><span class="k">VOLAN</span></td></tr>
+    <tr><td class="n">06</td><td class="s">Kaporta</td><td class="d">Hasar onarımı ve mini onarım.</td>
+      <td></td><td></td><td></td><td></td><td class="a"><svg class="t"><use href="#tick"/></svg></td><td class="a"><svg class="t"><use href="#tick"/></svg></td><td class="a"><svg class="t"><use href="#tick"/></svg></td><td><span class="k">VOLAN</span></td></tr>
+    <tr><td class="n">07</td><td class="s">Boya</td><td class="d">Boya fırınında, aracınızın orijinal rengine uygun boya.</td>
+      <td></td><td></td><td></td><td></td><td class="a"><svg class="t"><use href="#tick"/></svg></td><td class="a"><svg class="t"><use href="#tick"/></svg></td><td></td><td><span class="k">VOLAN</span></td></tr>
+    <tr><td class="n">08</td><td class="s">Mekanik Onarım</td><td class="d">Arıza tespitinden parça onarımına mekanik işler.</td>
+      <td class="a"><svg class="t"><use href="#tick"/></svg></td><td class="a"><svg class="t"><use href="#tick"/></svg></td><td class="a"><svg class="t"><use href="#tick"/></svg></td><td></td><td></td><td></td><td class="a"><svg class="t"><use href="#tick"/></svg></td><td><span class="k">VOLAN</span></td></tr>
+  </tbody>
+</table>
+</body>
+</html>

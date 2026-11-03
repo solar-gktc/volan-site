@@ -1,0 +1,299 @@
+/* Hero B: "Parça kataloğu levhası". One printed sheet of a parts catalogue: the text block,
+   an isometric plate of nine parts with item balloons, the service index and a title block.
+   Field units: the drawing field is 1000 x 1100 units; parts and balloons are placed in them. */
+
+.kp {
+  --kp-line: var(--navy);
+  --kp-soft: rgba(50, 50, 119, 0.55);
+  --kp-hair: rgba(50, 50, 119, 0.22);
+  --kp-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --kp-pad: 20px;
+  padding: 16px var(--kp-pad) 20px;
+  min-height: calc(100svh - var(--menu-h));
+  display: flex;
+  overflow-x: clip;
+}
+
+/* ---------- The sheet: paper with a double-ruled frame and zone marks ---------- */
+.kp__sheet {
+  position: relative;
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(300px, 380px) minmax(0, 1fr) minmax(280px, 312px);
+  grid-template-areas: "text plate side";
+  column-gap: clamp(24px, 2.6vw, 44px);
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 40px 44px 34px;
+  background: var(--paper);
+  box-shadow: 0 1px 1px rgba(43, 42, 41, 0.1), 0 10px 22px -10px rgba(43, 42, 41, 0.38);
+}
+.kp__frame {
+  position: absolute;
+  inset: 14px;
+  border: 1.5px solid var(--kp-line);
+  pointer-events: none;
+}
+.kp__frame::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border: 0.75px solid var(--kp-soft);
+}
+.kp__zones {
+  position: absolute;
+  display: flex;
+  justify-content: space-around;
+  color: rgba(50, 50, 119, 0.72);
+  font: 600 10px/1 var(--font-label);
+  letter-spacing: 0.08em;
+}
+.kp__zones--top, .kp__zones--bottom { left: 6px; right: 6px; height: 14px; align-items: center; }
+.kp__zones--top { top: -15px; }
+.kp__zones--bottom { bottom: -15px; }
+.kp__zones--left, .kp__zones--right { top: 6px; bottom: 6px; width: 14px; flex-direction: column; align-items: center; }
+.kp__zones--left { left: -15px; }
+.kp__zones--right { right: -15px; }
+.kp__mark { position: absolute; background: var(--kp-line); }
+.kp__mark--t, .kp__mark--b { left: 50%; width: 1.5px; height: 12px; }
+.kp__mark--t { top: -14px; }
+.kp__mark--b { bottom: -14px; }
+.kp__mark--l, .kp__mark--r { top: 50%; height: 1.5px; width: 12px; }
+.kp__mark--l { left: -14px; }
+.kp__mark--r { right: -14px; }
+
+/* ---------- Text block ---------- */
+.kp__text { grid-area: text; position: relative; z-index: 2; align-self: start; padding-top: 6px; }
+.kp__title {
+  display: inline-block;
+  margin: 0;
+  padding-bottom: 12px;
+  border-bottom: 4px double var(--navy);
+  color: var(--navy);
+  font-size: clamp(2.75rem, 5vw, 4.5rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.kp__lead {
+  margin: 24px 0 0;
+  color: var(--navy);
+  font-size: clamp(1.1875rem, 1.6vw, 1.4375rem);
+  line-height: 1.4;
+  text-wrap: pretty;
+}
+.kp__body { margin: 18px 0 0; max-width: 34em; font-size: 1.0625rem; line-height: 1.65; text-wrap: pretty; }
+.kp__stamps { margin-top: 28px; }
+
+/* ---------- The plate ---------- */
+.kp__plate { grid-area: plate; position: relative; display: flex; align-items: center; justify-content: center; min-width: 0; }
+.kp-field {
+  position: relative;
+  flex: none;
+  /* On wide sheets the plate reaches into the free space under the CTAs. */
+  --kp-over: clamp(0px, (100vw - 1300px) * 0.46, 64px);
+  width: min(calc(100% + var(--kp-over) + 20px), calc((100svh - var(--menu-h) - 124px) * 1000 / 1100));
+  margin-left: calc(-1 * var(--kp-over));
+  aspect-ratio: 1000 / 1100;
+}
+.kp-part {
+  position: absolute;
+  left: calc(var(--x) * 0.1%);
+  top: calc(var(--y) / 11 * 1%);
+  width: calc(var(--s) * 0.1%);
+  aspect-ratio: 1;
+  pointer-events: none;
+}
+.kp-part__line {
+  position: absolute;
+  inset: 0;
+  background: var(--kp-line);
+  -webkit-mask-size: contain; -webkit-mask-repeat: no-repeat; -webkit-mask-position: center;
+  mask-size: contain; mask-repeat: no-repeat; mask-position: center;
+  opacity: var(--ghost, 1);
+  transition: opacity 320ms var(--kp-ease), background-color 320ms var(--kp-ease);
+}
+.kp-leads { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.kp-lead path, .kp-aux { fill: none; stroke: var(--kp-line); stroke-width: 0.9; vector-effect: non-scaling-stroke; }
+.kp-lead circle { fill: var(--kp-line); }
+.kp-aux--chain { stroke: var(--kp-soft); stroke-dasharray: 14 4 2 4; }
+.kp-aux--dim { stroke: var(--kp-soft); stroke-width: 0.75; }
+
+.kp-balloon {
+  position: absolute;
+  cursor: pointer;
+  left: calc(var(--bx) * 0.1%);
+  top: calc(var(--by) / 11 * 1%);
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  margin: -15px 0 0 -15px;
+  border: 1.5px solid var(--kp-line);
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--navy);
+  font: 700 14px/1 var(--font-typed);
+  font-variant-numeric: tabular-nums;
+  text-decoration: none;
+  transition: background-color 200ms var(--kp-ease), color 200ms var(--kp-ease), transform 200ms var(--kp-ease);
+}
+.kp-dim {
+  position: absolute;
+  left: calc(var(--dx) * 0.1%);
+  top: calc(var(--dy) / 11 * 1%);
+  transform: translate(-50%, -50%) rotate(var(--dr, 0deg));
+  padding: 0 4px;
+  background: var(--paper);
+  color: var(--ink-soft);
+  font: 400 12px/1 var(--font-typed);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.kp-field__gl {
+  position: absolute;
+  inset: -64px;
+  width: calc(100% + 128px);
+  height: calc(100% + 128px);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Emphasis: while one part is on, the others recede on the paper. */
+.kp-field[data-on] .kp-part:not(.is-on) .kp-part__line { opacity: 0.5; }
+.kp-field[data-on] .kp-lead:not(.is-on) { opacity: 0.45; }
+.kp-lead { transition: opacity 320ms var(--kp-ease); }
+.kp-lead.is-on path { stroke-width: 1.4; }
+.kp-balloon.is-on { background: var(--navy); color: var(--stock); }
+
+/* A model is on its way: the drawing breathes in stamp ink. */
+.kp-part.is-loading .kp-part__line { background: var(--stamp-ink); animation: kp-wait 800ms ease-in-out infinite alternate; }
+@keyframes kp-wait { to { opacity: 0.5; } }
+/* Debug (?debug): drawings above the 3D, in red, to check that they register. */
+.kp-field.is-debug .kp-part { z-index: 4; }
+.kp-field.is-debug .kp-part__line { background: #e0201b; opacity: 1 !important; }
+
+/* ---------- Index and title block ---------- */
+.kp__side { grid-area: side; position: relative; z-index: 2; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; min-width: 0; padding-top: 10px; }
+.kp-index__title {
+  margin: 0 0 10px;
+  color: var(--navy);
+  font: 600 1.375rem/1.2 var(--font-title);
+}
+.kp-index__head {
+  display: grid;
+  grid-template-columns: 34px 1fr auto;
+  gap: 12px;
+  margin: 0;
+  padding: 0 0 6px;
+  border-bottom: 1.5px solid var(--navy);
+  color: var(--ink-soft);
+  font: 600 11px/1.2 var(--font-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.kp-index__list { margin: 0; padding: 0; list-style: none; counter-reset: none; }
+.kp-index__list li { border-bottom: 1px solid var(--kp-hair); }
+.kp-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 34px 1fr auto 14px;
+  align-items: center;
+  gap: 4px 12px;
+  min-height: 42px;
+  padding: 5px 6px 5px 0;
+  color: var(--ink);
+  text-decoration: none;
+  transition: background-color 200ms var(--kp-ease);
+}
+.kp-row__no {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--navy);
+  border-radius: 50%;
+  color: var(--navy);
+  font: 700 13px/1 var(--font-typed);
+  transition: background-color 200ms var(--kp-ease), color 200ms var(--kp-ease);
+}
+.kp-row__name { color: var(--navy); font: 600 1.0625rem/1.2 var(--font-title); }
+.kp-row__fig { color: var(--ink-soft); font: 400 13px/1.3 var(--font-typed); text-align: right; white-space: nowrap; }
+.kp-row__go { width: 14px; height: 10px; fill: none; stroke: var(--navy); stroke-width: 1.6; opacity: 0; transform: translateX(-4px); transition: opacity 200ms var(--kp-ease), transform 200ms var(--kp-ease); }
+.kp-row:hover, .kp-row.is-on { background: rgba(50, 50, 119, 0.06); }
+.kp-row.is-on .kp-row__no { background: var(--navy); color: var(--stock); }
+.kp-row:hover .kp-row__go, .kp-row:focus-visible .kp-row__go, .kp-row.is-on .kp-row__go { opacity: 1; transform: none; }
+.kp-row:focus-visible { outline: 2px solid var(--navy); outline-offset: 2px; }
+
+.kp-block {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 0;
+  border: 1.5px solid var(--navy);
+}
+.kp-block__logo { grid-column: span 2; display: flex; align-items: center; padding: 8px 10px; border-bottom: 1px solid var(--navy); border-right: 1px solid var(--kp-hair); }
+.kp-block__logo img { width: 118px; height: auto; }
+.kp-block__cell { padding: 6px 10px 7px; border-bottom: 1px solid var(--kp-hair); border-right: 1px solid var(--kp-hair); }
+.kp-block__cell:nth-child(2) { border-bottom-color: var(--navy); }
+.kp-block__cell--2 { grid-column: span 2; }
+.kp-block__cell--3 { grid-column: 1 / -1; border-bottom: 0; }
+.kp-block > :nth-child(4), .kp-block > :nth-child(2), .kp-block > :nth-child(7), .kp-block__cell--3 { border-right: 0; }
+.kp-block dt { color: var(--ink-soft); font: 600 10.5px/1.2 var(--font-label); letter-spacing: 0.12em; text-transform: uppercase; }
+.kp-block dd { margin: 2px 0 0; color: var(--navy); font: 400 13.5px/1.3 var(--font-typed); }
+.kp-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- Load: the plate prints, the balloons are stamped ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .js .kp-part__line { animation: kp-print 900ms var(--kp-ease) both; animation-delay: calc(180ms + var(--i) * 90ms); }
+  .js .kp-lead path { stroke-dasharray: 1; animation: kp-draw 520ms var(--kp-ease) both; animation-delay: calc(700ms + var(--i) * 70ms); }
+  .js .kp-lead circle { animation: kp-fade 300ms ease-out both; animation-delay: calc(700ms + var(--i) * 70ms); }
+  .js .kp-aux { animation: kp-fade 600ms ease-out both; animation-delay: 1100ms; }
+  .js .kp-dim { animation: kp-fade 600ms ease-out both; animation-delay: 1250ms; }
+  .js .kp-balloon { animation: kp-stamp 340ms var(--kp-ease) both; animation-delay: calc(980ms + var(--i) * 70ms); }
+}
+@keyframes kp-print {
+  from { clip-path: inset(0 0 100% 0); opacity: 0.2; }
+  to { clip-path: inset(0 0 0 0); }
+}
+@keyframes kp-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes kp-fade { from { opacity: 0; } }
+@keyframes kp-stamp {
+  from { opacity: 0; transform: scale(1.35) rotate(-14deg); filter: blur(3px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+
+/* ---------- Narrower screens ---------- */
+@media (max-width: 1220px) {
+  .kp { min-height: 0; }
+  .kp__sheet {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+    grid-template-areas: "text plate" "side side";
+    row-gap: 36px;
+  }
+  .kp-field { width: 100%; margin-left: 0; }
+  .kp__side { flex-direction: row; align-items: flex-start; gap: 32px; }
+  .kp-index { flex: 1.4; }
+  .kp-block { flex: 1; }
+}
+@media (max-width: 760px) {
+  .kp { --kp-pad: 10px; padding-top: 10px; }
+  .kp__sheet {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "text" "plate" "side";
+    row-gap: 28px;
+    padding: 34px 26px 30px;
+  }
+  .kp__frame { inset: 10px; }
+  .kp__zones, .kp__mark { display: none; }
+  .kp__plate { margin: 0 -2px; }
+  .kp-balloon { width: 26px; height: 26px; margin: -13px 0 0 -13px; font-size: 12.5px; }
+  .kp-dim { font-size: 10.5px; }
+  .kp__side { flex-direction: column; align-items: stretch; }
+  .kp-row__fig { font-size: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kp-part__line, .kp-lead, .kp-balloon, .kp-row, .kp-row__go, .kp-row__no { transition: none; }
+}

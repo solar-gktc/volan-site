@@ -1,0 +1,1594 @@
+{
+ "url": "http://127.0.0.1:8731/miras.html",
+ "at": "2026-11-02T23:30:23.570Z",
+ "allow": [
+  "mono",
+  "micro-label",
+  "shadow",
+  "font-count",
+  "dashed",
+  "outlined-box"
+ ],
+ "viewports": [
+  {
+   "width": 1440,
+   "height": 900,
+   "load": "load",
+   "screens": 10,
+   "filled": [
+    0.98,
+    0.38,
+    0.39,
+    0.44,
+    0.98,
+    0.73,
+    0.48,
+    0.66,
+    0.74,
+    0.91
+   ],
+   "motion": {
+    "elements": 12,
+    "css": 0,
+    "transitions": 12,
+    "scripted": 0,
+    "videos": 1,
+    "playingVideos": 1
+   },
+   "metrics": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "page": {
+     "height": 8391,
+     "screens": 9.3,
+     "words": 507,
+     "img": 17,
+     "video": 1,
+     "canvas": 0,
+     "svg": 21,
+     "sections": 7,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 15,
+     "videoCount": 1,
+     "uiPictures": 0,
+     "pictureSamples": [
+      "miras-bugun-cephe.webp",
+      "miras-dun-cephe.webp",
+      "miras-arsiv-atolye.webp",
+      "miras-arsiv-ekip.webp",
+      "miras-arsiv-motor-sokum.webp",
+      "miras-arsiv-cekici.webp",
+      "miras-arsiv-acik-hava.webp",
+      "hakkimizda-arsiv-bayi.webp"
+     ],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Miras",
+     "words": 1,
+     "chars": 5,
+     "lines": 1,
+     "size": 96,
+     "vw": 6.7,
+     "font": "Besley",
+     "weight": 400,
+     "tracking": -0.025,
+     "leading": 0.95,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "left",
+     "widthRatio": 0.35,
+     "top": 204,
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Miras",
+     "words": 1,
+     "lines": 1,
+     "size": 96,
+     "font": "Besley"
+    },
+    "headings": [
+     {
+      "text": "Miras",
+      "words": 1,
+      "chars": 5,
+      "lines": 1,
+      "size": 96,
+      "vw": 6.7,
+      "font": "Besley",
+      "weight": 400,
+      "tracking": -0.025,
+      "leading": 0.95,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.35,
+      "top": 204,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "Kuruluş",
+      "words": 1,
+      "chars": 7,
+      "lines": 1,
+      "size": 72,
+      "vw": 5,
+      "font": "Besley",
+      "weight": 400,
+      "tracking": -0.015,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.27,
+      "top": 1073,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "words": 19,
+      "chars": 123,
+      "lines": 4,
+      "size": 36,
+      "vw": 2.5,
+      "font": "Besley",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.32,
+      "upper": false,
+      "italic": true,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.53,
+      "top": 1940,
+      "tag": "p",
+      "kind": "statement"
+     },
+     {
+      "text": "Atölye yılları",
+      "words": 2,
+      "chars": 14,
+      "lines": 1,
+      "size": 72,
+      "vw": 5,
+      "font": "Besley",
+      "weight": 400,
+      "tracking": -0.015,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.35,
+      "top": 2338,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Volvo Yetkili Servisi",
+      "words": 3,
+      "chars": 21,
+      "lines": 2,
+      "size": 72,
+      "vw": 5,
+      "font": "Besley",
+      "weight": 400,
+      "tracking": -0.015,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.35,
+      "top": 3717,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Volan Otomotiv",
+      "words": 2,
+      "chars": 14,
+      "lines": 2,
+      "size": 72,
+      "vw": 5,
+      "font": "Besley",
+      "weight": 400,
+      "tracking": -0.015,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.35,
+      "top": 5213,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Bugün",
+      "words": 1,
+      "chars": 5,
+      "lines": 1,
+      "size": 72,
+      "vw": 5,
+      "font": "Besley",
+      "weight": 400,
+      "tracking": -0.015,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.16,
+      "top": 6043,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Lorem ipsum dolor sit amet.",
+      "words": 5,
+      "chars": 27,
+      "lines": 2,
+      "size": 61.9,
+      "vw": 4.3,
+      "font": "Besley",
+      "weight": 400,
+      "tracking": -0.012,
+      "leading": 1.04,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.47,
+      "top": 7826,
+      "tag": "h2",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 8,
+     "maxLines": 4,
+     "over2Lines": 0,
+     "statements": 1,
+     "centered": 0,
+     "medianWords": 2,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Besley",
+       "share": 0.79,
+       "mono": false
+      },
+      {
+       "family": "Courier Prime",
+       "share": 0.13,
+       "mono": true
+      },
+      {
+       "family": "Archivo Narrow",
+       "share": 0.08,
+       "mono": false
+      }
+     ],
+     "familyCount": 3,
+     "sizes": [
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      22,
+      24,
+      36,
+      62,
+      72,
+      96
+     ],
+     "sizeCount": 13,
+     "notLoaded": [],
+     "body": {
+      "font": "Besley",
+      "size": 18,
+      "leading": 1.78,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 12.6
+     },
+     "measureChars": 44,
+     "max": {
+      "size": 96,
+      "vw": 6.7,
+      "font": "Besley",
+      "text": "Miras"
+     },
+     "monoShare": 0.13,
+     "monoProseShare": 0.13,
+     "monoFamilies": [
+      "Courier Prime"
+     ],
+     "monoSamples": [
+      "Ad Soyad, kurucu aileden",
+      "Dün · arşivden",
+      "Bugün · Etimesgut",
+      "1954 —",
+      "2026",
+      "1954"
+     ],
+     "microLabels": 6,
+     "microLabelShare": 0.017,
+     "microSamples": [
+      "Kuruluş kaşesi",
+      "1954",
+      "Adres",
+      "Telefon",
+      "E-posta",
+      "Çalışma saatleri"
+     ],
+     "upperShare": 0.08,
+     "centerShare": 0.03,
+     "smallText": 2
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#eef0f5",
+     "bodyBgHsl": {
+      "h": 223,
+      "s": 0.26,
+      "l": 0.95
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#323277",
+       "top": 72,
+       "hsl": {
+        "h": 240,
+        "s": 0.41,
+        "l": 0.33
+       }
+      },
+      {
+       "color": "#fbfbfd",
+       "top": 6762,
+       "hsl": {
+        "h": 240,
+        "s": 0.33,
+        "l": 0.99
+       }
+      },
+      {
+       "color": "#27275f",
+       "top": 6772,
+       "hsl": {
+        "h": 240,
+        "s": 0.42,
+        "l": 0.26
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#2b2a29",
+       "share": 0.55
+      },
+      {
+       "color": "#eef0f5",
+       "share": 0.33
+      },
+      {
+       "color": "#cdb585",
+       "share": 0.05
+      },
+      {
+       "color": "#4d4c5c",
+       "share": 0.04
+      },
+      {
+       "color": "#323277",
+       "share": 0.03
+      }
+     ],
+     "button": {
+      "bg": "#323277",
+      "hsl": {
+       "h": 240,
+       "s": 0.41,
+       "l": 0.33
+      },
+      "fg": "#eef0f5"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 15,
+     "inHero": 10,
+     "radius": 0,
+     "height": 40,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 14,
+     "heroLabels": [
+      "İÇERİĞE GEÇ",
+      "WHATSAPP",
+      "YOL TARİFİ",
+      "ARA",
+      "RANDEVU AL"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 12,
+     "shadowOverlay": 0,
+     "shadowSamples": [
+      "figure.plate.mr-iki-zaman → rgba(43, 42, 41, 0.1) 0px 1px 1px 0px, rgba(43, 42, 41, 0.38) 0px 10px 22px -10p",
+      "figure.plate.mr-plaka → rgba(43, 42, 41, 0.1) 0px 1px 1px 0px, rgba(43, 42, 41, 0.38) 0px 10px 22px -10p",
+      "figure.plate.mr-plaka → rgba(43, 42, 41, 0.1) 0px 1px 1px 0px, rgba(43, 42, 41, 0.38) 0px 10px 22px -10p",
+      "figure.plate.mr-plaka → rgba(43, 42, 41, 0.1) 0px 1px 1px 0px, rgba(43, 42, 41, 0.38) 0px 10px 22px -10p"
+     ],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 0,
+     "hairlineSamples": [],
+     "outlinedBoxes": 1,
+     "dashed": 1,
+     "blurred": 0,
+     "roundedBoxes": 0,
+     "boxRadius": 0,
+     "squareMedia": 15,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [
+     {
+      "type": "img",
+      "ratio": 0.24
+     },
+     {
+      "type": "img",
+      "ratio": 0.24
+     }
+    ],
+    "nav": {
+     "links": 3,
+     "fixed": true,
+     "height": 72,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "besley",
+     "courier prime",
+     "archivo narrow"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "pageH": 8391,
+    "margins": {
+     "left": 96,
+     "right": 98
+    },
+    "sections": [
+     {
+      "sel": "section.mr-kapak",
+      "tag": "section",
+      "top": 72,
+      "height": 828,
+      "words": 59,
+      "media": 2,
+      "middle": 0,
+      "heading": {
+       "text": "Miras",
+       "size": 96,
+       "tag": "h1"
+      },
+      "left": 96,
+      "right": 96,
+      "textLeft": 96,
+      "textRight": 96,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#kurulus.mr-yaprak.mr-kurulus",
+      "tag": "section",
+      "top": 900,
+      "height": 1265,
+      "words": 94,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "Kuruluş",
+       "size": 72,
+       "tag": "h2"
+      },
+      "left": 102,
+      "right": 98,
+      "textLeft": 341,
+      "textRight": 98,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#atolye.mr-yaprak.mr-atolye",
+      "tag": "section",
+      "top": 2165,
+      "height": 1206,
+      "words": 60,
+      "media": 4,
+      "middle": 45,
+      "heading": {
+       "text": "Atölye yılları",
+       "size": 72,
+       "tag": "h2"
+      },
+      "left": 96,
+      "right": 102,
+      "textLeft": 96,
+      "textRight": 880,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.mr-sarma.mr-volvo__ust",
+      "tag": "div",
+      "top": 3717,
+      "height": 427,
+      "words": 42,
+      "media": 1,
+      "middle": 148,
+      "heading": null,
+      "left": 96,
+      "right": 103,
+      "textLeft": 96,
+      "textRight": 845,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.mr-sarma.mr-volvo__alt",
+      "tag": "div",
+      "top": 4259,
+      "height": 608,
+      "words": 28,
+      "media": 3,
+      "middle": 146,
+      "heading": null,
+      "left": 103,
+      "right": 102,
+      "textLeft": 112,
+      "textRight": 136,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#volan-otomotiv.mr-yaprak.mr-volan",
+      "tag": "section",
+      "top": 5040,
+      "height": 830,
+      "words": 81,
+      "media": 2,
+      "middle": 157,
+      "heading": {
+       "text": "Volan Otomotiv",
+       "size": 72,
+       "tag": "h2"
+      },
+      "left": 96,
+      "right": 207,
+      "textLeft": 96,
+      "textRight": 222,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.mr-sarma.mr-bugun__izgara",
+      "tag": "div",
+      "top": 6163,
+      "height": 483,
+      "words": 73,
+      "media": 1,
+      "middle": 145,
+      "heading": null,
+      "left": 103,
+      "right": 110,
+      "textLeft": 949,
+      "textRight": 110,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "figure.plate.mr-bugun__film",
+      "tag": "figure",
+      "top": 6762,
+      "height": 598,
+      "words": 1,
+      "media": 1,
+      "middle": 0,
+      "heading": null,
+      "left": 105,
+      "right": 105,
+      "textLeft": 1261,
+      "textRight": 123,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#iletisim.cover.mr-son",
+      "tag": "section",
+      "top": 7547,
+      "height": 845,
+      "words": 69,
+      "media": 2,
+      "middle": 12,
+      "heading": {
+       "text": "Lorem ipsum dolor sit amet.",
+       "size": 62,
+       "tag": "h2"
+      },
+      "left": 130,
+      "right": 176,
+      "textLeft": 130,
+      "textRight": 176,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Miras",
+      "size": 96,
+      "top": 204,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 96,
+      "n": 16
+     },
+     {
+      "x": 949,
+      "n": 8
+     },
+     {
+      "x": 130,
+      "n": 2
+     },
+     {
+      "x": 341,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 27,
+    "bodySize": 18,
+    "stage": false,
+    "explains": true,
+    "slivers": [],
+    "voidShare": 0.07,
+    "voidBox": {
+     "x": 0,
+     "y": 720,
+     "w": 1440,
+     "h": 60
+    }
+   },
+   "app": null,
+   "consoleErrors": []
+  },
+  {
+   "width": 390,
+   "height": 844,
+   "load": "load",
+   "screens": 12,
+   "filled": [
+    0.97,
+    0.66,
+    0.52,
+    0.66,
+    0.63,
+    0.94,
+    0.94,
+    0.47,
+    0.57,
+    0.62,
+    0.81,
+    0.96
+   ],
+   "motion": {
+    "elements": 13,
+    "css": 0,
+    "transitions": 13,
+    "scripted": 0,
+    "videos": 1,
+    "playingVideos": 1
+   },
+   "metrics": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "page": {
+     "height": 9683,
+     "screens": 11.5,
+     "words": 496,
+     "img": 17,
+     "video": 1,
+     "canvas": 0,
+     "svg": 21,
+     "sections": 7,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 15,
+     "videoCount": 1,
+     "uiPictures": 0,
+     "pictureSamples": [
+      "miras-bugun-cephe.webp",
+      "miras-dun-cephe.webp",
+      "miras-arsiv-atolye.webp",
+      "miras-arsiv-ekip.webp",
+      "miras-arsiv-motor-sokum.webp",
+      "miras-arsiv-cekici.webp",
+      "miras-arsiv-acik-hava.webp",
+      "hakkimizda-arsiv-bayi.webp"
+     ],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Miras",
+     "words": 1,
+     "chars": 5,
+     "lines": 1,
+     "size": 64,
+     "vw": 16.4,
+     "font": "Besley",
+     "weight": 400,
+     "tracking": -0.025,
+     "leading": 0.95,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "center",
+     "widthRatio": 0.87,
+     "top": 124,
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Miras",
+     "words": 1,
+     "lines": 1,
+     "size": 64,
+     "font": "Besley"
+    },
+    "headings": [
+     {
+      "text": "Miras",
+      "words": 1,
+      "chars": 5,
+      "lines": 1,
+      "size": 64,
+      "vw": 16.4,
+      "font": "Besley",
+      "weight": 400,
+      "tracking": -0.025,
+      "leading": 0.95,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.87,
+      "top": 124,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
+      "words": 13,
+      "chars": 90,
+      "lines": 3,
+      "size": 22,
+      "vw": 5.6,
+      "font": "Besley",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.4,
+      "upper": false,
+      "italic": true,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.87,
+      "top": 396,
+      "tag": "p",
+      "kind": "statement"
+     },
+     {
+      "text": "Kuruluş",
+      "words": 1,
+      "chars": 7,
+      "lines": 1,
+      "size": 40,
+      "vw": 10.3,
+      "font": "Besley",
+      "weight": 400,
+      "tracking": -0.015,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.87,
+      "top": 1301,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "words": 19,
+      "chars": 123,
+      "lines": 5,
+      "size": 24,
+      "vw": 6.2,
+      "font": "Besley",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.32,
+      "upper": false,
+      "italic": true,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.87,
+      "top": 2376,
+      "tag": "p",
+      "kind": "statement"
+     },
+     {
+      "text": "Atölye yılları",
+      "words": 2,
+      "chars": 14,
+      "lines": 1,
+      "size": 40,
+      "vw": 10.3,
+      "font": "Besley",
+      "weight": 400,
+      "tracking": -0.015,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.87,
+      "top": 2682,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Volvo Yetkili Servisi",
+      "words": 3,
+      "chars": 21,
+      "lines": 2,
+      "size": 40,
+      "vw": 10.3,
+      "font": "Besley",
+      "weight": 400,
+      "tracking": -0.015,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.87,
+      "top": 4230,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
+      "words": 15,
+      "chars": 100,
+      "lines": 4,
+      "size": 22,
+      "vw": 5.6,
+      "font": "Besley",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.4,
+      "upper": false,
+      "italic": true,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.87,
+      "top": 5380,
+      "tag": "p",
+      "kind": "statement"
+     },
+     {
+      "text": "Volan Otomotiv",
+      "words": 2,
+      "chars": 14,
+      "lines": 1,
+      "size": 40,
+      "vw": 10.3,
+      "font": "Besley",
+      "weight": 400,
+      "tracking": -0.015,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.87,
+      "top": 6082,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
+      "words": 12,
+      "chars": 79,
+      "lines": 3,
+      "size": 22,
+      "vw": 5.6,
+      "font": "Besley",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.4,
+      "upper": false,
+      "italic": true,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.87,
+      "top": 6687,
+      "tag": "p",
+      "kind": "statement"
+     },
+     {
+      "text": "Bugün",
+      "words": 1,
+      "chars": 5,
+      "lines": 1,
+      "size": 40,
+      "vw": 10.3,
+      "font": "Besley",
+      "weight": 400,
+      "tracking": -0.015,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.33,
+      "top": 7374,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Lorem ipsum dolor sit amet.",
+      "words": 5,
+      "chars": 27,
+      "lines": 2,
+      "size": 32,
+      "vw": 8.2,
+      "font": "Besley",
+      "weight": 400,
+      "tracking": -0.012,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.87,
+      "top": 8719,
+      "tag": "h2",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 11,
+     "maxLines": 5,
+     "over2Lines": 0,
+     "statements": 4,
+     "centered": 0,
+     "medianWords": 5,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Besley",
+       "share": 0.81,
+       "mono": false
+      },
+      {
+       "family": "Courier Prime",
+       "share": 0.13,
+       "mono": true
+      },
+      {
+       "family": "Archivo Narrow",
+       "share": 0.06,
+       "mono": false
+      }
+     ],
+     "familyCount": 3,
+     "sizes": [
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      22,
+      24,
+      32,
+      40,
+      64
+     ],
+     "sizeCount": 12,
+     "notLoaded": [],
+     "body": {
+      "font": "Besley",
+      "size": 18,
+      "leading": 1.45,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 9.9
+     },
+     "measureChars": 38,
+     "max": {
+      "size": 64,
+      "vw": 16.4,
+      "font": "Besley",
+      "text": "Miras"
+     },
+     "monoShare": 0.13,
+     "monoProseShare": 0.13,
+     "monoFamilies": [
+      "Courier Prime"
+     ],
+     "monoSamples": [
+      "Ad Soyad, kurucu aileden",
+      "Dün · arşivden",
+      "Bugün · Etimesgut",
+      "1954 —",
+      "2026",
+      "1954"
+     ],
+     "microLabels": 6,
+     "microLabelShare": 0.017,
+     "microSamples": [
+      "Kuruluş kaşesi",
+      "1954",
+      "Adres",
+      "Telefon",
+      "E-posta",
+      "Çalışma saatleri"
+     ],
+     "upperShare": 0.06,
+     "centerShare": 0.02,
+     "smallText": 2
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#eef0f5",
+     "bodyBgHsl": {
+      "h": 223,
+      "s": 0.26,
+      "l": 0.95
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#323277",
+       "top": 60,
+       "hsl": {
+        "h": 240,
+        "s": 0.41,
+        "l": 0.33
+       }
+      },
+      {
+       "color": "#fbfbfd",
+       "top": 5000,
+       "hsl": {
+        "h": 240,
+        "s": 0.33,
+        "l": 0.99
+       }
+      },
+      {
+       "color": "#dde1ea",
+       "top": 6903,
+       "hsl": {
+        "h": 222,
+        "s": 0.24,
+        "l": 0.89
+       }
+      },
+      {
+       "color": "#ffffff",
+       "top": 6903,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 1
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#2b2a29",
+       "share": 0.56
+      },
+      {
+       "color": "#eef0f5",
+       "share": 0.31
+      },
+      {
+       "color": "#cdb585",
+       "share": 0.05
+      },
+      {
+       "color": "#4d4c5c",
+       "share": 0.05
+      },
+      {
+       "color": "#323277",
+       "share": 0.03
+      }
+     ],
+     "button": {
+      "bg": "#323277",
+      "hsl": {
+       "h": 240,
+       "s": 0.41,
+       "l": 0.33
+      },
+      "fg": "#eef0f5"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 11,
+     "inHero": 6,
+     "radius": 0,
+     "height": 55,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 11,
+     "heroLabels": [
+      "İÇERİĞE GEÇ",
+      "RANDEVU AL",
+      "ARA"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 12,
+     "shadowOverlay": 0,
+     "shadowSamples": [
+      "figure.plate.mr-iki-zaman → rgba(43, 42, 41, 0.1) 0px 1px 1px 0px, rgba(43, 42, 41, 0.38) 0px 10px 22px -10p",
+      "figure.plate.mr-plaka → rgba(43, 42, 41, 0.1) 0px 1px 1px 0px, rgba(43, 42, 41, 0.38) 0px 10px 22px -10p",
+      "figure.plate.mr-plaka → rgba(43, 42, 41, 0.1) 0px 1px 1px 0px, rgba(43, 42, 41, 0.38) 0px 10px 22px -10p",
+      "figure.plate.mr-plaka → rgba(43, 42, 41, 0.1) 0px 1px 1px 0px, rgba(43, 42, 41, 0.38) 0px 10px 22px -10p"
+     ],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 0,
+     "hairlineSamples": [],
+     "outlinedBoxes": 1,
+     "dashed": 1,
+     "blurred": 0,
+     "roundedBoxes": 0,
+     "boxRadius": 0,
+     "squareMedia": 13,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [
+     {
+      "type": "img",
+      "ratio": 0.13
+     },
+     {
+      "type": "img",
+      "ratio": 0.13
+     }
+    ],
+    "nav": {
+     "links": 0,
+     "fixed": true,
+     "height": 0,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "besley",
+     "courier prime",
+     "archivo narrow"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "pageH": 9683,
+    "margins": {
+     "left": 26,
+     "right": 27
+    },
+    "sections": [
+     {
+      "sel": "section.mr-kapak",
+      "tag": "section",
+      "top": 60,
+      "height": 1129,
+      "words": 59,
+      "media": 2,
+      "middle": 0,
+      "heading": {
+       "text": "Miras",
+       "size": 64,
+       "tag": "h1"
+      },
+      "left": 26,
+      "right": 35,
+      "textLeft": 26,
+      "textRight": 39,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.mr-sarma.mr-kurulus__izgara",
+      "tag": "div",
+      "top": 1301,
+      "height": 936,
+      "words": 72,
+      "media": 1,
+      "middle": 0,
+      "heading": null,
+      "left": 26,
+      "right": 27,
+      "textLeft": 26,
+      "textRight": 27,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "figure.mr-sarma.mr-soz",
+      "tag": "figure",
+      "top": 2333,
+      "height": 237,
+      "words": 23,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": 26,
+      "right": 42,
+      "textLeft": 26,
+      "textRight": 42,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#atolye.mr-yaprak.mr-atolye",
+      "tag": "section",
+      "top": 2570,
+      "height": 1436,
+      "words": 60,
+      "media": 4,
+      "middle": 0,
+      "heading": {
+       "text": "Atölye yılları",
+       "size": 40,
+       "tag": "h2"
+      },
+      "left": 26,
+      "right": 33,
+      "textLeft": 26,
+      "textRight": 33,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.mr-sarma.mr-volvo__ust",
+      "tag": "div",
+      "top": 4230,
+      "height": 692,
+      "words": 42,
+      "media": 1,
+      "middle": 0,
+      "heading": null,
+      "left": 26,
+      "right": 27,
+      "textLeft": 26,
+      "textRight": 27,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.mr-sarma.mr-volvo__alt",
+      "tag": "div",
+      "top": 5002,
+      "height": 856,
+      "words": 28,
+      "media": 3,
+      "middle": 0,
+      "heading": null,
+      "left": 26,
+      "right": 33,
+      "textLeft": 26,
+      "textRight": 39,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#volan-otomotiv.mr-yaprak.mr-volan",
+      "tag": "section",
+      "top": 5970,
+      "height": 1292,
+      "words": 81,
+      "media": 2,
+      "middle": 0,
+      "heading": {
+       "text": "Volan Otomotiv",
+       "size": 40,
+       "tag": "h2"
+      },
+      "left": 26,
+      "right": 28,
+      "textLeft": 26,
+      "textRight": 28,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#bugun.mr-yaprak.mr-bugun",
+      "tag": "section",
+      "top": 7262,
+      "height": 1156,
+      "words": 76,
+      "media": 2,
+      "middle": 0,
+      "heading": {
+       "text": "Bugün",
+       "size": 40,
+       "tag": "h2"
+      },
+      "left": 26,
+      "right": 27,
+      "textLeft": 26,
+      "textRight": 27,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#iletisim.cover.mr-son",
+      "tag": "section",
+      "top": 8546,
+      "height": 1137,
+      "words": 69,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Lorem ipsum dolor sit amet.",
+       "size": 32,
+       "tag": "h2"
+      },
+      "left": 26,
+      "right": 38,
+      "textLeft": 26,
+      "textRight": 38,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Miras",
+      "size": 64,
+      "top": 124,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 26,
+      "n": 27
+     }
+    ],
+    "leftBlocks": 27,
+    "bodySize": 18,
+    "stage": false,
+    "explains": true,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": null,
+   "consoleErrors": []
+  }
+ ],
+ "findings": [
+  {
+   "level": "WARN",
+   "id": "statement-length",
+   "width": 1440,
+   "message": "1 large-set statement(s) run past 3 lines at 1440px: \"Lorem ipsum dolor sit amet, consectetur …\" → 4 lines at 36px",
+   "fix": "A statement set large is about 30 words. Cut it, or set the rest as ordinary body text.",
+   "alsoAt": [
+    390
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "size-count",
+   "width": 1440,
+   "message": "13 different font sizes (12, 13, 14, 15, 16, 17, 18, 22, 24, 36, 62, 72, 96).",
+   "fix": "A page needs about five: display, heading, lead, body, small.",
+   "alsoAt": [
+    390
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "small-text",
+   "width": 1440,
+   "message": "2 text block(s) under 13px.",
+   "fix": "Nothing meant to be read goes below 13px.",
+   "alsoAt": [
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "reduced-hidden",
+   "width": 1440,
+   "message": "With reduced motion requested, 3 text block(s) on the first screen stay invisible: \"WhatsApp\", \"Ara\", \"Yol tarifi\"",
+   "fix": "Put every hidden starting state inside @media (prefers-reduced-motion: no-preference); the reduced page is the finished page (references/motion.md §8)."
+  }
+ ],
+ "images": [
+  {
+   "viewport": "desktop",
+   "width": 1440,
+   "fold": "/home/gcagiran/Desktop/VolanDijital/gc-volan-1/.impeccable/review/miras/desktop-fold.jpg",
+   "pages": [
+    "/home/gcagiran/Desktop/VolanDijital/gc-volan-1/.impeccable/review/miras/desktop-page-01.jpg",
+    "/home/gcagiran/Desktop/VolanDijital/gc-volan-1/.impeccable/review/miras/desktop-page-02.jpg",
+    "/home/gcagiran/Desktop/VolanDijital/gc-volan-1/.impeccable/review/miras/desktop-page-03.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "mobile",
+   "width": 390,
+   "fold": "/home/gcagiran/Desktop/VolanDijital/gc-volan-1/.impeccable/review/miras/mobile-fold.jpg",
+   "pages": [
+    "/home/gcagiran/Desktop/VolanDijital/gc-volan-1/.impeccable/review/miras/mobile-page-01.jpg",
+    "/home/gcagiran/Desktop/VolanDijital/gc-volan-1/.impeccable/review/miras/mobile-page-02.jpg"
+   ],
+   "film": []
+  }
+ ]
+}

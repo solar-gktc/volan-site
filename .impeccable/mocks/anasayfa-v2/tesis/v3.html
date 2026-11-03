@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mock · Tesis · v3 Tesis paftası</title>
+<link rel="stylesheet" href="../_kit/kit.css">
+<script type="importmap">{"imports":{"three":"/gc-volan-1/assets/vendor/three.bundle.min.js"}}</script>
+<style>
+  .sec { overflow: clip; }
+  @media (max-width: 899px) { .sec { --road-width: 56px; } }
+
+  /* The fold-out sheet: wider than the booklet, it runs off the left edge and stops before the road. */
+  .sheet { position: relative; z-index: 2; margin-right: max(150px, calc((100vw - 1248px) / 2 * 0.8 + 86px)); background-color: var(--paper);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cpath d='M0 .5H120M.5 0V120' stroke='%23323277' stroke-opacity='.11'/%3E%3Cpath d='M0 24.5H120M0 48.5H120M0 72.5H120M0 96.5H120M24.5 0V120M48.5 0V120M72.5 0V120M96.5 0V120' stroke='%23323277' stroke-opacity='.045'/%3E%3C/svg%3E");
+    border: 1.5px solid var(--navy); border-left: 0; box-shadow: 0 1px 1px rgba(43, 42, 41, 0.1), 0 10px 22px -10px rgba(43, 42, 41, 0.38); }
+  /* Fold creases of the folded plan */
+  .sheet::before, .sheet::after { content: ""; position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px dashed rgba(50, 50, 119, 0.18); pointer-events: none; }
+  .sheet::before { left: 33.3%; }
+  .sheet::after { left: 66.6%; }
+
+  .sheet__head { position: relative; z-index: 2; display: flex; align-items: end; justify-content: space-between; gap: 32px; padding: 56px 56px 0 max(20px, calc((100vw - 1248px) / 2)); }
+  .sheet__head h2 { color: var(--navy); font: 600 2.5rem/48px var(--font-title); letter-spacing: -0.01em; }
+  .sheet__head p { margin-top: 16px; max-width: 46ch; }
+  .reveal { flex: none; appearance: none; display: inline-flex; align-items: center; gap: 12px; min-height: 56px; padding: 0 22px; border: 4px double var(--stock); outline: 2px solid var(--navy); background: var(--navy); color: var(--stock); font: 600 0.9375rem/1 var(--font-label); letter-spacing: 0.12em; text-transform: uppercase; transform: rotate(-1.2deg); cursor: pointer; transition: transform 180ms var(--ease-out), background-color 180ms var(--ease-out); }
+  .reveal:hover { transform: rotate(0) translateY(-1px); background: var(--navy-deep); }
+  .reveal:active { transform: rotate(0) translateY(1px); }
+  .reveal svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: square; }
+  .reveal[aria-pressed="true"] { background: none; color: var(--navy); border-color: var(--navy); outline-color: transparent; }
+
+  .stage { position: relative; height: clamp(520px, 50vw, 720px); margin-top: 8px; }
+  .stage__poster { position: absolute; left: 50%; top: 0; height: calc(100% - 24px); width: auto; max-width: calc(100% - 48px); aspect-ratio: 1.6; object-fit: cover; padding: 10px; background: var(--paper); box-shadow: 0 1px 1px rgba(43, 42, 41, 0.1), 0 10px 22px -10px rgba(43, 42, 41, 0.38); transform: translateX(-50%) rotate(-0.6deg); transition: opacity 500ms var(--ease-out); }
+  .stage__poster--cut { opacity: 0; }
+  .is-static.is-cut .stage__poster--cut { opacity: 1; }
+  .is-static.is-cut .stage__poster--closed { opacity: 0; }
+  .is-live .stage__poster { opacity: 0; pointer-events: none; }
+  .fm-canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; touch-action: pan-y; cursor: grab; }
+  [data-fm-pins] { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+  .fm-pin { position: absolute; left: 0; top: 0; pointer-events: auto; display: flex; align-items: center; margin: -15px 0 0 -15px; padding: 0; border: 0; background: none; cursor: pointer; }
+  .fm-pin[hidden] { display: none; }
+  .fm-pin__no { display: grid; place-items: center; width: 30px; height: 30px; background: var(--navy); color: var(--stock); border: 2px solid var(--paper); outline: 1.5px solid var(--navy); font: 700 0.9375rem/1 var(--font-typed); }
+  .fm-pin__label { margin-left: 6px; padding: 0 8px; background: var(--paper); color: var(--navy); font: 600 0.75rem/24px var(--font-label); letter-spacing: 0.12em; text-transform: uppercase; white-space: nowrap; border-bottom: 1.5px solid var(--navy); }
+  .fm-pin[aria-pressed="true"] .fm-pin__no { background: var(--stamp-ink); outline-offset: 3px; }
+  .fm-pin[aria-pressed="true"] .fm-pin__label { background: var(--navy); color: var(--stock); }
+  .is-moving [data-fm-pins] { opacity: 0; }
+  [data-fm-pins] { transition: opacity 200ms var(--ease-out); }
+  .hint { position: absolute; left: max(20px, calc((100vw - 1248px) / 2)); bottom: 28px; z-index: 2; color: var(--ink-soft); font: 400 0.875rem/1.4 var(--font-typed); }
+
+  /* Title block of the drawing */
+  .tb { position: absolute; right: 24px; bottom: 24px; z-index: 3; width: 440px; background: var(--paper); border: 2px solid var(--navy); border-collapse: collapse; font: 400 0.875rem/1.35 var(--font-typed); color: var(--ink); }
+  .tb td, .tb th { border: 1px solid rgba(50, 50, 119, 0.45); padding: 7px 10px 6px; vertical-align: top; text-align: left; }
+  .tb th { color: var(--navy); font: 600 0.6875rem/1.2 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; width: 1%; white-space: nowrap; }
+  .tb__name { color: var(--navy); font: 600 1.125rem/1.2 var(--font-title) !important; }
+  .tb__zone strong { display: block; color: var(--navy); font: 600 1.0625rem/1.25 var(--font-title); }
+  .tb__legend { columns: 2; column-gap: 16px; font-size: 0.8125rem; }
+  .tb__legend span { display: block; }
+  .tb__legend b { color: var(--navy); }
+  .tb .seal { width: 112px; height: 112px; right: -34px; top: -62px; transform: rotate(-14deg); opacity: 0.88; }
+
+  @media (max-width: 899px) {
+    .sheet { margin-right: 66px; }
+    .sheet::before, .sheet::after { display: none; }
+    .sheet__head { flex-direction: column; align-items: start; gap: 20px; padding: 40px 20px 0 20px; }
+    .sheet__head h2 { font-size: 1.75rem; line-height: 32px; }
+    .stage { height: 380px; }
+    .stage__poster { top: 24px; height: auto; width: calc(100% - 32px); max-width: none; }
+    .tb { font-size: 0.8125rem; }
+    .tb td, .tb th { padding: 6px 7px 5px; }
+    .tb td { white-space: nowrap; }
+    .tb td[colspan] { white-space: normal; }
+    .tb__legend { columns: 1; }
+    .hint { position: static; padding: 4px 20px 16px; }
+    .fm-pin__label { display: none; }
+    .fm-pin[aria-pressed="true"] .fm-pin__label { display: block; }
+    .tb { position: relative; right: auto; bottom: auto; width: auto; margin: 0 12px 16px 20px; }
+    .tb .seal { width: 84px; height: 84px; right: -18px; top: -48px; }
+  }
+</style>
+</head>
+<body>
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="ink" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="wobble"/>
+      <feDisplacementMap in="SourceGraphic" in2="wobble" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.7" numOctaves="2" seed="3" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.7 0 0 0 1.62" result="coverage"/>
+      <feComposite in="edge" in2="coverage" operator="in"/>
+    </filter>
+    <symbol id="seal" viewBox="0 0 200 200">
+      <path id="seal-arc" d="M100,100 m-70,0 a70,70 0 1,1 140,0 a70,70 0 1,1 -140,0" fill="none"/>
+      <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="5"/>
+      <circle cx="100" cy="100" r="85" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="100" cy="100" r="52" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text font-family="Archivo Narrow, sans-serif" font-weight="600" font-size="19" letter-spacing="3.2" fill="currentColor"><textPath href="#seal-arc" startOffset="0">VOLAN OTOMOTİV · ANKARA · VOLAN OTOMOTİV · ANKARA ·</textPath></text>
+      <text x="100" y="112" text-anchor="middle" font-family="Besley, serif" font-weight="600" font-size="34" fill="currentColor">1954</text>
+    </symbol>
+    <symbol id="tick" viewBox="0 0 32 32"><path d="M5 17.5l7.5 7.5L27.5 6" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <pattern id="road-net" width="64" height="8" patternUnits="userSpaceOnUse"><path d="M0,4 C10.7,-1.3 21.3,-1.3 32,4 S53.3,9.3 64,4 M0,4 C10.7,9.3 21.3,9.3 32,4 S53.3,-1.3 64,4" fill="none" stroke="#323277" stroke-opacity="0.16" stroke-width="0.7"/></pattern>
+  </defs>
+</svg>
+
+<section class="sec" data-road="right-cross" style="position:relative; padding:96px 0 176px;" aria-labelledby="tesis-h">
+  <svg class="road" aria-hidden="true" preserveAspectRatio="none">
+    <path class="road__edge"/><path class="road__bed"/><path class="road__net"/><path class="road__line"/>
+  </svg>
+  <div class="sheet" data-fm>
+    <div class="sheet__head">
+      <div>
+        <h2 id="tesis-h">Binanın içine bakın</h2>
+        <p>Dışarıdan bir sanayi binası. Cepheyi kaldırın: üç kat, beş lift, kaporta ve boya alt katta.</p>
+      </div>
+      <button class="reveal" type="button" aria-pressed="false" data-reveal>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M5 21V10l7-5 7 5v11"/><path d="M9 21v-6h6v6" /><path d="M12 2v3"/></svg>
+        <span data-reveal-label>Cepheyi kaldır</span>
+      </button>
+    </div>
+    <div class="stage" data-fm-stage>
+      <img class="stage__poster stage__poster--closed" src="/facility-modelling/assets/renders/exterior.jpg" alt="Volan binasının dış görünüşü: lacivert cephe, ortada VOLAN tabelası, sağda kaporta ve boya girişi." width="1600" height="1000">
+      <img class="stage__poster stage__poster--cut" src="/facility-modelling/assets/renders/exploded.jpg" alt="Katları ayrılmış kesit: üstte bekleme salonu ve ofisler, ortada ana kat atölyeleri, altta kaporta ve boya." width="1600" height="1000" loading="lazy">
+      <div data-fm-pins></div>
+    </div>
+    <p class="hint" data-fm-status>Model, bölüm ekrana yaklaşınca yüklenir.</p>
+    <table class="tb">
+      <tbody>
+        <tr><td colspan="4" class="tb__name">Volan Otomotiv · tesis</td></tr>
+        <tr><th>Adres</th><td colspan="3">Şaşmaz Oto San. Sit., Etimesgut</td></tr>
+        <tr><th>Alan</th><td>1.800 m²</td><th>Lift</th><td>5</td></tr>
+        <tr><th>Çalışan</th><td>25</td><th>Ölçek</th><td>yaklaşık</td></tr>
+        <tr><th>Bölüm</th><td colspan="3" class="tb__zone" aria-live="polite"><strong data-tb-title>Bütün bina</strong><span data-tb-text>Cepheyi kaldırın, bir numaraya dokunun.</span></td></tr>
+        <tr><th>Gösterge</th><td colspan="3"><div class="tb__legend"><span><b>1</b> Oto kuaför</span><span><b>2</b> Mekanik 1</span><span><b>3</b> Giriş ve ofis</span><span><b>4</b> Mekanik 2</span><span><b>5</b> Kaporta / boya</span><span><b>6</b> Boya fırını</span><span><b>7</b> Bekleme salonu</span></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<script>
+// Road: right lane, starting the crossing to the left at the foot of the section.
+(() => {
+  const sec = document.querySelector('[data-road]');
+  const svg = sec.querySelector('.road');
+  const paths = [...svg.querySelectorAll('path')];
+  const rounded = (pts, r) => {
+    let d = `M${pts[0].x},${pts[0].y}`;
+    for (let i = 1; i < pts.length - 1; i++) {
+      const p = pts[i - 1], c = pts[i], n = pts[i + 1];
+      const l1 = Math.hypot(c.x - p.x, c.y - p.y), l2 = Math.hypot(n.x - c.x, n.y - c.y);
+      const k = Math.min(r, l1 / 2, l2 / 2);
+      d += ` L${c.x + (p.x - c.x) * k / l1},${c.y + (p.y - c.y) * k / l1} Q${c.x},${c.y} ${c.x + (n.x - c.x) * k / l2},${c.y + (n.y - c.y) * k / l2}`;
+    }
+    const z = pts[pts.length - 1];
+    return `${d} L${z.x},${z.y}`;
+  };
+  const draw = () => {
+    const W = sec.clientWidth, H = sec.offsetHeight, narrow = W < 900;
+    const gutter = Math.min(96, Math.max(20, W * 0.066));
+    const inset = narrow ? 36 : Math.max(26, (W - Math.min(1248, W - 2 * gutter)) / 2 * 0.8);
+    const L = inset, R = W - inset, drop = narrow ? 24 : 36, rad = narrow ? 72 : Math.min(150, W * 0.1);
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const d = rounded([{ x: R, y: -10 }, { x: R, y: H - drop }, { x: L, y: H + drop }, { x: L, y: H + 400 }], rad);
+    paths.forEach((p) => p.setAttribute('d', d));
+  };
+  draw();
+  new ResizeObserver(draw).observe(sec);
+})();
+</script>
+<script type="module">
+import { mountFacility, ZONES } from './tesis-model.js';
+const root = document.querySelector('[data-fm]');
+const btn = document.querySelector('[data-reveal]');
+const label = document.querySelector('[data-reveal-label]');
+const $ = (s) => document.querySelector(s);
+// The seal goes on the title block (positioned against the table cell wrapper).
+$('.tb').insertAdjacentHTML('beforeend', '<caption style="caption-side:top;position:relative;height:0"><svg class="seal" aria-hidden="true"><use href="#seal"/></svg></caption>');
+const fill = (z) => {
+  const info = z && ZONES[z];
+  $('[data-tb-title]').textContent = info ? `${info.no} · ${info.title}` : 'Bütün bina';
+  $('[data-tb-text]').textContent = info ? `${info.floor}. ${info.text}` : (root.classList.contains('is-cut') ? 'Bir numaraya dokunun.' : 'Cepheyi kaldırın, bir numaraya dokunun.');
+};
+const setCut = (on) => {
+  root.classList.toggle('is-cut', on);
+  btn.setAttribute('aria-pressed', String(on));
+  label.textContent = on ? 'Cepheyi kapat' : 'Cepheyi kaldır';
+};
+const fm = mountFacility(root, {
+  cut: false, exploded: true, isolate: false, focus: false, hideSite: true,
+  theta: 30, phi: 58, closedView: { theta: 24, phi: 72 }, margin: 1.0,
+  narrowView: { theta: 58, phi: 56 }, narrowClosed: { theta: 32, phi: 70 }, shiftCut: [0.13, 0.03, 1.02], shiftClosed: [0.03, -0.02, 1.0],
+  onSelect: (z) => { if (z) setCut(true); fill(z); },
+});
+btn.addEventListener('click', () => {
+  const on = btn.getAttribute('aria-pressed') !== 'true';
+  setCut(on);
+  if (fm.ready) fm.setCut(on);
+  fill(null);
+});
+if (/[?&]cut=1/.test(location.search)) setCut(true);
+</script>
+</body>
+</html>

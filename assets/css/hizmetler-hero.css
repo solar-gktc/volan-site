@@ -1,0 +1,213 @@
+/* Hizmetlerimiz hero, prototype A: "Açılan araç".
+   The XC60 stands on the card stock and opens into its parts like an exploded assembly
+   drawing. Each part carries a typed callout on a ruled line, with a thin leader to the
+   part, and the callout opens that service's sheet. Builds on site.css tokens.
+   Without WebGL (or before it is ready) the sheet shows a still of the same drawing. */
+
+.acilan {
+  --hero-h: calc(100svh - var(--menu-h, 72px) - var(--menu-foil, 5px));
+  --pad-y: clamp(16px, 2.6vh, 32px);
+  position: relative;
+  padding: var(--pad-y) clamp(8px, 1.6vw, 32px) var(--pad-y) var(--gutter);
+  overflow-x: clip;
+}
+
+.acilan__inner {
+  display: grid;
+  grid-template-columns: minmax(300px, min(29rem, 34vw)) minmax(0, 1fr);
+  column-gap: clamp(16px, 2vw, 40px);
+  align-items: center;
+  height: calc(var(--hero-h) - 2 * var(--pad-y));
+  min-height: 540px;
+  max-height: 1000px;
+  max-width: 1520px;
+  margin: 0 auto;
+}
+
+/* ---------- Text column: same copy and scale as the current hero ---------- */
+
+.acilan__text { position: relative; z-index: 2; padding-bottom: 2vh; }
+
+.acilan__title {
+  display: inline-block;
+  padding-bottom: 12px;
+  border-bottom: 4px double var(--navy);
+  color: var(--navy);
+  font-size: clamp(2.75rem, 5vw, 4.5rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.024em;
+}
+.acilan__lead {
+  margin-top: 24px;
+  color: var(--navy);
+  font-size: clamp(1.1875rem, 1.6vw, 1.4375rem);
+  line-height: 1.4;
+}
+.acilan__body { margin-top: 18px; max-width: 34em; font-size: 1.0625rem; line-height: 1.65; }
+.acilan__stamps { margin-top: 28px; }
+
+/* ---------- The stage: one square drawing sheet ---------- */
+
+.acilan__stage {
+  position: relative;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  container-type: size;
+  min-width: 0;
+}
+
+.acilan__sheet {
+  --s: min(100cqw, 100cqh);
+  position: relative;
+  width: var(--s);
+  height: var(--s);
+}
+
+.acilan__still,
+.acilan__still img,
+.acilan__wait,
+.acilan__wait img,
+.acilan__canvas,
+.acilan__leaders {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.acilan__still img,
+.acilan__wait img { object-fit: contain; }
+
+/* States. The script adds is-booting at once: while the models load, the assembled car
+   (a still of the live scene's first frame) waits on the sheet, so the opening always plays
+   forward. is-live: the canvas has taken over. is-still: no WebGL, the exploded drawing
+   stays. If the script never runs, the exploded drawing appears after a moment. */
+.acilan__wait { visibility: hidden; }
+.js .acilan__still,
+.js .acilan:not(.is-live) .callout { animation: acilan-in 400ms var(--ease-out) 0.7s both; }
+.acilan.is-booting .acilan__still { animation: none; opacity: 0; }
+.acilan.is-booting .acilan__wait { visibility: visible; animation: acilan-in 300ms var(--ease-out) 0.7s both; }
+.js .acilan.is-booting .callout { animation: none; opacity: 0; }
+.acilan.is-still .acilan__still,
+.js .acilan.is-still .callout { animation: none; opacity: 1; }
+@keyframes acilan-in { from { opacity: 0; } }
+.acilan__canvas { opacity: 0; transition: opacity 250ms var(--ease-out); }
+.acilan__leaders { overflow: visible; pointer-events: none; }
+
+/* WebGL running: the canvas replaces the still. */
+.acilan.is-live .acilan__canvas { opacity: 1; }
+.acilan.is-live .acilan__still,
+.acilan.is-live .acilan__wait { visibility: hidden; }
+.acilan.is-live.is-hot .acilan__canvas { cursor: pointer; }
+
+/* Leader lines (drawn by hero-a.js) */
+.leader { fill: none; stroke: var(--navy); stroke-width: 1; opacity: 0.55; transition: opacity 200ms var(--ease-out), stroke-width 200ms var(--ease-out); }
+.leader-dot { fill: var(--navy); stroke: var(--paper); stroke-width: 1.5; paint-order: stroke; opacity: 0.85; transition: opacity 200ms var(--ease-out); }
+.leader-ring { fill: none; stroke: var(--navy); stroke-width: 1; opacity: 0; transition: opacity 200ms var(--ease-out); }
+.leader.is-on { opacity: 1; stroke-width: 1.5; }
+.leader-dot.is-on { opacity: 1; }
+.leader-ring.is-on { opacity: 0.9; }
+.acilan__leaders.is-dim .leader:not(.is-on) { opacity: 0.2; }
+.acilan__leaders.is-dim .leader-dot:not(.is-on) { opacity: 0.25; }
+
+/* ---------- Callouts: typed onto a ruled line, like a parts-catalogue legend ---------- */
+
+.acilan__parts { margin: 0; padding: 0; list-style: none; }
+
+.callout {
+  --x: 50; --y: 50; --side: 0;
+  position: absolute;
+  left: calc(var(--x) * 1%);
+  top: calc(var(--y) * 1%);
+  z-index: 3;
+  display: grid;
+  justify-items: var(--j, start);
+  gap: 3px;
+  padding: 6px 2px 7px;
+  border-bottom: 1px solid var(--rule-strong);
+  color: var(--navy);
+  text-align: var(--ta, left);
+  text-decoration: none;
+  transform: translate(calc(var(--side) * -100%), -100%);
+  transition: opacity 260ms var(--ease-out), border-color 200ms var(--ease-out), translate 260ms var(--ease-out);
+}
+/* A label left of its point (--side: 1) ends at --x, text set right. */
+.callout[data-part="motor"],
+.callout[data-part="aku"],
+.callout[data-part="amortisor"] { --side: 1; --j: end; --ta: right; }
+
+.callout__svc { font: 600 clamp(0.8125rem, calc(var(--s) * 0.0222), 1.1875rem)/1.15 var(--font-title); letter-spacing: -0.005em; white-space: nowrap; }
+.callout__svc::after {
+  content: "";
+  display: inline-block;
+  width: 0.62em;
+  height: 0.62em;
+  margin-left: 0.32em;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 10'%3E%3Cpath d='M1 5h11.5M8.5 1l4 4-4 4' fill='none' stroke='black' stroke-width='1.8'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 10'%3E%3Cpath d='M1 5h11.5M8.5 1l4 4-4 4' fill='none' stroke='black' stroke-width='1.8'/%3E%3C/svg%3E") center / contain no-repeat;
+  opacity: 0;
+  translate: -4px 0;
+  transition: opacity 200ms var(--ease-out), translate 200ms var(--ease-out);
+}
+
+.callout:hover,
+.callout.is-on { border-bottom-color: var(--navy); text-decoration: none; }
+.callout:hover .callout__svc::after,
+.callout.is-on .callout__svc::after,
+.callout:focus-visible .callout__svc::after { opacity: 1; translate: 0 0; }
+.callout:focus-visible { outline: 2px solid var(--navy); outline-offset: 4px; }
+.acilan__parts.is-dim .callout:not(.is-on) { opacity: 0.45; }
+
+/* Callout places on the square sheet (% of the sheet; the label's rule sits at --y).
+   --side: 1 labels end at --x. JS draws a leader from the rule end nearer the part. */
+.callout[data-part="ecu"]        { --x: 30; --y: 14; }
+.callout[data-part="motor"]      { --x: 99; --y: 11; }
+.callout[data-part="govde-ust"]  { --x: 2;  --y: 27; }
+.callout[data-part="aku"]        { --x: 99; --y: 27; }
+.callout[data-part="amortisor"]  { --x: 99; --y: 66; }
+.callout[data-part="govde-arka"] { --x: 0;  --y: 49; }
+.callout[data-part="kapi"]       { --x: 2;  --y: 84; }
+.callout[data-part="fren"]       { --x: 30; --y: 95; }
+.callout[data-part="camurluk"]   { --x: 84; --y: 89; }
+
+/* Load moment: callouts wait until their part has slid out. */
+.js .acilan.is-live .callout { opacity: 0; translate: 0 6px; }
+.js .acilan.is-live .callout.is-shown { opacity: 1; translate: 0 0; }
+.js .acilan.is-live .acilan__parts.is-dim .callout.is-shown:not(.is-on) { opacity: 0.45; }
+
+/* ---------- Narrow screens: text first, the drawing below ---------- */
+
+@media (max-width: 899px) {
+  /* Title and lead first, then the drawing, then the body and the buttons. */
+  .acilan { padding: 24px var(--gutter) 40px; }
+  .acilan__inner { display: flex; flex-direction: column; align-items: stretch; height: auto; min-height: 0; max-height: none; }
+  .acilan__text { display: contents; }
+  .acilan__title { order: 1; align-self: flex-start; }
+  .acilan__lead { order: 2; margin-top: 20px; }
+  .acilan__stage { order: 3; container-type: inline-size; margin: 8px calc(-1 * var(--gutter)) 0; }
+  .acilan__body { order: 4; margin-top: 24px; }
+  .acilan__stamps { order: 5; }
+  .acilan__sheet { width: 100%; height: auto; aspect-ratio: 390 / 560; }
+
+  .callout { min-width: 0; padding: 4px 1px 5px; gap: 1px; }
+  .callout__svc { font-size: 0.9375rem; }
+
+  .callout[data-part="govde-ust"]  { --x: 3;  --y: 8; }
+  .callout[data-part="ecu"]        { --x: 3;  --y: 17.5; }
+  .callout[data-part="govde-arka"] { --x: 3;  --y: 27; }
+  .callout[data-part="motor"]      { --x: 97; --y: 8; }
+  .callout[data-part="aku"]        { --x: 97; --y: 17.5; }
+  .callout[data-part="kapi"]       { --x: 3;  --y: 91.5; }
+  .callout[data-part="camurluk"]   { --x: 97; --y: 82; --side: 1; --j: end; --ta: right; }
+  .callout[data-part="amortisor"]  { --x: 97; --y: 91.5; }
+  .callout[data-part="fren"]       { --x: 50; --y: 99; --side: 0.5; --j: center; --ta: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .callout, .callout__svc::after, .acilan__canvas, .leader, .leader-dot { transition: none; }
+  .js .acilan__still, .js .acilan .callout, .acilan.is-booting .acilan__wait { animation-duration: 1ms; }
+  .js .acilan.is-live .callout { opacity: 1; translate: none; }
+}

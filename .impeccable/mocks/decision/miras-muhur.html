@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Miras · Mühür</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@600&family=Besley:ital,wght@0,400;0,600;1,400&family=Courier+Prime&display=swap" rel="stylesheet">
+<style>
+  :root { --navy:#323277; --navy-deep:#27275f; --gold:#857244; --gold-ink:#cdb585; --stock:#eef0f5; --paper:#fbfbfd; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html, body { width:1440px; height:900px; overflow:hidden; background:var(--navy); font-family:Besley, Georgia, serif; }
+  .bar { height:68px; background:var(--navy); border-bottom:2px solid var(--gold); display:flex; align-items:center; padding:0 38px; gap:40px; position:relative; z-index:2; }
+  .logo { width:116px; height:48px; border-radius:50%; background:var(--paper); border:3px solid var(--gold); }
+  .tabs { display:flex; gap:34px; font:600 12px "Archivo Narrow"; letter-spacing:.14em; color:var(--stock); text-transform:uppercase; }
+  .tabs .on { color:var(--gold-ink); }
+  .seal { position:absolute; left:-300px; top:-44px; width:1040px; height:1040px; }
+  .seal text { font-family:"Archivo Narrow"; font-weight:600; letter-spacing:.22em; fill:var(--gold-ink); }
+  .seal .dim { fill:rgba(205,181,133,.78); }
+  .seal .year { font-family:Besley; font-weight:400; letter-spacing:-.02em; font-size:210px; }
+  .pointer { position:absolute; left:756px; top:464px; width:0; height:0; border-top:12px solid transparent; border-bottom:12px solid transparent; border-left:18px solid var(--gold-ink); }
+  .copy { position:absolute; left:840px; top:150px; width:500px; }
+  .era { font-size:34px; font-weight:600; color:var(--stock); line-height:1.2; }
+  .era span { font:400 22px "Courier Prime"; color:var(--gold-ink); margin-left:14px; }
+  h1 { font-weight:400; font-size:150px; line-height:.92; letter-spacing:-.025em; color:var(--gold-ink); margin-bottom:28px; }
+  .lead { margin-top:14px; font-size:21px; line-height:1.45; color:var(--stock); }
+  .quote { margin-top:36px; padding:24px 28px; border:4px double rgba(205,181,133,.7); }
+  .quote p { font-style:italic; font-size:24px; line-height:1.38; color:var(--stock); }
+  .quote cite { display:block; margin-top:12px; font:15px "Courier Prime"; font-style:normal; color:var(--gold-ink); }
+  .btns { display:flex; gap:16px; margin-top:40px; }
+  .btn { height:52px; padding:0 22px; display:flex; align-items:center; font:600 15px "Archivo Narrow"; letter-spacing:.12em; text-transform:uppercase; border:4px double var(--stock); color:var(--stock); transform:rotate(.8deg); }
+  .btn.p { background:var(--gold-ink); color:var(--navy); border-color:var(--navy); transform:rotate(-1.2deg); }
+  .scroll { position:absolute; right:96px; bottom:44px; font:15px "Courier Prime"; color:var(--gold-ink); }
+</style>
+</head>
+<body>
+  <div class="bar"><div class="logo"></div><div class="tabs"><span>Ana Sayfa</span><span class="on">Hakkımızda</span><span>Hizmetlerimiz</span><span>Haberler</span><span>Multimedya</span><span>İletişim</span></div></div>
+
+  <svg class="seal" viewBox="0 0 1120 1120" aria-hidden="true">
+    <defs>
+      <path id="ring" d="M560,560 m-470,0 a470,470 0 1,1 940,0 a470,470 0 1,1 -940,0"/>
+    </defs>
+    <circle cx="560" cy="560" r="548" fill="none" stroke="#cdb585" stroke-width="5"/>
+    <circle cx="560" cy="560" r="534" fill="none" stroke="#cdb585" stroke-width="1.5"/>
+    <circle cx="560" cy="560" r="420" fill="none" stroke="#cdb585" stroke-width="3"/>
+    <circle cx="560" cy="560" r="408" fill="none" stroke="#cdb585" stroke-width="1"/>
+    <!-- era ticks -->
+    <g stroke="#cdb585" stroke-width="2">
+      <line x1="1090" y1="560" x2="1110" y2="560"/><line x1="560" y1="30" x2="560" y2="12"/><line x1="560" y1="1090" x2="560" y2="1108"/>
+    </g>
+    <text font-size="34"><textPath href="#ring" startOffset="50%" text-anchor="middle">KURULUŞ · 1954</textPath></text>
+    <text font-size="30" class="dim"><textPath href="#ring" startOffset="66%" text-anchor="middle">ATÖLYE YILLARI</textPath></text>
+    <text font-size="30" class="dim"><textPath href="#ring" startOffset="84%" text-anchor="middle">VOLVO YETKİLİ SERVİSİ</textPath></text>
+    <text font-size="30" class="dim"><textPath href="#ring" startOffset="34%" text-anchor="middle">BUGÜN</textPath></text>
+    <text font-size="30" class="dim"><textPath href="#ring" startOffset="16%" text-anchor="middle">VOLAN OTOMOTİV · 2017</textPath></text>
+    <text class="year" x="560" y="636" text-anchor="middle">1954</text>
+    <text x="560" y="720" text-anchor="middle" font-size="26">VOLAN · ANKARA</text>
+  </svg>
+  <div class="pointer"></div>
+
+  <div class="copy">
+    <h1>Miras</h1>
+    <p class="era">Kuruluş <span>1954</span></p>
+    <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
+    <blockquote class="quote">
+      <p>“Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.”</p>
+      <cite>— Ad Soyad, kurucu aileden</cite>
+    </blockquote>
+    <div class="btns"><span class="btn p">Randevu al</span><span class="btn">Ara</span></div>
+  </div>
+  <p class="scroll">Okudukça mühür döner ↓</p>
+</body>
+</html>

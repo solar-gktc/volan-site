@@ -1,0 +1,891 @@
+/* Volan homepage: the car's service booklet.
+   Navy cover with gold foil, pale card stock with the road cut through it down to the
+   endpaper, violet-blue stamp ink. Vertical measures on the stock keep a 32px rhythm. */
+
+:root {
+  --navy: #323277;
+  --navy-deep: #27275f;
+  --gold: #857244;
+  --gold-ink: #cdb585;
+  --silver: #cfd0d0;
+  --ink: #2b2a29;
+  --ink-soft: #4d4c5c;
+  --stock: #eef0f5;
+  --stock-deep: #dde1ea;
+  --endpaper: #d8dde8;
+  --aged: #fff5df;
+  --rule-strong: rgba(50, 50, 119, 0.32);
+  --stamp-ink: #3b3f8f;
+  --paper: #fbfbfd;
+  /* Warning-lamp colours: lit on the dark dashboard, and as ink on the stock. */
+  --lamp-red: #ff6b57;
+  --lamp-amber: #ffb43c;
+  --lamp-green: #5ccf8e;
+  --ink-red: #a12a22;
+  --ink-amber: #7f5800;
+  --ink-green: #23663e;
+
+  --line: 32px;
+  --gutter: clamp(20px, 6.6vw, 96px);
+  --measure: 1248px;
+
+  --font-title: "Besley", Georgia, serif;
+  --font-text: "Besley", Georgia, serif;
+  --font-label: "Archivo Narrow", "Arial Narrow", sans-serif;
+  --font-typed: "Courier Prime", "Courier New", monospace;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  color-scheme: light;
+  scrollbar-color: var(--navy) var(--stock-deep);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--stock);
+  color: var(--ink);
+  font: 400 1.125rem/var(--line) var(--font-text);
+  font-kerning: normal;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+::selection { background: var(--navy); color: var(--stock); }
+
+img { display: block; max-width: 100%; height: auto; }
+
+a { color: inherit; text-underline-offset: 0.22em; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+
+:focus-visible { outline: 2px solid var(--navy); outline-offset: 4px; }
+
+h1, h2 { font-family: var(--font-title); font-weight: 600; margin: 0; text-wrap: balance; }
+p { margin: 0; text-wrap: pretty; }
+
+.defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+
+/* ---------- Stage: the printed road and the 3D canvas ---------- */
+
+.road {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  overflow: visible;
+  pointer-events: none;
+}
+/* The road is cut through the pages down to the endpaper: a hairline edge, the endpaper
+   with its printed net, and the dashed centre line. */
+.road__edge,
+.road__bed,
+.road__net {
+  fill: none;
+  stroke-width: var(--road-width, 120px);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.road__edge { stroke: var(--rule-strong); stroke-width: calc(var(--road-width, 120px) + 3px); }
+.road__bed { stroke: var(--endpaper); stroke-width: calc(var(--road-width, 120px) - 8px); }
+/* The pages' cut edges shade the endpaper for a few pixels. */
+.road__bed--1 { stroke: #c3c9d8; stroke-width: var(--road-width, 120px); }
+.road__bed--2 { stroke: #cbd1de; stroke-width: calc(var(--road-width, 120px) - 3px); }
+.road__bed--3 { stroke: #d2d7e3; stroke-width: calc(var(--road-width, 120px) - 5px); }
+.road__net { stroke: url(#road-net); }
+/* From the crossing where the car becomes the truck, the pages and the road age to the
+   cream of the 1954 prints. Multiplied, so the road's net and edges age with it. */
+.aging {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  background: linear-gradient(to bottom, rgba(255, 245, 223, 0), var(--aged) var(--aging-ramp, 320px));
+}
+/* The turntable stage: paper top with the cover's gold double rule, navy side with a foil line. */
+.podium__glow { fill: url(#podium-glow); }
+.podium__shadow { fill: url(#podium-shadow); }
+.podium__side { fill: url(#podium-side); }
+.podium__foil { fill: none; stroke: var(--gold-ink); stroke-width: 1.5; }
+.podium__top { fill: var(--paper); stroke: var(--rule-strong); stroke-width: 1; }
+.podium__ring { fill: none; stroke: var(--gold); stroke-width: 2; }
+.podium__ring--fine { stroke-width: 1; stroke-opacity: 0.7; }
+.road__line {
+  fill: none;
+  stroke: var(--navy);
+  stroke-opacity: 0.26;
+  stroke-width: 2;
+  stroke-dasharray: 14 12;
+  stroke-linecap: round;
+}
+
+.stage {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 600ms var(--ease-out);
+}
+.stage.is-ready { opacity: 1; }
+
+/* ---------- Banner: the booklet cover and its first leaf ---------- */
+
+.banner {
+  display: grid;
+  grid-template-columns: 53fr 47fr;
+  min-height: clamp(640px, 100svh, 1040px);
+}
+
+.cover {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(48px, 6.6vw, 96px);
+  background: var(--navy);
+  color: var(--stock);
+}
+/* Gold foil: a strong outer rule and a hairline inside it. */
+.cover::before,
+.cover::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+.cover::before { inset: clamp(16px, 2.2vw, 32px); border: 2px solid var(--gold); }
+.cover::after { inset: calc(clamp(16px, 2.2vw, 32px) + 7px); border: 1px solid rgba(133, 114, 68, 0.7); }
+
+.cover__logo { width: clamp(168px, 16.7vw, 240px); }
+
+.cover__text {
+  margin-block: auto;
+  padding-block: 48px 8px;
+  max-width: 34rem;
+}
+
+.cover__title {
+  color: var(--gold-ink);
+  font-size: clamp(2.5rem, 4.3vw, 3.875rem);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -0.012em;
+}
+
+.cover__sub {
+  margin-top: 28px;
+  max-width: 28rem;
+  font-size: clamp(1.125rem, 1.55vw, 1.4rem);
+  line-height: 1.42;
+  color: var(--stock);
+}
+
+/* Stamp-box buttons */
+.stamps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 16px;
+  margin-top: 40px;
+}
+
+.stamp-btn {
+  --tilt: -1.2deg;
+  display: inline-flex;
+  align-items: center;
+  min-height: 52px;
+  padding: 0 22px;
+  border: 4px double currentColor;
+  color: var(--stock);
+  font: 600 0.9375rem/1 var(--font-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transform: rotate(var(--tilt));
+  transition: transform 180ms var(--ease-out), background-color 180ms var(--ease-out), color 180ms var(--ease-out);
+}
+.stamp-btn:nth-child(2) { --tilt: 0.8deg; }
+.stamp-btn:nth-child(3) { --tilt: -0.5deg; }
+.stamp-btn:hover { transform: rotate(0deg) translateY(-1px); background-color: rgba(230, 233, 240, 0.08); text-decoration: none; }
+.stamp-btn:active { transform: rotate(0deg) translateY(1px); }
+.stamp-btn:focus-visible { outline: 2px solid var(--gold-ink); outline-offset: 5px; }
+
+.stamp-btn--primary {
+  background: var(--gold-ink);
+  border-color: var(--navy);
+  color: var(--navy);
+}
+.stamp-btn--primary:hover { background: #dac596; }
+
+.leaf {
+  position: relative;
+  min-height: 560px;
+  overflow-x: clip;
+}
+
+.plate {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  padding: 10px;
+  background: var(--paper);
+  box-shadow: 0 1px 1px rgba(43, 42, 41, 0.1), 0 10px 22px -10px rgba(43, 42, 41, 0.38);
+}
+.plate img { width: 100%; }
+
+.plate--banner {
+  position: absolute;
+  top: 7.5%;
+  right: 7%;
+  width: 80%;
+  transform: rotate(1.1deg);
+}
+
+.seal {
+  position: absolute;
+  z-index: 3;
+  color: var(--stamp-ink);
+  filter: url(#ink);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+.seal--banner {
+  width: clamp(108px, 11.8vw, 170px);
+  height: clamp(108px, 11.8vw, 170px);
+  right: -3%;
+  bottom: -26%;
+  transform: rotate(-12deg);
+  opacity: 0.9;
+}
+
+/* Where the 3D cars park in the banner; read by the stage script. */
+.park { position: absolute; width: 0; height: 0; }
+.park[data-park="volvo"] { left: 40%; top: 80%; }
+.park[data-park="mercedes"] { left: 79%; top: 64%; }
+.park[data-park="vw"] { left: 77%; top: 92%; }
+
+/* ---------- Entry pages ---------- */
+
+.entry,
+.finale {
+  padding: 128px 0; /* four ruled lines */
+}
+
+.entry__inner,
+.finale__inner {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 32px;
+  align-items: center;
+  width: min(var(--measure), 100% - 2 * var(--gutter));
+  margin-inline: auto;
+}
+
+.entry .plate--portrait { grid-column: 1 / span 4; }
+.entry__text { grid-column: 8 / span 5; }
+
+.entry[data-lane="left"] .plate { transform: rotate(-1.2deg); }
+.entry[data-lane="right"] .plate { transform: rotate(1deg); }
+.entry[data-lane="right"] .entry__text { grid-column: 1 / span 5; grid-row: 1; }
+.entry[data-lane="right"] .plate--portrait { grid-column: 9 / span 4; grid-row: 1; }
+
+.entry__text {
+  position: relative;
+  z-index: 2;
+}
+/* 48px heading lines with the first baseline on a rule; the stage script snaps the
+   column and the heading's bottom margin back onto the 32px ruling. */
+.entry__text h2 {
+  position: relative;
+  top: 15px;
+  margin-bottom: var(--line);
+  color: var(--navy);
+  font-size: 2.5rem;
+  line-height: 48px;
+  letter-spacing: -0.01em;
+}
+.entry__text p + p { margin-top: var(--line); }
+.entry__text p { max-width: 62ch; }
+
+.stamp-box {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 232px;
+  height: calc(var(--line) * 4);
+  margin-top: var(--line);
+  border: 1.5px dashed var(--rule-strong);
+}
+.stamp-box__label {
+  position: absolute;
+  left: 10px;
+  bottom: 6px;
+  color: var(--navy);
+  font: 500 0.75rem/1 var(--font-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.stamp {
+  display: block;
+  color: var(--stamp-ink);
+  mix-blend-mode: multiply;
+  opacity: 0;
+  transform: scale(1.35) rotate(-14deg);
+  filter: blur(3px);
+  transition: opacity 260ms var(--ease-out), transform 320ms var(--ease-out), filter 260ms var(--ease-out);
+}
+.stamp__ink {
+  display: block;
+  padding: 10px 16px 9px;
+  border: 3px solid currentColor;
+  outline: 1.5px solid currentColor;
+  outline-offset: 3px;
+  font: 600 1.0625rem/1.1 var(--font-label);
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-transform: uppercase;
+  filter: url(#ink);
+}
+.stamp__ink small {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+}
+.is-stamped .stamp {
+  opacity: 0.92;
+  transform: scale(1) rotate(-6deg);
+  filter: blur(0);
+}
+
+/* ---------- Tick boxes: the service index and the process steps ---------- */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.tickbox {
+  position: relative;
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--navy);
+  background: var(--paper);
+}
+.tick {
+  position: absolute;
+  left: -3px;
+  bottom: 0;
+  width: 30px;
+  height: 30px;
+  color: var(--stamp-ink);
+  filter: url(#ink);
+  mix-blend-mode: multiply;
+  opacity: 0;
+  transform: scale(1.4) rotate(-8deg);
+  transform-origin: 40% 70%;
+  transition: opacity 200ms var(--ease-out), transform 260ms var(--ease-out);
+}
+[aria-pressed="true"] > .tickbox .tick,
+.is-stamped > .tickbox .tick {
+  opacity: 0.92;
+  transform: none;
+}
+
+/* ---------- Hizmetlerimiz: the index away from the lane, the service card beside the road ---------- */
+
+.entry--services .entry__text { grid-column: 8 / span 5; grid-row: 1; }
+.plate--service { grid-column: 1 / span 6; grid-row: 1; }
+
+.services { margin: 0; padding: 0; list-style: none; }
+.services__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  line-height: var(--line);
+  text-align: left;
+  cursor: pointer;
+}
+.services__item .tickbox { margin-top: 7px; }
+.services__item:hover {
+  color: var(--navy);
+  text-decoration: underline;
+  text-decoration-color: var(--rule-strong);
+}
+.services__item[aria-pressed="true"] { color: var(--navy); font-weight: 600; }
+.services__item:focus-visible { outline-offset: 2px; }
+
+.service-card__photo { aspect-ratio: 3 / 2; object-fit: cover; }
+/* Every note sits in the same cell, so the card keeps the height of the longest one. */
+.service-card__notes { display: grid; padding: 22px 14px 10px; }
+.service-card__note { grid-area: 1 / 1; }
+.service-card__note:not(.is-current) { visibility: hidden; }
+.service-card__note h3 {
+  margin: 0 0 8px;
+  color: var(--navy);
+  font: 600 1.375rem/1.3 var(--font-title);
+}
+.service-card__note p { max-width: 60ch; font-size: 1.0625rem; line-height: 1.6; }
+
+/* ---------- Process: five steps, ticked off as the vehicle passes each one ---------- */
+
+.entry--steps .entry__inner { align-items: start; }
+.entry--steps .entry__text { grid-column: 1 / span 4; grid-row: 1; }
+.steps {
+  position: relative;
+  z-index: 2;
+  grid-column: 6 / span 6;
+  grid-row: 1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  column-gap: 24px;
+  padding-bottom: var(--line);
+}
+.step .tickbox { grid-row: 1; width: 24px; height: 24px; margin-top: 4px; }
+.step .tick { left: -4px; width: 38px; height: 38px; }
+.step h3 {
+  grid-column: 2;
+  margin: 0;
+  color: var(--navy);
+  font: 600 1.375rem/var(--line) var(--font-title);
+}
+.step p { grid-column: 2; max-width: 52ch; }
+/* A dashed lead from each box to the next, ending in an arrowhead. */
+.step:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  left: 11px;
+  top: 34px;
+  bottom: 4px;
+  border-left: 2px dashed var(--rule-strong);
+}
+.step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  bottom: 5px;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--rule-strong);
+  border-bottom: 2px solid var(--rule-strong);
+  transform: rotate(45deg);
+}
+
+/* ---------- Brand expertise: photos, the stage the road runs onto, the text ---------- */
+
+.entry--brands .entry__text { grid-column: 9 / span 4; grid-row: 1; }
+/* A third of the page: the heading's long word must fit it on smaller laptops. */
+@media (min-width: 900px) {
+  .entry--brands .entry__text h2 { font-size: min(2.5rem, 3.6vw); }
+}
+/* The stage is drawn on the road layer as wide as this box; the car stands above it. */
+.bay { grid-column: 5 / span 4; grid-row: 1; aspect-ratio: 4 / 3; }
+/* The three plates share one cell, like the notes. */
+.brand-photos { position: relative; z-index: 2; display: grid; grid-column: 1 / span 4; grid-row: 1; }
+.entry .brand-photos > .plate { grid-area: 1 / 1; }
+.brand-photos > :not(.is-current) { visibility: hidden; }
+.plate__empty {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 3 / 2;
+  padding: 24px;
+  border: 1.5px dashed var(--rule-strong);
+  color: var(--ink-soft);
+  font: 400 0.9375rem/1.4 var(--font-typed);
+  text-align: center;
+}
+
+.brands {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 16px;
+  min-width: 0;
+  margin: var(--line) 0 0;
+  padding: 0;
+  border: 0;
+}
+.brand { position: relative; display: inline-flex; cursor: pointer; }
+.brand input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+.brand span {
+  --tilt: -1.2deg;
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 18px;
+  border: 4px double var(--navy);
+  color: var(--navy);
+  font: 600 0.9375rem/1 var(--font-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transform: rotate(var(--tilt));
+  transition: transform 180ms var(--ease-out), background-color 180ms var(--ease-out), color 180ms var(--ease-out);
+}
+.brand:nth-of-type(2) span { --tilt: 0.8deg; }
+.brand:nth-of-type(3) span { --tilt: -0.5deg; }
+.brand:hover span { transform: rotate(0deg) translateY(-1px); background-color: rgba(50, 50, 119, 0.07); }
+.brand input:checked + span { transform: rotate(0deg); background: var(--navy); border-color: var(--stock); color: var(--stock); }
+.brand input:focus-visible + span { outline: 2px solid var(--navy); outline-offset: 5px; }
+
+.brand-notes { display: grid; margin-top: var(--line); }
+.brand-note { grid-area: 1 / 1; }
+.brand-note:not(.is-current) { visibility: hidden; }
+.brand-note h3 { margin: 0; color: var(--navy); font: 600 1.375rem/var(--line) var(--font-title); }
+
+/* ---------- Warning lamps: the dashboard beside the road, the note away from it ---------- */
+
+.entry--lamps .entry__inner { align-items: start; grid-template-rows: auto 1fr; }
+.entry--lamps .entry__text { grid-column: 7 / span 6; grid-row: 1; }
+.entry[data-lane] .plate--dash {
+  position: sticky;
+  top: var(--line);
+  grid-column: 1 / span 5;
+  grid-row: 1 / span 2;
+  transform: none;
+}
+.lamp-panel { position: relative; z-index: 2; grid-column: 7 / span 6; grid-row: 2; padding-top: var(--line); }
+
+.dash {
+  display: grid;
+  gap: 24px;
+  padding: 24px 20px 28px;
+  background: var(--navy-deep);
+  color: var(--stock);
+}
+.dash__label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  color: rgba(230, 233, 240, 0.82);
+  font: 600 0.8125rem/1.2 var(--font-label);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.dash__mark { flex: none; width: 10px; height: 10px; }
+.dash__mark--dur { background: var(--lamp-red); clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%); }
+.dash__mark--kontrol { background: var(--lamp-amber); clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+.dash__mark--bilgi { background: var(--lamp-green); border-radius: 50%; }
+.dash__lamps {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dash__lamps li { display: grid; }
+
+.lamp {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 6px;
+  min-height: 88px;
+  padding: 10px 4px 8px;
+  border: 0;
+  background: #1c1c49;
+  color: rgba(230, 233, 240, 0.78);
+  font: 500 0.8125rem/1.2 var(--font-label);
+  cursor: pointer;
+  transition: background-color 160ms var(--ease-out), color 160ms var(--ease-out);
+}
+.lamp__icon svg { display: block; width: 30px; height: 30px; }
+.lamp__name { text-align: center; overflow-wrap: anywhere; }
+.lamp:hover { background: #2b2b68; color: var(--stock); }
+.lamp[aria-pressed="true"] { background: #36367f; color: var(--stock); box-shadow: inset 0 0 0 2px var(--gold-ink); }
+.lamp:focus-visible { outline: 2px solid var(--gold-ink); outline-offset: -6px; }
+.lamp[data-level="dur"] .lamp__icon,
+.lamp-note__icon[data-level="dur"] { color: var(--lamp-red); }
+.lamp[data-level="kontrol"] .lamp__icon,
+.lamp-note__icon[data-level="kontrol"] { color: var(--lamp-amber); }
+.lamp[data-level="bilgi"] .lamp__icon,
+.lamp-note__icon[data-level="bilgi"] { color: var(--lamp-green); }
+
+/* All sixteen notes share one cell; the panel keeps the height of the longest. */
+.lamp-notes { display: grid; }
+.lamp-note { grid-area: 1 / 1; align-self: start; }
+.lamp-note:not(.is-current) { visibility: hidden; }
+.lamp-note__head { display: grid; grid-template-columns: 64px minmax(0, 1fr); column-gap: 20px; }
+.lamp-note__icon {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 60px;
+  margin-top: 2px;
+  background: var(--navy-deep);
+}
+.lamp-note__icon svg { width: 36px; height: 36px; }
+.lamp-note h3 {
+  margin: 0;
+  color: var(--navy);
+  font: 600 1.375rem/var(--line) var(--font-title);
+}
+.lamp-note__colour { color: var(--ink-soft); font: 400 1rem/var(--line) var(--font-typed); }
+.lamp-note h4 {
+  margin: var(--line) 0 0;
+  color: var(--navy);
+  font: 600 0.8125rem/var(--line) var(--font-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.lamp-note h4 .level { margin-left: 6px; }
+.lamp-note p,
+.lamp-note li { font-size: 1.0625rem; }
+.lamp-note ol,
+.lamp-note ul { margin: 0; padding: 0; list-style: none; }
+.lamp-note ol { counter-reset: step; }
+.lamp-note li { position: relative; padding-left: 32px; }
+.lamp-note ol li { counter-increment: step; }
+.lamp-note ol li::before {
+  content: counter(step);
+  position: absolute;
+  left: 2px;
+  color: var(--navy);
+  font: 400 1rem/var(--line) var(--font-typed);
+}
+.lamp-note ul li::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 13px;
+  width: 6px;
+  height: 6px;
+  background: var(--navy);
+}
+.lamp-note .stamps { height: calc(var(--line) * 2); margin-top: var(--line); align-items: center; }
+.entry__text .lamp-disclaimer { color: var(--ink-soft); font: 400 0.9375rem/var(--line) var(--font-typed); }
+
+/* Severity as a rubber stamp in the lamp's own colour. */
+.level {
+  display: inline-block;
+  padding: 0 8px;
+  border: 2px solid currentColor;
+  font: 600 0.75rem/22px var(--font-label);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+.level--dur { color: var(--ink-red); }
+.level--kontrol { color: var(--ink-amber); }
+.level--bilgi { color: var(--ink-green); }
+
+/* ---------- Since 1954: the record slip beside the road ---------- */
+
+.entry--record .entry__text { grid-column: 1 / span 5; grid-row: 1; }
+.plate--record { grid-column: 8 / span 5; grid-row: 1; padding: 28px 28px 24px; }
+.record { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 24px; margin: 0; }
+.record div { display: grid; align-content: start; gap: 6px; }
+.record__main { grid-column: 1 / -1; padding-bottom: 22px; border-bottom: 1.5px solid var(--rule-strong); }
+.record__wide { grid-column: 1 / -1; }
+.record__wide dd { font-size: 1.0625rem; text-wrap: balance; }
+.record dt {
+  color: var(--navy);
+  font: 600 0.75rem/1.2 var(--font-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.record dd { margin: 0; font: 400 1.375rem/1.3 var(--font-typed); font-variant-numeric: tabular-nums; }
+/* The figure typed into a form's digit boxes. */
+.record .odometer { display: flex; align-items: flex-end; gap: 4px; }
+.odometer span {
+  display: grid;
+  place-items: center;
+  width: clamp(28px, 3.2vw, 46px);
+  aspect-ratio: 46 / 60;
+  border: 1.5px solid var(--navy);
+  background: #fff;
+  font-size: clamp(1.5rem, 2.9vw, 2.5rem);
+  line-height: 1;
+}
+.odometer .odometer__mark {
+  width: auto;
+  aspect-ratio: auto;
+  padding: 0 2px 4px;
+  border: 0;
+  background: none;
+  color: var(--navy);
+}
+.plate--record .stamp-box { margin: 24px 0 0 auto; }
+
+/* ---------- Finale: the first page, 1954 side ---------- */
+
+.finale { overflow-x: clip; }
+.finale__inner { align-items: start; }
+
+/* The store plate sits under the 3D stage so the truck can drive over it;
+   its walls are a second copy above the stage, shown once the truck is in the door. */
+.plate--store {
+  grid-column: 1 / span 6;
+  z-index: auto;
+}
+.plate--store figcaption {
+  padding: 2px 4px 12px;
+  text-wrap: balance;
+  color: var(--ink-soft);
+  font: 400 0.9375rem/1.4 var(--font-typed);
+}
+.store { position: relative; }
+.store__photo { position: relative; z-index: 0; }
+.store__walls {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  visibility: hidden;
+  clip-path: polygon(0 0, 100% 0, 100% 84.5%, 48.3% 84.5%, 46.1% 35.2%, 16.7% 37.7%, 18% 84.5%, 0 84.5%);
+}
+.store.is-shut .store__walls { visibility: visible; }
+
+.dealer {
+  position: relative;
+  z-index: 2;
+  grid-column: 9 / span 4;
+  padding: 32px 32px 40px;
+  border: 4px double var(--navy);
+  font-style: normal;
+}
+.dealer h2 {
+  color: var(--navy);
+  font-size: 2rem;
+  line-height: 1.2;
+  margin-bottom: 24px;
+}
+.dealer__list { margin: 0; display: grid; gap: 18px; }
+.dealer__list div { display: grid; gap: 4px; }
+.dealer__list dt {
+  color: var(--navy);
+  font: 600 0.75rem/1.2 var(--font-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.dealer__list dd {
+  margin: 0;
+  font: 400 1rem/1.5 var(--font-typed);
+  font-variant-numeric: tabular-nums;
+}
+.nowrap { white-space: nowrap; }
+.dealer__list a { text-decoration: underline; text-decoration-color: var(--rule-strong); }
+.dealer__list a:hover { text-decoration-color: currentColor; }
+
+.stamps--ink { margin-top: 32px; }
+.stamps--ink .stamp-btn { color: var(--navy); min-height: 48px; padding: 0 18px; }
+.stamps--ink .stamp-btn:hover { background-color: rgba(50, 50, 119, 0.07); }
+.stamps--ink .stamp-btn--primary { background: var(--navy); border-color: var(--stock); color: var(--stock); }
+.stamps--ink .stamp-btn--primary:hover { background: var(--navy-deep); }
+.stamps--ink .stamp-btn:focus-visible { outline-color: var(--navy); }
+
+.seal--dealer {
+  width: 132px;
+  height: 132px;
+  right: -28px;
+  top: -44px;
+  opacity: 0;
+  transform: scale(1.4) rotate(-30deg);
+  transition: opacity 260ms var(--ease-out), transform 340ms var(--ease-out);
+}
+.dealer.is-stamped .seal--dealer { opacity: 0.9; transform: scale(1) rotate(-16deg); }
+
+.colophon {
+  padding: 24px var(--gutter) 40px;
+  color: var(--ink-soft);
+  font: 400 0.875rem/1.5 var(--font-typed);
+  text-align: center;
+}
+
+.colophon__credits {
+  font-size: 0.75rem;
+}
+
+.colophon__credits a {
+  color: inherit;
+}
+
+/* ---------- Narrow screens: cover on top, one column below ---------- */
+
+@media (max-width: 899px) {
+  .banner { grid-template-columns: 1fr; min-height: 0; }
+  .cover { padding: 40px 28px 44px; }
+  .cover__logo { width: 150px; }
+  .cover__text { padding-top: 28px; }
+  .cover__sub { margin-top: 20px; }
+  .stamps { margin-top: 28px; }
+  .cover__title { font-size: clamp(1.75rem, 8.4vw, 2.5rem); }
+  .stamps { gap: 12px; }
+  .stamp-btn { padding: 0 18px; }
+  .leaf { min-height: 0; aspect-ratio: 390 / 430; }
+  .plate--banner { top: 7%; right: 8%; width: 76%; }
+  .seal--banner { right: -7%; bottom: -20%; }
+  .park[data-park="volvo"] { left: 38%; top: 77%; }
+  .park[data-park="mercedes"] { left: 77%; top: 68%; }
+  .park[data-park="vw"] { left: 74%; top: 93%; }
+
+  .entry,
+  .finale { padding: 96px 0; /* three ruled lines */ }
+  .entry__inner,
+  .finale__inner {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: calc(var(--line) * 2);
+  }
+  .entry .plate,
+  .entry[data-lane="right"] .plate--portrait,
+  .entry .entry__text,
+  .entry[data-lane="right"] .entry__text { grid-column: 1; grid-row: auto; }
+  .entry .plate--portrait { width: 78%; justify-self: center; }
+  .entry[data-lane="left"] .entry__text { padding-left: 56px; }
+  .entry[data-lane="right"] .entry__text { padding-right: 56px; }
+  .entry__text h2 { top: -4px; font-size: 1.75rem; line-height: var(--line); }
+
+  .entry--services .entry__text,
+  .plate--service,
+  .entry--brands .entry__text,
+  .brand-photos,
+  .entry--steps .entry__text,
+  .steps,
+  .entry--lamps .entry__text,
+  .entry[data-lane] .plate--dash,
+  .lamp-panel,
+  .entry--record .entry__text,
+  .plate--record { grid-column: 1; grid-row: auto; }
+  .entry--lamps .entry__inner { grid-template-rows: none; }
+  .entry[data-lane] .plate--dash { position: relative; top: auto; }
+  .steps { padding-right: 56px; }
+  .bay { display: none; }
+  .lamp-panel { padding: 0 0 0 56px; }
+  .dash { padding: 20px 16px 24px; }
+  .dash__lamps { grid-template-columns: repeat(auto-fill, minmax(68px, 1fr)); }
+  .lamp { min-height: 84px; }
+  .plate--record { padding: 22px 18px 18px; }
+  .odometer span { width: 36px; font-size: 1.75rem; }
+
+  .plate--store { grid-column: 1; margin-bottom: 160px; }
+  .dealer { grid-column: 1; padding: 28px 24px 36px; }
+  .seal--dealer { right: 4px; top: -52px; width: 112px; height: 112px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage, .stamp, .seal--dealer, .stamp-btn, .tick, .lamp, .brand span { transition: none; }
+}

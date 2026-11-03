@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#323277">
+<link rel="icon" href="../../../../assets/img/logo-oval.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../../../../assets/css/site.css">
+<link rel="stylesheet" href="../../../../assets/css/menu.css">
+<link rel="stylesheet" href="ortak/ortak.css">
+<script type="importmap">{ "imports": { "three": "../../../../assets/vendor/three.bundle.min.js" } }</script>
+<script type="module" src="ortak/murekkep.js"></script>
+<script type="module" src="ortak/arac.js"></script>
+<script type="module" src="ortak/iletisim.js"></script>
+<script src="../../../../assets/js/menu.js" defer></script>
+<title>Hakkımızda · Seçenek B · Ekip Önde</title>
+<style>
+  /* ---------- Option B: the team drawing is the ground the page stands on ---------- */
+  .giris { padding-top: clamp(40px, 5vh, 64px); }
+  .giris__ust {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 32px;
+    align-items: start;
+  }
+  .giris__metin { grid-column: 1 / span 6; }
+  h1 { color: var(--navy); font-size: clamp(3rem, 5.2vw, 4.5rem); line-height: 1; letter-spacing: -0.02em; }
+  .giris__ozet { margin-top: 28px; max-width: 48ch; }
+
+  /* The sketch's four words, as the booklet's contents with a figure for a page number. */
+  .icindekiler { margin: 28px 0 0; padding: 0; list-style: none; max-width: 520px; }
+  .icindekiler a {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: baseline;
+    gap: 12px;
+    padding: 7px 0 6px;
+    border-bottom: 1px solid var(--rule-strong);
+    color: var(--navy);
+    text-decoration: none;
+  }
+  .icindekiler a:hover .icindekiler__ad { text-decoration: underline; text-decoration-thickness: 2px; }
+  .icindekiler__ad { font: 600 1.375rem/1.2 var(--font-title); }
+  .icindekiler__lider { border-bottom: 1.5px dotted var(--rule-strong); transform: translateY(-6px); }
+  .icindekiler__deger { color: var(--ink); font: 400 1.0625rem/1 var(--font-typed); font-variant-numeric: tabular-nums; }
+
+  .giris__bina { position: relative; grid-column: 8 / span 5; }
+  .plate--bina { position: relative; z-index: 3; transform: rotate(1.2deg); }
+  .plate--bina img { aspect-ratio: 3 / 2; object-fit: cover; object-position: 50% 42%; }
+  .giris .arac { left: -26%; bottom: -22%; width: 62%; aspect-ratio: 16 / 10; }
+
+  .serit { position: relative; z-index: 2; margin-top: -40px; overflow: hidden; }
+  .serit .murekkep { margin-top: -20%; }
+  .serit figcaption { position: absolute; right: 0; bottom: 6px; margin: 0; }
+
+  /* ---------- Sections ---------- */
+  .bolum { padding-top: 128px; }
+  .bolum__ust { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 32px; padding-top: 24px; border-top: 2px solid var(--rule-strong); }
+  .bolum__baslik { grid-column: 1 / span 5; color: var(--navy); font-size: 2.5rem; line-height: 48px; letter-spacing: -0.01em; }
+  .bolum__giris { grid-column: 7 / span 6; padding-top: 6px; }
+
+  /* Isotype: one rubber-stamped mark per person or lift. */
+  .izotip { margin: 56px 0 0; display: grid; gap: 4px; }
+  .izotip > div {
+    display: grid;
+    grid-template-columns: 15rem 1fr 4rem;
+    align-items: center;
+    gap: 24px;
+    min-height: 72px;
+    border-bottom: 1px solid var(--rule-strong);
+  }
+  .izotip dt { color: var(--ink); font-size: 1.125rem; line-height: 1.3; }
+  .izotip dt small { display: block; color: var(--ink-soft); font: 400 0.8125rem/1.4 var(--font-typed); }
+  .izotip__isaretler { display: flex; flex-wrap: wrap; gap: 6px 10px; margin: 0; }
+  .izotip__isaretler svg {
+    width: 34px;
+    height: 46px;
+    color: var(--stamp-ink);
+    filter: url(#ink);
+    mix-blend-mode: multiply;
+    opacity: 0;
+    transform: scale(1.4) rotate(-10deg);
+    transition: opacity 200ms var(--ease-out), transform 280ms var(--ease-out);
+  }
+  .izotip__isaretler svg.genis { width: 58px; }
+  .is-stamped .izotip__isaretler svg { opacity: 0.92; transform: rotate(var(--r, -3deg)); }
+  .izotip__isaretler svg:nth-child(2) { --r: 2deg; transition-delay: 90ms; }
+  .izotip__isaretler svg:nth-child(3) { --r: -1deg; transition-delay: 180ms; }
+  .izotip__isaretler svg:nth-child(4) { --r: 3deg; transition-delay: 270ms; }
+  .izotip dd.sayi { margin: 0; justify-self: end; color: var(--navy); font: 700 1.75rem/1 var(--font-typed); }
+  .bolum .taslak-not { margin-top: 16px; }
+
+  .belgeler { display: flex; justify-content: center; margin-top: 64px; padding: 0 24px; }
+  .belgeler .belge { width: 25%; flex: none; }
+  .belgeler .belge + .belge { margin-left: -2%; }
+  .belgeler .belge:nth-child(1) { transform: rotate(-4deg) translateY(18px); }
+  .belgeler .belge:nth-child(2) { transform: rotate(-1deg); z-index: 1; }
+  .belgeler .belge:nth-child(3) { transform: rotate(1.6deg) translateY(6px); z-index: 2; }
+  .belgeler .belge:nth-child(4) { transform: rotate(4deg) translateY(24px); z-index: 3; }
+
+  .uc-foto { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 32px; align-items: start; margin-top: 64px; }
+  .uc-foto .plate:nth-child(1) { grid-column: 1 / span 4; transform: rotate(-1.4deg); margin-top: 48px; }
+  .uc-foto .plate:nth-child(2) { grid-column: 5 / span 4; transform: rotate(0.8deg); }
+  .uc-foto .plate:nth-child(3) { grid-column: 9 / span 4; transform: rotate(-0.6deg); margin-top: 72px; }
+  .uc-foto img { aspect-ratio: 4 / 3; object-fit: cover; }
+  .hikaye__metin { max-width: 60ch; margin: 56px auto 0; font-size: 1.25rem; line-height: 1.6; text-align: center; }
+
+  @media (max-width: 900px) {
+    .giris__ust, .bolum__ust, .uc-foto { grid-template-columns: 1fr; row-gap: 32px; }
+    .giris__metin, .giris__bina, .bolum__baslik, .bolum__giris { grid-column: 1; }
+    .giris__bina { width: 82%; margin-left: auto; }
+    .serit { margin-top: 24px; }
+    .serit figcaption { position: static; margin-top: 4px; text-align: right; }
+    .izotip > div { grid-template-columns: 1fr auto; padding: 12px 0; }
+    .izotip__isaretler { grid-column: 1 / -1; grid-row: 2; }
+    .belgeler { flex-wrap: wrap; gap: 24px; }
+    .belgeler .belge { width: 44%; }
+    .belgeler .belge + .belge { margin-left: 0; }
+    .uc-foto .plate:nth-child(n) { grid-column: 1; margin-top: 0; }
+    .bolum { padding-top: 96px; }
+    .bolum__baslik { font-size: 1.75rem; line-height: 32px; }
+  }
+</style>
+</head>
+<body>
+<!-- menu -->
+<a class="skip-link" href="#icerik">İçeriğe geç</a>
+<div class="menu" data-menu data-top="stock">
+  <div class="menu__bar">
+    <a class="menu__logo" href="../../../../index.html"><img src="../../../../brand/logo-oval.svg" width="677" height="292" alt="Volan Otomotiv ana sayfa"></a>
+    <button class="menu__toggle" type="button" aria-expanded="false" aria-controls="menu-nav"><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M0 1h14M0 5h14M0 9h9"/></svg><span class="menu__toggle-label">Menü</span></button>
+    <nav class="menu__nav" id="menu-nav" aria-label="Ana menü">
+      <p class="menu__title" aria-hidden="true">İçindekiler</p>
+      <ul class="menu__list">
+        <li class="menu__item"><a class="menu__tab" href="../../../../index.html">Ana Sayfa</a></li>
+        <li class="menu__item menu__item--group is-current">
+          <button class="menu__tab" type="button" aria-expanded="false" aria-controls="menu-hakkimizda">Hakkımızda<svg class="menu__chev" viewBox="0 0 10 7" aria-hidden="true"><path d="M1 1.2l4 4 4-4"/></svg></button>
+          <ul class="menu__sub" id="menu-hakkimizda">
+            <li><a class="menu__row" href="#" aria-current="page"><span class="menu__label">Hakkımızda</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark"><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M1 5h11.5M8.5 1l4 4-4 4"/></svg></span></a></li>
+            <li><a class="menu__row" href="../../../../yakinda.html?s=vizyon-misyon"><span class="menu__label">Vizyon &amp; Misyon</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+            <li><a class="menu__row" href="../../../../yakinda.html?s=degerlerimiz"><span class="menu__label">Değerlerimiz</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+            <li><a class="menu__row" href="../../../../yakinda.html?s=kalite-politikamiz"><span class="menu__label">Kalite Politikamız</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+            <li><a class="menu__row" href="../../../../yakinda.html?s=surdurulebilirlik"><span class="menu__label">Sürdürülebilirlik Yaklaşımımız</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+            <li><a class="menu__row" href="../../../../yakinda.html?s=markalara-ozel"><span class="menu__label">Markalara Özel Prensibimiz</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+          </ul>
+        </li>
+        <li class="menu__item"><a class="menu__tab" href="../../../../hizmetlerimiz.html">Hizmetlerimiz</a></li>
+        <li class="menu__item"><a class="menu__tab" href="../../../../yakinda.html?s=haberler">Haberler<span class="menu__soon"> yakında</span></a></li>
+        <li class="menu__item menu__item--group">
+          <button class="menu__tab" type="button" aria-expanded="false" aria-controls="menu-multimedya">Multimedya<svg class="menu__chev" viewBox="0 0 10 7" aria-hidden="true"><path d="M1 1.2l4 4 4-4"/></svg></button>
+          <ul class="menu__sub" id="menu-multimedya">
+            <li><a class="menu__row" href="../../../../yakinda.html?s=resimler"><span class="menu__label">Resimler</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+            <li><a class="menu__row" href="../../../../yakinda.html?s=videolar"><span class="menu__label">Videolar</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+            <li><a class="menu__row" href="../../../../yakinda.html?s=yorumlar"><span class="menu__label">Yorumlar</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+          </ul>
+        </li>
+        <li class="menu__item menu__item--group menu__item--end">
+          <button class="menu__tab" type="button" aria-expanded="false" aria-controls="menu-iletisim">İletişim<svg class="menu__chev" viewBox="0 0 10 7" aria-hidden="true"><path d="M1 1.2l4 4 4-4"/></svg></button>
+          <ul class="menu__sub" id="menu-iletisim">
+            <li><a class="menu__row" href="#iletisim"><span class="menu__label">İletişim Bilgileri</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark" title="Bu sayfada"><svg viewBox="0 0 14 10" aria-hidden="true"><path d="M7 .5v8.5M3.5 5.5L7 9l3.5-3.5"/></svg></span></a></li>
+            <li><a class="menu__row" href="../../../../yakinda.html?s=insan-kaynaklari"><span class="menu__label">İnsan Kaynakları</span><span class="menu__leader" aria-hidden="true"></span><span class="menu__mark menu__mark--soon">yakında</span></a></li>
+          </ul>
+        </li>
+      </ul>
+      <div class="menu__contact">
+        <div class="stamps" role="group" aria-label="Hızlı iletişim">
+          <a class="stamp-btn stamp-btn--primary" href="https://wa.me/905337653378?text=Merhaba%2C%20arac%C4%B1m%20i%C3%A7in%20randevu%20almak%20istiyorum." aria-label="Randevu al (WhatsApp mesajı)">Randevu al</a>
+          <a class="stamp-btn" href="tel:+905337653378">Ara</a>
+          <a class="stamp-btn" href="https://wa.me/905337653378">WhatsApp</a>
+        </div>
+      </div>
+    </nav>
+    <div class="menu__actions" role="group" aria-label="Hızlı iletişim">
+      <a class="menu__action" href="https://wa.me/905337653378" aria-label="WhatsApp: 0533 765 33 78"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg><span class="menu__action-label">WhatsApp</span></a>
+      <a class="menu__action" href="https://www.google.com/maps/search/?api=1&amp;query=Volan%20Otomotiv%20Bah%C3%A7ekap%C4%B1%20Mah.%202547.%20Sokak%20No%3A3%20Etimesgut%20Ankara" aria-label="Yol tarifi (Google Haritalar)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg><span class="menu__action-label">Yol tarifi</span></a>
+      <a class="menu__action" href="tel:+905337653378" aria-label="Ara: 0533 765 33 78"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span class="menu__action-label">Ara</span></a>
+    </div>
+  </div>
+</div>
+<!-- /menu -->
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <!-- Rubber-stamp ink: wobbly edges plus uneven coverage. -->
+    <filter id="ink" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="wobble"/>
+      <feDisplacementMap in="SourceGraphic" in2="wobble" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.7" numOctaves="2" seed="3" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.7 0 0 0 1.62" result="coverage"/>
+      <feComposite in="edge" in2="coverage" operator="in"/>
+    </filter>
+    <symbol id="seal" viewBox="0 0 200 200">
+      <path id="seal-arc" d="M100,100 m-70,0 a70,70 0 1,1 140,0 a70,70 0 1,1 -140,0" fill="none"/>
+      <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="5"/>
+      <circle cx="100" cy="100" r="85" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="100" cy="100" r="52" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text font-family="Archivo Narrow, sans-serif" font-weight="600" font-size="19" letter-spacing="3.2" fill="currentColor">
+        <textPath href="#seal-arc" startOffset="0">VOLAN OTOMOTİV · ANKARA · VOLAN OTOMOTİV · ANKARA ·</textPath>
+      </text>
+      <text x="100" y="112" text-anchor="middle" font-family="Besley, serif" font-weight="600" font-size="34" fill="currentColor">1954</text>
+    </symbol>
+    <symbol id="tick" viewBox="0 0 32 32">
+      <path d="M5 17.5l7.5 7.5L27.5 6" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+<svg class="defs" aria-hidden="true" focusable="false">
+  <symbol id="kisi" viewBox="0 0 34 46"><circle cx="17" cy="8.5" r="7" fill="currentColor"/><path d="M4 46V25c0-5.5 4-9.5 9.5-9.5h7c5.5 0 9.5 4 9.5 9.5v21z" fill="currentColor"/></symbol>
+  <symbol id="lift" viewBox="0 0 58 46"><path d="M3 46V8h5v38zM50 46V8h5v38z" fill="currentColor"/><path d="M8 30h42v4H8z" fill="currentColor"/><path d="M12 30v-6c2-5 7-7 12-7h12c4 0 7 3 9 7v6z" fill="currentColor"/><circle cx="18" cy="26" r="3.2" fill="var(--stock)"/><circle cx="40" cy="26" r="3.2" fill="var(--stock)"/></symbol>
+</svg>
+
+<main id="icerik">
+  <section class="wrap giris" aria-labelledby="hk-baslik">
+    <div class="giris__ust">
+      <div class="giris__metin">
+        <h1 id="hk-baslik" class="baslik">Hakkımızda<svg class="baslik__cizgi" viewBox="0 0 300 30" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" stroke-width="5" d="M4 18 C 60 9, 140 22, 210 12 S 285 10, 296 15"/><path pathLength="1" stroke-width="2.4" d="M30 25 C 90 19, 170 27, 262 20"/></svg></h1>
+        <p class="giris__ozet">Volan 1954’te “Volan Küçükyılmaz” adıyla kuruldu ve uzun yıllar Volvo Yetkili Servisi olarak çalıştı. 2017’den beri Volan Otomotiv adıyla Volvo, Volkswagen ve Mercedes araçlara yetkili servis kalitesinde, özel servis esnekliğiyle bakıyoruz.</p>
+        <ul class="icindekiler">
+          <li><a href="#hk-ekip"><span class="icindekiler__ad">Kalitemiz</span><span class="icindekiler__lider" aria-hidden="true"></span><span class="icindekiler__deger">3 marka</span></a></li>
+          <li><a href="#hk-ekip"><span class="icindekiler__ad">Tesisimiz</span><span class="icindekiler__lider" aria-hidden="true"></span><span class="icindekiler__deger">1.800 m²</span></a></li>
+          <li><a href="#hk-hikaye"><span class="icindekiler__ad">Mirasımız</span><span class="icindekiler__lider" aria-hidden="true"></span><span class="icindekiler__deger"><span data-years>72</span> yıl</span></a></li>
+          <li><a href="#hk-ekip"><span class="icindekiler__ad">İstatistiklerimiz</span><span class="icindekiler__lider" aria-hidden="true"></span><span class="icindekiler__deger taslak">4 lift</span></a></li>
+        </ul>
+      </div>
+      <div class="giris__bina">
+        <figure class="plate plate--bina">
+          <figcaption>Binamız bugün: Şaşmaz Oto Sanayi Sitesi.</figcaption>
+          <img src="img/bina-temiz-1600.webp" width="1600" height="1067" fetchpriority="high" alt="Volan binasının cephesi: oval VOLAN tabelası, Mekanik 1 ve Mekanik 2 atölye kapıları.">
+        </figure>
+        <div class="arac" data-arac data-yaw="-0.62" aria-hidden="true"><canvas></canvas></div>
+      </div>
+    </div>
+    <div class="serit">
+      <figure class="murekkep" data-murekkep data-drops="0.5,0.64,0,0.3;0.2,0.66,260,0.22;0.8,0.64,420,0.24;0.06,0.7,700,0.12;0.94,0.7,820,0.12;0.36,0.88,980,0.16;0.66,0.88,1100,0.16">
+        <img src="img/ekip-ayakta-alfa.webp" width="1800" height="1200" alt="Karakalem çizim: Volan ekibi, Mekanik 1 atölyesinin önünde ayakta, yan yana.">
+        <figcaption>Ekibimiz, Mekanik 1’in önünde. Fotoğraftan karakalem.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="wrap bolum" id="hk-ekip-bolum" aria-labelledby="hk-ekip">
+    <div class="bolum__ust">
+      <h2 class="bolum__baslik" id="hk-ekip">Tesis, birimler ve ekip</h2>
+      <p class="bolum__giris">1.800 m² tesiste iki mekanik atölyesi, kaporta ve boya bölümü, hasar ve servis danışmanlığı aynı çatı altında çalışır. Teknik kadromuz alanında uzman ve sürekli eğitim alıyor.</p>
+    </div>
+    <dl class="izotip">
+      <div data-stamp><dt>Lift<small>Mekanik 1 ve Mekanik 2</small></dt><dd class="izotip__isaretler" aria-hidden="true"><svg class="genis"><use href="#lift"/></svg><svg class="genis"><use href="#lift"/></svg><svg class="genis"><use href="#lift"/></svg><svg class="genis"><use href="#lift"/></svg></dd><dd class="sayi taslak">4</dd></div>
+      <div data-stamp><dt>Mekanik ustası</dt><dd class="izotip__isaretler" aria-hidden="true"><svg><use href="#kisi"/></svg><svg><use href="#kisi"/></svg><svg><use href="#kisi"/></svg><svg><use href="#kisi"/></svg></dd><dd class="sayi taslak">4</dd></div>
+      <div data-stamp><dt>Kaporta ve boya ustası</dt><dd class="izotip__isaretler" aria-hidden="true"><svg><use href="#kisi"/></svg><svg><use href="#kisi"/></svg></dd><dd class="sayi taslak">2</dd></div>
+      <div data-stamp><dt>Hasar danışmanı<small>Sigorta ve kasko dosyaları</small></dt><dd class="izotip__isaretler" aria-hidden="true"><svg><use href="#kisi"/></svg></dd><dd class="sayi taslak">1</dd></div>
+      <div data-stamp><dt>Servis danışmanı<small>Aracınızı teslim alır, size aktarır</small></dt><dd class="izotip__isaretler" aria-hidden="true"><svg><use href="#kisi"/></svg><svg><use href="#kisi"/></svg><svg><use href="#kisi"/></svg></dd><dd class="sayi taslak">3</dd></div>
+    </dl>
+    <p class="taslak-not">Dalgalı çizgili sayılar eski siteden alındı; güncelliği teyit edilecek.</p>
+  </section>
+
+  <section class="wrap bolum" aria-labelledby="hk-belge">
+    <div class="bolum__ust">
+      <h2 class="bolum__baslik" id="hk-belge">Sertifika ve uzmanlık belgeleri</h2>
+      <p class="bolum__giris">Ustalarımızın eğitim ve uzmanlık belgeleri.</p>
+    </div>
+    <div class="belgeler">
+      <figure class="belge"><div class="belge__alan"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="M8 4h14l6 6v22H8z M22 4v6h6 M12 17h12 M12 22h12 M12 27h7"/></svg>Belge bekleniyor</div><figcaption>Kaporta ve boya</figcaption></figure>
+      <figure class="belge"><div class="belge__alan"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="M8 4h14l6 6v22H8z M22 4v6h6 M12 17h12 M12 22h12 M12 27h7"/></svg>Belge bekleniyor</div><figcaption>Mekanik eğitim</figcaption></figure>
+      <figure class="belge"><div class="belge__alan"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="M8 4h14l6 6v22H8z M22 4v6h6 M12 17h12 M12 22h12 M12 27h7"/></svg>Belge bekleniyor</div><figcaption>Elektronik sistemler</figcaption></figure>
+      <figure class="belge"><div class="belge__alan"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="M8 4h14l6 6v22H8z M22 4v6h6 M12 17h12 M12 22h12 M12 27h7"/></svg>Belge bekleniyor</div><figcaption>Hasar danışmanlığı</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="wrap bolum" aria-labelledby="hk-hikaye">
+    <div class="bolum__ust">
+      <h2 class="bolum__baslik" id="hk-hikaye">Volan Otomotiv’in hikâyesi</h2>
+      <p class="bolum__giris">Üç fotoğraf, bir işletme.</p>
+    </div>
+    <div class="uc-foto">
+      <figure class="plate"><figcaption>Arşivden, tarihsiz: anahtar duvarının önünde ekip.</figcaption><img src="img/arsiv-ekip.webp" width="1600" height="967" loading="lazy" alt="Arşiv fotoğrafı: anahtar duvarının önünde sekiz kişilik atölye ekibi."></figure>
+      <figure class="plate"><figcaption>Arşivden, tarihsiz: Volvo tabelalı servis.</figcaption><img src="img/arsiv-bayi.webp" width="1600" height="1082" loading="lazy" alt="Arşiv fotoğrafı: “Ömer Küçükyılmaz ve Ort.” yazılı Volvo tabelalı servis binası ve önünde Volvo otomobiller."></figure>
+      <figure class="plate"><figcaption>Bugün: Şaşmaz Oto Sanayi Sitesi.</figcaption><img src="img/bina-temiz-1600.webp" width="1600" height="1067" loading="lazy" alt="Bugün: Volan binası, Şaşmaz Oto Sanayi Sitesi."></figure>
+    </div>
+    <p class="hikaye__metin">1954’te “Volan Küçükyılmaz” adıyla kurulduk. Uzun yıllar Volvo Yetkili Servisi olarak çalıştık. 2017’den beri “Volan Otomotiv” adıyla, özel servis olarak hizmet veriyoruz.</p>
+  </section>
+</main>
+
+<section class="kapanis" id="iletisim" aria-labelledby="kapanis-baslik">
+  <div class="wrap kapanis__inner">
+    <div>
+      <h2 class="kapanis__ilke" id="kapanis-baslik">Aracınız bizim sorumluluğumuzdadır.</h2>
+      <p class="kapanis__alt">Yola çıkmadan önce değil, her zaman yanınızdayız.</p>
+      <div class="stamps" role="group" aria-label="Hızlı iletişim">
+        <a class="stamp-btn stamp-btn--primary" href="https://wa.me/905337653378?text=Merhaba%2C%20arac%C4%B1m%20i%C3%A7in%20randevu%20almak%20istiyorum." aria-label="Randevu al (WhatsApp mesajı)">Randevu al</a>
+        <a class="stamp-btn" href="tel:+905337653378">Ara</a>
+        <a class="stamp-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Volan%20Otomotiv%20Bah%C3%A7ekap%C4%B1%20Mah.%202547.%20Sokak%20No%3A3%20Etimesgut%20Ankara">Yol tarifi</a>
+      </div>
+    </div>
+    <address style="font-style:normal">
+      <dl>
+        <div><dt>Adres</dt><dd>Bahçekapı Mah. 2547. Sokak No:3<br>Şaşmaz Oto Sanayi Sitesi, Etimesgut / Ankara</dd></div>
+        <div><dt>Telefon</dt><dd><a href="tel:+905337653378">0533 765 33 78</a><br><a href="tel:+903122786990">0312 278 69 90</a></dd></div>
+        <div><dt>Çalışma saatleri</dt><dd>Pzt–Cmt 08:30–18:00<br>Pazar kapalı</dd></div>
+        <div><dt>E-posta</dt><dd><a href="mailto:info@volan.com.tr">info@volan.com.tr</a></dd></div>
+      </dl>
+    </address>
+  </div>
+</section>
+
+<div class="iletisim" data-iletisim>
+  <ul class="iletisim__liste" id="iletisim-liste" aria-label="İletişim seçenekleri">
+    <li><a href="tel:+905337653378"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg><b>Ara</b><small>0533 765 33 78</small></a></li>
+    <li><a href="https://wa.me/905337653378?text=Merhaba%2C%20arac%C4%B1m%20i%C3%A7in%20randevu%20almak%20istiyorum."><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg><b>WhatsApp</b><small>Randevu için yazın</small></a></li>
+    <li><a href="https://www.google.com/maps/search/?api=1&amp;query=Volan%20Otomotiv%20Bah%C3%A7ekap%C4%B1%20Mah.%202547.%20Sokak%20No%3A3%20Etimesgut%20Ankara"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg><b>Yol tarifi</b><small>Şaşmaz, Etimesgut</small></a></li>
+  </ul>
+  <button class="iletisim__muhur" type="button" aria-expanded="false" aria-controls="iletisim-liste" aria-label="İletişim: Ara, WhatsApp, Yol tarifi">
+    <svg class="halka" viewBox="0 0 100 100" aria-hidden="true">
+      <path id="muhur-yay" d="M50,50 m-35,0 a35,35 0 1,1 70,0 a35,35 0 1,1 -70,0" fill="none"/>
+      <circle cx="50" cy="50" r="46.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="50" cy="50" r="43.5" fill="none" stroke="currentColor" stroke-width="0.6" opacity="0.8"/>
+      <circle cx="50" cy="50" r="26" fill="none" stroke="currentColor" stroke-width="0.6" opacity="0.8"/>
+      <text font-family="Archivo Narrow, sans-serif" font-weight="600" font-size="9.6" letter-spacing="2.1" fill="currentColor"><textPath href="#muhur-yay">İLETİŞİM · ARA · WHATSAPP · YOL ·</textPath></text>
+    </svg>
+    <svg class="iletisim__ikon" viewBox="0 0 24 24" aria-hidden="true"><path class="ac" d="M20 15.6v2.6a1.75 1.75 0 0 1-1.9 1.75 17.3 17.3 0 0 1-7.55-2.7 17 17 0 0 1-5.25-5.25 17.3 17.3 0 0 1-2.7-7.6A1.75 1.75 0 0 1 4.35 2.5h2.6a1.75 1.75 0 0 1 1.75 1.5c.1.85.32 1.67.6 2.45a1.75 1.75 0 0 1-.4 1.85l-1.1 1.1a14 14 0 0 0 5.25 5.25l1.1-1.1a1.75 1.75 0 0 1 1.85-.4c.78.28 1.6.5 2.45.6A1.75 1.75 0 0 1 20 15.6z"/><path class="kapat" d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+</div>
+
+<p class="mock-etiket">Seçenek B · Ekip Önde</p>
+</body>
+</html>

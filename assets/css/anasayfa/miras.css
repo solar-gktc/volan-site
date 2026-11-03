@@ -1,0 +1,79 @@
+/* Miras — "Büyütme": one archive print enlarged on the easel, a contact sheet to pick the frame,
+   and the lineage set big. The truck page: the stage turns the car into the truck on the crossing
+   onto this section, and the page-level .aging layer turns the paper cream from here. */
+
+.s-miras { padding: 128px 0 80px; }
+.s-miras .entry__inner { row-gap: 88px; align-items: start; }
+
+/* The enlargement (one fixed square, so a frame change never resizes it), on the easel with its crop blades. Sits over the road lane (z 2), the car passes under it. */
+.s-miras .easel { grid-column: 1 / span 6; position: relative; margin: 0; }
+.s-miras .easel .plate { padding: 14px; transform: rotate(-0.9deg); }
+.s-miras .print { position: relative; overflow: hidden; background: var(--stock-deep); aspect-ratio: 1; }
+.s-miras .print img { width: 100%; height: 100%; object-fit: cover; object-position: var(--pos, 50% 40%); transition: opacity 700ms var(--ease-out), filter 900ms var(--ease-out); }
+.s-miras .print.is-developing img { opacity: 0.25; filter: blur(6px) sepia(0.6) brightness(1.3); transition: none; }
+.s-miras .blade { position: absolute; z-index: 3; width: 44px; height: 44px; border: 0 solid var(--navy); pointer-events: none; }
+.s-miras .blade--tl { left: -26px; top: -26px; border-width: 2px 0 0 2px; }
+.s-miras .blade--tr { right: -26px; top: -26px; border-width: 2px 2px 0 0; }
+.s-miras .blade--bl { left: -26px; bottom: -26px; border-width: 0 0 2px 2px; }
+.s-miras .blade--br { right: -26px; bottom: -26px; border-width: 0 2px 2px 0; }
+
+.s-miras .side { grid-column: 7 / span 6; padding-top: 0; }
+.s-miras .side h2 { color: var(--navy); font: 400 clamp(2.5rem, 4vw, 3.5rem)/1.02 var(--font-title); letter-spacing: -0.015em; margin-bottom: 20px; text-wrap: balance; }
+.s-miras .lead { font: 400 clamp(1.125rem, 1.55vw, 1.4rem)/1.42 var(--font-text); max-width: 30ch; margin-bottom: 32px; }
+
+/* Contact sheet: archive frames on a strip of film. */
+.s-miras .sheet { position: relative; background: var(--navy-deep); padding: 26px 14px; }
+.s-miras .sheet__defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+.s-miras .sheet__perf { position: absolute; left: 0; right: 0; width: 100%; height: 12px; }
+.s-miras .sheet__perf--t { top: 7px; }
+.s-miras .sheet__perf--b { bottom: 7px; }
+.s-miras .sheet__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.s-miras .frame { position: relative; padding: 0; border: 0; background: none; color: var(--gold-ink); text-align: left; cursor: pointer; }
+.s-miras .frame img { width: 100%; aspect-ratio: 1; object-fit: cover; filter: grayscale(0.15); transition: filter 180ms var(--ease-out); }
+.s-miras .frame:hover img { filter: none; }
+.s-miras .frame span { display: block; padding-top: 6px; font: 400 0.8125rem/1 var(--font-typed); letter-spacing: 0.04em; }
+.s-miras .frame em { font-style: normal; }
+.s-miras .frame:focus-visible { outline: 2px solid var(--gold-ink); outline-offset: 3px; }
+.s-miras .pick { position: absolute; left: -7px; top: -7px; width: calc(100% + 14px); height: calc(100% - 6px); color: var(--gold-ink); opacity: 0; transform: scale(1.08); pointer-events: none; transition: opacity 200ms var(--ease-out), transform 260ms var(--ease-out); }
+.s-miras .frame[aria-pressed="true"] .pick { opacity: 1; transform: none; }
+
+/* The lineage band: four entries left to right, arrows between. */
+.s-miras .band { grid-column: 3 / span 10; display: grid; grid-template-columns: 1fr 1fr 1fr 1.1fr; column-gap: 68px; margin: 0; padding: 24px 0 28px; list-style: none; border-top: 2px solid var(--navy); border-bottom: 1px solid var(--rule-strong); }
+.s-miras .step { position: relative; }
+.s-miras .step:not(:last-child)::after { content: ""; position: absolute; right: -54px; top: 50px; width: 40px; height: 24px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 24'%3E%3Cpath d='M1 12h36M28 4l9 8-9 8' fill='none' stroke='%23323277' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat center / contain; }
+.s-miras .step__year { display: block; height: 28px; color: var(--navy); font: 400 1rem/1.4 var(--font-typed); font-variant-numeric: tabular-nums; }
+.s-miras .step__name { display: block; margin: 10px 0 12px; color: var(--navy); font: 400 clamp(1.75rem, 2.5vw, 2.375rem)/1.05 var(--font-title); letter-spacing: -0.012em; }
+.s-miras .step__note { display: block; color: var(--ink-soft); font: 400 1rem/1.5 var(--font-text); }
+.s-miras .step--now .seal { width: 120px; height: 120px; right: -8px; top: -76px; transform: rotate(-14deg); opacity: 0.88; }
+.s-miras .blank { display: inline-flex; gap: 6px; vertical-align: middle; }
+.s-miras .blank i { width: 0.75em; height: 3px; background: currentColor; }
+
+.s-miras .band__foot { grid-column: 3 / span 10; display: flex; justify-content: flex-end; align-items: center; gap: 24px; margin-top: -64px; }
+.s-miras .stamp-btn svg { width: 18px; height: 18px; margin-left: 12px; fill: none; stroke: currentColor; stroke-width: 1.75; }
+
+@media (max-width: 899px) {
+  .s-miras { padding: 96px 0 72px; }
+  .s-miras .entry__inner { row-gap: 56px; }
+  .s-miras .easel, .s-miras .side, .s-miras .band, .s-miras .band__foot { grid-column: 1; }
+  .s-miras .easel .plate { padding: 10px; }
+  .s-miras .blade { width: 28px; height: 28px; }
+  .s-miras .blade--tl, .s-miras .blade--bl { left: -12px; }
+  .s-miras .blade--tr, .s-miras .blade--br { right: -12px; }
+  .s-miras .blade--tl, .s-miras .blade--tr { top: -12px; }
+  .s-miras .blade--bl, .s-miras .blade--br { bottom: -12px; }
+  /* Text clears the narrow road (centre 36px, ≈54px wide). */
+  .s-miras .side { padding-left: 48px; }
+  .s-miras .band, .s-miras .band__foot { margin-left: 48px; }
+  .s-miras .side h2 { font-size: 2.5rem; }
+  .s-miras .lead { margin-bottom: 40px; }
+  .s-miras .frame em { display: none; }
+  .s-miras .band { grid-template-columns: 1fr; row-gap: 52px; padding-bottom: 28px; }
+  .s-miras .step:not(:last-child)::after { right: auto; left: -8px; top: auto; bottom: -40px; width: 32px; transform: rotate(90deg); }
+  .s-miras .step--now .seal { width: 88px; height: 88px; top: -80px; right: -4px; }
+  .s-miras .band__foot { margin-top: -40px; flex-direction: column; align-items: flex-start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .s-miras .print img, .s-miras .pick, .s-miras .frame img { transition: none; }
+}

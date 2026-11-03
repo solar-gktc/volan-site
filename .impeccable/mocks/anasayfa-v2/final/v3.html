@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mock · final · v3 — Yol kartı</title>
+<link rel="stylesheet" href="../_kit/kit.css">
+<style>
+  body { background: #eee7d6; }
+  .sec { position: relative; padding: 128px 0 128px; background: var(--stock); }
+  .sec .road { overflow: hidden; }
+  .aging { position: absolute; inset: 0; z-index: 1; pointer-events: none; mix-blend-mode: multiply; background: var(--aged); }
+  .inner { align-items: start; }
+
+  /* Then and now: the 1954 garage and today's front at night. */
+  .plate--now { grid-column: 1 / span 4; margin-top: 256px; transform: rotate(-1.2deg); }
+  .plate--store { grid-column: 5 / span 8; z-index: auto; transform: rotate(0.6deg); }
+  .plate figcaption { padding: 2px 4px 12px; }
+  .plate figcaption b { font-weight: 400; color: var(--navy); }
+  .store { position: relative; }
+  .store__photo { position: relative; z-index: 0; }
+  .store__walls { position: absolute; inset: 0; z-index: 2; visibility: hidden;
+    clip-path: polygon(0 0, 100% 0, 100% 86%, 47.4% 86%, 46.6% 37.4%, 15.6% 38.8%, 16.4% 86%, 0 86%); }
+  .store.is-shut .store__walls { visibility: visible; }
+  .door { position: absolute; left: 31.4%; top: 86%; width: 1px; height: 1px; }
+  .into { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; pointer-events: none; }
+  .into path { fill: none; stroke: var(--paper); stroke-opacity: 0.8; stroke-width: 2.5; stroke-dasharray: 14 12; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+
+  /* The route card */
+  .route { grid-column: 3 / span 10; margin-top: 240px; border: 4px double var(--navy); padding: 40px 40px 44px; font-style: normal; position: relative; }
+  .route__head { display: flex; justify-content: space-between; align-items: start; gap: 24px; margin-bottom: 40px; }
+  .route h2 { color: var(--navy); font: 600 2.5rem/48px var(--font-title); letter-spacing: -0.01em; }
+  .route__head p { margin-top: 8px; color: var(--ink-soft); font: 400 1.0625rem/1.5 var(--font-text); max-width: 40ch; }
+
+  .strip { position: relative; list-style: none; margin: 0 0 48px; padding: 0; display: grid; grid-template-columns: 1fr 1fr 1.4fr 1.4fr 1fr; gap: 16px; }
+  .strip::before { content: ""; position: absolute; left: 0; right: 36px; top: 0; height: 24px; background: var(--endpaper); border-top: 1.5px solid var(--rule-strong); border-bottom: 1.5px solid var(--rule-strong); }
+  .strip::after { content: ""; position: absolute; left: 6px; right: 42px; top: 11px; border-top: 2px dashed rgba(50, 50, 119, 0.3); }
+  .strip li { position: relative; z-index: 1; padding-top: 40px; }
+  .strip li::before { content: ""; position: absolute; left: 0; top: 6px; width: 12px; height: 12px; background: var(--navy); }
+  .strip b { display: block; color: var(--navy); font: 600 0.75rem/1.2 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 6px; }
+  .strip span { display: block; font: 400 1rem/1.4 var(--font-typed); }
+  .strip li:last-child::before { display: none; }
+  .strip .garage { position: absolute; left: -6px; top: -14px; width: 48px; height: 44px; fill: var(--stock); stroke: var(--navy); stroke-width: 1.75; stroke-linejoin: round; }
+  .strip li:last-child { padding-top: 40px; }
+
+  .dl { margin: 0; display: grid; grid-template-columns: 1fr 1fr 1.25fr 1fr; gap: 24px 32px; padding-top: 28px; border-top: 1px solid var(--rule-strong); }
+  .dl > div { display: grid; gap: 6px; align-content: start; }
+  .dl dt { color: var(--navy); font: 600 0.75rem/1.2 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; }
+  .dl dd { margin: 0; font: 400 1rem/1.5 var(--font-typed); font-variant-numeric: tabular-nums; }
+  .dl a { text-decoration: underline; text-decoration-color: var(--rule-strong); }
+  .dl a:hover { text-decoration-color: currentColor; }
+  .nowrap { white-space: nowrap; }
+  .route .stamps { margin-top: 40px; }
+
+  /* Live open/closed stamp beside the hours */
+  .now { margin-top: 12px; justify-self: start; }
+  .now .stamp { display: inline-block; }
+  .now .stamp__ink { font-size: 0.9375rem; padding: 8px 12px 7px; }
+  .now.is-stamped .stamp { opacity: 0.92; transform: scale(1) rotate(-5deg); filter: blur(0); }
+  .now[hidden] { display: none; }
+
+  .colophon { display: flex; align-items: center; justify-content: space-between; gap: 32px; width: min(var(--measure), 100% - 2 * var(--gutter)); margin: 0 auto; padding: 32px 0 48px; border-top: 2px solid rgba(50, 50, 119, 0.5); color: var(--ink-soft); font: 400 0.875rem/1.5 var(--font-typed); }
+  .colophon img { width: 120px; flex: none; }
+  .colophon div { text-align: right; }
+  .colophon p + p { font-size: 0.75rem; margin-top: 4px; }
+  .colophon a { color: inherit; }
+
+  @media (max-width: 899px) {
+    .sec { padding: 96px 0 96px; }
+    .inner { row-gap: 40px; }
+    .plate--now { grid-column: 1; margin: 0 0 0 auto; width: 78%; }
+    .plate--store { grid-column: 1; }
+    .route { grid-column: 1; margin-top: 168px; padding: 28px 20px 32px; }
+    .route__head { flex-direction: column; margin-bottom: 32px; }
+    .route h2 { font-size: 1.75rem; line-height: 32px; }
+    .strip { grid-template-columns: 1fr; gap: 22px; }
+    .strip::before { left: 0; right: auto; top: 0; bottom: 30px; width: 24px; height: auto; border: 0; border-left: 1.5px solid var(--rule-strong); border-right: 1.5px solid var(--rule-strong); }
+    .strip::after { left: 11px; right: auto; top: 6px; bottom: 36px; border-top: 0; border-left: 2px dashed rgba(50, 50, 119, 0.3); }
+    .strip li, .strip li:last-child { padding: 0 0 0 44px; }
+    .strip .garage { left: -12px; top: -6px; }
+    .dl { grid-template-columns: 1fr; }
+    .colophon { flex-direction: column; align-items: flex-start; }
+    .colophon div { text-align: left; }
+  }
+  .still *, .still *::before, .still *::after { transition: none !important; }
+</style>
+</head>
+<body>
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="ink" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="wobble"/>
+      <feDisplacementMap in="SourceGraphic" in2="wobble" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.7" numOctaves="2" seed="3" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.7 0 0 0 1.62" result="coverage"/>
+      <feComposite in="edge" in2="coverage" operator="in"/>
+    </filter>
+    <symbol id="seal" viewBox="0 0 200 200">
+      <path id="seal-arc" d="M100,100 m-70,0 a70,70 0 1,1 140,0 a70,70 0 1,1 -140,0" fill="none"/>
+      <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="5"/>
+      <circle cx="100" cy="100" r="85" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="100" cy="100" r="52" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text font-family="Archivo Narrow, sans-serif" font-weight="600" font-size="19" letter-spacing="3.2" fill="currentColor"><textPath href="#seal-arc" startOffset="0">VOLAN OTOMOTİV · ANKARA · VOLAN OTOMOTİV · ANKARA ·</textPath></text>
+      <text x="100" y="112" text-anchor="middle" font-family="Besley, serif" font-weight="600" font-size="34" fill="currentColor">1954</text>
+    </symbol>
+    <symbol id="tick" viewBox="0 0 32 32"><path d="M5 17.5l7.5 7.5L27.5 6" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <pattern id="road-net" width="64" height="8" patternUnits="userSpaceOnUse"><path d="M0,4 C10.7,-1.3 21.3,-1.3 32,4 S53.3,9.3 64,4 M0,4 C10.7,9.3 21.3,9.3 32,4 S53.3,-1.3 64,4" fill="none" stroke="#323277" stroke-opacity="0.16" stroke-width="0.7"/></pattern>
+  </defs>
+</svg>
+
+<main>
+<section class="sec" id="iletisim" aria-labelledby="iletisim-baslik">
+  <svg class="road" aria-hidden="true" viewBox="0 0 1440 1800" preserveAspectRatio="none">
+    <path class="road__edge" d="M150,0 V1800"/><path class="road__bed" d="M150,0 V1800"/><path class="road__net" d="M150,0 V1800"/><path class="road__line" d="M150,0 V1800"/>
+  </svg>
+  <div class="aging" aria-hidden="true"></div>
+
+  <div class="inner">
+    <figure class="plate plate--now">
+      <figcaption><b>Bugün ·</b> akşam, 2547. Sokak No:3.</figcaption>
+      <img src="/general-assets/gorseller/bina-varyant/bina-gece-1600.webp" width="1600" height="1067" alt="Volan Otomotiv binası akşam: ışıklı VOLAN tabelası, Mekanik 1 ve Mekanik 2 kapıları.">
+    </figure>
+
+    <figure class="plate plate--store">
+      <figcaption><b>Dün ·</b> Arşivden, tarihsiz: “Anadolu · Volvo Yetkili” garajı ve bir Volvo TIR.</figcaption>
+      <div class="store">
+        <img class="store__photo" src="/general-assets/gorseller/arsiv-restore/arsiv-08-anadolu-volvo-yetkili-servis-cephe-tir-sb-restore-1600.webp" width="1600" height="1037" alt="Arşiv fotoğrafı: “Anadolu · Volvo Yetkili” tabelalı eski servis binası, açık garaj kapısı ve önünde bir Volvo TIR.">
+        <svg class="into" viewBox="0 0 1600 1037" preserveAspectRatio="none" aria-hidden="true"><path d="M502,1037 V640 M478,668 L502,640 L526,668"/></svg>
+        <img class="store__walls" src="/general-assets/gorseller/arsiv-restore/arsiv-08-anadolu-volvo-yetkili-servis-cephe-tir-sb-restore-1600.webp" width="1600" height="1037" alt="" aria-hidden="true">
+        <span class="door" data-door aria-hidden="true"></span>
+      </div>
+    </figure>
+
+    <address class="route">
+      <div class="route__head">
+        <div>
+          <h2 id="iletisim-baslik">Kapıya kadar yol kartı</h2>
+          <p>Etimesgut’ta, Şaşmaz Oto Sanayi Sitesi’nin içindeyiz. Gelmeden önce arayın; aracınız için yer ayıralım.</p>
+        </div>
+      </div>
+
+      <ol class="strip" aria-label="Adres, şehirden kapıya">
+        <li><b>Şehir</b><span>Ankara</span></li>
+        <li><b>İlçe</b><span>Etimesgut</span></li>
+        <li><b>Site</b><span>Şaşmaz Oto Sanayi Sitesi</span></li>
+        <li><b>Mahalle · Sokak</b><span>Bahçekapı Mah. 2547. Sokak</span></li>
+        <li><svg class="garage" viewBox="0 0 48 44" aria-hidden="true"><path d="M3 41V15L24 3l21 12v26z"/><path d="M13 41V22h22v19" fill="var(--navy)"/></svg><b>Kapı</b><span>No:3 · Volan</span></li>
+      </ol>
+
+      <dl class="dl">
+        <div><dt>Telefon</dt><dd><a href="tel:+905337653378">0533 765 33 78</a><br><a href="tel:+903122786990">0312 278 69 90</a></dd></div>
+        <div><dt>WhatsApp</dt><dd><a href="https://wa.me/905337653378">0533 765 33 78</a></dd><dt style="margin-top:18px">E-posta</dt><dd><a href="mailto:info@volan.com.tr">info@volan.com.tr</a></dd></div>
+        <div><dt>Çalışma saatleri</dt><dd>Hafta içi ve Cumartesi<br><span class="nowrap">08:30–18:00</span> · Pazar kapalı</dd>
+          <div class="now" data-now hidden><span class="stamp" aria-hidden="true"><span class="stamp__ink" data-now-ink>Şu an açık<small>18:00’e kadar</small></span></span><span class="visually-hidden" data-now-sr></span></div>
+        </div>
+        <div><dt>Instagram</dt><dd><a href="https://www.instagram.com/volanotomotiv">@volanotomotiv</a></dd></div>
+      </dl>
+
+      <nav class="stamps stamps--ink" aria-label="İletişim">
+        <a class="stamp-btn stamp-btn--primary" href="https://wa.me/905337653378?text=Merhaba%2C%20arac%C4%B1m%20i%C3%A7in%20randevu%20almak%20istiyorum.">Randevu al</a>
+        <a class="stamp-btn" href="tel:+905337653378">Ara</a>
+        <a class="stamp-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Volan%20Otomotiv%20Bah%C3%A7ekap%C4%B1%20Mah.%202547.%20Sokak%20No%3A3%20Etimesgut%20Ankara">Yol tarifi</a>
+      </nav>
+    </address>
+  </div>
+</section>
+</main>
+
+<footer class="colophon">
+  <img src="/gc-volan-1/brand/logo-horizontal.svg" alt="Volan Premium Car Service" width="120" height="36">
+  <div>
+    <p>© 2026 Volan Otomotiv · Bağımsız otomotiv servisi · Since 1954</p>
+    <p>3D modeller, uyarlanarak (<a href="https://creativecommons.org/licenses/by/4.0/deed.tr" rel="license">CC BY 4.0</a>): <a href="https://sketchfab.com/3d-models/mercedes-benz-c-class-2020-19d59344b7554e6ab614a6cc02e7ad0a">Mercedes-Benz C-Class 2020</a>, ItsDiyor · <a href="https://sketchfab.com/3d-models/volkswagen-golf-7-364f56c79e9a4bfbb0bfa981b9abb6a3">Volkswagen Golf 7</a>, Car2022</p>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const sec = document.querySelector('.sec'), svg = sec.querySelector('.road');
+  const mq = matchMedia('(max-width: 899px)');
+  const still = /[?&]shot/.test(location.search) || matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (still) document.documentElement.classList.add('still');
+  const box = el => { const a = el.getBoundingClientRect(), s = sec.getBoundingClientRect(); return { l: a.left - s.left, r: a.right - s.left, t: a.top - s.top, b: a.bottom - s.top }; };
+  function path(p, r) {
+    let d = 'M' + p[0];
+    for (let i = 1; i < p.length - 1; i++) {
+      const [a, b, c] = [p[i - 1], p[i], p[i + 1]];
+      const l1 = Math.hypot(b[0] - a[0], b[1] - a[1]), l2 = Math.hypot(c[0] - b[0], c[1] - b[1]), k = Math.min(r, l1 / 2, l2 / 2);
+      d += ` L${b[0] + (a[0] - b[0]) * k / l1},${b[1] + (a[1] - b[1]) * k / l1} Q${b} ${b[0] + (c[0] - b[0]) * k / l2},${b[1] + (c[1] - b[1]) * k / l2}`;
+    }
+    return d + ' L' + p[p.length - 1];
+  }
+  // Road: down the left lane under today's front, then curving right under the 1954 garage and up into its door.
+  function draw() {
+    const W = sec.clientWidth, H = sec.offsetHeight, m = mq.matches;
+    const x = m ? 36 : box(sec.querySelector('.inner')).l + 54;
+    const plate = box(sec.querySelector('.plate--store')), door = box(sec.querySelector('[data-door]'));
+    const turn = plate.b + (m ? 84 : 112);
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const d = path([[x, -80], [x, turn], [door.l, turn], [door.l, plate.b - 40]], m ? 56 : 120);
+    svg.querySelectorAll('path').forEach(p => p.setAttribute('d', d));
+  }
+  addEventListener('resize', draw); addEventListener('load', draw); draw();
+
+  // One interaction: a live stamp says whether the workshop is open right now (Ankara time).
+  const now = sec.querySelector('[data-now]'), ink = sec.querySelector('[data-now-ink]'), sr = sec.querySelector('[data-now-sr]');
+  const parts = Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Istanbul', weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(new Date()).map(p => [p.type, p.value]));
+  const day = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(parts.weekday), min = +parts.hour * 60 + +parts.minute;
+  const open = day !== 0 && min >= 510 && min < 1080;
+  let line;
+  if (open) line = '18:00’e kadar';
+  else if (day !== 0 && min < 510) line = 'Bugün 08:30’da';
+  else if (day === 6) line = 'Pazartesi 08:30’da';
+  else line = 'Yarın 08:30’da';
+  ink.innerHTML = (open ? 'Şu an açık' : 'Şu an kapalı') + '<small>' + line + '</small>';
+  sr.textContent = open ? 'Şu an açık, 18:00’e kadar.' : 'Şu an kapalı. Açılış: ' + line + '.';
+  now.hidden = false;
+  if (still) { now.classList.add('is-stamped'); return; }
+  new IntersectionObserver((es, io) => { if (es[0].isIntersecting) { setTimeout(() => now.classList.add('is-stamped'), 300); io.disconnect(); } }, { threshold: 1 }).observe(now);
+})();
+</script>
+</body>
+</html>

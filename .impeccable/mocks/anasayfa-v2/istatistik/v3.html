@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mock · istatistik · v3 Sayaç</title>
+<link rel="stylesheet" href="../_kit/kit.css">
+<style>
+  .road { overflow: hidden; }
+  .sec { position: relative; padding: 128px 0; }
+  .inner { grid-template-rows: auto auto auto; row-gap: 0; align-items: end; }
+
+  .head { grid-column: 1 / span 4; grid-row: 1; padding-bottom: 48px; }
+  .head h2 { color: var(--navy); font: 400 clamp(2.75rem, 4.2vw, 3.75rem)/1.02 var(--font-title); letter-spacing: -0.02em; }
+  .head p { margin-top: 20px; max-width: 30ch; }
+
+  /* The team stands on the meter */
+  .team { grid-column: 5 / span 6; grid-row: 1; position: relative; z-index: 3; margin: 0 -16px -6px 0; }
+  .team img { width: 100%; }
+  .team figcaption { position: absolute; right: 0; top: -28px; color: var(--ink-soft); font: 400 0.875rem/1.3 var(--font-typed); }
+
+  /* The meter: a navy board housing four digit drums */
+  .meter { grid-column: 1 / span 10; grid-row: 2; position: relative; z-index: 2; padding: 56px clamp(40px, 4.4vw, 64px) 52px; background: var(--navy); color: var(--stock); }
+  .meter::before, .meter::after { content: ""; position: absolute; pointer-events: none; }
+  .meter::before { inset: 16px; border: 2px solid var(--gold); }
+  .meter::after { inset: 23px; border: 1px solid rgba(133, 114, 68, 0.7); }
+  .meter__row { display: flex; align-items: stretch; gap: 14px; }
+  .drums { display: flex; gap: 10px; padding: 12px; background: var(--navy-deep); outline: 1.5px solid var(--gold); outline-offset: -1.5px; }
+  .drum { position: relative; width: clamp(96px, 12.2vw, 176px); height: clamp(136px, 16.6vw, 240px); overflow: hidden; background: var(--paper); }
+  .drum::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; border-top: 1px solid rgba(50, 50, 119, 0.18); }
+  .strip { display: block; transition: transform 900ms var(--ease-out); }
+  .strip span { display: grid; place-items: center; height: clamp(136px, 16.6vw, 240px); color: var(--navy); font: 700 clamp(5.5rem, 11.8vw, 11rem)/1 var(--font-typed); }
+  .drum.is-lead .strip span { color: #b9bdd3; }
+  .drum:nth-child(2) .strip { transition-delay: 70ms; } .drum:nth-child(3) .strip { transition-delay: 140ms; } .drum:nth-child(4) .strip { transition-delay: 210ms; }
+  .unit { display: grid; align-content: space-between; flex: 1; min-width: 0; padding: 14px 4px 6px 10px; border-left: 1px solid rgba(205, 181, 133, 0.45); }
+  .unit b { color: var(--gold-ink); font: 600 clamp(1.75rem, 3vw, 2.75rem)/1 var(--font-label); letter-spacing: 0.08em; text-transform: uppercase; }
+  .unit span { color: var(--gold-ink); font: 600 0.6875rem/1.2 var(--font-label); letter-spacing: 0.18em; text-transform: uppercase; }
+  .meter__read { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; margin-top: 28px; }
+  .meter__read h3 { margin: 0; color: var(--gold-ink); font: 400 clamp(1.75rem, 2.4vw, 2.25rem)/1.1 var(--font-title); }
+  .meter__read p { color: var(--stock); font: 400 1rem/1.5 var(--font-typed); text-align: right; }
+
+  /* The trip buttons: the readings, as a typed log */
+  .log { grid-column: 1 / span 10; grid-row: 3; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); margin: 0; padding: 0; border: 0; border-bottom: 2px solid var(--navy); }
+  .reading { position: relative; cursor: pointer; }
+  .reading input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+  .reading span { display: grid; gap: 8px; height: 100%; padding: 16px 14px 18px; border-right: 1px solid var(--rule-strong); color: var(--navy); transition: background-color 180ms var(--ease-out); }
+  .reading:last-child span { border-right: 0; }
+  .reading small { font: 600 0.6875rem/1.2 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; }
+  .reading b { font: 700 1.375rem/1 var(--font-typed); font-variant-numeric: tabular-nums; color: var(--ink); }
+  .reading:hover span { background: rgba(50, 50, 119, 0.07); }
+  .reading input:checked + span { background: var(--navy); color: var(--gold-ink); }
+  .reading input:checked + span b { color: var(--stock); }
+  .reading input:focus-visible + span { outline: 2px solid var(--navy); outline-offset: -4px; }
+
+  @media (max-width: 899px) {
+    .sec { padding: 96px 0; }
+    .inner { row-gap: 0; }
+    .head, .team, .meter, .log { grid-column: 1; grid-row: auto; }
+    .head { padding: 0 72px 40px 0; }
+    .head h2 { font-size: 2.5rem; }
+    .team { margin: 32px 24px -4px 0; }
+    .team figcaption { position: static; margin-bottom: 8px; }
+    .meter { margin-right: 0; padding: 36px 26px 32px; }
+    .meter::before { inset: 10px; } .meter::after { inset: 16px; }
+    .meter__row { flex-direction: column; gap: 12px; }
+    .drums { gap: 6px; padding: 8px; align-self: start; }
+    .drum { width: 64px; height: 92px; }
+    .strip span { height: 92px; font-size: 4rem; }
+    .unit { flex-direction: row; display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0 0; border-left: 0; border-top: 1px solid rgba(205, 181, 133, 0.45); }
+    .unit b { font-size: 1.5rem; }
+    .meter__read { flex-direction: column; gap: 6px; margin-top: 16px; }
+    .meter__read p { text-align: left; font-size: 0.9375rem; }
+    .log { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-right: 72px; }
+    .reading span { border-bottom: 1px solid var(--rule-strong); padding: 12px 10px 14px; }
+    .reading:nth-child(2n) span { border-right: 0; }
+  }
+</style>
+</head>
+<body>
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="ink" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="wobble"/>
+      <feDisplacementMap in="SourceGraphic" in2="wobble" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.7" numOctaves="2" seed="3" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.7 0 0 0 1.62" result="coverage"/>
+      <feComposite in="edge" in2="coverage" operator="in"/>
+    </filter>
+    <symbol id="tick" viewBox="0 0 32 32"><path d="M5 17.5l7.5 7.5L27.5 6" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <pattern id="road-net" width="64" height="8" patternUnits="userSpaceOnUse"><path d="M0,4 C10.7,-1.3 21.3,-1.3 32,4 S53.3,9.3 64,4 M0,4 C10.7,9.3 21.3,9.3 32,4 S53.3,-1.3 64,4" fill="none" stroke="#323277" stroke-opacity="0.16" stroke-width="0.7"/></pattern>
+  </defs>
+</svg>
+
+<section class="sec" data-sec aria-labelledby="ist-baslik">
+  <svg class="road" aria-hidden="true">
+    <path class="road__edge" data-road/><path class="road__bed" data-road/><path class="road__net" data-road/><path class="road__line" data-road/>
+  </svg>
+  <div class="inner">
+    <div class="head">
+      <h2 id="ist-baslik">Sayaç 1954’ten beri dönüyor</h2>
+      <p>Bir okuma seçin; sayaç o rakama döner. Lorem ipsum dolor sit amet.</p>
+    </div>
+
+    <figure class="team">
+      <figcaption>Ekibimizden bir bölümü</figcaption>
+      <img src="/general-assets/gorseller/kesik-ustalar/ekip-tum-kadro.webp" width="2620" height="1200" loading="lazy" alt="Volan ekibi yan yana ayakta duruyor.">
+    </figure>
+
+    <div class="meter" role="img" aria-labelledby="okuma" data-meter>
+      <div class="meter__row">
+        <div class="drums" aria-hidden="true">
+          <span class="drum"><span class="strip"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span>
+          <span class="drum"><span class="strip"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span>
+          <span class="drum"><span class="strip"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span>
+          <span class="drum"><span class="strip"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span>
+        </div>
+        <div class="unit" aria-hidden="true"><span>Birim</span><b data-unit>Yıl</b></div>
+      </div>
+      <div class="meter__read" id="okuma">
+        <h3 data-title>Kuruluş yılı</h3>
+        <p data-text>1954’te kuruldu.</p>
+      </div>
+    </div>
+
+    <fieldset class="log" data-log>
+      <legend class="visually-hidden">Okuma seçin</legend>
+      <label class="reading"><input type="radio" name="okuma" value="1954" data-unit="Yıl" data-title="Kuruluş yılı" data-text="1954’te kuruldu." checked><span><small>Kuruluş</small><b>1954</b></span></label>
+      <label class="reading"><input type="radio" name="okuma" value="70" data-unit="+ Yıl" data-title="Sektörde" data-text="70 yılı aşkın süredir."><span><small>Sektörde</small><b>70+</b></span></label>
+      <label class="reading"><input type="radio" name="okuma" value="1800" data-unit="m²" data-title="Tesis alanı" data-text="Etimesgut, Şaşmaz Oto Sanayi Sitesi."><span><small>Tesis alanı</small><b>1.800</b></span></label>
+      <label class="reading"><input type="radio" name="okuma" value="25" data-unit="Kişi" data-title="Çalışan" data-text="Toplam çalışan sayısı."><span><small>Çalışan</small><b>25</b></span></label>
+      <label class="reading"><input type="radio" name="okuma" value="5" data-unit="Lift" data-title="Lift" data-text="Toplam lift sayısı."><span><small>Lift</small><b>5</b></span></label>
+      <label class="reading"><input type="radio" name="okuma" value="3" data-unit="Marka" data-title="Marka" data-text="Volvo · Mercedes-Benz · Volkswagen"><span><small>Marka</small><b>3</b></span></label>
+      <label class="reading"><input type="radio" name="okuma" value="8" data-unit="Alan" data-title="Hizmet alanı" data-text="Bakımdan boyaya, tek noktada."><span><small>Hizmet alanı</small><b>8</b></span></label>
+    </fieldset>
+  </div>
+</section>
+
+<script>
+(() => {
+  const sec = document.querySelector('[data-sec]');
+  const svg = sec.querySelector('.road');
+  function draw() {
+    const W = sec.clientWidth, H = sec.clientHeight, narrow = W < 900;
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const il = sec.querySelector('.inner').getBoundingClientRect().left - sec.getBoundingClientRect().left;
+    const x = narrow ? W - 40 : W - il - 54;
+    svg.querySelectorAll('[data-road]').forEach((p) => p.setAttribute('d', `M${x},-200 V${H + 200}`));
+    document.documentElement.dataset.h = document.documentElement.scrollHeight;
+  }
+  new ResizeObserver(draw).observe(sec);
+  document.fonts.ready.then(draw);
+  draw();
+
+  // The one interaction: pick a reading, the drums roll to it.
+  const drums = [...sec.querySelectorAll('.drum')];
+  const meter = sec.querySelector('[data-meter]');
+  function set(input) {
+    const digits = input.value.padStart(4, '0');
+    let lead = true;
+    drums.forEach((d, i) => {
+      const n = +digits[i];
+      if (n !== 0 || i === 3) lead = false;
+      d.classList.toggle('is-lead', lead);
+      d.firstElementChild.style.transform = `translateY(${-n * 10}%)`;
+    });
+    meter.querySelector('[data-unit]').textContent = input.dataset.unit;
+    meter.querySelector('[data-title]').textContent = input.dataset.title;
+    meter.querySelector('[data-text]').textContent = input.dataset.text;
+    meter.setAttribute('aria-label', `${input.dataset.title}: ${input.closest('label').querySelector('b').textContent} ${input.dataset.unit}`);
+  }
+  // First reading is set without a roll, so the resting state is the visible one.
+  drums.forEach((d) => { d.firstElementChild.style.transition = 'none'; });
+  const r = new URLSearchParams(location.search).get('r');
+  const pre = r && sec.querySelector(`[data-log] input[value="${CSS.escape(r)}"]`);
+  if (pre) pre.checked = true;
+  set(sec.querySelector('[data-log] input:checked'));
+  requestAnimationFrame(() => requestAnimationFrame(() => drums.forEach((d) => { d.firstElementChild.style.transition = ''; })));
+  sec.querySelector('[data-log]').addEventListener('change', (e) => set(e.target));
+})();
+</script>
+</body>
+</html>

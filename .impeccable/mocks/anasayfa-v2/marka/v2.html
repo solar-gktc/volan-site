@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mock · marka · v2 Dosya ve iş emri</title>
+<link rel="stylesheet" href="../_kit/kit.css">
+<style>
+  .road { overflow: hidden; }
+  .sec { position: relative; padding: 128px 0 256px; }
+  .podium__glow { fill: url(#podium-glow); }
+  .podium__shadow { fill: url(#podium-shadow); }
+  .podium__side { fill: url(#podium-side); }
+  .podium__foil { fill: none; stroke: var(--gold-ink); stroke-width: 1.5; }
+  .podium__top { fill: var(--paper); stroke: var(--rule-strong); stroke-width: 1; }
+  .podium__ring { fill: none; stroke: var(--gold); stroke-width: 2; }
+  .podium__ring--fine { stroke-width: 1; stroke-opacity: 0.7; }
+  .arrow { fill: none; stroke: var(--stamp-ink); stroke-width: 3.4; stroke-linecap: round; stroke-linejoin: round; filter: url(#ink); opacity: 0.9; }
+
+  .inner { grid-template-rows: auto auto; row-gap: 0; align-items: start; }
+
+  .head { grid-column: 3 / span 5; grid-row: 1; padding: 0 0 160px; }
+  .head h2 { color: var(--navy); font: 400 clamp(2.75rem, 4.4vw, 4rem)/1 var(--font-title); letter-spacing: -0.02em; }
+  .head p { margin-top: 24px; max-width: 32ch; }
+
+  /* The brand file: a navy folder with three tabs */
+  .file { grid-column: 8 / span 5; grid-row: 1; position: relative; z-index: 2; }
+  .tabs { display: flex; gap: 6px; margin: 0; padding: 0 0 0 18px; border: 0; }
+  .tab { position: relative; cursor: pointer; }
+  .tab input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+  .tab span { display: block; padding: 12px 18px 10px; border: 1.5px solid var(--navy); border-bottom: 0; background: var(--stock-deep); color: var(--navy); font: 600 0.8125rem/1 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; transform: translateY(6px); transition: transform 180ms var(--ease-out), background-color 180ms var(--ease-out); }
+  .tab:hover span { transform: translateY(2px); }
+  .tab input:checked + span { background: var(--navy); color: var(--gold-ink); transform: none; }
+  .tab input:focus-visible + span { outline: 2px solid var(--navy); outline-offset: 3px; }
+  .file__body { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; padding: 40px 40px 36px; background: var(--navy); color: var(--stock); }
+  .file__body::before, .file__body::after { content: ""; position: absolute; pointer-events: none; }
+  .file__body::before { inset: 14px; border: 2px solid var(--gold); }
+  .file__body::after { inset: 21px; border: 1px solid rgba(133, 114, 68, 0.7); }
+  .sheet { grid-area: 1 / 1 / 2 / 3; display: grid; grid-template-columns: 1.15fr 1fr; gap: 0 20px; align-items: center; }
+  .sheet:not(.is-current) { visibility: hidden; }
+  .sheet img { width: 118%; max-width: none; margin: -24px 0 -24px -12%; aspect-ratio: 1; object-fit: contain; }
+  .sheet h3 { margin: 0; color: var(--gold-ink); font: 600 1.75rem/1.15 var(--font-title); }
+  .sheet p { margin-top: 12px; font-size: 1rem; line-height: 28px; }
+  .sheet .typed { display: block; margin-top: 16px; padding-top: 10px; border-top: 1px solid rgba(205, 181, 133, 0.5); color: var(--gold-ink); font-size: 0.875rem; line-height: 1.45; }
+
+  .bay { grid-column: 3 / span 4; grid-row: 2; aspect-ratio: 4 / 3; }
+
+  /* The promise: a carbon-copy work order in three parts */
+  .wo { grid-column: 8 / span 5; grid-row: 2; position: relative; margin-top: 96px; }
+  .wo__stack { position: relative; }
+  .wo__copy { position: absolute; inset: 0; background: var(--aged); box-shadow: 0 1px 1px rgba(43, 42, 41, 0.1), 0 10px 22px -10px rgba(43, 42, 41, 0.38); }
+  .wo__copy span { position: absolute; right: 14px; top: 8px; color: var(--ink-soft); font: 600 0.6875rem/1 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; }
+  .wo__copy--3 { transform: translate(28px, -40px) rotate(1.6deg); background: var(--aged); }
+  .wo__copy--2 { transform: translate(14px, -20px) rotate(0.8deg); background: #e3e7f1; }
+  .wo__sheet { position: relative; z-index: 1; padding: 22px 26px 30px; background: var(--paper); box-shadow: 0 1px 1px rgba(43, 42, 41, 0.1), 0 10px 22px -10px rgba(43, 42, 41, 0.38); }
+  .wo__top { display: grid; grid-template-columns: auto 1fr; align-items: end; gap: 6px 18px; padding-bottom: 14px; border-bottom: 2px solid var(--navy); }
+  .wo__top h3 { margin: 0; color: var(--navy); font: 600 1.875rem/1 var(--font-title); }
+  .wo__meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .wo__meta div { border-bottom: 1px solid var(--navy); padding-bottom: 2px; }
+  .wo__meta b { display: block; color: var(--navy); font: 600 0.625rem/1 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; }
+  .wo__meta i { display: block; height: 16px; }
+  .rows { margin: 0; padding: 0; list-style: none; }
+  .row { display: grid; grid-template-columns: 44px 1fr 92px; border-bottom: 1px solid var(--rule-strong); }
+  .row > * { padding: 14px 0 14px; }
+  .row__n { border-right: 1px solid var(--rule-strong); color: var(--navy); font: 400 2rem/1 var(--font-title); }
+  .row__b { padding-left: 14px; padding-right: 12px; }
+  .row__b b { display: block; color: var(--navy); font: 600 0.8125rem/1.2 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; }
+  .row__b p { margin-top: 4px; font-size: 0.9375rem; line-height: 24px; }
+  .carbon { display: block; margin-top: 6px; color: var(--stamp-ink); font: 400 1rem/1.3 var(--font-typed); filter: blur(0.35px); opacity: 0.88; }
+  .row__p { padding-left: 10px; border-left: 1px solid var(--rule-strong); }
+  .row__p b { display: block; color: var(--ink-soft); font: 600 0.625rem/1 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; }
+  .row__p .ini { display: block; margin-top: 8px; color: var(--stamp-ink); font: italic 400 1.375rem/1 var(--font-title); filter: url(#ink); }
+  .wo__sign { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 28px; }
+  .wo__sign div { padding-top: 34px; border-bottom: 1.5px solid var(--navy); }
+  .wo__sign span { display: block; margin-top: 6px; color: var(--navy); font: 600 0.6875rem/1.2 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; }
+  .wo .seal { width: 138px; height: 138px; left: 64px; bottom: -34px; transform: rotate(-14deg); opacity: 0.85; z-index: 2; }
+  .wo__note { margin-top: 64px; max-width: 40ch; color: var(--ink-soft); font: 400 0.9375rem/1.45 var(--font-typed); }
+
+  @media (max-width: 899px) {
+    .sec { padding: 96px 0 288px; }
+    .inner { row-gap: 56px; }
+    .head, .file, .wo { grid-column: 1; grid-row: auto; }
+    .head { padding: 0 0 0 72px; }
+    .head h2 { font-size: 2.5rem; }
+    .file { margin-left: 40px; }
+    .tabs { padding-left: 8px; gap: 4px; }
+    .tab span { padding: 10px 9px 8px; font-size: 0.6875rem; letter-spacing: 0.08em; }
+    .file__body { padding: 32px 28px 30px; }
+    .sheet { grid-template-columns: 1fr; }
+    .wo { margin: 40px 20px 0 56px; }
+    .row { grid-template-columns: 34px 1fr; }
+    .row__p { grid-column: 2; display: flex; align-items: baseline; gap: 12px; padding: 0 0 12px 14px; border-left: 0; }
+    .row__p .ini { margin: 0; }
+    .row > .row__b { padding-bottom: 6px; }
+    .wo__meta { grid-template-columns: 1fr 1fr; }
+    .wo__meta div:last-child { display: none; }
+    .wo__top { grid-template-columns: 1fr; }
+    .wo .seal { width: 108px; height: 108px; left: 40px; bottom: -30px; }
+    .sheet img { width: 80%; margin: -12px auto 0; }
+    .wo__note { padding-left: 24px; }
+    .bay { display: none; }
+  }
+</style>
+</head>
+<body>
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="ink" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="wobble"/>
+      <feDisplacementMap in="SourceGraphic" in2="wobble" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.7" numOctaves="2" seed="3" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.7 0 0 0 1.62" result="coverage"/>
+      <feComposite in="edge" in2="coverage" operator="in"/>
+    </filter>
+    <symbol id="seal" viewBox="0 0 200 200">
+      <path id="seal-arc" d="M100,100 m-70,0 a70,70 0 1,1 140,0 a70,70 0 1,1 -140,0" fill="none"/>
+      <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="5"/>
+      <circle cx="100" cy="100" r="85" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="100" cy="100" r="52" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text font-family="Archivo Narrow, sans-serif" font-weight="600" font-size="19" letter-spacing="3.2" fill="currentColor"><textPath href="#seal-arc" startOffset="0">VOLAN OTOMOTİV · ANKARA · VOLAN OTOMOTİV · ANKARA ·</textPath></text>
+      <text x="100" y="112" text-anchor="middle" font-family="Besley, serif" font-weight="600" font-size="34" fill="currentColor">1954</text>
+    </symbol>
+    <symbol id="tick" viewBox="0 0 32 32"><path d="M5 17.5l7.5 7.5L27.5 6" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <pattern id="road-net" width="64" height="8" patternUnits="userSpaceOnUse"><path d="M0,4 C10.7,-1.3 21.3,-1.3 32,4 S53.3,9.3 64,4 M0,4 C10.7,9.3 21.3,9.3 32,4 S53.3,-1.3 64,4" fill="none" stroke="#323277" stroke-opacity="0.16" stroke-width="0.7"/></pattern>
+    <radialGradient id="podium-glow"><stop offset="0" stop-color="#fbfbfd" stop-opacity="0.95"/><stop offset="1" stop-color="#fbfbfd" stop-opacity="0"/></radialGradient>
+    <radialGradient id="podium-shadow"><stop offset="0.55" stop-color="#27275f" stop-opacity="0.32"/><stop offset="1" stop-color="#27275f" stop-opacity="0"/></radialGradient>
+    <linearGradient id="podium-side"><stop offset="0" stop-color="#1d1d4a"/><stop offset="0.4" stop-color="#323277"/><stop offset="1" stop-color="#1d1d4a"/></linearGradient>
+  </defs>
+</svg>
+
+<section class="sec" data-sec aria-labelledby="marka-baslik">
+  <svg class="road" aria-hidden="true">
+    <path class="road__edge" data-road/><path class="road__bed" data-road/><path class="road__net" data-road/><path class="road__line" data-road/>
+    <g data-podium></g>
+    <g data-arrow></g>
+  </svg>
+  <div class="inner">
+    <div class="head">
+      <h2 id="marka-baslik">Üç marka, tek atölye</h2>
+      <p>Volvo’da derin bir geçmiş; Mercedes&#8209;Benz ve Volkswagen’de aynı özen. Lorem ipsum dolor sit amet.</p>
+    </div>
+
+    <div class="file">
+      <fieldset class="tabs" data-brands>
+        <legend class="visually-hidden">Marka seçin</legend>
+        <label class="tab"><input type="radio" name="marka" value="volvo" checked><span>Volvo</span></label>
+        <label class="tab"><input type="radio" name="marka" value="mercedes"><span>Mercedes-Benz</span></label>
+        <label class="tab"><input type="radio" name="marka" value="vw"><span>Volkswagen</span></label>
+      </fieldset>
+      <div class="file__body" aria-live="polite">
+        <div class="sheet is-current" data-note="volvo">
+          <img src="/general-assets/3d-parcalar/cikti/blueprint/motor-volvo-drive-e-cizgi.webp" width="2048" height="2048" alt="Volvo Drive-E tipi motorun çizgi çizimi.">
+          <div>
+            <h3>Volvo</h3>
+            <p>Uzun yıllar Volvo yetkili servisiydik. Lorem ipsum dolor sit amet, consectetur.</p>
+            <span class="typed">Drive-E tipi motor · 3B çizim</span>
+          </div>
+        </div>
+        <div class="sheet" data-note="mercedes">
+          <img src="/general-assets/3d-parcalar/cikti/blueprint/motor-mercedes-om654-cizgi.webp" width="2048" height="2048" alt="Mercedes-Benz OM654 tipi motorun çizgi çizimi." loading="lazy">
+          <div>
+            <h3>Mercedes-Benz</h3>
+            <p>Bakım, arıza tespiti ve onarım. Integer posuere erat a ante venenatis.</p>
+            <span class="typed">OM654 tipi motor · 3B çizim</span>
+          </div>
+        </div>
+        <div class="sheet" data-note="vw">
+          <img src="/general-assets/3d-parcalar/cikti/blueprint/motor-vw-ea888-tsi-cizgi.webp" width="2048" height="2048" alt="Volkswagen EA888 TSI tipi motorun çizgi çizimi." loading="lazy">
+          <div>
+            <h3>Volkswagen</h3>
+            <p>Bakım, arıza tespiti ve onarım. Donec sed odio dui, cras justo odio.</p>
+            <span class="typed">EA888 TSI tipi motor · 3B çizim</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bay" data-bay></div>
+
+    <article class="wo" data-box aria-labelledby="is-emri">
+      <div class="wo__stack">
+      <div class="wo__copy wo__copy--3" aria-hidden="true"><span>3. nüsha · atölye</span></div>
+      <div class="wo__copy wo__copy--2" aria-hidden="true"><span>2. nüsha · arşiv</span></div>
+      <div class="wo__sheet">
+        <div class="wo__top">
+          <h3 id="is-emri">İş emri</h3>
+          <div class="wo__meta" aria-hidden="true"><div><b>Plaka</b><i></i></div><div><b>Marka</b><i></i></div><div><b>Tarih</b><i></i></div></div>
+        </div>
+        <ol class="rows">
+          <li class="row">
+            <span class="row__n" aria-hidden="true">1</span>
+            <div class="row__b"><b>Ücretsiz tespit</b><p>Aracınızı inceler, sorunu buluruz.</p><span class="carbon">Tespit ücreti: alınmaz</span></div>
+            <div class="row__p" aria-hidden="true"><b>Paraf</b><span class="ini">V.O.</span></div>
+          </li>
+          <li class="row">
+            <span class="row__n" aria-hidden="true">2</span>
+            <div class="row__b"><b>Teklif</b><p>İşi ve tutarını önceden görürsünüz.</p><span class="carbon">Tutar: teklifte yazılır</span></div>
+            <div class="row__p" aria-hidden="true"><b>Paraf</b><span class="ini">V.O.</span></div>
+          </li>
+          <li class="row">
+            <span class="row__n" aria-hidden="true">3</span>
+            <div class="row__b"><b>Onayınızdan sonra işlem</b><p>Onayınız olmadan işe başlanmaz.</p><span class="carbon">İşleme başlama: onaydan sonra</span></div>
+            <div class="row__p" aria-hidden="true"><b>Paraf</b></div>
+          </li>
+        </ol>
+        <div class="wo__sign" aria-hidden="true">
+          <div><span>Servis danışmanı</span></div>
+          <div><span>Araç sahibi · onay</span></div>
+        </div>
+      </div>
+      <svg class="seal" aria-hidden="true"><use href="#seal"/></svg>
+      </div>
+      <p class="wo__note">Üç nüsha, tek söz: sizin imzanız olmadan iş başlamaz.</p>
+    </article>
+  </div>
+</section>
+
+<script>
+(() => {
+  const sec = document.querySelector('[data-sec]');
+  const svg = sec.querySelector('.road');
+  const bayEl = sec.querySelector('[data-bay]');
+  const boxEl = sec.querySelector('.wo__sheet');
+  const R0 = 2.75, RIM = 0.3, ELEV = 0.42;
+  function rounded(pts, r) {
+    let d = `M${pts[0][0]},${pts[0][1]}`;
+    for (let i = 1; i < pts.length - 1; i++) {
+      const [x0, y0] = pts[i - 1], [x, y] = pts[i], [x1, y1] = pts[i + 1];
+      const l0 = Math.hypot(x - x0, y - y0) || 1, l1 = Math.hypot(x1 - x, y1 - y) || 1;
+      const a = Math.min(r, l0 / 2), b = Math.min(r, l1 / 2);
+      d += ` L${x - (x - x0) / l0 * a},${y - (y - y0) / l0 * a} Q${x},${y} ${x + (x1 - x) / l1 * b},${y + (y1 - y) / l1 * b}`;
+    }
+    const l = pts[pts.length - 1];
+    return d + ` L${l[0]},${l[1]}`;
+  }
+  const rel = (el) => { const s = sec.getBoundingClientRect(), r = el.getBoundingClientRect(); return { l: r.left - s.left, t: r.top - s.top, r: r.right - s.left, b: r.bottom - s.top, w: r.width, h: r.height }; };
+  function draw() {
+    const W = sec.clientWidth, H = sec.clientHeight, narrow = W < 900;
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const inner = rel(sec.querySelector('.inner'));
+    const L = narrow ? 40 : inner.l + 54, Rl = W - L;
+    const podium = svg.querySelector('[data-podium]'), arrow = svg.querySelector('[data-arrow]');
+    let pts;
+    if (narrow || !bayEl.getClientRects().length) {
+      pts = [[L, 0], [L, H - 120], [Rl, H - 120], [Rl, H]];
+      podium.innerHTML = ''; arrow.innerHTML = '';
+    } else {
+      const bay = rel(bayEl), R = bay.w / 2, ry = R * Math.sin(ELEV), rim = RIM * Math.cos(ELEV) * R / R0;
+      const x = bay.l + R, y = bay.b - ry - rim - 8;
+      const yIn = bay.t - 40, yOut = H - 128;
+      pts = [[L, 0], [L, yIn], [x, yIn], [x, yOut], [Rl, yOut], [Rl, H]];
+      const e = ry / R;
+      const ring = (r) => `<ellipse class="podium__ring${r < R * 0.9 ? ' podium__ring--fine' : ''}" cx="${x}" cy="${y}" rx="${r}" ry="${r * e}"/>`;
+      podium.innerHTML = `<ellipse class="podium__glow" cx="${x}" cy="${y + rim}" rx="${R * 1.45}" ry="${ry * 1.9}"/>`
+        + `<ellipse class="podium__shadow" cx="${x}" cy="${y + rim + 4}" rx="${R * 1.06}" ry="${ry * 1.16}"/>`
+        + `<path class="podium__side" d="M${x - R},${y} V${y + rim} A${R},${ry} 0 0 0 ${x + R},${y + rim} V${y} Z"/>`
+        + `<path class="podium__foil" d="M${x - R},${y + rim * 0.55} A${R},${ry} 0 0 0 ${x + R},${y + rim * 0.55}"/>`
+        + `<ellipse class="podium__top" cx="${x}" cy="${y}" rx="${R}" ry="${ry}"/>` + ring(R * 0.9) + ring(R * 0.9 - 7);
+      const box = rel(boxEl);
+      const ax = x + R * 0.72, ay = y + ry + rim + 28, bx = box.l - 16, by = box.b - 70;
+      arrow.innerHTML = `<path class="arrow" d="M${ax},${ay} C${ax + 30},${ay + 60} ${bx - 90},${by + 30} ${bx},${by}"/>`
+        + `<path class="arrow" d="M${bx - 20},${by - 8} L${bx},${by} L${bx - 12},${by + 18}"/>`;
+    }
+    svg.querySelectorAll('[data-road]').forEach((p) => p.setAttribute('d', rounded(pts, narrow ? 60 : 90)));
+    document.documentElement.dataset.h = document.documentElement.scrollHeight;
+  }
+  sec.querySelector('[data-brands]').addEventListener('change', (ev) => {
+    sec.querySelectorAll('[data-note]').forEach((n) => n.classList.toggle('is-current', n.dataset.note === ev.target.value));
+  });
+  new ResizeObserver(draw).observe(sec);
+  document.fonts.ready.then(draw);
+  draw();
+})();
+</script>
+</body>
+</html>

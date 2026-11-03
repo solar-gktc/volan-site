@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Hizmetlerimiz · Kupon Sayfası</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Besley:wght@400;600&family=Archivo+Narrow:wght@500;600&family=Courier+Prime&display=swap&subset=latin-ext" rel="stylesheet">
+<style>
+:root{--navy:#323277;--navy-deep:#27275f;--gold:#857244;--gold-ink:#cdb585;--ink:#2b2a29;--ink-soft:#4d4c5c;--stock:#eef0f5;--stock-deep:#dde1ea;--rule:rgba(110,120,160,.22);--rule-strong:rgba(50,50,119,.32);--perf:rgba(50,50,119,.55);--stamp:#3b3f8f;--paper:#fbfbfd;
+  --serif:Besley,Georgia,serif;--label:"Archivo Narrow","Arial Narrow",sans-serif;--typed:"Courier Prime","Courier New",monospace;
+  --plate-shadow:0 1px 1px rgba(43,42,41,.1),0 10px 22px -10px rgba(43,42,41,.38)}
+*{box-sizing:border-box;margin:0}
+html,body{width:1440px;height:900px;overflow:hidden}
+body{position:relative;background:var(--stock) repeating-linear-gradient(to bottom,transparent 0 31px,var(--rule) 31px 32px);color:var(--ink);font:400 18px/32px var(--serif)}
+a{color:inherit;text-decoration:none}
+.defs{position:absolute;width:0;height:0}
+
+/* Navy cover, gold foil double rule */
+.cover{position:absolute;left:0;top:0;width:600px;height:736px;background:var(--navy);color:var(--stock);padding:72px 96px 64px;display:flex;flex-direction:column}
+.cover::before,.cover::after{content:"";position:absolute;pointer-events:none}
+.cover::before{inset:32px;border:2px solid var(--gold)}
+.cover::after{inset:39px;border:1px solid rgba(133,114,68,.7)}
+.cover img{width:200px}
+.cover h1{margin-top:auto;color:var(--gold-ink);font-weight:400;font-size:52px;line-height:1.04;letter-spacing:-.012em;max-width:420px}
+.cover p{margin-top:28px;max-width:380px;font-size:20px;line-height:1.42}
+.cover .typed{margin-top:40px;font:15px/1.4 var(--typed);color:var(--gold-ink)}
+
+/* The coupon sheet: one leaf, eight perforated coupons */
+.sheet{position:absolute;left:556px;top:36px;width:852px;height:684px;padding:22px 26px 26px;background:var(--paper);box-shadow:var(--plate-shadow);transform:rotate(-.7deg);z-index:3}
+.sheet header{display:flex;align-items:baseline;gap:24px;height:52px}
+.sheet h2{font:600 26px/1 var(--serif);color:var(--navy);letter-spacing:-.01em}
+.sheet header span{font:14px/1 var(--typed);color:var(--ink-soft)}
+.grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(4,1fr);height:584px;border:2px dotted var(--perf)}
+.c{display:grid;grid-template-columns:136px 1fr;border-right:2px dotted var(--perf);border-bottom:2px dotted var(--perf);transition:background-color 180ms ease-out}
+.c:nth-child(2n){border-right:0}.c:nth-child(n+7){border-bottom:0}
+.c:hover{background:rgba(50,50,119,.06)}
+.c:focus-visible{outline:2px solid var(--navy);outline-offset:-4px}
+.stub{background:var(--stock-deep);padding:14px 14px 12px 16px;border-right:2px dotted var(--perf);display:flex;flex-direction:column;justify-content:space-between}
+.no{font:400 38px/1 var(--typed);color:var(--navy)}
+.nm{font:600 12px/1.3 var(--label);letter-spacing:.12em;text-transform:uppercase;color:var(--navy)}
+.bd{padding:13px 16px 11px;display:flex;flex-direction:column;justify-content:space-between}
+.bd p{font:400 14.5px/20px var(--serif);color:var(--ink)}
+.bd small{display:flex;align-items:flex-end;justify-content:space-between;font:12px/1 var(--typed);color:var(--ink-soft)}
+.bd i{display:inline-flex;align-items:flex-end;width:64px;height:36px;padding:0 0 4px 5px;border:1.5px dashed var(--rule-strong);font:600 9px/1 var(--label);font-style:normal;letter-spacing:.14em;color:var(--navy)}
+
+/* Violet rubber stamp on the sheet */
+.stamp{position:absolute;right:34px;top:8px;padding:8px 16px 7px;border:3px solid var(--stamp);outline:1.5px solid var(--stamp);outline-offset:3px;color:var(--stamp);text-align:center;font:600 19px/1 var(--label);letter-spacing:.14em;text-transform:uppercase;transform:rotate(-6deg);mix-blend-mode:multiply;filter:url(#ink);opacity:.92}
+.stamp small{display:block;margin-top:5px;font-size:11px;letter-spacing:.22em}
+
+/* Coupon 01 at full size, peeking in */
+.full{position:absolute;left:96px;right:96px;top:768px;height:220px;display:grid;grid-template-columns:300px 1fr 500px;background:var(--paper);border:2px dotted var(--perf)}
+.full .stub{padding:18px 24px;justify-content:flex-start;gap:14px}
+.full .head{display:flex;align-items:center;gap:16px}
+.full .no{font-size:44px}
+.full .nm{font-size:13px;letter-spacing:.14em}
+.btn{align-self:flex-start;display:inline-flex;align-items:center;min-height:48px;padding:0 18px;border:4px double var(--stock);background:var(--navy);color:var(--stock);font:600 15px/1 var(--label);letter-spacing:.12em;text-transform:uppercase;transform:rotate(-1.2deg);transition:transform 180ms ease-out,background-color 180ms ease-out}
+.btn:hover{transform:rotate(0) translateY(-1px);background:var(--navy-deep)}
+.btn:focus-visible{outline:2px solid var(--navy);outline-offset:5px}
+.full .txt{padding:22px 40px}
+.full h2{font:600 40px/48px var(--serif);color:var(--navy);letter-spacing:-.01em}
+.full .txt p{margin-top:8px;max-width:30em}
+.plate{position:absolute;right:28px;top:-34px;width:440px;padding:10px;background:var(--paper);box-shadow:var(--plate-shadow);transform:rotate(1.1deg)}
+.plate figcaption{font:14px/1.4 var(--typed);color:var(--ink-soft);padding:0 2px 8px}
+.plate img{display:block;width:100%;height:auto}
+</style>
+</head>
+<body>
+<svg class="defs" aria-hidden="true" focusable="false"><defs>
+  <filter id="ink" x="-8%" y="-8%" width="116%" height="116%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="wobble"/>
+    <feDisplacementMap in="SourceGraphic" in2="wobble" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.05 0.7" numOctaves="2" seed="3" result="grain"/>
+    <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.7 0 0 0 1.62" result="coverage"/>
+    <feComposite in="edge" in2="coverage" operator="in"/>
+  </filter>
+</defs></svg>
+
+<header class="cover">
+  <img src="../../../../assets/img/logo-oval.svg" alt="Volan Otomotiv">
+  <h1>Aracınızın tüm ihtiyaçları için tek noktadan çözüm</h1>
+  <p>Bakımdan boyaya sekiz hizmet, tek bir kupon sayfasında. İhtiyacınız olan kuponu seçin, randevuyu onunla alın.</p>
+  <div class="typed">Volvo · Mercedes · Volkswagen — Ankara</div>
+</header>
+
+<main>
+<section class="sheet" aria-labelledby="sheet-title">
+  <header><h2 id="sheet-title">Servis kuponları</h2><span>Kupon sayfası · 01–08</span></header>
+  <div class="stamp" aria-hidden="true">Tek nokta<small>8 hizmet · Ankara</small></div>
+  <nav class="grid" aria-label="Hizmetler">
+    <a class="c" href="#kupon-01"><span class="stub"><span class="no">01</span><span class="nm">Bakım &amp; Onarım</span></span><span class="bd"><p>Yıllık ve kilometre bakımları; orijinal ya da 1. sınıf muadil parça.</p><small>Tarih ...... Km ......<i>KAŞE</i></small></span></a>
+    <a class="c" href="#kupon-02"><span class="stub"><span class="no">02</span><span class="nm">Yedek Parça</span></span><span class="bd"><p>Orijinal ve 1. sınıf muadil parça temini.</p><small>Tarih ...... Km ......<i>KAŞE</i></small></span></a>
+    <a class="c" href="#kupon-03"><span class="stub"><span class="no">03</span><span class="nm">Araç Arıza Tespiti</span></span><span class="bd"><p>Güncel cihazlarla bilgisayarlı arıza tespiti.</p><small>Tarih ...... Km ......<i>KAŞE</i></small></span></a>
+    <a class="c" href="#kupon-04"><span class="stub"><span class="no">04</span><span class="nm">Sigorta / Kasko Onarım İşlemleri</span></span><span class="bd"><p>Hasar ihbarından teslimata kadar süreci biz takip ederiz.</p><small>Tarih ...... Km ......<i>KAŞE</i></small></span></a>
+    <a class="c" href="#kupon-05"><span class="stub"><span class="no">05</span><span class="nm">Elektronik Sistem Onarımları</span></span><span class="bd"><p>Elektrik ve elektronik arızaların tespiti ve onarımı.</p><small>Tarih ...... Km ......<i>KAŞE</i></small></span></a>
+    <a class="c" href="#kupon-06"><span class="stub"><span class="no">06</span><span class="nm">Kaporta</span></span><span class="bd"><p>Hasar onarımı ve mini onarım.</p><small>Tarih ...... Km ......<i>KAŞE</i></small></span></a>
+    <a class="c" href="#kupon-07"><span class="stub"><span class="no">07</span><span class="nm">Boya</span></span><span class="bd"><p>Boya fırınında, aracınızın orijinal rengine uygun boya.</p><small>Tarih ...... Km ......<i>KAŞE</i></small></span></a>
+    <a class="c" href="#kupon-08"><span class="stub"><span class="no">08</span><span class="nm">Mekanik Onarım</span></span><span class="bd"><p>Arıza tespitinden parça onarımına mekanik işler.</p><small>Tarih ...... Km ......<i>KAŞE</i></small></span></a>
+  </nav>
+</section>
+
+<article class="full" id="kupon-01" aria-labelledby="k01-title">
+  <div class="stub">
+    <div class="head"><span class="no">01</span><span class="nm">Bakım &amp; Onarım</span></div>
+    <a class="btn" href="#randevu">Bu kuponla randevu al</a>
+  </div>
+  <div class="txt">
+    <h2 id="k01-title">Bakım &amp; Onarım</h2>
+    <p>Yıllık ve kilometre bakımları; orijinal ya da 1. sınıf muadil parça.</p>
+  </div>
+  <figure class="plate">
+    <figcaption>Lifte alınmış Volvo, bakım sırasında.</figcaption>
+    <img src="../../../../assets/img/hizmet-bakim-onarim.webp" alt="Servis liftinde bakımı yapılan bir Volvo">
+  </figure>
+</article>
+</main>
+</body>
+</html>

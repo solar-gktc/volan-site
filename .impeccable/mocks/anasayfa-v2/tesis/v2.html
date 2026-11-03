@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mock · Tesis · v2 Canlı model</title>
+<link rel="stylesheet" href="../_kit/kit.css">
+<script type="importmap">{"imports":{"three":"/gc-volan-1/assets/vendor/three.bundle.min.js"}}</script>
+<style>
+  .sec { overflow: clip; }
+  @media (max-width: 899px) { .sec { --road-width: 56px; } }
+
+  .inner { grid-template-rows: auto 1fr; }
+  .intro { grid-column: 1 / span 4; grid-row: 1; }
+  .intro h2 { color: var(--navy); font: 600 2.5rem/48px var(--font-title); letter-spacing: -0.01em; }
+  .intro p { margin-top: 20px; max-width: 34ch; }
+
+  /* The route: a work-order checklist. Each stop you open gets ticked. */
+  .route { grid-column: 1 / span 4; grid-row: 2; align-self: start; margin-top: 40px; border-top: 2px solid var(--rule-strong); }
+  .route__floor { display: flex; justify-content: space-between; padding: 18px 0 6px; color: var(--navy); font: 600 0.75rem/1.2 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; }
+  .route__floor span { color: var(--ink-soft); font: 400 0.8125rem/1 var(--font-typed); letter-spacing: 0; text-transform: none; }
+  .route ul { list-style: none; margin: 0; padding: 0; }
+  .stop { appearance: none; width: 100%; display: grid; grid-template-columns: 18px 26px 1fr; align-items: center; gap: 12px; padding: 8px 6px 8px 2px; background: none; border: 0; border-bottom: 1px solid rgba(110, 120, 160, 0.22); color: var(--ink); text-align: left; font: 400 1.0625rem/1.3 var(--font-title); cursor: pointer; transition: background-color 160ms var(--ease-out); }
+  .stop:hover { background: rgba(50, 50, 119, 0.05); }
+  .stop b { color: var(--navy); font: 700 0.875rem/1 var(--font-typed); text-align: center; }
+  .stop[aria-pressed="true"] { color: var(--navy); font-weight: 600; }
+  .stop[aria-pressed="true"] b { background: var(--navy); color: var(--stock); padding: 5px 0; }
+  .stop:disabled { cursor: default; color: var(--ink-soft); }
+
+  /* The model plate */
+  .model { grid-column: 5 / span 8; grid-row: 1 / span 2; align-self: start; margin-top: 8px; transform: rotate(0.8deg); }
+  .model__cap { display: flex; justify-content: space-between; gap: 16px; color: var(--ink-soft); font: 400 0.9375rem/1.4 var(--font-typed); padding: 2px 4px 10px; }
+  .model__stage { position: relative; aspect-ratio: 16 / 11; overflow: hidden; background: var(--paper); border: 1px solid rgba(110, 120, 160, 0.22); }
+  .model__poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 52%; transition: opacity 600ms var(--ease-out); }
+  .is-live .model__poster { opacity: 0; pointer-events: none; }
+  .fm-canvas { position: absolute; inset: 0; width: 100% !important; height: 100% !important; touch-action: pan-y; cursor: grab; }
+  .fm-canvas:active { cursor: grabbing; }
+  [data-fm-pins] { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+  .fm-pin { position: absolute; left: 0; top: 0; pointer-events: auto; display: flex; align-items: center; gap: 0; margin: -15px 0 0 -15px; padding: 0; border: 0; background: none; cursor: pointer; }
+  .fm-pin[hidden] { display: none; }
+  .fm-pin__no { display: grid; place-items: center; width: 30px; height: 30px; background: var(--navy); color: var(--stock); border: 2px solid var(--paper); outline: 1.5px solid var(--navy); font: 700 0.9375rem/1 var(--font-typed); }
+  .fm-pin__label { max-width: 0; overflow: hidden; white-space: nowrap; background: var(--paper); color: var(--navy); font: 600 0.75rem/30px var(--font-label); letter-spacing: 0.12em; text-transform: uppercase; transition: max-width 240ms var(--ease-out), padding 240ms var(--ease-out); outline: 1.5px solid var(--navy); }
+  .fm-pin:hover .fm-pin__label, .fm-pin:focus-visible .fm-pin__label, .fm-pin[aria-pressed="true"] .fm-pin__label { max-width: 220px; padding: 0 10px; }
+  .fm-pin[aria-pressed="true"] .fm-pin__no { background: var(--stamp-ink); }
+
+  .model__foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 4px 4px; }
+  .model__foot p { color: var(--ink-soft); font: 400 0.875rem/1.4 var(--font-typed); }
+  .reset { appearance: none; min-height: 40px; padding: 0 14px; border: 4px double var(--navy); background: none; color: var(--navy); font: 600 0.8125rem/1 var(--font-label); letter-spacing: 0.12em; text-transform: uppercase; transform: rotate(-0.8deg); cursor: pointer; transition: transform 180ms var(--ease-out), background-color 180ms var(--ease-out); }
+  .reset:hover { transform: none; background: rgba(50, 50, 119, 0.07); }
+
+  /* The slip: a note clipped to the plate, naming the open zone */
+  .slip { position: absolute; left: -12px; bottom: 76px; z-index: 3; width: 290px; padding: 16px 18px 18px; background: var(--stock); border: 1.5px solid var(--navy); transform: rotate(-2deg); }
+  .slip__label { color: var(--navy); font: 600 0.75rem/1.2 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; }
+  .slip h3 { margin: 6px 0 4px; color: var(--navy); font: 600 1.375rem/1.2 var(--font-title); }
+  .slip p { color: var(--ink); font: 400 0.9375rem/1.45 var(--font-text); }
+  .slip__facts { margin-top: 10px; padding-top: 8px; border-top: 1px dashed var(--rule-strong); color: var(--ink-soft); font: 400 0.875rem/1.5 var(--font-typed); }
+
+  @media (max-width: 899px) {
+    .inner { padding-right: 52px; grid-template-rows: none; row-gap: 40px; }
+    .intro, .route, .model { grid-column: 1; grid-row: auto; }
+    .intro h2 { font-size: 1.75rem; line-height: 32px; }
+    .route { margin-top: 0; }
+    .model { margin-right: -36px; transform: none; }
+    .model__stage { aspect-ratio: 1 / 1; }
+    .model__cap span:last-child { display: none; }
+    .slip { position: relative; left: auto; bottom: auto; width: auto; margin: 12px 8px 4px; transform: rotate(-1deg); }
+    .fm-pin:hover .fm-pin__label { max-width: 0; padding: 0; }
+    .fm-pin[aria-pressed="true"] .fm-pin__label { max-width: 200px; padding: 0 8px; }
+  }
+</style>
+</head>
+<body>
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="ink" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="wobble"/>
+      <feDisplacementMap in="SourceGraphic" in2="wobble" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.7" numOctaves="2" seed="3" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.7 0 0 0 1.62" result="coverage"/>
+      <feComposite in="edge" in2="coverage" operator="in"/>
+    </filter>
+    <symbol id="seal" viewBox="0 0 200 200">
+      <path id="seal-arc" d="M100,100 m-70,0 a70,70 0 1,1 140,0 a70,70 0 1,1 -140,0" fill="none"/>
+      <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="5"/>
+      <circle cx="100" cy="100" r="85" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="100" cy="100" r="52" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text font-family="Archivo Narrow, sans-serif" font-weight="600" font-size="19" letter-spacing="3.2" fill="currentColor"><textPath href="#seal-arc" startOffset="0">VOLAN OTOMOTİV · ANKARA · VOLAN OTOMOTİV · ANKARA ·</textPath></text>
+      <text x="100" y="112" text-anchor="middle" font-family="Besley, serif" font-weight="600" font-size="34" fill="currentColor">1954</text>
+    </symbol>
+    <symbol id="tick" viewBox="0 0 32 32"><path d="M5 17.5l7.5 7.5L27.5 6" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <pattern id="road-net" width="64" height="8" patternUnits="userSpaceOnUse"><path d="M0,4 C10.7,-1.3 21.3,-1.3 32,4 S53.3,9.3 64,4 M0,4 C10.7,9.3 21.3,9.3 32,4 S53.3,-1.3 64,4" fill="none" stroke="#323277" stroke-opacity="0.16" stroke-width="0.7"/></pattern>
+  </defs>
+</svg>
+
+<section class="sec" data-road="right-cross" style="position:relative; padding:128px 0 160px;" aria-labelledby="tesis-h">
+  <svg class="road" aria-hidden="true" preserveAspectRatio="none">
+    <path class="road__edge"/><path class="road__bed"/><path class="road__net"/><path class="road__line"/>
+  </svg>
+  <div class="inner">
+    <div class="intro">
+      <h2 id="tesis-h">Tesisi gezin</h2>
+      <p>Aracınızın uğradığı her bölüm bu binada. Bir bölüm seçin, model oraya dönsün.</p>
+    </div>
+
+    <figure class="plate model" data-fm>
+      <figcaption class="model__cap"><span>Volan Otomotiv · tesis kesiti</span><span>Ölçüler yaklaşık</span></figcaption>
+      <div class="model__stage" data-fm-stage>
+        <img class="model__poster" src="/facility-modelling/assets/renders/exploded.jpg" alt="Volan tesisinin katları ayrılmış çizimi: üstte bekleme salonu ve ofisler, ortada ana kat atölyeleri, altta kaporta ve boya katı." width="1600" height="1000">
+        <div data-fm-pins></div>
+      </div>
+      <div class="model__foot">
+        <p data-fm-status>Model, bölüm ekrana yaklaşınca yüklenir.</p>
+        <button class="reset" type="button" data-reset>Bütün bina</button>
+      </div>
+      <div class="slip" aria-live="polite">
+        <div class="slip__label" data-slip-label>Bütün tesis</div>
+        <h3 data-slip-title>Bir adreste üç kat</h3>
+        <p data-slip-text>Atölyeler ana katta, kaporta ve boya alt katta, bekleme salonu üstte.</p>
+        <div class="slip__facts">1.800 m² · 5 lift · 25 çalışan</div>
+      </div>
+    </figure>
+
+    <nav class="route" aria-label="Tesis bölümleri">
+      <div class="route__floor">Üst kat <span>merdivenle</span></div>
+      <ul><li><button class="stop" type="button" data-zone="lounge" aria-pressed="false"><span class="tickbox"><svg class="tick"><use href="#tick"/></svg></span><b>7</b>Bekleme salonu</button></li></ul>
+      <div class="route__floor">Ana kat <span>cepheden giriş</span></div>
+      <ul>
+        <li><button class="stop" type="button" data-zone="detailing" aria-pressed="false"><span class="tickbox"><svg class="tick"><use href="#tick"/></svg></span><b>1</b>Oto kuaför</button></li>
+        <li><button class="stop" type="button" data-zone="mechanics1" aria-pressed="false"><span class="tickbox"><svg class="tick"><use href="#tick"/></svg></span><b>2</b>Mekanik 1</button></li>
+        <li><button class="stop" type="button" data-zone="office" aria-pressed="false"><span class="tickbox"><svg class="tick"><use href="#tick"/></svg></span><b>3</b>Giriş ve ofis</button></li>
+        <li><button class="stop" type="button" data-zone="mechanics2" aria-pressed="false"><span class="tickbox"><svg class="tick"><use href="#tick"/></svg></span><b>4</b>Mekanik 2</button></li>
+      </ul>
+      <div class="route__floor">Alt kat <span>rampayla</span></div>
+      <ul>
+        <li><button class="stop" type="button" data-zone="bodyshop" aria-pressed="false"><span class="tickbox"><svg class="tick"><use href="#tick"/></svg></span><b>5</b>Kaporta / boya</button></li>
+        <li><button class="stop" type="button" data-zone="oven" aria-pressed="false"><span class="tickbox"><svg class="tick"><use href="#tick"/></svg></span><b>6</b>Boya fırını</button></li>
+      </ul>
+    </nav>
+  </div>
+</section>
+
+<script>
+// Road: right lane, starting the crossing to the left at the foot of the section.
+(() => {
+  const sec = document.querySelector('[data-road]');
+  const svg = sec.querySelector('.road');
+  const paths = [...svg.querySelectorAll('path')];
+  const rounded = (pts, r) => {
+    let d = `M${pts[0].x},${pts[0].y}`;
+    for (let i = 1; i < pts.length - 1; i++) {
+      const p = pts[i - 1], c = pts[i], n = pts[i + 1];
+      const l1 = Math.hypot(c.x - p.x, c.y - p.y), l2 = Math.hypot(n.x - c.x, n.y - c.y);
+      const k = Math.min(r, l1 / 2, l2 / 2);
+      d += ` L${c.x + (p.x - c.x) * k / l1},${c.y + (p.y - c.y) * k / l1} Q${c.x},${c.y} ${c.x + (n.x - c.x) * k / l2},${c.y + (n.y - c.y) * k / l2}`;
+    }
+    const z = pts[pts.length - 1];
+    return `${d} L${z.x},${z.y}`;
+  };
+  const draw = () => {
+    const W = sec.clientWidth, H = sec.offsetHeight, narrow = W < 900;
+    const gutter = Math.min(96, Math.max(20, W * 0.066));
+    const inset = narrow ? 36 : Math.max(26, (W - Math.min(1248, W - 2 * gutter)) / 2 * 0.8);
+    const L = inset, R = W - inset, drop = narrow ? 24 : 36, rad = narrow ? 72 : Math.min(150, W * 0.1);
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const d = rounded([{ x: R, y: -10 }, { x: R, y: H - drop }, { x: L, y: H + drop }, { x: L, y: H + 400 }], rad);
+    paths.forEach((p) => p.setAttribute('d', d));
+  };
+  draw();
+  new ResizeObserver(draw).observe(sec);
+})();
+</script>
+<script type="module">
+import { mountFacility, ZONES } from './tesis-model.js';
+const root = document.querySelector('[data-fm]');
+const stops = [...document.querySelectorAll('.stop')];
+const $ = (s) => document.querySelector(s);
+const show = (z) => {
+  stops.forEach((b) => {
+    b.setAttribute('aria-pressed', String(b.dataset.zone === z));
+    if (b.dataset.zone === z) b.classList.add('is-stamped');
+  });
+  const info = z && ZONES[z];
+  $('[data-slip-label]').textContent = info ? `${info.no} · ${info.floor}` : 'Bütün tesis';
+  $('[data-slip-title]').textContent = info ? info.title : 'Bir adreste üç kat';
+  $('[data-slip-text]').textContent = info ? info.text : 'Atölyeler ana katta, kaporta ve boya alt katta, bekleme salonu üstte.';
+};
+const fm = mountFacility(root, { onSelect: show, exploded: true, theta: 34, phi: 58, margin: 1.04 });
+stops.forEach((b) => b.addEventListener('click', () => {
+  if (fm.ready) fm.select(b.dataset.zone); else show(b.dataset.zone);
+  // On phones the list sits under the plate: bring the plate back into view.
+  if (innerWidth < 900) root.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+}));
+$('[data-reset]').addEventListener('click', () => (fm.ready ? fm.reset() : show(null)));
+</script>
+</body>
+</html>

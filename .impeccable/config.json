@@ -1,0 +1,177 @@
+{
+  "hook": {
+    "enabled": true,
+    "limits": {
+      "maxFindings": 5,
+      "maxChars": 8000
+    }
+  },
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "repeating-stripes-gradient",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-10-20T09:43:35.354Z",
+        "reason": "Agent: the ruled card stock is the Service Booklet world's ground, chosen by the user on the direction page"
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-10-20T09:50:07.291Z",
+        "reason": "Agent: static-file scan reads 1.26x from unresolved custom properties; rendered scans at 1280x800 and 390x844 report no tight-leading"
+      },
+      {
+        "rule": "content-hidden-at-rest",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-10-20T10:44:58.856Z",
+        "reason": "Agent: the hidden text is the inactive notes of the service list and the warning-lamp panel (user asked for click-to-change content); each note is stacked in one cell so a pick never changes page height"
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/hizmetler/cizelge.html"
+        ],
+        "createdAt": "2026-10-31T22:50:20.055Z",
+        "reason": "Agent: throwaway first-viewport decision sketch, drawn as a skeleton on the decision page; not shipping UI"
+      },
+      {
+        "rule": "undersized-ui-text",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/hizmetler/cizelge.html"
+        ],
+        "createdAt": "2026-10-31T22:50:20.065Z",
+        "reason": "Agent: throwaway first-viewport decision sketch, drawn as a skeleton on the decision page; not shipping UI"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/hizmetler/is-emri.html"
+        ],
+        "createdAt": "2026-10-31T22:50:20.073Z",
+        "reason": "Agent: throwaway first-viewport decision sketch, drawn as a skeleton on the decision page; not shipping UI"
+      },
+      {
+        "rule": "undersized-ui-text",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/hizmetler/kupon.html"
+        ],
+        "createdAt": "2026-10-31T22:50:38.912Z",
+        "reason": "Agent: throwaway first-viewport decision sketch, drawn as a skeleton on the decision page; not shipping UI"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "hakkimizda.html"
+        ],
+        "createdAt": "2026-10-31T23:06:31.615Z",
+        "reason": "Agent: rendered check at 390/1280/1440/1920 — flagged boxes are full-bleed page sections (.sayfa, .cover) whose content is inset by --gutter, the rail's decorative ruler, and the homepage's shared .stamp-box field; no text touches an edge"
+      },
+      {
+        "rule": "oversized-h1",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/hizmetler-v2/cumle.html"
+        ],
+        "createdAt": "2026-11-01T00:23:54.887Z",
+        "reason": "Agent: throwaway decision sketch; the poster-scale headline is the structure being compared, and the build will size it per the chosen card"
+      },
+      {
+        "rule": "oversized-h1",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/hizmetler-v2/bolumler.html"
+        ],
+        "createdAt": "2026-11-01T00:23:54.896Z",
+        "reason": "Agent: throwaway decision sketch; the poster-scale headline is the structure being compared, and the build will size it per the chosen card"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "yakinda.html"
+        ],
+        "createdAt": "2026-11-01T00:26:21.138Z",
+        "reason": "Agent: rendered check 1440/390 — flags are the menu bar (tabs stand on its bottom edge by design), hidden dropdown cards (22px inset when open) and the shared .stamp-box field; no text touches an edge"
+      },
+      {
+        "rule": "dark-glow",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/hizmetler-v2/cumle.html"
+        ],
+        "createdAt": "2026-11-01T00:41:38.483Z",
+        "reason": "Agent: throwaway decision sketch; the flagged shadow is the DESIGN.md plate-on-paper shadow (near-black ink, offset 10px) on plates lying across the navy cover"
+      },
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/miras-muhur.html"
+        ],
+        "createdAt": "2026-11-02T20:39:36.443Z",
+        "reason": "Agent: throwaway decision sketch; static scan reads SVG textPath fill as #000000, rendered fill is gold-ink #cdb585 (5.7:1 on navy) set by CSS class"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/miras-dun-bugun.html"
+        ],
+        "createdAt": "2026-11-02T20:59:30.220Z",
+        "reason": "Agent: throwaway first-viewport decision sketch, drawn as a skeleton on the decision page; not shipping UI"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/miras-muhur.html"
+        ],
+        "createdAt": "2026-11-02T20:59:30.230Z",
+        "reason": "Agent: throwaway first-viewport decision sketch, drawn as a skeleton on the decision page; not shipping UI"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/miras-yol.html"
+        ],
+        "createdAt": "2026-11-02T20:59:30.239Z",
+        "reason": "Agent: throwaway first-viewport decision sketch, drawn as a skeleton on the decision page; not shipping UI"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "narrow",
+        "createdAt": "2026-11-02T23:13:34.350Z",
+        "reason": "Claude: fragments of 'Archivo Narrow' and 'Courier Prime', both declared in DESIGN.md typography; detector split the quoted family names"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "prime",
+        "createdAt": "2026-11-02T23:13:34.361Z",
+        "reason": "Claude: fragments of 'Archivo Narrow' and 'Courier Prime', both declared in DESIGN.md typography; detector split the quoted family names"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "prime\",monospace",
+        "createdAt": "2026-11-02T23:13:34.371Z",
+        "reason": "Claude: fragments of 'Archivo Narrow' and 'Courier Prime', both declared in DESIGN.md typography; detector split the quoted family names"
+      }
+    ]
+  }
+}

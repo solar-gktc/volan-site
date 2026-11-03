@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><title>A · Cephe açılır</title><link rel="stylesheet" href="sketch.css">
+<style>
+body{height:1800px}
+.f1{position:relative;height:828px;overflow:hidden}
+.f1 > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%}
+.f1 .cover{position:absolute;left:0;bottom:0;width:640px;background:var(--navy);padding:48px 56px 56px;outline:2px solid var(--gold);outline-offset:-14px}
+.f1 .cover .btns{display:flex;gap:16px;margin-top:32px}
+.f1 .hint{position:absolute;right:56px;bottom:40px;background:var(--paper);padding:10px 16px;box-shadow:var(--shadow);font:15px/1.4 var(--typed);color:var(--navy);transform:rotate(1deg)}
+.step{height:72px;display:flex;align-items:center;justify-content:center;background:var(--ink);color:var(--stock);font:14px var(--typed);letter-spacing:.04em}
+.f2{position:relative;height:828px;overflow:hidden}
+.f2 .stagehead{position:absolute;left:96px;top:64px;width:420px;z-index:2}
+.f2 .m{position:absolute;left:200px;top:150px;width:1000px}
+.units{position:absolute;left:96px;right:96px;bottom:40px;display:flex;border:4px double var(--navy);background:var(--stock);z-index:4}
+.units span{flex:1;height:52px;line-height:44px;text-align:center;font:var(--label);letter-spacing:.14em;line-height:44px;text-transform:uppercase;color:var(--navy);border-right:1px solid var(--rule-s)}
+.units span:last-child{border:0}.units span.on{background:var(--navy);color:var(--gold-ink)}
+</style></head><body>
+<div class="band"><span class="logo"></span>Ana Sayfa<span>Hakkımızda</span><span>Hizmetlerimiz</span><span>Haberler</span><b>Tesisimiz</b><span style="margin-left:auto">İletişim</span></div>
+<section class="f1">
+<img src="../../../../assets/img/tesis-cephe.webp" alt="">
+<div class="cover"><h1>Tesisimiz</h1><p class="lead" style="margin-top:20px">Şaşmaz Oto Sanayi Sitesi'ndeki binamız: üç kat, altı bölüm. Aşağı kaydırın, cephe açılsın.</p>
+<div class="btns"><span class="btn p">Binayı gez</span><span class="btn">Randevu al</span></div></div>
+<span class="hint">Bahçekapı Mah. 2547. Sk. No:3 · Etimesgut</span>
+</section>
+<div class="step">↓ kaydırdıkça fotoğraf, aynı açıdan 3D modele döner; sonra model yana dönüp kesit görünüme açılır</div>
+<section class="f2 ruled">
+<img class="m" src="render-kesit.webp" alt="">
+<div class="stagehead"><h1>Binanın içi</h1><p class="lead" style="margin-top:12px">Sürükleyip döndürün. Bir bölüme tıklayın.</p></div>
+<span class="pin" style="left:268px;top:306px">2</span><span class="pin on" style="left:428px;top:318px">1</span><span class="pin" style="left:606px;top:372px">3</span><span class="pin on" style="left:840px;top:475px">1</span><span class="pin" style="left:860px;top:306px">4</span><span class="pin" style="left:1028px;top:588px">5</span>
+<svg class="lead-lines" width="1440" height="828"><path d="M872 491 L1000 300 L1060 300" stroke="#323277" stroke-width="1.5" fill="none"/><path d="M444 334 L520 520 L560 520" stroke="#323277" stroke-width="1.5" fill="none" stroke-dasharray="4 3"/></svg>
+<div class="card" style="left:1060px;top:150px;transform:rotate(1.1deg)"><span class="x">×</span><div class="ph"><img src="../../../../assets/img/is-mekanik-onarim.webp" alt=""></div><p class="k">Ana kat · Mekanik 1 + 2</p><h3>Mekanik</h3><p>İki atölye: Mekanik 1 ve Mekanik 2. Bakımdan motor onarımına.</p></div>
+<div class="card" style="left:1090px;top:440px;width:290px;transform:rotate(-1deg)"><div class="ph"><img src="../../../../assets/img/is-elektronik.webp" alt=""></div><p class="k">Mekanik içinde</p><h3>Elektrik / Elektronik</h3><p>Arıza tespiti, yazılım, aydınlatma, şarj sistemi.</p></div>
+<div class="units"><span class="on">1 Mekanik</span><span>2 Oto Kuaför</span><span>3 Ofis</span><span>4 Bekleme Salonu</span><span>5 Kaporta · Boya</span></div>
+</section>
+</body></html>

@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ana sayfa v2 · bölüm seçimi</title>
+<link rel="stylesheet" href="_kit/kit.css">
+<style>
+  body { padding: 48px var(--gutter) 160px; }
+  header.top { max-width: 1400px; margin: 0 auto 48px; }
+  header.top h1 { color: var(--navy); font-size: 2.5rem; line-height: 1.1; }
+  header.top p { margin-top: 16px; max-width: 70ch; color: var(--ink-soft); }
+  .sec { max-width: 1400px; margin: 0 auto; padding: 40px 0 56px; border-top: 2px solid var(--rule-strong); }
+  .sec h2 { color: var(--navy); font-size: 1.75rem; line-height: 1.2; }
+  .sec h2 small { margin-left: 12px; color: var(--ink-soft); font: 400 1rem var(--font-typed); }
+  .variants { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; margin-top: 24px; }
+  .v { display: grid; gap: 10px; align-content: start; }
+  .v__shot { display: block; background: var(--paper); padding: 8px; box-shadow: 0 1px 1px rgba(43,42,41,.1), 0 10px 22px -10px rgba(43,42,41,.38); }
+  .v__shot img { width: 100%; height: 420px; object-fit: cover; object-position: top; background: var(--stock-deep); }
+  .v__shot.is-mobile img { object-fit: contain; background: var(--stock-deep); }
+  .v__bar { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; font: 600 0.8125rem/1 var(--font-label); letter-spacing: .1em; text-transform: uppercase; color: var(--navy); }
+  .v__bar a { text-decoration: underline; text-decoration-color: var(--rule-strong); }
+  .v__bar button { all: unset; cursor: pointer; text-decoration: underline; text-decoration-color: var(--rule-strong); }
+  .v__pick { display: inline-flex; gap: 8px; align-items: center; margin-left: auto; cursor: pointer; }
+  .v__pick input { accent-color: var(--navy); width: 18px; height: 18px; }
+  .v:has(input:checked) .v__shot { outline: 4px double var(--navy); outline-offset: 4px; }
+  .v__note { color: var(--ink-soft); font-size: .9375rem; line-height: 1.5; white-space: pre-line; }
+  .missing { display: grid; place-items: center; height: 420px; background: var(--stock-deep); color: var(--ink-soft); font: 400 .9375rem var(--font-typed); }
+  .summary { position: fixed; left: 0; right: 0; bottom: 0; z-index: 9; display: flex; gap: 16px; align-items: center; padding: 14px var(--gutter); background: var(--navy); color: var(--stock); font: 400 .9375rem/1.4 var(--font-typed); }
+  .summary output { flex: 1; overflow-wrap: anywhere; }
+  .summary button { all: unset; cursor: pointer; padding: 10px 16px; border: 4px double var(--gold-ink); color: var(--gold-ink); font: 600 .8125rem/1 var(--font-label); letter-spacing: .12em; text-transform: uppercase; }
+  @media (max-width: 899px) { .variants { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>Ana sayfa v2: bölüm varyantları</h1>
+  <p>Her bölüm için üç tasarım var. Görsele tıklayınca mock tam boyutta açılır. “Mobil” ile 390 px görünüme geçin. Her bölümde bir varyant seçin; seçimler alttaki satırda toplanır.</p>
+</header>
+<main id="list"></main>
+<div class="summary"><output id="picks">Henüz seçim yok.</output><button type="button" id="copy">Seçimleri kopyala</button></div>
+<script>
+const SECTIONS = [
+  ['hero', 'Banner'], ['hizmetler', 'Hizmetlerimiz · tek noktadan servis'], ['kampanya', 'Kampanya alanı'],
+  ['kalite', 'Hizmet kalitesi · 5 adım'], ['marka', 'Marka uzmanlığı + ücretsiz tespit → teklif → onay'],
+  ['istatistik', 'İstatistik / kalite tablosu'], ['tesis', 'Tesis modeli'], ['yorumlar', 'Müşteri yorumları'],
+  ['miras', 'Kamyon dönüşümü · tarih, miras'], ['final', 'Final: 1954 garajı + iletişim'],
+];
+let picks = {};
+try { picks = JSON.parse(localStorage.getItem('v2-picks') || '{}'); } catch (e) {}
+const list = document.getElementById('list');
+
+async function notesFor(slug) {
+  try { const r = await fetch(`${slug}/notes.md`, { cache: 'no-store' }); return r.ok ? await r.text() : ''; } catch (e) { return ''; }
+}
+function noteOf(md, n) {
+  // The block after a heading that mentions v<n>, up to the next heading.
+  const parts = md.split(/\n(?=#{1,4} )/);
+  const hit = parts.find(p => new RegExp(`^#{1,4} .*\\bv${n}\\b`, 'i').test(p));
+  return hit ? hit.replace(/^#{1,4} /, '').trim() : '';
+}
+
+(async () => {
+  for (const [slug, title] of SECTIONS) {
+    const md = await notesFor(slug);
+    const sec = document.createElement('section');
+    sec.className = 'sec';
+    sec.innerHTML = `<h2>${title}<small>${slug}/</small></h2><div class="variants"></div>`;
+    const grid = sec.querySelector('.variants');
+    for (const n of [1, 2, 3]) {
+      const v = document.createElement('div');
+      v.className = 'v';
+      const href = `${slug}/v${n}.html`;
+      v.innerHTML = `
+        <a class="v__shot" href="${href}" target="_blank" rel="noopener"><img alt="${title} v${n}" loading="lazy" src="${slug}/shots/v${n}-1440.png"></a>
+        <div class="v__bar"><a href="${href}" target="_blank" rel="noopener">v${n} aç</a><button type="button" data-toggle>Mobil</button>
+          <label class="v__pick"><input type="radio" name="pick-${slug}" value="v${n}" ${picks[slug] === 'v' + n ? 'checked' : ''}>Seç</label></div>
+        <div class="v__note"></div>`;
+      v.querySelector('.v__note').textContent = noteOf(md, n);
+      const img = v.querySelector('img'), shot = v.querySelector('.v__shot');
+      img.addEventListener('error', () => { shot.innerHTML = '<div class="missing">Görüntü henüz yok</div>'; }, { once: true });
+      v.querySelector('[data-toggle]').addEventListener('click', (e) => {
+        const mobile = !shot.classList.contains('is-mobile');
+        shot.classList.toggle('is-mobile', mobile);
+        const i = shot.querySelector('img'); if (i) i.src = `${slug}/shots/v${n}-${mobile ? 390 : 1440}.png`;
+        e.target.textContent = mobile ? 'Masaüstü' : 'Mobil';
+      });
+      v.querySelector('input').addEventListener('change', (e) => { picks[slug] = e.target.value; save(); });
+      grid.append(v);
+    }
+    list.append(sec);
+  }
+  save();
+})();
+
+function save() {
+  try { localStorage.setItem('v2-picks', JSON.stringify(picks)); } catch (e) {}
+  const s = SECTIONS.filter(([k]) => picks[k]).map(([k]) => `${k}=${picks[k]}`).join(', ');
+  document.getElementById('picks').textContent = s || 'Henüz seçim yok.';
+}
+document.getElementById('copy').addEventListener('click', () => {
+  navigator.clipboard?.writeText(document.getElementById('picks').textContent);
+});
+</script>
+</body>
+</html>

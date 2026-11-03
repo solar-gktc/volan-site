@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mock · Yorumlar · v3 Kartpostallar</title>
+<link rel="stylesheet" href="../_kit/kit.css">
+<style>
+  .sec { overflow: clip; }
+  @media (max-width: 899px) { .sec { --road-width: 56px; } }
+
+  /* The navy board starts right of the road lane and bleeds off the right edge. */
+  .board { position: relative; z-index: 2; margin-left: max(150px, calc((100vw - 1248px) / 2 * 0.8 + 88px)); background: var(--navy); color: var(--stock); padding: 104px 0 112px; }
+  .board::before, .board::after { content: ""; position: absolute; pointer-events: none; }
+  .board::before { inset: 28px -2px 28px 28px; border: 2px solid var(--gold); border-right: 0; }
+  .board::after { inset: 35px -2px 35px 35px; border: 1px solid rgba(133, 114, 68, 0.7); border-right: 0; }
+  .board ::selection { background: var(--gold-ink); color: var(--navy); }
+
+  .head { position: relative; z-index: 3; margin-left: 46%; max-width: 520px; padding-right: 32px; }
+  .head h2 { color: var(--gold-ink); font: 400 clamp(2.5rem, 4.3vw, 3.75rem)/1.04 var(--font-title); letter-spacing: -0.012em; }
+  .head p { margin-top: 20px; max-width: 40ch; color: var(--stock); font: 400 1.1875rem/1.5 var(--font-text); }
+  .head .stamps { margin-top: 28px; align-items: center; }
+  .head .stamps p { margin: 0; color: var(--gold-ink); font: 400 0.875rem/1.4 var(--font-typed); }
+
+  /* The picture postcard: the building, hanging off the board over the road */
+  .view { position: absolute; z-index: 2; left: -86px; top: 76px; width: min(440px, 34vw); padding: 10px 10px 12px; background: var(--paper); box-shadow: 0 1px 1px rgba(43, 42, 41, 0.1), 0 10px 22px -10px rgba(43, 42, 41, 0.38); transform: rotate(-5deg); margin: 0; }
+  .view img { aspect-ratio: 3 / 2; object-fit: cover; }
+  .view figcaption { position: absolute; left: 22px; bottom: 26px; padding: 4px 10px; background: var(--paper); color: var(--navy); font: italic 400 1.125rem/1.2 var(--font-title); }
+
+  /* The postcards. One base design (680×453) scaled into three slots. */
+  .cards { position: relative; z-index: 3; height: 560px; margin-top: 56px; }
+  .pc { --w: 680px; position: absolute; left: 0; top: 0; width: var(--w); height: 453px; display: grid; grid-template-columns: 58fr 42fr; padding: 34px 30px 28px; background: var(--paper); color: var(--ink); text-align: left; transform-origin: 0 0; transition: transform 520ms var(--ease-out); box-shadow: 0 1px 1px rgba(43, 42, 41, 0.1), 0 10px 22px -10px rgba(43, 42, 41, 0.38); border: 0; font: inherit; }
+  .pc[data-slot="big"] { z-index: 3; transform: translate(72px, 30px) rotate(-1.5deg); }
+  .pc[data-slot="a"] { z-index: 2; transform: translate(768px, -40px) rotate(4deg) scale(0.6); cursor: pointer; }
+  .pc[data-slot="b"] { z-index: 1; transform: translate(800px, 250px) rotate(-3deg) scale(0.6); cursor: pointer; }
+  .pc[data-slot="a"]:hover { transform: translate(768px, -48px) rotate(3deg) scale(0.61); }
+  .pc[data-slot="b"]:hover { transform: translate(800px, 242px) rotate(-2deg) scale(0.61); }
+  .pc__label { position: absolute; left: 0; right: 0; top: 12px; text-align: center; color: var(--navy); font: 600 0.6875rem/1 var(--font-label); letter-spacing: 0.3em; text-transform: uppercase; opacity: 0.8; }
+  .pc__msg { display: flex; flex-direction: column; padding-right: 26px; border-right: 1px solid var(--rule-strong); }
+  .pc__quote { font: italic 400 1.875rem/1.3 var(--font-text); color: var(--ink); text-wrap: pretty; }
+  .pc__from { margin-top: 14px; color: var(--ink); font: 400 1rem/1.4 var(--font-typed); }
+  .pc__car { margin-top: auto; padding-top: 12px; border-top: 1px dashed var(--rule-strong); }
+  .pc__car b { display: block; color: var(--navy); font: 600 0.6875rem/1.3 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; }
+  .pc__car span { display: block; color: var(--ink); font: 400 0.9375rem/1.4 var(--font-typed); }
+  .pc__addr { position: relative; padding-left: 24px; display: flex; flex-direction: column; }
+  .pc__stamp { align-self: end; width: 96px; padding: 5px; background: var(--paper); border: 2px dashed rgba(50, 50, 119, 0.4); transform: rotate(2deg); }
+  .pc__stamp img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: var(--pos, 50% 50%); }
+  .pc__stamp small { display: flex; justify-content: space-between; padding-top: 3px; color: var(--navy); font: 600 0.5625rem/1 var(--font-label); letter-spacing: 0.12em; text-transform: uppercase; }
+  .pc .seal { width: 104px; height: 104px; right: 64px; top: 26px; transform: rotate(-16deg); opacity: 0.85; }
+  .pc__cancel { position: absolute; right: 150px; top: 46px; width: 90px; height: 48px; fill: none; stroke: var(--stamp-ink); stroke-width: 2.4; opacity: 0.75; filter: url(#ink); mix-blend-mode: multiply; }
+  .pc__lines { list-style: none; margin: auto 0 6px; padding: 0; }
+  .pc__lines li { padding: 10px 0 3px; border-bottom: 1px solid rgba(50, 50, 119, 0.35); color: var(--ink); font: 400 0.9375rem/1.3 var(--font-typed); }
+  .pc__sample { position: absolute; left: 30px; bottom: 6px; color: var(--ink-soft); font: 400 0.75rem/1 var(--font-typed); }
+  .pc__sample, .pc__from { white-space: nowrap; }
+
+  .pick-hint { position: absolute; left: 800px; bottom: -40px; color: var(--gold-ink); font: 400 0.875rem/1.4 var(--font-typed); }
+
+  /* Narrow desktops: the card table shrinks as one piece. */
+  @media (min-width: 900px) and (max-width: 1299px) { .cards { zoom: 0.8; } }
+  @media (max-width: 899px) {
+    .board { margin-left: 70px; padding: 64px 0 72px; }
+    .board::before { inset: 14px -2px 14px 14px; }
+    .board::after { inset: 20px -2px 20px 20px; }
+    .head { margin-left: 0; padding: 0 28px 0 32px; }
+    .head h2 { font-size: 2.25rem; }
+    .head p { font-size: 1.0625rem; }
+    .view { position: relative; left: -48px; top: auto; width: 82%; margin-top: 40px; transform: rotate(-3deg); }
+    .view figcaption { font-size: 0.9375rem; bottom: 20px; left: 18px; }
+    .cards { height: auto; margin: 32px 12px 0 24px; display: grid; gap: 28px; }
+    .pc, .pc[data-slot] { position: relative; width: auto; height: auto; grid-template-columns: 1fr; padding: 34px 18px 32px; transform: rotate(-1deg); cursor: default; }
+    .pc[data-slot]:nth-child(2) { transform: rotate(1.2deg); }
+    .pc[data-slot]:hover { transform: rotate(-1deg); }
+    .pc__msg { padding: 0; border: 0; }
+    .pc__quote { font-size: 1.1875rem; }
+    .pc__car { margin-top: 18px; }
+    .pc__addr { padding: 16px 0 0; margin-top: 18px; border-top: 1px solid var(--rule-strong); }
+    .pc__stamp { position: absolute; right: 0; top: -150px; width: 64px; }
+    .pc__stamp small { display: none; }
+    .pc .seal { width: 72px; height: 72px; right: 40px; top: -138px; }
+    .pc__cancel { display: none; }
+    .pc__quote { padding-right: 66px; }
+    .pick-hint { display: none; }
+  }
+</style>
+</head>
+<body>
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="ink" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="wobble"/>
+      <feDisplacementMap in="SourceGraphic" in2="wobble" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.05 0.7" numOctaves="2" seed="3" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.7 0 0 0 1.62" result="coverage"/>
+      <feComposite in="edge" in2="coverage" operator="in"/>
+    </filter>
+    <symbol id="seal" viewBox="0 0 200 200">
+      <path id="seal-arc" d="M100,100 m-70,0 a70,70 0 1,1 140,0 a70,70 0 1,1 -140,0" fill="none"/>
+      <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="5"/>
+      <circle cx="100" cy="100" r="85" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="100" cy="100" r="52" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <text font-family="Archivo Narrow, sans-serif" font-weight="600" font-size="19" letter-spacing="3.2" fill="currentColor"><textPath href="#seal-arc" startOffset="0">VOLAN OTOMOTİV · ANKARA · VOLAN OTOMOTİV · ANKARA ·</textPath></text>
+      <text x="100" y="112" text-anchor="middle" font-family="Besley, serif" font-weight="600" font-size="34" fill="currentColor">1954</text>
+    </symbol>
+    <symbol id="tick" viewBox="0 0 32 32"><path d="M5 17.5l7.5 7.5L27.5 6" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <pattern id="road-net" width="64" height="8" patternUnits="userSpaceOnUse"><path d="M0,4 C10.7,-1.3 21.3,-1.3 32,4 S53.3,9.3 64,4 M0,4 C10.7,9.3 21.3,9.3 32,4 S53.3,-1.3 64,4" fill="none" stroke="#323277" stroke-opacity="0.16" stroke-width="0.7"/></pattern>
+  </defs>
+</svg>
+
+<section class="sec" data-road="cross-left" style="position:relative; padding:168px 0 128px;" aria-labelledby="yorum-h">
+  <svg class="road" aria-hidden="true" preserveAspectRatio="none">
+    <path class="road__edge"/><path class="road__bed"/><path class="road__net"/><path class="road__line"/>
+  </svg>
+  <div class="board">
+    <figure class="view">
+      <img src="/general-assets/gorseller/nesne-karakalem/bina-cephe-1600.webp" alt="Karakalem çizim: Volan binasının cephesi, ortada oval VOLAN tabelası." width="1600" height="1067" loading="lazy">
+      <figcaption>Etimesgut'tan selamlar</figcaption>
+    </figure>
+
+    <div class="head">
+      <h2 id="yorum-h">Servisten sonra gelen kartlar</h2>
+      <p>Aracını teslim alan müşterilerimizin birkaç satırı. Buradakiler örnektir; gerçek yorumlar izinle eklenecek.</p>
+      <div class="stamps">
+        <a class="stamp-btn" href="#">Google yorumları</a>
+        <p>Bağlantı eklenecek.</p>
+      </div>
+    </div>
+
+    <div class="cards" aria-live="polite">
+      <article class="pc" data-slot="big" data-card="0" aria-label="Örnek yorum: Volvo XC60">
+        <span class="pc__label" aria-hidden="true">Kartpostal</span>
+        <div class="pc__msg">
+          <p class="pc__quote">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante venenatis.</p>
+          <p class="pc__from">— M. K.</p>
+          <p class="pc__car"><b>Araç ve işlem</b><span>Volvo XC60 · periyodik bakım</span></p>
+        </div>
+        <div class="pc__addr">
+          <div class="pc__stamp" style="--pos: 22% 50%"><img src="/general-assets/gorseller/nesne-karakalem/volvo-izgara-1600.webp" alt="" width="1600" height="923" loading="lazy"><small><span>Volvo</span><span>1954</span></small></div>
+          <svg class="pc__cancel" viewBox="0 0 90 48" aria-hidden="true"><path d="M0 10c15-6 30 6 45 0s30 6 45 0M0 24c15-6 30 6 45 0s30 6 45 0M0 38c15-6 30 6 45 0s30 6 45 0"/></svg>
+          <svg class="seal" aria-hidden="true"><use href="#seal"/></svg>
+          <ul class="pc__lines"><li>Volan Otomotiv</li><li>Bahçekapı Mah. 2547. Sk. No:3</li><li>Etimesgut / Ankara</li></ul>
+        </div>
+        <span class="pc__sample">örnek yorum</span>
+      </article>
+
+      <article class="pc" data-slot="a" data-card="1" aria-label="Örnek yorum: Mercedes-Benz C 200" tabindex="0" role="button">
+        <span class="pc__label" aria-hidden="true">Kartpostal</span>
+        <div class="pc__msg">
+          <p class="pc__quote">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod.</p>
+          <p class="pc__from">— S. A.</p>
+          <p class="pc__car"><b>Araç ve işlem</b><span>Mercedes-Benz C 200 · arıza tespiti</span></p>
+        </div>
+        <div class="pc__addr">
+          <div class="pc__stamp" style="--pos: 64% 30%"><img src="/general-assets/gorseller/is-anlari-karakalem/kafa-lambali-usta-1600.webp" alt="" width="1600" height="1067" loading="lazy"><small><span>Tespit</span><span>1954</span></small></div>
+          <svg class="pc__cancel" viewBox="0 0 90 48" aria-hidden="true"><path d="M0 10c15-6 30 6 45 0s30 6 45 0M0 24c15-6 30 6 45 0s30 6 45 0M0 38c15-6 30 6 45 0s30 6 45 0"/></svg>
+          <svg class="seal" aria-hidden="true"><use href="#seal"/></svg>
+          <ul class="pc__lines"><li>Volan Otomotiv</li><li>Bahçekapı Mah. 2547. Sk. No:3</li><li>Etimesgut / Ankara</li></ul>
+        </div>
+        <span class="pc__sample">örnek yorum</span>
+      </article>
+
+      <article class="pc" data-slot="b" data-card="2" aria-label="Örnek yorum: Volkswagen Golf" tabindex="0" role="button">
+        <span class="pc__label" aria-hidden="true">Kartpostal</span>
+        <div class="pc__msg">
+          <p class="pc__quote">Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed.</p>
+          <p class="pc__from">— E. T.</p>
+          <p class="pc__car"><b>Araç ve işlem</b><span>Volkswagen Golf · kaporta ve boya</span></p>
+        </div>
+        <div class="pc__addr">
+          <div class="pc__stamp" style="--pos: 86% 60%"><img src="/general-assets/gorseller/nesne-karakalem/atolye-volan-tabela-1600.webp" alt="" width="1600" height="746" loading="lazy"><small><span>Boya</span><span>1954</span></small></div>
+          <svg class="pc__cancel" viewBox="0 0 90 48" aria-hidden="true"><path d="M0 10c15-6 30 6 45 0s30 6 45 0M0 24c15-6 30 6 45 0s30 6 45 0M0 38c15-6 30 6 45 0s30 6 45 0"/></svg>
+          <svg class="seal" aria-hidden="true"><use href="#seal"/></svg>
+          <ul class="pc__lines"><li>Volan Otomotiv</li><li>Bahçekapı Mah. 2547. Sk. No:3</li><li>Etimesgut / Ankara</li></ul>
+        </div>
+        <span class="pc__sample">örnek yorum</span>
+      </article>
+      <p class="pick-hint">Arkadaki karta dokunun, öne gelsin.</p>
+    </div>
+  </div>
+</section>
+
+<script>
+// Road: the crossing from the right lane comes in across the top, then the left lane.
+(() => {
+  const sec = document.querySelector('[data-road]');
+  const svg = sec.querySelector('.road');
+  const paths = [...svg.querySelectorAll('path')];
+  const rounded = (pts, r) => {
+    let d = `M${pts[0].x},${pts[0].y}`;
+    for (let i = 1; i < pts.length - 1; i++) {
+      const p = pts[i - 1], c = pts[i], n = pts[i + 1];
+      const l1 = Math.hypot(c.x - p.x, c.y - p.y), l2 = Math.hypot(n.x - c.x, n.y - c.y);
+      const k = Math.min(r, l1 / 2, l2 / 2);
+      d += ` L${c.x + (p.x - c.x) * k / l1},${c.y + (p.y - c.y) * k / l1} Q${c.x},${c.y} ${c.x + (n.x - c.x) * k / l2},${c.y + (n.y - c.y) * k / l2}`;
+    }
+    const z = pts[pts.length - 1];
+    return `${d} L${z.x},${z.y}`;
+  };
+  const draw = () => {
+    const W = sec.clientWidth, H = sec.offsetHeight, narrow = W < 900;
+    const gutter = Math.min(96, Math.max(20, W * 0.066));
+    const inset = narrow ? 36 : Math.max(26, (W - Math.min(1248, W - 2 * gutter)) / 2 * 0.8);
+    const L = inset, R = W - inset, drop = narrow ? 24 : 36, rad = narrow ? 72 : Math.min(150, W * 0.1);
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const d = rounded([{ x: R, y: -400 }, { x: R, y: -drop }, { x: L, y: drop }, { x: L, y: H + 10 }], rad);
+    paths.forEach((p) => p.setAttribute('d', d));
+  };
+  draw();
+  new ResizeObserver(draw).observe(sec);
+})();
+</script>
+<script>
+// A card at the back comes to the front; the front card takes its place.
+(() => {
+  const cards = [...document.querySelectorAll('.pc')];
+  const wide = matchMedia('(min-width: 900px)');
+  const sync = () => cards.forEach((c) => {
+    const back = c.dataset.slot !== 'big' && wide.matches;
+    if (back) { c.setAttribute('role', 'button'); c.tabIndex = 0; } else { c.removeAttribute('role'); c.removeAttribute('tabindex'); }
+  });
+  const pick = (card) => {
+    if (!wide.matches || card.dataset.slot === 'big') return;
+    const front = cards.find((c) => c.dataset.slot === 'big');
+    front.dataset.slot = card.dataset.slot;
+    card.dataset.slot = 'big';
+    sync();
+    card.focus({ preventScroll: true });
+  };
+  cards.forEach((c) => {
+    c.addEventListener('click', () => pick(c));
+    c.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(c); } });
+  });
+  wide.addEventListener('change', sync);
+  sync();
+})();
+</script>
+</body>
+</html>
