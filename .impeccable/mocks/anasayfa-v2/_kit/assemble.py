@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Assemble gc-volan-1/anasayfa-v2.html from the section fragments.
+"""Assemble the homepage (gc-volan-1/index.html) from the section fragments.
 
 Shell parts (menu, quick-contact fab) are copied from index.html between their comment markers,
 so the new page keeps the site's shared chrome. Run from anywhere:
@@ -127,5 +127,5 @@ page = f'''<!doctype html>
 </html>
 '''
 
-(ROOT / 'anasayfa-v2.html').write_text(page)
-print('wrote', ROOT / 'anasayfa-v2.html', len(page), 'bytes')
+(ROOT / 'index.html').write_text(page)
+print('wrote', ROOT / 'index.html', len(page), 'bytes')
