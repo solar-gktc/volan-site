@@ -1,4 +1,4 @@
 {
-  "prompt": "Origin: client photo general-assets/Photos-1-001/0Y7B2254.JPG (Canon, 6000x4000). Cover-cropped to 4:3, 1400x1050, WebP q80. Not generated.",
+  "prompt": "Origin: client photo general-assets/Photos-1-001/0Y7B2254.JPG (Canon, 6000x4000). Cover-cropped to 4:3, 1400x1050, WebP q80. Not generated. Edited 2026-11-16: front plate text \"06 MYE 96\" replaced with \"06 VLN 1954\" for customer privacy (plate background refilled with a smooth fit, lettering taken from the 3D models' plate texture (assets/models/*.glb)). Rest of the photo unchanged.",
   "createdAt": "2026-11-02T20:34:33.000Z"
 }

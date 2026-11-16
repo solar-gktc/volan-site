@@ -5,7 +5,7 @@
 
 .entry.s-kalite { padding: 168px 0 120px; }
 
-.s-kalite .order { grid-column: 3 / span 6; position: relative; }
+.s-kalite .order { grid-column: 3 / span 6; grid-row: 1; position: relative; }
 
 /* Two photo plates clipped to the top edge of the slip */
 .s-kalite .pins { position: relative; z-index: 3; height: 208px; margin-bottom: -56px; }
@@ -81,7 +81,8 @@
 }
 .s-kalite .slip__foot.is-stamped .seal { opacity: 0.88; transform: rotate(-12deg); }
 
-.s-kalite .say { grid-column: 9 / span 4; align-self: center; padding-top: 120px; }
+/* .say comes first in the source (H2 before the H3s); both sit in row 1. */
+.s-kalite .say { grid-column: 9 / span 4; grid-row: 1; align-self: center; padding-top: 120px; }
 .s-kalite .say h2 { margin-bottom: 24px; color: var(--navy); font: 600 2.5rem/48px var(--font-title); letter-spacing: -0.01em; }
 .s-kalite .say p { max-width: 36ch; }
 
@@ -91,7 +92,7 @@
   .s-kalite .entry__inner { padding-left: 52px; row-gap: 48px; }
   .s-kalite .say { grid-column: 1; grid-row: 1; padding-top: 0; }
   .s-kalite .say h2 { margin-bottom: 16px; font-size: 1.75rem; line-height: 32px; }
-  .s-kalite .order { grid-column: 1; }
+  .s-kalite .order { grid-column: 1; grid-row: 2; }
   .s-kalite .pins { height: 168px; margin-bottom: -40px; }
   .s-kalite .pin--bina { left: -2%; width: 64%; }
   .s-kalite .pin--arac { right: -2%; top: 30px; width: 50%; }

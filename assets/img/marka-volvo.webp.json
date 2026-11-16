@@ -1,4 +1,4 @@
 {
-  "prompt": "Origin: client-supplied photo photos/guncel-01-bina-cephe-tabela-xc90.jpg (Volan building with two XC90s, shot 2026-10-04). Cropped 1536x1024 at the bottom of the frame, scaled to 1200x800, WebP q78. Stand-in for the Volvo plate in the brand section until final images are chosen. Not generated.",
+  "prompt": "Origin: client-supplied photo photos/guncel-01-bina-cephe-tabela-xc90.jpg (Volan building with two XC90s, shot 2026-10-04). Cropped 1536x1024 at the bottom of the frame, scaled to 1200x800, WebP q78. Stand-in for the Volvo plate in the brand section until final images are chosen. Not generated. Edited 2026-11-16: front plate text \"06 FZH 699\" and \"06 DK 9247\" (two parked cars) replaced with \"06 VLN 1954\" for customer privacy (plate background refilled with a smooth fit, lettering taken from the 3D models' plate texture (assets/models/*.glb)). Rest of the photo unchanged.",
   "createdAt": "2026-10-20T13:05:46.027072+00:00"
 }

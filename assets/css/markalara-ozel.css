@@ -1,0 +1,429 @@
+/* Markalara Özel Hizmet Prensibimiz (draft): the key board.
+   A navy board with a foil rail; three paper key tags hang from it, one per brand.
+   The chosen tag opens that brand's record; the three principles stand beside it.
+   Builds on site.css and menu.css. */
+
+/* ---------- The board ---------- */
+
+.mo-pano {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 32px;
+  align-items: start;
+  width: min(var(--measure), 100% - 2 * var(--gutter));
+  margin: 48px auto 0;
+  padding: 76px 64px 64px;
+  background: var(--navy);
+  color: var(--stock);
+}
+/* The cover's foil: a strong outer rule and a hairline inside it. */
+.mo-pano::before,
+.mo-pano::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+.mo-pano::before { inset: 16px; border: 2px solid var(--gold); }
+.mo-pano::after { inset: 23px; border: 1px solid rgba(133, 114, 68, 0.7); }
+.mo-pano ::selection { background: var(--gold-ink); color: var(--navy); }
+
+.mo-pano__metin { position: relative; z-index: 1; grid-column: 1 / span 5; }
+.mo-pano h1 {
+  color: var(--gold-ink);
+  font-size: clamp(2.5rem, 4.3vw, 3.875rem);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -0.012em;
+}
+.mo-pano__ozet {
+  max-width: 30rem;
+  margin-top: 28px;
+  font-size: clamp(1.125rem, 1.55vw, 1.4rem);
+  line-height: 1.42;
+}
+
+/* The rail and its tags hang low enough to leave the board and lie on the stock. */
+.mo-pano__aski {
+  position: relative;
+  z-index: 1;
+  grid-column: 6 / span 7;
+  align-self: end;
+  margin-bottom: -156px;
+}
+.mo-pano__yonerge {
+  margin-bottom: 18px;
+  color: var(--gold-ink);
+  font: 600 0.8125rem/1.2 var(--font-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.mo-ray {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: 20px;
+  align-items: start;
+  border-top: 2px solid var(--gold);
+}
+
+/* A key tag: paper with its two top corners cut, a reinforced slot, a string up to its peg on the rail.
+   --ip is the string length. --dus is how far the chosen tag slides down its string: the tag moves,
+   the peg and the top of the string stay on the rail. The swing turns the tag around the peg. */
+@property --dus { syntax: "<length>"; inherits: true; initial-value: 0px; }
+.mo-etiket {
+  --ip: 30px;
+  --egim: -1.4deg;
+  --dus: 0px;
+  --kose: 12px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--ip);
+  padding: 46px 18px 18px;
+  background:
+    linear-gradient(135deg, transparent var(--kose), var(--paper) calc(var(--kose) + 0.5px)) 0 0 / 51% 100% no-repeat,
+    linear-gradient(225deg, transparent var(--kose), var(--paper) calc(var(--kose) + 0.5px)) 100% 0 / 51% 100% no-repeat;
+  color: var(--ink);
+  text-decoration: none;
+  box-shadow: 0 1px 1px rgba(43, 42, 41, 0.1), 0 10px 22px -10px rgba(43, 42, 41, 0.38);
+  rotate: var(--egim);
+  transform: translateY(var(--dus));
+  transform-origin: 50% calc(-1 * var(--ip));
+  transition: rotate 260ms var(--ease-out), --dus 260ms var(--ease-out);
+}
+.mo-etiket:nth-child(2) { --ip: 58px; --egim: 1.1deg; }
+.mo-etiket:nth-child(3) { --ip: 52px; --egim: -0.7deg; }
+.mo-etiket::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: calc(-1 * var(--ip) - 6px - var(--dus));
+  width: 10px;
+  height: 10px;
+  margin-left: -5px;
+  background: var(--gold-ink);
+}
+.mo-etiket__ip {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% - 22px);
+  width: 40px;
+  height: calc(var(--ip) + 22px + var(--dus));
+  margin-left: -20px;
+  overflow: visible;
+  pointer-events: none;
+}
+.mo-etiket__ip path { fill: none; stroke: var(--gold-ink); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+.mo-etiket__delik {
+  position: absolute;
+  left: 50%;
+  top: 18px;
+  width: 26px;
+  height: 8px;
+  margin-left: -13px;
+  background: var(--navy);
+  /* The reinforcement patch around the slot. */
+  outline: 1.5px solid var(--navy);
+  outline-offset: 4px;
+}
+.mo-etiket__ad {
+  min-height: 2.3em;
+  margin-bottom: 10px;
+  color: var(--navy);
+  font: 600 1.5rem/1.15 var(--font-title);
+  letter-spacing: -0.01em;
+}
+.mo-etiket__satir {
+  display: block;
+  padding: 8px 0 9px;
+  border-top: 2px dotted var(--rule-strong);
+  font: 400 0.9375rem/1.35 var(--font-typed);
+}
+.mo-etiket__alan {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--navy);
+  font: 600 0.6875rem/1 var(--font-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.mo-etiket__sec {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+  padding-top: 12px;
+  border-top: 1.5px solid var(--navy);
+  color: var(--navy);
+  font: 600 0.75rem/1 var(--font-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.mo-etiket:hover { rotate: calc(var(--egim) * -0.9); text-decoration: none; }
+.mo-etiket:hover .mo-etiket__sec-yazi { text-decoration: underline; text-underline-offset: 0.22em; }
+/* A tag lies half on the navy board and half on the stock: a navy band shows on the stock,
+   the light foil gold line around it shows on the board. */
+.mo-etiket:focus-visible {
+  outline: 2px solid var(--gold-ink);
+  outline-offset: 5px;
+  box-shadow: 0 0 0 5px var(--navy), 0 1px 1px rgba(43, 42, 41, 0.1), 0 10px 22px -10px rgba(43, 42, 41, 0.38);
+}
+/* The chosen tag hangs straight, a little lower on its string, and is ticked.
+   Only when the script runs: without it all three records are open and no tag is chosen. */
+.js .mo-etiket.is-secili,
+.js .mo-etiket.is-secili:hover { --dus: 10px; rotate: 0deg; }
+.js .mo-etiket.is-secili .tick { opacity: 0.92; transform: none; }
+.mo-etiket.is-sallanan { animation: mo-salla 720ms var(--ease-out); }
+@keyframes mo-salla {
+  0% { rotate: var(--egim); }
+  28% { rotate: 2.6deg; }
+  54% { rotate: -1.5deg; }
+  78% { rotate: 0.6deg; }
+  100% { rotate: 0deg; }
+}
+
+/* ---------- The open record and the principles ---------- */
+
+.mo-sayfa {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 32px;
+  align-items: start;
+  width: min(var(--measure), 100% - 2 * var(--gutter));
+  margin-inline: auto;
+  padding: 176px 0 104px;
+}
+.mo-kayitlar { grid-column: 1 / span 6; }
+
+.mo-kayit { scroll-margin-top: 96px; }
+.mo-kayit + .mo-kayit { margin-top: 96px; padding-top: 64px; border-top: 2px solid var(--rule-strong); }
+.js .mo-kayit:not(.is-acik) { display: none; }
+.js .mo-kayit + .mo-kayit { margin-top: 0; padding-top: 0; border-top: 0; }
+.mo-kayit:focus { outline: none; }
+
+.mo-kayit h2 {
+  color: var(--navy);
+  font-size: 2.5rem;
+  line-height: 48px;
+  letter-spacing: -0.01em;
+}
+.mo-kayit__donem {
+  margin: 8px 0 32px;
+  color: var(--ink-soft);
+  font: 400 1rem/1.4 var(--font-typed);
+}
+.mo-kayit > p { max-width: 58ch; }
+.mo-kayit > p + p { margin-top: 20px; }
+.mo-kayit > p a { color: var(--navy); text-decoration: underline; text-decoration-color: var(--rule-strong); text-underline-offset: 0.18em; }
+.mo-kayit > p a:hover { text-decoration-color: currentColor; }
+
+/* Form fields: printed labels over typed values; a blank is a dotted line with its note. */
+.mo-alanlar {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px 32px;
+  margin: 44px 0 0;
+  padding-top: 26px;
+  border-top: 2px solid var(--navy);
+}
+.mo-alanlar__genis { grid-column: 1 / -1; }
+.mo-alanlar dt {
+  color: var(--navy);
+  font: 600 0.75rem/1.2 var(--font-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.mo-alanlar dd {
+  margin: 6px 0 0;
+  font: 400 1rem/1.5 var(--font-typed);
+  font-variant-numeric: tabular-nums;
+}
+.mo-alanlar .mo-bos {
+  padding-bottom: 5px;
+  border-bottom: 2px dotted var(--rule-strong);
+  color: var(--ink-soft);
+}
+.mo-bos__not { display: block; margin-top: 6px; color: var(--ink-soft); font-size: 0.9375rem; }
+/* An unknown year: four separate blanks, one per digit. */
+.mo-yil { display: inline-flex; gap: 6px; vertical-align: baseline; }
+.mo-yil i { width: 0.75em; height: 1.1em; border-bottom: 3px solid currentColor; }
+
+.mo-plakalar {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 24px;
+  align-items: start;
+  margin-top: 56px;
+}
+.mo-plakalar--tek { grid-template-columns: minmax(0, 62%); }
+.mo-plaka--dun { transform: rotate(-1.2deg); }
+.mo-plaka--bugun { margin-top: 28px; transform: rotate(1deg); }
+.mo-plaka figcaption {
+  padding: 2px 4px 10px;
+  color: var(--ink-soft);
+  font: 400 0.9375rem/1.4 var(--font-typed);
+  text-wrap: balance;
+}
+.mo-plaka img { aspect-ratio: 3 / 2; object-fit: cover; }
+
+.mo-kayit .stamps--ink { margin-top: 52px; }
+.mo-kayit .mo-kayit__bag {
+  margin-top: 28px;
+  color: var(--ink-soft);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+.mo-kayit__bag a { color: var(--navy); text-decoration: underline; text-decoration-color: var(--rule-strong); }
+.mo-kayit__bag a:hover { text-decoration-color: currentColor; }
+
+/* The principles: a record box, the same for every brand. */
+.mo-prensip {
+  position: sticky;
+  top: 112px;
+  z-index: 2;
+  scroll-margin-top: 96px;
+  grid-column: 8 / span 5;
+  padding: 36px 32px 30px;
+  border: 4px double var(--navy);
+}
+.mo-prensip__muhur {
+  width: 124px;
+  height: 124px;
+  right: -30px;
+  top: -46px;
+  opacity: 0.9;
+  transform: rotate(-14deg);
+}
+.mo-prensip h2 {
+  max-width: 13ch;
+  color: var(--navy);
+  font-size: 2rem;
+  line-height: 1.2;
+}
+.mo-prensip__liste { margin: 28px 0 0; padding: 0; list-style: none; }
+.mo-prensip__liste li {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  column-gap: 16px;
+  align-items: start;
+  padding: 18px 0;
+  border-top: 1px solid var(--rule-strong);
+}
+.mo-prensip__liste li:first-child { border-top: 2px solid var(--navy); }
+.mo-prensip__liste .tickbox { margin-top: 5px; }
+.mo-prensip__liste p { font-size: 1.125rem; line-height: 32px; }
+.mo-prensip__not {
+  padding-top: 18px;
+  border-top: 2px solid var(--navy);
+  color: var(--ink-soft);
+  font: 400 0.9375rem/1.5 var(--font-typed);
+}
+
+/* ---------- The section's pages and the contact record ---------- */
+
+.mo-son {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 32px;
+  align-items: start;
+  width: min(var(--measure), 100% - 2 * var(--gutter));
+  margin-inline: auto;
+  padding: 96px 0 128px;
+  border-top: 2px solid var(--rule-strong);
+}
+.mo-bolum { grid-column: 1 / span 5; }
+.mo-bolum h2 { color: var(--navy); font-size: 1.375rem; line-height: 1.3; }
+.mo-bolum__liste { max-width: 440px; margin: 12px 0 0; padding: 0; list-style: none; }
+
+@media (min-width: 900px) {
+  .mo-son .dealer { grid-column: 8 / span 5; }
+}
+
+/* ---------- Narrow screens: the rail turns upright, the tags lie across it ---------- */
+
+@media (max-width: 899px) {
+  .mo-pano {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 44px;
+    margin-top: 24px;
+    padding: 48px 30px 44px;
+  }
+  .mo-pano::before { inset: 10px; }
+  .mo-pano::after { inset: 16px; }
+  .mo-pano__metin,
+  .mo-pano__aski { grid-column: 1; }
+  .mo-pano__aski { align-self: auto; margin-bottom: 0; }
+  .mo-pano h1 { font-size: clamp(2rem, 8.6vw, 2.5rem); }
+  .mo-pano__ozet { margin-top: 20px; }
+
+  .mo-ray {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 16px;
+    padding-left: 24px;
+    border-top: 0;
+    border-left: 2px solid var(--gold);
+  }
+  .mo-etiket,
+  .mo-etiket:nth-child(2),
+  .mo-etiket:nth-child(3) { --ip: 0px; }
+  /* The chosen tag slides along its string away from the rail; its far edge stays where it was,
+     so every tag keeps the same distance to the foil frame. */
+  .mo-etiket {
+    --egim: -0.6deg;
+    margin-left: var(--dus);
+    padding: 14px 16px 14px 52px;
+    background:
+      linear-gradient(135deg, transparent var(--kose), var(--paper) calc(var(--kose) + 0.5px)) 0 0 / 100% 51% no-repeat,
+      linear-gradient(45deg, transparent var(--kose), var(--paper) calc(var(--kose) + 0.5px)) 0 100% / 100% 51% no-repeat;
+    transform: none;
+    transform-origin: calc(-25px - var(--dus)) 50%;
+  }
+  .mo-etiket:nth-child(2) { --egim: 0.5deg; }
+  .mo-etiket:nth-child(3) { --egim: -0.4deg; }
+  .js .mo-etiket.is-secili,
+  .js .mo-etiket.is-secili:hover { --dus: 8px; }
+  .mo-etiket::before { left: calc(-30px - var(--dus)); top: 50%; margin: -5px 0 0; }
+  /* The string runs across from the rail to the slot. */
+  .mo-etiket__ip { display: none; }
+  .mo-etiket::after {
+    content: "";
+    position: absolute;
+    left: calc(-24px - var(--dus));
+    top: 50%;
+    width: calc(46px + var(--dus));
+    border-top: 1.5px solid var(--gold-ink);
+  }
+  .mo-etiket__delik { left: 20px; top: 50%; width: 8px; height: 26px; margin: -13px 0 0; }
+  .mo-etiket__ad { min-height: 0; font-size: 1.375rem; }
+  .mo-etiket.is-sallanan { animation: none; }
+
+  .mo-sayfa {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 96px;
+    padding: 72px 0 96px;
+  }
+  .mo-kayitlar,
+  .mo-prensip { grid-column: 1; }
+  .mo-kayit h2 { font-size: 2rem; line-height: var(--line); }
+  .mo-kayit__donem { margin-bottom: 24px; }
+  .mo-plakalar { grid-template-columns: minmax(0, 1fr); row-gap: 28px; margin-top: 48px; }
+  .mo-plakalar--tek { grid-template-columns: minmax(0, 1fr); }
+  .mo-plaka { width: 90%; }
+  .mo-plaka--bugun { margin-top: 0; justify-self: end; }
+
+  .mo-prensip { position: relative; top: auto; padding: 30px 22px 24px; }
+  .mo-prensip__muhur { width: 104px; height: 104px; right: -8px; top: -56px; }
+
+  .mo-son { grid-template-columns: minmax(0, 1fr); row-gap: 64px; padding: 72px 0 96px; }
+  .mo-bolum { grid-column: 1; }
+}
+
+@media (max-width: 519px) {
+  .mo-alanlar { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mo-etiket { transition: none; }
+  .mo-etiket.is-sallanan { animation: none; }
+}

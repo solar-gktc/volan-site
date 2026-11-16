@@ -1,0 +1,444 @@
+/* Galeri (taslak): the complete picture record as a fold-out album bound into the booklet.
+   A navy cover panel stays in place; a strip of numbered plates, joined at flat fold lines,
+   is pulled out sideways from under it. Archive panels are on archive cream, today's panels
+   on plate white as tipped-in plates, missing photos are blank dashed panels. Below the album: the typed list of
+   plates and the contact record. Builds on site.css (tokens, stamp boxes, plates, dealer
+   block) and menu.css. Archive scans are never shown above their native pixel size. */
+
+.page-resimler {
+  --tone-1954: #efe5d0;
+  /* The height of a photo in the strip: the screen decides, the smallest scan (576px) caps it. */
+  --rs-h: clamp(300px, calc(100svh - var(--menu-h) - 300px), 540px);
+}
+
+.rs-sarma {
+  width: min(var(--measure), 100% - 2 * var(--gutter));
+  margin-inline: auto;
+}
+
+/* ---------- The album: cover and strip ---------- */
+
+.rs-album {
+  display: grid;
+  grid-template-columns: clamp(300px, 27vw, 392px) minmax(0, 1fr);
+  padding: 40px 0 16px clamp(16px, 2.6vw, 40px);
+}
+
+.rs-kapak {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 28px;
+  padding: 52px 40px 40px;
+  background: var(--navy);
+  color: var(--stock);
+}
+.rs-kapak::before,
+.rs-kapak::after { content: ""; position: absolute; pointer-events: none; }
+.rs-kapak::before { inset: 12px; border: 2px solid var(--gold); }
+.rs-kapak::after { inset: 19px; border: 1px solid rgba(133, 114, 68, 0.7); }
+.rs-kapak ::selection,
+.rs-buyut ::selection { background: var(--gold-ink); color: var(--navy); }
+
+.rs-kapak h1 {
+  color: var(--gold-ink);
+  font-size: clamp(2.5rem, 4.3vw, 3.875rem);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -0.012em;
+}
+.rs-kapak__giris {
+  margin-top: 24px;
+  font-size: 1.125rem;
+  line-height: 1.5;
+}
+
+.rs-icindekiler { margin-top: 32px; }
+.rs-icindekiler ul { margin: 0; padding: 0; list-style: none; border-top: 1px solid rgba(205, 181, 133, 0.5); }
+.rs-icindekiler a {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-height: 48px;
+  padding: 13px 0 11px 0;
+  border-bottom: 1px solid rgba(205, 181, 133, 0.5);
+  color: var(--stock);
+  text-decoration: none;
+  transition: color 180ms var(--ease-out);
+}
+.rs-icindekiler__ad {
+  font: 600 0.8125rem/1.2 var(--font-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.rs-icindekiler__cizgi { flex: 1; min-width: 12px; border-bottom: 1px dotted rgba(238, 240, 245, 0.5); transform: translateY(-3px); }
+.rs-icindekiler__not { font: 400 0.9375rem/1.2 var(--font-typed); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.rs-icindekiler a:hover { color: var(--gold-ink); }
+.rs-icindekiler a:focus-visible { outline: 2px solid var(--gold-ink); outline-offset: 2px; }
+/* The part of the strip in view: the row set in light foil gold, its leader drawn solid. */
+.rs-icindekiler a[aria-current="true"] { color: var(--gold-ink); }
+.rs-icindekiler a[aria-current="true"] .rs-icindekiler__cizgi { border-bottom: 1px solid var(--gold-ink); }
+
+/* The pager: two stamp-box arrows around the typed counter. Shown only when the script runs. */
+.rs-sayac { display: flex; align-items: center; gap: 16px; margin-top: auto; padding-top: 32px; }
+.rs-sayac[hidden] { display: none; }
+.rs-sayac__no {
+  min-width: 5.2em;
+  color: var(--stock);
+  font: 400 1.125rem/1 var(--font-typed);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+.rs-sayac__no span { color: var(--gold-ink); font-weight: 700; }
+.rs-ok,
+.rs-buyut__dugme {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  border: 4px double currentColor;
+  background: none;
+  color: var(--stock);
+  cursor: pointer;
+  transform: rotate(var(--tilt, -1.2deg));
+  transition: transform 180ms var(--ease-out), background-color 180ms var(--ease-out), opacity 180ms var(--ease-out);
+}
+.rs-ok:last-child { --tilt: 0.8deg; }
+.rs-ok svg { width: 18px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.rs-ok:hover:not(:disabled) { transform: rotate(0deg) translateY(-1px); background-color: rgba(238, 240, 245, 0.08); }
+.rs-ok:active:not(:disabled) { transform: rotate(0deg) translateY(1px); }
+.rs-ok:focus-visible,
+.rs-buyut__dugme:focus-visible { outline: 2px solid var(--gold-ink); outline-offset: 5px; }
+.rs-ok:disabled,
+.rs-buyut__dugme:disabled { opacity: 0.35; cursor: default; }
+
+/* The strip scrolls sideways inside its own window and runs off the right edge of the screen. */
+.rs-kaydir {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 28px;
+  scroll-snap-type: x proximity;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--navy) var(--stock-deep);
+}
+.rs-kaydir:focus-visible { outline: 2px solid var(--navy); outline-offset: -2px; }
+.rs-serit {
+  display: flex;
+  width: max-content;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  box-shadow: 0 1px 1px rgba(43, 42, 41, 0.1), 0 10px 22px -10px rgba(43, 42, 41, 0.38);
+}
+/* The one authored movement: on arrival the strip is drawn out from under the cover. */
+@media (prefers-reduced-motion: no-preference) {
+  .js .rs-serit { animation: rs-cek 900ms var(--ease-out) both; }
+}
+@keyframes rs-cek { from { transform: translateX(-72px); } }
+
+.rs-levha {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  padding: 14px 16px 18px;
+  border-right: 1px solid var(--rule-strong);
+  scroll-snap-align: start;
+  scroll-margin-top: calc(var(--menu-h) + 40px);
+}
+.rs-levha--arsiv { background: var(--tone-1954); }
+.rs-levha--bugun { background: var(--paper); }
+.rs-levha--bos { background: var(--stock); }
+
+.rs-levha__ust {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 10px;
+}
+.rs-levha__no {
+  /* Holds the visually hidden "Levha" word inside the strip, so it cannot widen the page. */
+  position: relative;
+  color: var(--navy);
+  font: 700 1.375rem/1 var(--font-typed);
+  font-variant-numeric: tabular-nums;
+}
+.rs-levha__tur,
+.rs-buyut__tur {
+  color: var(--navy);
+  font: 600 0.6875rem/1 var(--font-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.rs-levha__ac {
+  position: relative;
+  display: block;
+  height: min(var(--rs-h), (100vw - 56px) * var(--h) / var(--w));
+  aspect-ratio: var(--w) / var(--h);
+  background: rgba(50, 50, 119, 0.08);
+  cursor: zoom-in;
+}
+.rs-levha__ac img { width: 100%; height: 100%; }
+.rs-levha__ac::after {
+  content: "";
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 40px;
+  height: 40px;
+  background: var(--paper) center / 20px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23323277' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='M15.5 15.5L21 21M10.5 7.5v6M7.5 10.5h6'/%3E%3C/svg%3E");
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 180ms var(--ease-out), transform 180ms var(--ease-out);
+}
+.rs-levha__ac:hover::after,
+.rs-levha__ac:focus-visible::after { opacity: 1; transform: none; }
+.rs-levha__ac:focus-visible { outline: 2px solid var(--navy); outline-offset: 3px; }
+/* Today's photos are tipped in as plates: the 10px plate-white border and the plate shadow.
+   The border is taken out of the height, so every panel keeps one photo line. */
+.rs-levha--bugun .rs-levha__ac {
+  box-sizing: content-box;
+  height: calc(min(var(--rs-h), (100vw - 56px) * var(--h) / var(--w)) - 20px);
+  border: 10px solid var(--paper);
+  box-shadow: 0 1px 1px rgba(43, 42, 41, 0.1), 0 10px 22px -10px rgba(43, 42, 41, 0.38);
+}
+
+/* The caption never widens its panel: it takes the photo's width and wraps. */
+.rs-levha__alt {
+  width: 0;
+  min-width: 100%;
+  padding-top: 12px;
+  color: var(--ink-soft);
+  font: 400 0.9375rem/1.4 var(--font-typed);
+  text-wrap: pretty;
+}
+
+/* A missing photo: an empty dashed frame of the same height, labelled. */
+.rs-levha__bosluk {
+  display: grid;
+  place-items: center;
+  height: min(var(--rs-h), (100vw - 56px) * 4 / 3);
+  aspect-ratio: 3 / 4;
+  padding: 24px;
+  border: 1.5px dashed var(--rule-strong);
+  color: var(--ink-soft);
+  font: 400 0.9375rem/1.45 var(--font-typed);
+  text-align: center;
+}
+.rs-levha--bos .rs-levha__no { color: var(--ink-soft); }
+/* A plate that does not exist yet has no number: two blank typed underlines, one per digit. */
+.rs-bosno { display: inline-flex; gap: 5px; height: 1em; align-items: flex-end; }
+.rs-bosno span { width: 0.6em; border-bottom: 3px solid currentColor; }
+
+/* ---------- The list of plates ---------- */
+
+.rs-liste { padding: clamp(72px, 8vw, 112px) 0 0; }
+.rs-liste__ust {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 32px;
+  align-items: end;
+  padding-bottom: 28px;
+  border-bottom: 2px solid var(--rule-strong);
+}
+.rs-liste__ust h2,
+.rs-son__metin h2 {
+  grid-column: 1 / span 6;
+  color: var(--navy);
+  font-size: 2.5rem;
+  line-height: 48px;
+  letter-spacing: -0.01em;
+}
+.rs-liste__ust p { grid-column: 8 / span 5; max-width: 44ch; }
+
+.rs-liste__izgara {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: clamp(32px, 6vw, 96px);
+  align-items: start;
+}
+.rs-liste__grup h3 {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin: 0;
+  padding: 36px 0 12px;
+  border-bottom: 1.5px solid var(--navy);
+  color: var(--navy);
+  font: 600 0.8125rem/1.2 var(--font-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.rs-liste__grup h3 span {
+  color: var(--ink-soft);
+  font: 400 0.9375rem/1.2 var(--font-typed);
+  letter-spacing: 0;
+  text-transform: none;
+}
+.rs-liste__grup .rs-liste__eksik { padding-top: 48px; }
+
+.rs-satirlar { margin: 0; padding: 0; list-style: none; }
+.rs-satir {
+  display: grid;
+  grid-template-columns: 48px 2.4em minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 16px;
+  min-height: 64px;
+  padding: 8px 8px 8px 0;
+  border-bottom: 1px solid var(--rule-strong);
+  color: var(--ink);
+  text-decoration: none;
+  transition: background-color 160ms var(--ease-out), padding-left 220ms var(--ease-out);
+}
+a.rs-satir { cursor: zoom-in; }
+a.rs-satir:hover { padding-left: 8px; background-color: rgba(50, 50, 119, 0.06); }
+a.rs-satir:hover .rs-satir__ad { color: var(--navy); text-decoration: underline; text-decoration-color: var(--rule-strong); }
+a.rs-satir:focus-visible { outline-offset: 2px; }
+.rs-satir img,
+.rs-satir__kare { width: 48px; height: 48px; }
+.rs-satir img { border: 3px solid var(--paper); object-fit: cover; }
+.rs-satir__kare { border: 1.5px dashed var(--rule-strong); }
+.rs-satir__no {
+  color: var(--navy);
+  font: 700 1.0625rem/1 var(--font-typed);
+  font-variant-numeric: tabular-nums;
+}
+.rs-satir__ad { line-height: 1.35; }
+.rs-satir__olcu {
+  color: var(--ink-soft);
+  font: 400 0.875rem/1.2 var(--font-typed);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.rs-satir--bos .rs-satir__no,
+.rs-satir--bos .rs-satir__ad { color: var(--ink-soft); }
+
+/* ---------- The archive note and the contact record ---------- */
+
+.rs-son { padding: clamp(96px, 10vw, 144px) 0 clamp(72px, 8vw, 112px); }
+.rs-son__izgara {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 32px;
+  align-items: stretch;
+}
+.rs-son__metin { grid-column: 1 / span 6; }
+.rs-son__metin p { max-width: 54ch; margin-top: 24px; }
+.rs-son__metin h2 + p { margin-top: 28px; }
+.rs-son__metin a { color: var(--navy); font: 400 1rem/1.5 var(--font-typed); text-decoration-color: var(--rule-strong); }
+.rs-son__metin a:hover { text-decoration-color: currentColor; }
+.rs-son__metin .stamp-box { margin-top: 48px; }
+.rs-son .dealer { grid-column: 1 / span 5; }
+.rs-son .harita { grid-column: 6 / -1; }
+
+/* ---------- The viewing board: one plate, large, on navy ---------- */
+
+.rs-buyut {
+  width: fit-content;
+  max-width: 100vw;
+  max-height: 100svh;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  overflow: visible;
+}
+.rs-buyut::backdrop { background: rgba(39, 39, 95, 0.94); }
+@media (prefers-reduced-motion: no-preference) {
+  .rs-buyut[open] .rs-buyut__plaka { animation: rs-ac 320ms var(--ease-out); }
+  .rs-buyut__plaka.is-degisti img { animation: rs-gec 260ms var(--ease-out); }
+}
+@keyframes rs-ac { from { opacity: 0; transform: scale(0.97) rotate(-0.6deg); } }
+@keyframes rs-gec { from { opacity: 0.2; } }
+
+.rs-buyut__plaka { padding: 10px 12px 14px; }
+.rs-buyut__ust {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 4px 2px 10px;
+  color: var(--navy);
+  font: 700 1rem/1.2 var(--font-typed);
+  font-variant-numeric: tabular-nums;
+}
+/* Never larger than the scan itself (--w, --h are its pixel size), and never larger than the screen. */
+.rs-buyut__plaka img {
+  width: auto;
+  height: min(var(--h, 647) * 1px, 100svh - 210px, (100vw - 176px) * var(--h, 647) / var(--w, 1044));
+  aspect-ratio: var(--w, 1044) / var(--h, 647);
+  background: var(--stock-deep);
+}
+.rs-buyut__plaka figcaption {
+  width: 0;
+  min-width: 100%;
+  min-height: 2.8em;
+  padding: 12px 2px 0;
+  color: var(--ink-soft);
+  font: 400 0.9375rem/1.4 var(--font-typed);
+}
+
+.rs-buyut__dugme { position: fixed; z-index: 2; border-color: var(--gold-ink); background: var(--navy); color: var(--gold-ink); }
+.rs-buyut__dugme:hover:not(:disabled) { transform: rotate(0deg); }
+.rs-buyut__dugme svg { width: 20px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.rs-buyut__kapat-form { margin: 0; }
+.rs-buyut__kapat { top: 20px; right: 20px; }
+.rs-buyut__kapat svg { width: 22px; height: 22px; stroke-width: 2; }
+.rs-buyut__ok { top: 50%; margin-top: -26px; }
+.rs-buyut__ok--once { left: 20px; }
+.rs-buyut__ok--sonra { right: 20px; --tilt: 0.8deg; }
+
+/* ---------- Narrow screens: the cover on top, the strip below it ---------- */
+
+@media (max-width: 899px) {
+  .page-resimler { --rs-h: min(340px, 52svh); }
+  .rs-album { grid-template-columns: minmax(0, 1fr); padding: 0 0 8px; }
+  /* The cover is kept short so the first prints show on the first screen; the strip is
+     swiped, so the arrows go and the counter moves up beside the title. */
+  .rs-kapak { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; margin-bottom: 0; padding: 38px 32px 30px; }
+  .rs-kapak h1 { font-size: 2.5rem; }
+  .rs-kapak__giris { grid-column: 1 / -1; margin-top: 14px; max-width: 34rem; font-size: 1rem; line-height: 1.5; }
+  .rs-icindekiler { grid-column: 1 / -1; margin-top: 20px; }
+  .rs-sayac { grid-column: 2; grid-row: 1; margin: 0; padding: 0; }
+  .rs-sayac__no { min-width: 0; font-size: 1rem; }
+  .rs-ok { display: none; }
+  /* Number, photo and caption stay one group at the top of the panel. */
+  .rs-levha { padding: 14px 14px 18px; }
+
+  .rs-liste__ust,
+  .rs-son__izgara { grid-template-columns: minmax(0, 1fr); }
+  .rs-liste__ust h2,
+  .rs-liste__ust p,
+  .rs-son__metin,
+  .rs-son .dealer,
+  .rs-son .harita { grid-column: 1; }
+  .rs-liste__ust h2,
+  .rs-son__metin h2 { font-size: 1.75rem; line-height: 32px; }
+  .rs-liste__ust p { margin-top: 16px; }
+  .rs-liste__izgara { grid-template-columns: minmax(0, 1fr); }
+  .rs-satir { grid-template-columns: 48px 2.2em minmax(0, 1fr); column-gap: 12px; }
+  .rs-satir__olcu { grid-column: 3; padding-top: 2px; }
+  .rs-son__izgara { row-gap: 24px; }
+  .rs-son .dealer { padding: 28px 24px 36px; }
+
+  /* The arrows move under the plate so the photo keeps the full width. */
+  .rs-buyut__plaka img { height: min(var(--h, 647) * 1px, 100svh - 290px, (100vw - 56px) * var(--h, 647) / var(--w, 1044)); }
+  .rs-buyut__ok { top: auto; bottom: 16px; margin-top: 0; }
+  .rs-buyut__ok--once { left: calc(50% - 68px); }
+  .rs-buyut__ok--sonra { right: calc(50% - 68px); }
+  .rs-buyut__kapat { top: 12px; right: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rs-icindekiler a,
+  .rs-ok,
+  .rs-buyut__dugme,
+  .rs-levha__ac::after,
+  .rs-satir { transition: none; }
+}

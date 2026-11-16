@@ -384,7 +384,7 @@ function start() {
         if (c && s > 0.55) c.classList.add('is-shown');
       });
       setWheelCut(wheelOut);
-      for (const k of ['govde-ust', 'govde-arka']) if (t > T_OUT + 350) byKey[k]?.classList.add('is-shown');
+      for (const k of ['govde-ust', 'govde-arka', 'cekici']) if (t > T_OUT + 350) byKey[k]?.classList.add('is-shown');
       // The hint: once the drawings are out, the engine develops into its model and stays.
       if (t > T_HINT && !hinted) { hinted = true; if (!chosen) develop(HINT); }
       return t < T_END;
@@ -579,8 +579,8 @@ const PARTS = [
     seat: [1.85, 0.62, -0.55], out: [3.15, 1.45, -0.95], anchor: [0, 0.1, 0], order: 2 },
   { key: 'amortisor', callout: 'amortisor', url: `${M}parca/sasi-amortisor.glb`, scale: 1.35,
     seat: [1.51, 0.4, 0.62], out: [3.2, 1.0, 0.95], anchor: [0, 0.14, 0], order: 3 },
-  { key: 'camurluk', callout: 'camurluk', url: `${P}kaporta-camurluk.glb`, scale: 1.05,
-    seat: [1.55, 0.42, 0.75], out: [3.15, 0.1, 2.25], anchor: [0.15, 0.1, 0.05], order: 4, shadow: [1.1, 0.5], shadowOpacity: 0.3 },
+  { key: 'camurluk', callout: 'kapi', url: `${P}kaporta-camurluk.glb`, scale: 1.05,
+    seat: [1.55, 0.42, 0.75], out: [3.15, 0.1, 2.25], order: 4, shadow: [1.1, 0.5], shadowOpacity: 0.3 },
   { key: 'fren', callout: 'fren', url: `${M}parca/fren-seti.glb`, scale: 1.4,
     seat: [1.51, 0.24, 0.66], out: [1.62, 0.24, 2.2], anchor: [0.05, 0.02, 0.04], order: 5 },
   { key: 'jant', callout: 'fren', url: `${P}jant-volvo.glb`, scale: 1.16,
@@ -589,7 +589,9 @@ const PARTS = [
     seat: [0.45, 0.34, 0.8], out: [-0.45, 0, 3.05], anchor: [-0.1, 0.05, 0.12], order: 6, shadow: [1.3, 0.45], shadowOpacity: 0.35 },
 ];
 
-// Points on the car body for the two services that treat the whole car.
+// Points on the car body for the two services that treat the whole car. The 'cekici' callout
+// (Çekici ile Vale Hizmeti) has no part and no point: it is a plain link without a leader.
+// The fender belongs to Kaporta & Boya with the door (callout 'kapi'), as the wheel does to 'fren'.
 const BODY_ANCHORS = {
   'govde-ust': [-0.7, 1.69, 0.35],
   'govde-arka': [-2.0, 0.95, 0.9],
@@ -604,8 +606,8 @@ const VIEW = {
 
 // Leader points over the still images (filled in from ?capture=genis / ?capture=dar).
 const STILL_ANCHORS = {
-  genis: { motor: [0.6702, 0.2164], ecu: [0.429, 0.2172], aku: [0.8971, 0.3808], amortisor: [0.769, 0.5111], camurluk: [0.6689, 0.731], fren: [0.4728, 0.6543], kapi: [0.1418, 0.5974], 'govde-ust': [0.3716, 0.323], 'govde-arka': [0.2041, 0.3918] },
-  dar: { motor: [0.6634, 0.3185], ecu: [0.431, 0.3163], aku: [0.8829, 0.428], amortisor: [0.7527, 0.5159], camurluk: [0.6567, 0.6582], fren: [0.4743, 0.6102], kapi: [0.1578, 0.5731], 'govde-ust': [0.3737, 0.3865], 'govde-arka': [0.2058, 0.4327] },
+  genis: { motor: [0.6702, 0.2164], ecu: [0.429, 0.2172], aku: [0.8971, 0.3808], amortisor: [0.769, 0.5111], fren: [0.4728, 0.6543], kapi: [0.1418, 0.5974], 'govde-ust': [0.3716, 0.323], 'govde-arka': [0.2041, 0.3918] },
+  dar: { motor: [0.6634, 0.3185], ecu: [0.431, 0.3163], aku: [0.8829, 0.428], amortisor: [0.7527, 0.5159], fren: [0.4743, 0.6102], kapi: [0.1578, 0.5731], 'govde-ust': [0.3737, 0.3865], 'govde-arka': [0.2058, 0.4327] },
 };
 
 /* ---------- Drawing and developing (the look and timing of hero B) ---------- */

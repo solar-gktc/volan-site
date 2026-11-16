@@ -1,0 +1,401 @@
+/* Yorumlar (draft): the reviews as a card-index box. Each review is one record slip whose
+   printed head gives source, publishing date and slip number before the customer's words.
+   Builds on site.css (tokens, plates, stamps, stamp-box buttons, dealer block) and menu.css. */
+
+.yr-wrap {
+  width: min(var(--measure), 100% - 2 * var(--gutter));
+  margin-inline: auto;
+}
+
+/* The page's own section headings. The dealer heading keeps its Title size from site.css. */
+.yr-dosya h2, .yr-bos h2 { color: var(--navy); font-size: 2.5rem; line-height: 48px; letter-spacing: -0.01em; }
+
+/* A blank form field: a short typed underline, never a guessed value. */
+.bos { display: inline-block; width: 4.5em; height: 1.1em; border-bottom: 2px solid currentColor; vertical-align: baseline; }
+.bos--uzun { width: 9em; }
+
+/* ---------- The record slip ---------- */
+
+.fis {
+  position: relative;
+  z-index: 2;
+  container-type: inline-size;
+  margin: 0;
+  padding: 0 0 26px;
+  border-top: 4px solid var(--navy);
+  background: var(--paper);
+  box-shadow: 0 1px 1px rgba(43, 42, 41, 0.1), 0 10px 22px -10px rgba(43, 42, 41, 0.38);
+}
+.fis__bas {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) auto;
+  margin: 0;
+  border-bottom: 1.5px solid var(--navy);
+}
+.fis__bas > div { display: grid; align-content: start; gap: 5px; padding: 12px 16px 10px; }
+.fis__bas > div + div { border-left: 1px solid var(--rule-strong); }
+.fis__bas dt {
+  color: var(--navy);
+  font: 600 0.6875rem/1 var(--font-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.fis__bas dd {
+  margin: 0;
+  font: 400 0.9375rem/1.35 var(--font-typed);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+/* A narrow slip prints the slip number on its own line under source and date. */
+@container (max-width: 379px) {
+  .fis__bas { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .fis__bas > div { padding: 11px 12px 9px; }
+  .fis__bas > div:nth-child(3) {
+    grid-column: 1 / -1;
+    grid-template-columns: auto 1fr;
+    gap: 10px;
+    align-items: baseline;
+    padding-block: 7px;
+    border-left: 0;
+    border-top: 1px solid var(--rule-strong);
+  }
+}
+.fis blockquote { margin: 0; padding: 22px 24px 0; font-size: 1.125rem; line-height: 1.62; }
+.fis blockquote p { max-width: 58ch; overflow-wrap: anywhere; text-wrap: pretty; }
+.fis blockquote p + p { margin-top: 10px; }
+.fis__ad { margin: 0; padding: 16px 24px 0; font: 700 1rem/1.4 var(--font-typed); }
+figcaption.fis__ad::before { content: "— "; font-weight: 400; color: var(--ink-soft); }
+.fis__not {
+  margin: 14px 24px 0;
+  padding-top: 10px;
+  border-top: 1px dashed var(--rule-strong);
+  color: var(--ink-soft);
+  font: 400 0.875rem/1.45 var(--font-typed);
+}
+
+/* ---------- First screen: the title and the box ---------- */
+
+.yr-giris {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 32px;
+  align-items: center;
+  min-height: clamp(600px, calc(100svh - var(--menu-h)), 820px);
+  padding: 48px 0 56px;
+}
+.yr-giris__metin { grid-column: 1 / span 5; }
+.yr-giris h1 {
+  color: var(--navy);
+  font-size: clamp(2.5rem, 4.3vw, 3.875rem);
+  line-height: 1.04;
+  letter-spacing: -0.012em;
+}
+.yr-giris__ozet { margin-top: 24px; max-width: 40ch; font-size: clamp(1.125rem, 1.55vw, 1.4rem); line-height: 1.42; }
+
+.yr-kunye { margin: 32px 0 0; max-width: 30rem; border-bottom: 2px solid var(--rule-strong); }
+.yr-kunye > div {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  column-gap: 16px;
+  align-items: baseline;
+  padding: 9px 0;
+  border-top: 2px solid var(--rule-strong);
+}
+.yr-kunye dt {
+  color: var(--navy);
+  font: 600 0.75rem/1.2 var(--font-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.yr-kunye dd { margin: 0; font: 400 1rem/1.5 var(--font-typed); font-variant-numeric: tabular-nums; }
+.yr-giris .stamps { margin-top: 36px; }
+/* The in-page link to the other slips: a typed line, not one of the contact buttons. */
+.yr-giris__oku { margin-top: 20px; font: 400 1rem/1.5 var(--font-typed); }
+.yr-giris__oku a {
+  display: inline-block;
+  padding-block: 10px;
+  color: var(--navy);
+  text-decoration: underline;
+  text-decoration-color: var(--rule-strong);
+  text-underline-offset: 4px;
+}
+.yr-giris__oku a::after { content: " ↓"; }
+.yr-giris__oku a:hover { text-decoration-color: currentColor; }
+
+.kutu { position: relative; grid-column: 7 / span 6; padding: 78px 30px 0; }
+/* Divider cards standing behind the raised slip, each with its year tab. */
+.kutu__ayrac {
+  position: absolute;
+  bottom: 48px;
+  background: var(--stock);
+  border: 1px solid var(--rule-strong);
+  border-bottom: 0;
+}
+.kutu__ayrac--2023 { top: 30px; left: 46px; right: 46px; }
+.kutu__ayrac--ara { top: 46px; left: 38px; right: 38px; background: var(--paper); }
+.kutu__ayrac--2025 { top: 62px; left: 34px; right: 34px; }
+.kutu__ayrac > span {
+  position: absolute;
+  bottom: 100%;
+  display: grid;
+  place-items: center;
+  width: 92px;
+  height: 30px;
+  background: var(--navy);
+  color: var(--gold-ink);
+  font: 700 1.375rem/1 var(--font-typed);
+  font-variant-numeric: tabular-nums;
+}
+.kutu__ayrac--2023 > span { right: 28px; }
+.kutu__ayrac--2025 > span { left: 28px; }
+
+.fis--on { transform: rotate(-1deg); transform-origin: 50% 100%; padding-bottom: 172px; }
+.fis--on .fis__bas > div { padding: 14px 20px 12px; }
+.fis--on .fis__bas dd { font-size: 1rem; }
+.fis--on blockquote {
+  position: relative;
+  padding: 44px 36px 0 68px;
+  font: italic 400 clamp(1.25rem, 1.75vw, 1.5rem)/1.42 var(--font-title);
+}
+.fis--on blockquote::before {
+  content: "“";
+  position: absolute;
+  left: 22px;
+  top: 34px;
+  color: var(--navy);
+  font: 400 4.5rem/1 var(--font-title);
+}
+.fis--on .fis__ad { padding: 20px 36px 0 68px; font-size: 1.0625rem; }
+.fis__damga { position: absolute; right: 30px; bottom: 88px; }
+
+/* The front of the box: navy board with the foil rules and a label holder. */
+.kutu__on {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  height: 116px;
+  margin: -64px -30px 0;
+  background: var(--navy);
+}
+.kutu__on::before,
+.kutu__on::after { content: ""; position: absolute; pointer-events: none; }
+.kutu__on::before { inset: 10px; border: 2px solid var(--gold); }
+.kutu__on::after { inset: 17px; border: 1px solid rgba(133, 114, 68, 0.7); }
+.kutu__etiket {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 5px;
+  padding: 9px 20px 8px;
+  border: 1.5px solid var(--navy);
+  outline: 3px solid var(--paper);
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 0.9375rem/1.2 var(--font-typed);
+  text-align: center;
+}
+.kutu__etiket span {
+  color: var(--navy);
+  font: 600 0.6875rem/1 var(--font-label);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+/* The raised slip comes up out of the box once. Transform only: it is readable throughout. */
+@media (prefers-reduced-motion: no-preference) {
+  .fis--on { animation: fis-cik 900ms 200ms var(--ease-out) backwards; }
+  @keyframes fis-cik { from { transform: translateY(72px) rotate(0deg); } }
+}
+
+/* ---------- The rest of the box, by year ---------- */
+
+.yr-dosya { padding-top: 64px; scroll-margin-top: var(--menu-h); }
+.yr-dosya__ust {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 32px;
+  align-items: start;
+  padding-top: 28px;
+  border-top: 2px solid var(--rule-strong);
+}
+.yr-dosya__giris { grid-column: 1 / span 7; }
+.yr-dosya__giris p { margin-top: 16px; max-width: 52ch; }
+
+/* The Google record, not filled in yet. */
+.yr-eksik {
+  grid-column: 9 / span 4;
+  margin: 4px 0 0;
+  padding: 18px 20px 16px;
+  border: 1.5px dashed var(--rule-strong);
+}
+.yr-eksik dl { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 20px; margin: 0; }
+.yr-eksik dl > div { display: grid; gap: 8px; }
+.yr-eksik dt {
+  color: var(--navy);
+  font: 600 0.75rem/1.2 var(--font-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.yr-eksik dd { margin: 0; color: var(--navy); font: 400 1.25rem/1 var(--font-typed); }
+.yr-eksik__not { margin-top: 14px; color: var(--ink-soft); font: 400 0.875rem/1.45 var(--font-typed); }
+
+.yil {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 32px;
+  align-items: start;
+  margin-top: 88px;
+}
+.yr-dosya__ust + .yil { margin-top: 72px; }
+/* The year divider: an index tab standing on its rule. */
+.yil__sekme {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  display: flex;
+  margin: 0;
+  border-bottom: 2px solid var(--navy);
+  font: inherit;
+}
+.yil__sekme span {
+  display: grid;
+  place-items: center;
+  min-width: 132px;
+  height: 44px;
+  padding: 0 20px;
+  background: var(--navy);
+  color: var(--gold-ink);
+  font: 700 1.375rem/1 var(--font-typed);
+  font-variant-numeric: tabular-nums;
+}
+/* The year's typed note sits on the divider's rule, at its right end. */
+.yil__not {
+  grid-column: 5 / -1;
+  grid-row: 1;
+  align-self: center;
+  justify-self: end;
+  color: var(--ink-soft);
+  font: 400 0.9375rem/1.45 var(--font-typed);
+}
+/* Slips are dealt across the table in number order: three to a row, two on mid widths. */
+.yil__fisler {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 40px 32px;
+  align-items: start;
+  margin-top: 40px;
+}
+.yil__fisler .fis:nth-child(3n + 1) { transform: rotate(-0.5deg); }
+.yil__fisler .fis:nth-child(3n + 2) { transform: rotate(0.4deg); }
+.yil__fisler .fis:nth-child(3n) { transform: rotate(-0.2deg); }
+
+.yr-dipnot {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--rule-strong);
+  color: var(--ink-soft);
+  font: 400 0.9375rem/1.5 var(--font-typed);
+}
+
+/* ---------- The next slip is blank ---------- */
+
+.yr-bos {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 32px;
+  align-items: center;
+  padding-top: 128px;
+}
+.yr-bos__metin { grid-column: 1 / span 5; }
+.yr-bos__metin > p:not([class]) { margin-top: 16px; max-width: 44ch; }
+.yr-bos .stamps { margin-top: 32px; }
+.yr-bos__not { margin-top: 24px; max-width: 46ch; color: var(--ink-soft); font: 400 0.875rem/1.5 var(--font-typed); }
+
+.fis--bos { grid-column: 7 / span 6; transform: rotate(1deg); color: var(--navy); }
+.fis--bos .fis__bas dd { color: var(--navy); }
+.fis__satirlar { display: grid; padding: 12px 24px 0; }
+.fis__satirlar span { height: 40px; border-bottom: 1px solid var(--rule-strong); }
+.fis__alt { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; padding: 0 24px; }
+.fis__alt .stamp-box { flex: none; margin-top: 24px; }
+.fis--bos .fis__ad { padding: 0; text-align: right; }
+
+/* ---------- Contact ---------- */
+
+.yr-son {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 32px;
+  align-items: start;
+  padding: 128px 0 72px;
+}
+.yr-son__plaka { grid-column: 1 / span 6; transform: rotate(-1deg); }
+.yr-son__plaka img { aspect-ratio: 3 / 2; object-fit: cover; }
+.yr-son .dealer { grid-column: 8 / span 5; }
+
+/* ---------- Narrow screens ---------- */
+
+@media (max-width: 1239px) {
+  .yil__fisler { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* An odd last slip is centred under the pair instead of leaving half a row empty. */
+  .yil__fisler .fis:last-child:nth-child(odd) { grid-column: 1 / -1; justify-self: center; width: calc(50% - 16px); }
+}
+
+@media (max-width: 899px) {
+  .yr-dosya h2, .yr-bos h2 { font-size: 1.75rem; line-height: 32px; }
+
+  /* Title, lead and buttons, then the box, so the first slip is on the first screen;
+     the typed record and the in-page link follow the box. */
+  .yr-giris { grid-template-columns: minmax(0, 1fr); min-height: 0; padding: 32px 0 32px; }
+  .yr-giris__metin { display: contents; }
+  .yr-giris__metin > *, .kutu { grid-column: 1; }
+  .yr-giris__ozet { margin-top: 16px; }
+  .yr-giris .stamps { order: 1; margin-top: 24px; }
+  .kutu { order: 2; margin-top: 12px; }
+  .yr-kunye { order: 3; margin-top: 48px; max-width: none; }
+  .yr-giris__oku { order: 4; margin-top: 12px; }
+  .yr-kunye > div { grid-template-columns: 6.25rem minmax(0, 1fr); }
+
+  .fis blockquote { padding: 18px 16px 0; font-size: 1.0625rem; }
+  .fis__ad { padding: 14px 16px 0; }
+  .fis__not { margin-inline: 16px; }
+
+  .kutu { padding: 70px 14px 0; }
+  .kutu__ayrac--2023 { top: 30px; left: 26px; right: 26px; }
+  .kutu__ayrac--ara { top: 44px; left: 20px; right: 20px; }
+  .kutu__ayrac--2025 { top: 56px; left: 16px; right: 16px; }
+  .kutu__ayrac > span { width: 76px; height: 26px; font-size: 1.25rem; }
+  .kutu__ayrac--2023 > span { right: 16px; }
+  .kutu__ayrac--2025 > span { left: 16px; }
+  .kutu__on { height: 104px; margin: -56px -14px 0; }
+  .fis--on { padding-bottom: 156px; }
+  .fis--on blockquote { padding: 52px 20px 0; font-size: 1.1875rem; }
+  .fis--on blockquote::before { left: 16px; top: 14px; font-size: 3.25rem; }
+  .fis--on .fis__ad { padding: 16px 20px 0; }
+  .fis__damga { right: 14px; bottom: 72px; }
+
+  .yr-dosya { padding-top: 72px; }
+  .yr-dosya__ust { grid-template-columns: minmax(0, 1fr); row-gap: 32px; }
+  .yr-dosya__giris, .yr-eksik { grid-column: 1; }
+  .yil { grid-template-columns: minmax(0, 1fr); margin-top: 64px; }
+  .yr-dosya__ust + .yil { margin-top: 56px; }
+  .yil__not, .yil__fisler { grid-column: 1; }
+  .yil__not { grid-row: auto; justify-self: start; margin-top: 14px; }
+  .yil__fisler { grid-template-columns: minmax(0, 1fr); row-gap: 32px; margin-top: 28px; }
+  .yil__fisler .fis:last-child:nth-child(odd) { width: auto; justify-self: stretch; }
+  .yil__sekme span { min-width: 108px; height: 40px; font-size: 1.25rem; }
+
+  .yr-bos { grid-template-columns: minmax(0, 1fr); row-gap: 48px; padding-top: 88px; }
+  .yr-bos__metin, .fis--bos { grid-column: 1; }
+
+  .yr-son { grid-template-columns: minmax(0, 1fr); row-gap: 64px; padding: 96px 0 56px; }
+  .yr-son__plaka, .yr-son .dealer { grid-column: 1; }
+  .yr-son .dealer { padding: 28px 24px 36px; }
+
+  .fis__alt { flex-direction: column; align-items: stretch; gap: 24px; padding: 0 16px; }
+  .fis__alt .stamp-box { margin-top: 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fis--on { animation: none; }
+}

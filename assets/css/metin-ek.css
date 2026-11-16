@@ -1,0 +1,48 @@
+/* Metin çalışmasının eklediği üç parça: SSS bölümü, doğrulanacak işareti, ek satır.
+   Tasarım oturumu bunlara kendi biçimini verene kadar geçici ve sade tutuldu. */
+
+.sss {
+  background: var(--paper, #fbfbfd);
+  color: var(--ink, #2b2a29);
+  border-top: 1px solid var(--rule-strong, rgba(50, 50, 119, 0.32));
+  padding-block: clamp(40px, 5vw, 72px);
+  padding-inline: var(--gutter, clamp(20px, 6.6vw, 96px));
+}
+.sss__ic { max-width: var(--measure, 1248px); margin-inline: auto; }
+.sss__baslik {
+  margin: 0 0 24px;
+  font: 400 clamp(1.5rem, 2.4vw, 2rem)/1.2 var(--font-title, "Besley", Georgia, serif);
+  color: var(--navy, #323277);
+}
+.sss__liste { margin: 0; display: grid; gap: 0; max-width: 62rem; }
+.sss__madde { padding-block: 18px; border-top: 1px solid var(--stock-deep, #dde1ea); }
+.sss__madde dt {
+  margin: 0 0 6px;
+  font: 500 1.0625rem/1.35 var(--font-label, "Archivo Narrow", "Arial Narrow", sans-serif);
+  letter-spacing: 0.02em;
+  color: var(--navy, #323277);
+}
+.sss__madde dd {
+  margin: 0;
+  font: 400 1rem/1.6 var(--font-text, "Besley", Georgia, serif);
+  color: var(--ink, #2b2a29);
+}
+
+/* Müşteriden yanıt bekleyen yer. */
+.dogrulanacak {
+  background: var(--aged, #fff5df);
+  color: #5a4300;
+  outline: 1px dashed #b08a2e;
+  padding: 0 0.35em;
+  font-family: var(--font-typed, "Courier Prime", "Courier New", monospace);
+  font-size: 0.9em;
+  font-style: normal;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* Tasarımda yuvası olmayan tek satırlık ekler (ör. yıkama hediyesi). */
+.ek-satir {
+  margin: 16px 0 0;
+  font: 400 1rem/1.6 var(--font-text, "Besley", Georgia, serif);
+}

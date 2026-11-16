@@ -1,0 +1,37 @@
+/* İletişim: the contact page. A short invitation, the contact record and the map beside it.
+   Builds on site.css (dealer, harita, stamps) and menu.css. */
+
+.iletisim { padding: clamp(72px, 9vw, 128px) 0; }
+
+.iletisim__inner {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 32px;
+  row-gap: clamp(48px, 6vw, 80px);
+  width: min(1180px, 100% - 2 * var(--gutter));
+  margin-inline: auto;
+}
+.iletisim__bas { grid-column: 1 / span 8; }
+.iletisim h1 {
+  color: var(--navy);
+  font-size: clamp(2.25rem, 4vw, 3.5rem);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+}
+.iletisim__bas p {
+  max-width: 46ch;
+  margin-top: 24px;
+  font-size: clamp(1.125rem, 1.4vw, 1.25rem);
+  line-height: 1.6;
+}
+.iletisim .dealer { grid-column: 1 / span 5; }
+.iletisim .harita { grid-column: 6 / -1; }
+
+@media (max-width: 899px) {
+  .iletisim__inner { grid-template-columns: minmax(0, 1fr); row-gap: 24px; }
+  .iletisim__bas { margin-bottom: 24px; }
+  .iletisim__bas,
+  .iletisim .dealer,
+  .iletisim .harita { grid-column: 1; }
+  .iletisim .dealer { padding: 28px 24px 36px; }
+}

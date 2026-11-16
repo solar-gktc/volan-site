@@ -3,32 +3,22 @@
 // keys, a swipe on phones, or a click on a card behind) walk through the rest of the deck.
 
 // ---------------------------------------------------------------------------------------
-// REPLACE WITH REAL DATA. Everything below is sample ("örnek") content: no real reviews
-// with permission exist yet. One object per review; `car` and `brand` may be left out.
-//   name:   first name + initial of the surname, as Google shows it (e.g. "Ayşe K.")
-//   rating: 1–5, date: as shown on the card, text: the review text (long text is cut
-//   to six lines on the card), car: "Model · işlem", brand: volvo | vw | mercedes
-//   (chooses the drawing on the postage stamp), sample: true shows "örnek" on the card.
+// REVIEWS are real customer reviews copied unchanged (text, name, date) from yorumlar.html.
+// Only reviews short enough for the card (six lines) are used. One object per review;
+// `rating`, `car` and `brand` may be left out (the source gives no star rating or car).
+//   name / date / text: as published, rating: 1–5, car: "Model · işlem",
+//   brand: volvo | vw | mercedes (chooses the drawing on the postage stamp),
+//   sample: true shows "örnek" on the card.
+// SUMMARY is still sample ("örnek") data: the Google score, review count and profile
+// address have not come from Volan yet.
 const SUMMARY = { rating: 4.8, count: 127, url: '#', sample: true };
 const REVIEWS = [
-  { name: 'M. K.', rating: 5, date: 'Ekim 2026', car: 'Volvo XC60 · periyodik bakım', brand: 'volvo', sample: true,
-    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante venenatis.' },
-  { name: 'S. A.', rating: 5, date: 'Ekim 2026', car: 'Mercedes-Benz C 200 · arıza tespiti', brand: 'mercedes', sample: true,
-    text: 'Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper.' },
-  { name: 'E. T.', rating: 4, date: 'Eylül 2026', car: 'Volkswagen Golf · kaporta ve boya', brand: 'vw', sample: true,
-    text: 'Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.' },
-  { name: 'A. Y.', rating: 5, date: 'Eylül 2026', car: 'Volvo XC90 · fren bakımı', brand: 'volvo', sample: true,
-    text: 'Maecenas faucibus mollis interdum. Nullam quis risus eget urna mollis ornare vel eu leo. Curabitur blandit tempus porttitor, integer posuere erat a ante venenatis dapibus posuere velit aliquet. Donec id elit non mi porta gravida at eget metus.' },
-  { name: 'B. D.', rating: 5, date: 'Ağustos 2026', sample: true,
-    text: 'Etiam porta sem malesuada magna mollis euismod.' },
-  { name: 'H. Ö.', rating: 4, date: 'Ağustos 2026', car: 'Volkswagen Passat · elektronik onarım', brand: 'vw', sample: true,
-    text: 'Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus.' },
-  { name: 'C. E.', rating: 5, date: 'Temmuz 2026', car: 'Volvo V60 · triger seti', brand: 'volvo', sample: true,
-    text: 'Nulla vitae elit libero, a pharetra augue. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.' },
-  { name: 'F. Ş.', rating: 3, date: 'Temmuz 2026', car: 'Mercedes-Benz E 220 · bakım', brand: 'mercedes', sample: true,
-    text: 'Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.' },
-  { name: 'K. G.', rating: 5, date: 'Haziran 2026', car: 'Volvo S90 · kasko onarımı', brand: 'volvo', sample: true,
-    text: 'Sed posuere consectetur est at lobortis. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.' },
+  { name: 'Teoman U.', date: '24.07.2025',
+    text: 'Aracımın periyodik bakımı ve birkaç arızası için götürdüm, profesyonel ve titiz bir hizmet aldım. Kenan beye teşekkürler' },
+  { name: 'Murat.Y', date: '24.07.2025',
+    text: 'Aracımızin turbo arızası için geldiğimiz serviste kenan bey e ve ekibine teşekkür ediyorum. İlgili ve tecrübeli ekibi ile söylediği günde aracımızı teslim etti' },
+  { name: 'Ali Özdemir', date: '19.07.2023',
+    text: 'Profosyonel full servis memnun kaldım. Ayrıca müşteri hizmeti tm bir servise yakışan hareketler' },
 ];
 // ---------------------------------------------------------------------------------------
 
@@ -44,7 +34,7 @@ function card(r, i, total) {
   const stamp = STAMPS[r.brand] || GENERIC[i % GENERIC.length];
   return `<article class="pc" data-i="${i}" aria-label="Yorum ${i + 1} / ${total}">
     <div class="pc__msg">
-      ${stars(r.rating)}
+      ${r.rating ? stars(r.rating) : ''}
       <p class="pc__quote">${esc(r.text)}</p>
       <p class="pc__from">— ${esc(r.name)}${r.date ? ` · ${esc(r.date)}` : ''}</p>
       ${r.car ? `<p class="pc__car"><b>Araç ve işlem</b><span>${esc(r.car)}</span></p>` : ''}

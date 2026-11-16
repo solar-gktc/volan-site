@@ -1,4 +1,4 @@
 {
-  "prompt": "Origin: client photo general-assets/Photos-1-001/0Y7B2311.JPG (Canon, 6000x4000): Volvo XC90 (06 FZH 699) on a lift, two mechanics working under it. Full frame scaled to 1500x1000, WebP q80. Not generated.",
+  "prompt": "Origin: client photo general-assets/Photos-1-001/0Y7B2311.JPG (Canon, 6000x4000): Volvo XC90 (06 FZH 699) on a lift, two mechanics working under it. Full frame scaled to 1500x1000, WebP q80. Not generated. Edited 2026-11-16: front plate text \"06 FZH 699\" replaced with \"06 VLN 1954\" for customer privacy (plate background refilled with a smooth fit, lettering taken from the 3D models' plate texture (assets/models/*.glb)). Rest of the photo unchanged.",
   "createdAt": "2026-11-03T00:00:00.000Z"
 }

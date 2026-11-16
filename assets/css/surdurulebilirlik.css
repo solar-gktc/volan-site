@@ -1,0 +1,402 @@
+/* Sürdürülebilirlik Yaklaşımımız (draft): Volan's statement typed in, and every record that
+   will back it as a blank fill-in line, an empty digit box, or an empty plate. One stamp is
+   pressed (the statement is on record); the other stamp box stays empty on purpose.
+   Builds on site.css (tokens, plates, stamps, tick boxes, dealer block) and menu.css
+   (the contents rows). */
+
+.sr-wrap {
+  width: min(var(--measure), 100% - 2 * var(--gutter));
+  margin-inline: auto;
+}
+
+.page-surdurulebilirlik h2 { color: var(--navy); font-size: 2.5rem; line-height: 48px; letter-spacing: -0.01em; }
+
+.sr-etiket,
+.sr-beyan__liste dt,
+.sr-satirlar dt,
+.sr-tablo thead th {
+  color: var(--navy);
+  font: 600 0.75rem/1.2 var(--font-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* A typed note: sources, dates, what a blank is waiting for. */
+.sr-not { color: var(--ink-soft); font: 400 0.9375rem/1.5 var(--font-typed); }
+
+/* A blank fill-in line with a typed note of what will be written on it. */
+/* A typed note that a list is our proposal, not the client's. */
+.sr-taslak { margin-top: 20px; }
+.sr-olcum .sr-taslak { margin-top: 8px; }
+.sr-ekler__not { margin-top: 56px; }
+
+.sr-bos {
+  display: block;
+  padding: 14px 0 5px;
+  border-bottom: 2px dotted var(--rule-strong);
+  color: var(--ink-soft);
+  font: 400 0.875rem/1.4 var(--font-typed);
+}
+
+/* ---------- First screen: the title, the closing sentence, and the page's record ---------- */
+
+.sr-giris {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 32px;
+  align-items: start;
+  padding: clamp(48px, 8vh, 96px) 0 0;
+}
+.sr-giris__metin { grid-column: 1 / span 7; }
+
+.sr-giris h1 {
+  color: var(--navy);
+  font-size: clamp(2.5rem, 4.3vw, 3.875rem);
+  line-height: 1.04;
+  letter-spacing: -0.012em;
+  overflow-wrap: break-word;
+}
+.sr-ilke {
+  max-width: 30ch;
+  margin-top: 32px;
+  color: var(--navy);
+  font: italic 400 clamp(1.25rem, 1.9vw, 1.625rem)/1.4 var(--font-title);
+}
+.sr-ozet { max-width: 58ch; margin-top: 24px; }
+
+.sr-durum {
+  position: relative;
+  z-index: 2;
+  grid-column: 9 / span 4;
+  margin-top: 8px;
+  padding: 24px 24px 28px;
+  background: var(--paper);
+  box-shadow: 0 1px 1px rgba(43, 42, 41, 0.1), 0 10px 22px -10px rgba(43, 42, 41, 0.38);
+  transform: rotate(0.8deg);
+}
+.page-surdurulebilirlik .sr-durum h2 {
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--navy);
+  font: 600 0.8125rem/1.2 var(--font-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.sr-durum__liste { margin: 10px 0 0; padding: 0; list-style: none; }
+.sr-durum__liste li { display: flex; align-items: baseline; gap: 10px; padding: 8px 0; }
+.sr-durum__liste .tickbox { align-self: center; }
+.sr-durum__ad { font-size: 1rem; line-height: 1.4; }
+.is-stamped > .sr-durum__ad { color: var(--navy); font-weight: 600; }
+.sr-durum__cizgi { flex: 1; min-width: 16px; border-bottom: 2px dotted var(--rule-strong); transform: translateY(-4px); }
+.sr-durum__hal { color: var(--ink-soft); font: 400 0.875rem/1.4 var(--font-typed); }
+.sr-durum .stamp-box { width: 100%; margin-top: 20px; }
+/* The one pressed stamp: the tick goes in, then the stamp lands, once, when the card is
+   in view (the script holds both until then; without it they land on arrival). */
+.sr-durum .tick { animation: sr-tik 260ms 200ms var(--ease-out) backwards; }
+.sr-durum .stamp { animation: sr-bas 340ms 450ms var(--ease-out) backwards; }
+.sr-durum.is-waiting .tick,
+.sr-durum.is-waiting .stamp { animation-play-state: paused; }
+@keyframes sr-tik {
+  from { opacity: 0; transform: scale(1.4) rotate(-8deg); }
+}
+@keyframes sr-bas {
+  from { opacity: 0; transform: scale(1.35) rotate(-14deg); filter: blur(3px); }
+}
+
+/* ---------- Entries ---------- */
+
+.sr-bolum { padding-top: 128px; }
+.sr-bolum__ust { padding-top: 24px; border-top: 2px solid var(--rule-strong); }
+.sr-bolum__giris { max-width: 62ch; margin-top: 16px; }
+
+/* The statement: three sentences, each under its form label. */
+.sr-beyan {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 32px;
+  align-items: start;
+}
+.sr-beyan__bas { grid-column: 1 / span 4; }
+.sr-beyan__bas .sr-not { max-width: 38ch; margin-top: 16px; }
+.sr-beyan__liste { grid-column: 6 / span 7; margin: 6px 0 0; }
+.sr-beyan__liste > div {
+  display: grid;
+  grid-template-columns: 132px minmax(0, 1fr);
+  column-gap: 32px;
+  align-items: baseline;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--rule-strong);
+}
+.sr-beyan__liste > div:first-child { padding-top: 0; }
+.sr-beyan__liste dd { margin: 0; max-width: 44ch; font-size: 1.375rem; line-height: 1.5; text-wrap: pretty; }
+
+/* The waste record: a punched slip, every line still to be filled in. */
+.sr-fis {
+  position: relative;
+  z-index: 2;
+  margin-top: 48px;
+  padding: 0 40px 36px;
+  background: var(--paper);
+  box-shadow: 0 1px 1px rgba(43, 42, 41, 0.1), 0 10px 22px -10px rgba(43, 42, 41, 0.38);
+}
+.sr-fis::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+  height: 4px;
+  /* Punched holes, edge to edge as on the homepage work order: the stock shows through,
+     with the paper's cut edge as a hard 1px lip along the top of each hole. */
+  background:
+    repeating-linear-gradient(to right, var(--paper) 0 6px, transparent 6px 11px),
+    linear-gradient(to bottom, var(--rule-strong) 0 1px, var(--stock-deep) 1px);
+}
+.sr-fis__bas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 32px;
+  padding: 40px 0 14px;
+  border-bottom: 2px solid var(--navy);
+}
+.sr-fis__dayanak { color: var(--stamp-ink); font: 400 0.9375rem/1.4 var(--font-typed); }
+
+.sr-tablo { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.sr-tablo th,
+.sr-tablo td { padding: 0 32px 0 0; text-align: left; vertical-align: bottom; }
+.sr-tablo th:last-child,
+.sr-tablo td:last-child { padding-right: 0; }
+.sr-tablo thead th { padding-block: 16px 10px; border-bottom: 1px solid var(--rule-strong); }
+.sr-tablo thead th:nth-child(1) { width: 24%; }
+.sr-tablo thead th:nth-child(4) { width: 16%; }
+.sr-tablo tbody th,
+.sr-tablo tbody td { padding-block: 14px 16px; border-bottom: 1px solid var(--rule-strong); }
+.sr-tablo tbody th { color: var(--navy); font: 600 1.25rem/1.3 var(--font-title); }
+.sr-kutu {
+  display: grid;
+  place-items: center;
+  min-height: 40px;
+  border: 1.5px dashed var(--rule-strong);
+  color: var(--ink-soft);
+  font: 400 0.8125rem/1 var(--font-typed);
+}
+
+.sr-fis__alt {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  margin-top: 32px;
+}
+.sr-fis__alt .stamp-box { margin-top: 0; }
+.sr-imza { width: min(280px, 100%); margin-top: 56px; padding-top: 8px; border-top: 1.5px solid var(--navy); }
+
+/* Energy and resources: blank lines on the stock, blank digit boxes in a record box. */
+.sr-enerji {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 32px;
+  align-items: start;
+}
+.sr-enerji__metin { grid-column: 1 / span 5; }
+.sr-satirlar { margin: 32px 0 0; }
+.sr-satirlar > div + div { margin-top: 20px; }
+.sr-satirlar dd { margin: 0; }
+.sr-satirlar .sr-bos { padding-top: 6px; }
+
+.sr-olcum {
+  grid-column: 7 / span 6;
+  margin-top: 8px;
+  padding: 28px 32px 32px;
+  border: 4px double var(--navy);
+}
+.sr-olcum h3 {
+  margin: 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--rule-strong);
+  color: var(--navy);
+  font: 600 0.8125rem/1.2 var(--font-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.sr-olcum__liste { margin: 0 0 20px; padding: 0; list-style: none; }
+.sr-olcum__liste li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 12px 24px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--rule-strong);
+}
+.sr-olcum__liste strong { display: block; color: var(--navy); font: 600 1.125rem/1.3 var(--font-title); }
+.sr-olcum__liste .sr-not { display: block; margin-top: 2px; font-size: 0.875rem; }
+.sr-hane { display: inline-flex; align-items: flex-end; gap: 10px; }
+.sr-hane__kutular { display: inline-flex; gap: 3px; }
+/* An empty digit box: the form field before anything is typed into it. */
+.sr-hane__kutular span { width: 26px; height: 32px; border: 1.5px solid var(--navy); background: var(--paper); }
+.sr-hane__birim { width: 14ch; white-space: nowrap; padding-bottom: 3px; color: var(--navy); font: 400 0.875rem/1.2 var(--font-typed); }
+
+/* Attachments: empty plates where the documents and photos will be tipped in. */
+.sr-ekler {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 32px;
+  align-items: start;
+  margin-top: 48px;
+}
+.sr-ek {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  padding: 10px;
+  background: var(--paper);
+  box-shadow: 0 1px 1px rgba(43, 42, 41, 0.1), 0 10px 22px -10px rgba(43, 42, 41, 0.38);
+}
+.sr-ek--belge { grid-column: span 2; }
+.sr-ek--foto { grid-column: span 4; }
+.sr-ek:nth-child(1) { transform: rotate(-1.2deg); }
+.sr-ek:nth-child(2) { transform: translateY(20px) rotate(0.9deg); }
+.sr-ek:nth-child(3) { transform: rotate(-0.6deg); }
+.sr-ek:nth-child(4) { transform: translateY(28px) rotate(1.1deg); }
+.sr-ek__alan {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 10px;
+  padding: 12px;
+  border: 1.5px dashed var(--rule-strong);
+  color: var(--ink-soft);
+  font: 400 0.875rem/1.4 var(--font-typed);
+  text-align: center;
+}
+.sr-ek--belge .sr-ek__alan { aspect-ratio: 210 / 297; }
+.sr-ek--foto .sr-ek__alan { aspect-ratio: 3 / 2; }
+/* Corner mounts: the four drawn corners a print is slipped into. */
+.sr-ek__alan {
+  --kose: 14px;
+  background:
+    linear-gradient(135deg, var(--navy) 0 50%, transparent 50%) left top / var(--kose) var(--kose) no-repeat,
+    linear-gradient(225deg, var(--navy) 0 50%, transparent 50%) right top / var(--kose) var(--kose) no-repeat,
+    linear-gradient(45deg, var(--navy) 0 50%, transparent 50%) left bottom / var(--kose) var(--kose) no-repeat,
+    linear-gradient(315deg, var(--navy) 0 50%, transparent 50%) right bottom / var(--kose) var(--kose) no-repeat;
+}
+.sr-ek figcaption {
+  padding: 10px 4px 4px;
+  color: var(--ink-soft);
+  font: 400 0.9375rem/1.4 var(--font-typed);
+  text-wrap: balance;
+}
+
+/* The sibling pages and the dealer block close the page. */
+.sr-son { padding-bottom: 96px; }
+.sr-son__ic {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 32px;
+  align-items: start;
+  padding-top: 48px;
+}
+.sr-sayfalar { grid-column: 1 / span 5; }
+.page-surdurulebilirlik .sr-sayfalar h2 { font-size: 1.375rem; line-height: 1.3; letter-spacing: 0; }
+.sr-sayfalar ul { margin: 12px 0 0; padding: 0; list-style: none; }
+.sr-son .dealer { grid-column: 8 / span 5; }
+.page-surdurulebilirlik .dealer h2 { font-size: 2rem; line-height: 1.2; letter-spacing: 0; }
+
+/* ---------- Narrow screens ---------- */
+
+@media (max-width: 1100px) {
+  .sr-giris__metin { grid-column: 1 / span 6; }
+  .sr-durum { grid-column: 8 / span 5; }
+  /* The record box is too narrow here for a name beside its digit boxes. */
+  .sr-olcum__liste li { grid-template-columns: minmax(0, 1fr); }
+  .sr-hane__birim { width: auto; }
+  /* Two full rows: document and photo, then photo and document. */
+  .sr-ekler { row-gap: 56px; }
+  .sr-ek:nth-child(1) { grid-column: 1 / span 4; grid-row: 1; }
+  .sr-ek:nth-child(3) { grid-column: 5 / span 8; grid-row: 1; }
+  .sr-ek:nth-child(4) { grid-column: 1 / span 8; grid-row: 2; transform: rotate(1.1deg); }
+  .sr-ek:nth-child(2) { grid-column: 9 / span 4; grid-row: 2; transform: rotate(0.9deg); }
+}
+
+@media (max-width: 899px) {
+  .sr-giris,
+  .sr-beyan,
+  .sr-enerji,
+  .sr-son__ic { grid-template-columns: minmax(0, 1fr); row-gap: 48px; }
+  .sr-giris__metin,
+  .sr-durum,
+  .sr-beyan__bas,
+  .sr-beyan__liste,
+  .sr-enerji__metin,
+  .sr-olcum,
+  .sr-sayfalar,
+  .sr-son .dealer { grid-column: 1; }
+
+  .sr-giris { padding-top: 40px; }
+  .sr-giris h1 { font-size: clamp(1.875rem, 8.6vw, 2.5rem); }
+  .sr-ilke { margin-top: 24px; }
+  .sr-giris { row-gap: 32px; }
+  /* The stamp box moves above the list so the pressed stamp sits high on the card. */
+  .sr-durum { display: flex; flex-direction: column; width: min(420px, 100%); margin-top: 0; padding: 20px 20px 24px; }
+  .sr-durum .stamp-box { order: 1; margin-top: 16px; }
+  .sr-durum__liste { order: 2; }
+
+  .sr-bolum { padding-top: 96px; }
+  .page-surdurulebilirlik h2 { font-size: 1.75rem; line-height: 32px; }
+
+  .sr-beyan { row-gap: 32px; }
+  .sr-beyan__bas .sr-not { max-width: none; }
+  .sr-beyan__liste { margin-top: 0; }
+  .sr-beyan__liste > div { grid-template-columns: minmax(0, 1fr); row-gap: 8px; padding: 20px 0; }
+  .sr-beyan__liste dd { font-size: 1.1875rem; }
+
+  /* The table becomes one block per waste type, each line under its own label. */
+  .sr-fis { margin-top: 40px; padding: 0 20px 28px; }
+  .sr-tablo, .sr-tablo tbody, .sr-tablo tr, .sr-tablo th, .sr-tablo td { display: block; }
+  .sr-tablo thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .sr-tablo tr {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 16px;
+    align-items: center;
+    padding: 14px 0 18px;
+    border-bottom: 1px solid var(--rule-strong);
+  }
+  .sr-tablo tbody th,
+  .sr-tablo tbody td { padding: 0; border: 0; }
+  .sr-tablo tbody td { grid-column: 1 / -1; margin-top: 10px; }
+  /* The document box sits on the waste type's own line. */
+  .sr-tablo tbody td:last-child { grid-column: 2; grid-row: 1; display: flex; align-items: center; gap: 8px; margin-top: 0; }
+  .sr-tablo td::before {
+    content: attr(data-label);
+    display: block;
+    color: var(--navy);
+    font: 600 0.75rem/1.2 var(--font-label);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .sr-tablo .sr-bos { padding-top: 4px; }
+  .sr-kutu { min-height: 32px; padding: 0 10px; }
+  .sr-fis__alt .stamp-box { width: 100%; }
+  .sr-imza { margin-top: 48px; }
+
+  .sr-olcum { margin-top: 0; padding: 24px 20px 28px; }
+
+  .sr-ekler { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 20px; row-gap: 40px; margin-top: 40px; }
+  .sr-ek:nth-child(1) { grid-column: 1; grid-row: 1; }
+  .sr-ek:nth-child(2) { grid-column: 2; grid-row: 1; transform: translateY(12px) rotate(0.9deg); }
+  .sr-ek:nth-child(3) { grid-column: 1 / -1; grid-row: 2; width: 88%; }
+  .sr-ek:nth-child(4) { grid-column: 1 / -1; grid-row: 3; width: 88%; justify-self: end; }
+  .sr-ekler__not { margin-top: 40px; }
+
+  .sr-son { padding-bottom: 72px; }
+  .sr-son__ic { row-gap: 64px; padding-top: 40px; }
+  .sr-son .dealer { padding: 28px 24px 36px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sr-durum .tick,
+  .sr-durum .stamp { animation: none; }
+}

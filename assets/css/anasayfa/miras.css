@@ -38,12 +38,12 @@
 .s-miras .frame[aria-pressed="true"] .pick { opacity: 1; transform: none; }
 
 /* The lineage band: four entries left to right, arrows between. */
-.s-miras .band { grid-column: 3 / span 10; display: grid; grid-template-columns: 1fr 1fr 1fr 1.1fr; column-gap: 68px; margin: 0; padding: 24px 0 28px; list-style: none; border-top: 2px solid var(--navy); border-bottom: 1px solid var(--rule-strong); }
+.s-miras .band { grid-column: 3 / span 10; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 68px; margin: 0; padding: 24px 0 28px; list-style: none; border-top: 2px solid var(--navy); border-bottom: 1px solid var(--rule-strong); }
 .s-miras .step { position: relative; }
-.s-miras .step:not(:last-child)::after { content: ""; position: absolute; right: -54px; top: 50px; width: 40px; height: 24px;
+.s-miras .step:not(:last-child)::after { content: ""; position: absolute; right: -54px; top: 45px; width: 40px; height: 24px;
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 24'%3E%3Cpath d='M1 12h36M28 4l9 8-9 8' fill='none' stroke='%23323277' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat center / contain; }
 .s-miras .step__year { display: block; height: 28px; color: var(--navy); font: 400 1rem/1.4 var(--font-typed); font-variant-numeric: tabular-nums; }
-.s-miras .step__name { display: block; margin: 10px 0 12px; color: var(--navy); font: 400 clamp(1.75rem, 2.5vw, 2.375rem)/1.05 var(--font-title); letter-spacing: -0.012em; }
+.s-miras .step__name { display: block; margin: 10px 0 12px; color: var(--navy); font: 400 clamp(1.375rem, 2.05vw, 2rem)/1.08 var(--font-title); letter-spacing: -0.012em; }
 .s-miras .step__note { display: block; color: var(--ink-soft); font: 400 1rem/1.5 var(--font-text); }
 .s-miras .step--now .seal { width: 120px; height: 120px; right: -8px; top: -76px; transform: rotate(-14deg); opacity: 0.88; }
 .s-miras .blank { display: inline-flex; gap: 6px; vertical-align: middle; }
@@ -51,6 +51,13 @@
 
 .s-miras .band__foot { grid-column: 3 / span 10; display: flex; justify-content: flex-end; align-items: center; gap: 24px; margin-top: -64px; }
 .s-miras .stamp-btn svg { width: 18px; height: 18px; margin-left: 12px; fill: none; stroke: currentColor; stroke-width: 1.75; }
+
+/* Between the phone layout and the full row the four names do not fit side by side: two by two. */
+@media (min-width: 900px) and (max-width: 1199px) {
+  .s-miras .band { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 40px; }
+  .s-miras .step:nth-child(2)::after { content: none; }
+  .s-miras .step__name { font-size: 1.75rem; }
+}
 
 @media (max-width: 899px) {
   .s-miras { padding: 96px 0 72px; }
@@ -69,6 +76,7 @@
   .s-miras .lead { margin-bottom: 40px; }
   .s-miras .frame em { display: none; }
   .s-miras .band { grid-template-columns: 1fr; row-gap: 52px; padding-bottom: 28px; }
+  .s-miras .step__name { font-size: 1.75rem; }
   .s-miras .step:not(:last-child)::after { right: auto; left: -8px; top: auto; bottom: -40px; width: 32px; transform: rotate(90deg); }
   .s-miras .step--now .seal { width: 88px; height: 88px; top: -80px; right: -4px; }
   .s-miras .band__foot { margin-top: -40px; flex-direction: column; align-items: flex-start; }

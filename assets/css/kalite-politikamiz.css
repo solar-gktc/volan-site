@@ -1,0 +1,268 @@
+/* Kalite Politikamız (taslak): the booklet's stamp page. One car's record with six control
+   stamps opens the page; the policy text sits on a navy leaf; the ledger below follows the
+   car from acceptance to handover, each station carrying the stamp it has on the sheet,
+   with blank lines where a fact is still missing.
+   Builds on site.css (tokens, plates, stamps, tick boxes, stamp-box buttons, dealer block)
+   and menu.css (contents rows). Vertical measures keep the 32px ruling (--line). */
+
+.kp-wrap {
+  width: min(var(--measure), 100% - 2 * var(--gutter));
+  margin-inline: auto;
+}
+
+.page-kalite h2:not(.etiket) { color: var(--navy); font-size: 2.5rem; line-height: 48px; letter-spacing: -0.01em; }
+.page-kalite h3 { margin: 0; color: var(--navy); font-family: var(--font-title); font-weight: 600; text-wrap: balance; }
+
+.etiket {
+  display: block;
+  margin: 0;
+  color: var(--navy);
+  font: 600 0.75rem/1.2 var(--font-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* The page's one gap convention: a form label, a blank fill-in line, and a bracketed typed
+   note (the note style of Hizmetlerimiz and Tesisimiz). The same note marks a line that
+   waits for Volan's confirmation. */
+.doldur { display: block; height: 24px; margin-bottom: 8px; border-bottom: 2px dotted var(--rule-strong); }
+.ph {
+  background: var(--aged);
+  box-shadow: 0 0 0 2px var(--aged);
+  color: var(--ink-amber);
+  font-family: var(--font-typed);
+  font-size: 0.9375rem;
+  line-height: 1.4;
+}
+.bos { font-size: 0.9375rem; line-height: 1.4; }
+
+/* ---------- First screen ---------- */
+
+.acilis {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 32px;
+  align-items: center;
+  min-height: clamp(600px, calc(100svh - var(--menu-h)), 900px);
+  padding: 64px 0;
+}
+.acilis__metin { grid-column: 1 / span 5; }
+.acilis h1 {
+  color: var(--navy);
+  font-size: clamp(2.5rem, 4.3vw, 3.875rem);
+  line-height: 1.04;
+  letter-spacing: -0.012em;
+}
+.acilis__giris { max-width: 46ch; margin-top: 32px; font-size: clamp(1.125rem, 1.55vw, 1.4rem); line-height: 1.42; }
+.acilis .stamps { margin-top: 32px; }
+.acilis__soz { margin-top: 32px; color: var(--ink-soft); font: 400 1rem/1.5 var(--font-typed); }
+
+/* The record sheet: a page of the booklet with six stamp boxes. */
+.kayit { grid-column: 7 / span 6; padding: 32px; transform: rotate(0.7deg); }
+.kayit__ust {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--navy);
+}
+.kayit__not { color: var(--ink-soft); font: 400 0.875rem/1.5 var(--font-typed); white-space: nowrap; }
+.kayit__kutular {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.kayit .stamp-box {
+  width: auto;
+  margin: 0;
+  text-decoration: none;
+  transition: border-color 180ms var(--ease-out), background-color 180ms var(--ease-out);
+}
+.kayit .stamp-box:hover { border-color: var(--navy); border-style: solid; background-color: rgba(50, 50, 119, 0.05); }
+.kayit .stamp-box:active { background-color: rgba(50, 50, 119, 0.1); }
+.kayit .stamp-box:focus-visible { outline: 2px solid var(--navy); outline-offset: 3px; border-color: var(--navy); }
+.page-kalite .stamp-box__label { opacity: 1; }
+.page-kalite .stamp__ink { white-space: nowrap; }
+.kayit__alt { margin-top: 16px; color: var(--ink-soft); font: 400 0.875rem/1.5 var(--font-typed); }
+
+/* Each stamp lands at its own angle, as a hand would press it; a station's stamp in the
+   ledger is the same stamp at the same angle. */
+.kayit li:nth-child(1), #kabul { --r: -5deg; }
+.kayit li:nth-child(2), #teshis { --r: 3deg; }
+.kayit li:nth-child(3), #onay { --r: -2.5deg; }
+.kayit li:nth-child(4), #onarim { --r: 4.5deg; }
+.kayit li:nth-child(5), #kontrol { --r: -6deg; }
+.kayit li:nth-child(6), #teslim { --r: 2deg; }
+
+/* Stamp states. Everything is applied unless the press script has taken over (html.press,
+   set by the same script that presses). */
+html:not(.press) .page-kalite .stamp,
+.page-kalite .is-stamped .stamp { opacity: 0.92; transform: scale(1) rotate(var(--r, -6deg)); filter: blur(0); }
+html:not(.press) .page-kalite .tick,
+.page-kalite .is-stamped .tick { opacity: 0.92; transform: none; }
+.kayit li:nth-child(2) .stamp { transition-delay: 140ms; }
+.kayit li:nth-child(3) .stamp { transition-delay: 280ms; }
+.kayit li:nth-child(4) .stamp { transition-delay: 420ms; }
+.kayit li:nth-child(5) .stamp { transition-delay: 560ms; }
+.kayit li:nth-child(6) .stamp { transition-delay: 700ms; }
+
+/* ---------- The policy text: a navy leaf in the cover's foil frame ---------- */
+
+.politika { display: block; padding: 128px 0; }
+.politika__inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 32px;
+  align-items: start;
+  width: min(1180px, 100% - 2 * var(--gutter));
+  margin-inline: auto;
+}
+.politika__sol { grid-column: 1 / span 4; position: sticky; top: calc(var(--menu-offset, 0px) + 64px); }
+.page-kalite .politika h2 { color: var(--gold-ink); }
+.politika__giris { margin-top: 32px; max-width: 34ch; }
+.politika ::selection { background: var(--gold-ink); color: var(--navy); }
+
+/* Each clause hangs from its numeral. */
+.maddeler { grid-column: 6 / span 7; margin: 0; padding: 0; list-style: none; }
+.maddeler li {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  padding: 32px 0;
+  border-top: 1px solid rgba(205, 181, 133, 0.5);
+  scroll-margin-top: calc(var(--menu-h) + 16px);
+}
+.maddeler li:first-child { padding-top: 8px; border-top: 0; }
+.maddeler li:last-child { padding-bottom: 0; }
+.maddeler__no,
+.maddeler p { font-size: clamp(1.125rem, 1.55vw, 1.4rem); line-height: 1.42; }
+.maddeler__no { color: var(--gold-ink); font-family: var(--font-title); font-weight: 600; font-variant-numeric: lining-nums; }
+.maddeler p { max-width: 36ch; text-wrap: balance; }
+.maddeler .bos { max-width: 420px; margin-top: 32px; }
+.maddeler .etiket { color: var(--gold-ink); }
+.maddeler .doldur { border-bottom-color: rgba(205, 181, 133, 0.7); }
+
+/* ---------- The ledger: six stations ---------- */
+
+.defter { padding-top: 128px; }
+.defter__giris { max-width: 58ch; margin-top: 32px; }
+
+.duraklar { margin: 64px 0 0; padding: 0; list-style: none; border-bottom: 2px solid var(--rule-strong); }
+.durak {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 32px;
+  align-items: baseline;
+  padding: 32px 0;
+  border-top: 2px solid var(--rule-strong);
+  scroll-margin-top: calc(var(--menu-h) + 16px);
+}
+/* The counter sits beside the station name, on its baseline. */
+.durak__ad { grid-column: 1 / span 3; display: flex; align-items: baseline; gap: 16px; }
+.durak h3 { font-size: 2rem; line-height: 1.2; letter-spacing: -0.01em; }
+.durak__sira { color: var(--ink-soft); font: 400 1rem/1.5 var(--font-typed); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.durak__metin { grid-column: 4 / span 5; }
+.durak__metin p { max-width: 46ch; }
+.durak__metin a { text-decoration-color: var(--rule-strong); }
+.durak__kayit { grid-column: 10 / span 3; align-self: start; }
+.durak .stamp-box { max-width: 100%; margin-top: 0; }
+.durak__kayit .bos { margin-top: 32px; }
+.durak__kayit .etiket { margin-bottom: 0; }
+
+/* ---------- What it rests on, and the client's five-step order ---------- */
+
+.dayanak {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 32px;
+  align-items: start;
+  padding-top: 128px;
+}
+.dayanak__sol { grid-column: 1 / span 6; }
+.dayanak__liste,
+.sira ol { margin: 32px 0 0; padding: 0; list-style: none; border-top: 1px solid var(--rule-strong); }
+.dayanak__liste li,
+.sira li { display: flex; gap: 16px; align-items: flex-start; padding: 16px 0; border-bottom: 1px solid var(--rule-strong); }
+.dayanak__liste .tickbox { margin-top: 7px; }
+.dayanak__liste li:nth-child(2) .tick { transition-delay: 110ms; }
+.dayanak__liste li:nth-child(3) .tick { transition-delay: 220ms; }
+.dayanak__liste li:nth-child(4) .tick { transition-delay: 330ms; }
+
+/* The client's own five-step order, numbered as typed. */
+.sira { grid-column: 8 / span 5; padding-top: 16px; }
+.sira h3 { font-size: 1.375rem; line-height: 32px; }
+.sira ol { counter-reset: sira; color: var(--navy); font-weight: 600; }
+.sira li { counter-increment: sira; align-items: baseline; }
+.sira li::before { content: counter(sira); flex: none; width: 16px; color: var(--stamp-ink); font: 400 1rem/1.5 var(--font-typed); }
+
+/* ---------- The section's pages, then contact ---------- */
+
+.kapanis {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 32px;
+  align-items: start;
+  padding: 128px 0 96px;
+}
+.bolum-sayfalari { grid-column: 1 / span 5; padding-top: 32px; border-top: 2px solid var(--rule-strong); }
+.page-kalite .bolum-sayfalari h2:not(.etiket) { font-size: 1.375rem; line-height: 32px; letter-spacing: 0; }
+.bolum-sayfalari ul { margin: 16px 0 0; padding: 0; list-style: none; }
+.kapanis .dealer { grid-column: 8 / span 5; }
+
+/* ---------- Narrow screens ---------- */
+
+/* Between the breakpoint and 1100px the sheet and the record column take one more column
+   each, so the stamps keep their full size. */
+@media (max-width: 1100px) {
+  .acilis__metin { grid-column: 1 / span 5; }
+  .kayit { grid-column: 6 / span 7; padding: 24px; }
+  .kayit .stamp__ink { padding-inline: 10px; }
+  .kayit .stamp__ink small { letter-spacing: 0.12em; }
+  .durak__metin { grid-column: 4 / span 5; }
+  .durak__kayit { grid-column: 9 / span 4; }
+}
+
+@media (max-width: 899px) {
+  .page-kalite h2:not(.etiket) { font-size: 1.75rem; line-height: 32px; }
+
+  .acilis { grid-template-columns: minmax(0, 1fr); row-gap: 64px; min-height: 0; padding: 32px 0 64px; }
+  .acilis__metin, .kayit { grid-column: 1; }
+  .acilis h1 { font-size: 2.5rem; }
+  /* One column of boxes: the stamps stay at full size instead of shrinking. */
+  .kayit { padding: 24px; transform: rotate(0.4deg); }
+  .kayit__kutular { grid-template-columns: minmax(0, 1fr); }
+  .kayit .stamp__ink { padding-inline: 16px; }
+
+  .politika { padding: 96px 0; }
+  .politika__inner { grid-template-columns: minmax(0, 1fr); row-gap: 32px; }
+  .politika__sol, .maddeler { grid-column: 1; }
+  .politika__sol { position: static; }
+  .maddeler li { grid-template-columns: 32px minmax(0, 1fr); }
+  .maddeler li:first-child { padding-top: 0; }
+
+  .defter { padding-top: 96px; }
+  .duraklar { margin-top: 32px; }
+  .durak { grid-template-columns: minmax(0, 1fr); row-gap: 16px; }
+  .durak__ad, .durak__metin, .durak__kayit { grid-column: 1; }
+  .durak__ad { justify-content: space-between; }
+  .durak h3 { font-size: 1.75rem; }
+  .durak__kayit { padding-top: 16px; }
+
+  .dayanak { grid-template-columns: minmax(0, 1fr); row-gap: 64px; padding-top: 96px; }
+  .dayanak__sol, .sira { grid-column: 1; }
+  .sira { padding-top: 0; }
+
+  .kapanis { grid-template-columns: minmax(0, 1fr); row-gap: 64px; padding: 96px 0 64px; }
+  .bolum-sayfalari, .kapanis .dealer { grid-column: 1; }
+  .kapanis .dealer { padding: 32px 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kayit .stamp, .dayanak__liste .tick { transition-delay: 0s; }
+  .kayit .stamp-box { transition: none; }
+}

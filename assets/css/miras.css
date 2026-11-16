@@ -1,8 +1,7 @@
 /* Miras: the heritage page, the Service Booklet in its ceremonial edition. The navy cover
    with the then/now plate, five chapters as booklet leaves (each one the same template with
    its own composition), the navy cover again to close. Builds on site.css (tokens, stamp-box
-   buttons, plates, stamps, the seal). Copy is placeholder: every block takes longer or
-   shorter text without breaking. */
+   buttons, plates, stamps, the seal). */
 
 .mr-sarma {
   width: min(var(--measure), 100% - 2 * var(--gutter));
@@ -469,4 +468,73 @@ html:not(.press) .mr-son__muhur { opacity: 0.95; transform: scale(1) rotate(-14d
 @media (prefers-reduced-motion: reduce) {
   .mr-son__muhur, [data-gelis] img, .karsilastir__tutamac, .mr-buyut-ac::after { transition: none; }
   .mr-buyut[open] { animation: none; }
+}
+
+/* ---------- Story blocks: a feature story, short dated entries, the name lineage ---------- */
+
+.mr-etiket {
+  color: var(--ink-soft);
+  font: 600 0.75rem/1.2 var(--font-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+/* ---------- A feature story: its name on the left, the telling on the right ---------- */
+
+.mr-hikaye {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 32px;
+  row-gap: 24px;
+  margin-top: clamp(88px, 9vw, 136px);
+  padding-top: 28px;
+  border-top: 2px solid var(--rule-strong);
+}
+.mr-hikaye__bas { grid-column: 1 / span 4; }
+.mr-hikaye h3 {
+  margin: 12px 0 0;
+  color: var(--navy);
+  font: 400 clamp(1.75rem, 2.7vw, 2.375rem)/1.12 var(--font-title);
+  letter-spacing: -0.012em;
+  text-wrap: balance;
+}
+.mr-hikaye__govde { grid-column: 6 / span 7; min-width: 0; }
+.mr-hikaye__govde p { max-width: 62ch; }
+.mr-hikaye__govde p + p { margin-top: 16px; }
+
+/* A plain lead-in line above a quote. */
+.mr-soz p.mr-soz__giris { max-width: none; margin-bottom: 20px; color: var(--ink-soft); font-size: 1.125rem; font-style: normal; line-height: 1.6; }
+
+/* ---------- Short entries: two to a row, each under a rule ---------- */
+
+.mr-anilar {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 56px 64px;
+  margin-top: clamp(88px, 9vw, 136px);
+}
+.mr-ani { min-width: 0; padding-top: 22px; border-top: 2px solid var(--rule-strong); }
+.mr-ani h3 {
+  margin: 10px 0 0;
+  color: var(--navy);
+  font: 600 1.5rem/1.2 var(--font-title);
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.mr-ani p:not(.mr-etiket) { max-width: 58ch; margin-top: 14px; font-size: 1.0625rem; line-height: 1.7; }
+.mr-volvo .mr-anilar { position: relative; z-index: 1; }
+.mr-volvo .mr-ani { border-top-color: rgba(205, 181, 133, 0.55); }
+.mr-volvo .mr-ani h3,
+.mr-volvo .mr-etiket { color: var(--gold-ink); }
+.mr-volvo .mr-ani p:not(.mr-etiket) { color: var(--stock); }
+.mr-volvo .mr-sarma { position: relative; z-index: 1; }
+
+.mr-soy { display: flex; flex-wrap: wrap; gap: 8px 0; margin: 28px 0 0; padding: 0; list-style: none; }
+.mr-soy li { display: flex; align-items: baseline; font: 400 0.9375rem/1.5 var(--font-typed); color: var(--ink); }
+.mr-soy li + li::before { content: "→"; margin-inline: 10px; color: var(--navy); }
+.mr-soy li:last-child { font-weight: 700; color: var(--navy); }
+
+@media (max-width: 899px) {
+  .mr-hikaye { grid-template-columns: minmax(0, 1fr); margin-top: 72px; }
+  .mr-hikaye__bas, .mr-hikaye__govde { grid-column: 1; }
+  .mr-anilar { grid-template-columns: minmax(0, 1fr); gap: 40px; margin-top: 72px; }
 }

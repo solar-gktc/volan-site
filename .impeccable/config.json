@@ -171,6 +171,15 @@
         "value": "prime\",monospace",
         "createdAt": "2026-11-02T23:13:34.371Z",
         "reason": "Claude: fragments of 'Archivo Narrow' and 'Courier Prime', both declared in DESIGN.md typography; detector split the quoted family names"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "miras-taslak.html"
+        ],
+        "createdAt": "2026-11-16T12:40:29.642Z",
+        "reason": "agent triage: the four hits are .mr-kapak, .mr-yaprak, .cover and .stamp-box from the existing site.css/miras.css; the detector scanned the artifact fragment without its linked stylesheets (it reports body text as rgb(0,0,0)); in the rendered page the inner wrappers carry the gutter and the stamp is centred in its box"
       }
     ]
   }

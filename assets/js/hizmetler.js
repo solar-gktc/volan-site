@@ -265,7 +265,7 @@
     }
   });
 
-  // A link to hizmetlerimiz.html#kaporta opens that service.
+  // A link to hizmetlerimiz.html#kaporta-boya opens that service.
   const fromHash = () => {
     const id = decodeURIComponent(location.hash.slice(1));
     if (articles.some((a) => a.id === id)) open(id);

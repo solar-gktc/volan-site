@@ -171,7 +171,7 @@
 .callout[data-part="govde-arka"] { --x: 0;  --y: 49; }
 .callout[data-part="kapi"]       { --x: 2;  --y: 84; }
 .callout[data-part="fren"]       { --x: 30; --y: 95; }
-.callout[data-part="camurluk"]   { --x: 84; --y: 89; }
+.callout[data-part="cekici"]     { --x: 84; --y: 89; }
 
 /* Load moment: callouts wait until their part has slid out. */
 .js .acilan.is-live .callout { opacity: 0; translate: 0 6px; }
@@ -201,7 +201,7 @@
   .callout[data-part="motor"]      { --x: 97; --y: 8; }
   .callout[data-part="aku"]        { --x: 97; --y: 17.5; }
   .callout[data-part="kapi"]       { --x: 3;  --y: 91.5; }
-  .callout[data-part="camurluk"]   { --x: 97; --y: 82; --side: 1; --j: end; --ta: right; }
+  .callout[data-part="cekici"]     { --x: 97; --y: 82; --side: 1; --j: end; --ta: right; }
   .callout[data-part="amortisor"]  { --x: 97; --y: 91.5; }
   .callout[data-part="fren"]       { --x: 50; --y: 99; --side: 0.5; --j: center; --ta: center; }
 }
