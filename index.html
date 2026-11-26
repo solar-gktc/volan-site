@@ -8,7 +8,6 @@
 <meta name="theme-color" content="#323277">
 <link rel="icon" href="assets/img/logo-oval.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/besley-400-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/models/volvo-xc60.glb" as="fetch" type="model/gltf-binary" crossorigin>
 <link rel="stylesheet" href="assets/fonts/fonts.css">
 <link rel="stylesheet" href="assets/css/anasayfa-v2.css">
 <link rel="stylesheet" href="assets/css/menu.css">
@@ -24,7 +23,7 @@
 <link rel="stylesheet" href="assets/css/anasayfa/final.css">
 <link rel="stylesheet" href="assets/css/metin-ek.css">
 <script type="importmap">{ "imports": { "three": "./assets/vendor/three.bundle.min.js" } }</script>
-<script type="module" src="assets/js/main.js"></script>
+<script type="module" src="assets/js/anasayfa/sahne-baslat.js"></script>
 <script type="module" src="assets/js/anasayfa/hero.js"></script>
 <script type="module" src="assets/js/anasayfa/hizmetler.js"></script>
 <script type="module" src="assets/js/anasayfa/kampanya.js"></script>
@@ -146,7 +145,7 @@
         <div class="print__img">
           <picture>
             <source media="(max-width: 899px)" srcset="assets/img/anasayfa/hero-bina-kasim-dar.webp" width="800" height="500">
-            <img src="assets/img/anasayfa/hero-bina-kasim-genis.webp" width="2880" height="1235" alt="Volan Otomotiv binası gündüz: Oto Kuaför, Mekanik 1 ve Mekanik 2 kapıları, ortada VOLAN tabelası ve “Since 1954” yazılı giriş, önünde park etmiş araçlar.">
+            <img src="assets/img/anasayfa/hero-bina-kasim-genis.webp" width="2880" height="1235" fetchpriority="high" alt="Volan Otomotiv binası gündüz: Oto Kuaför, Mekanik 1 ve Mekanik 2 kapıları, ortada VOLAN tabelası ve “Since 1954” yazılı giriş, önünde park etmiş araçlar.">
           </picture>
         </div>
       </figure>
