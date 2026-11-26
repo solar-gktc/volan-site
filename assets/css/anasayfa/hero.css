@@ -199,6 +199,12 @@ header.banner.s-hero { min-height: 0; } /* menu.css gives .menu ~ .banner a min-
   .s-hero .hcard .stamps { gap: 10px 8px; }
 }
 
+/* ---------- Phones (below 600px): a square print, so the upright facade photo keeps the sign and the entrance ---------- */
+@media (max-width: 599px) {
+  .s-hero .prints, .s-hero .hero__nav { aspect-ratio: 1 / 1; }
+  .s-hero [data-print="1"] picture img { object-position: 50% 12%; }
+}
+
 /* ---------- Tablets (600–899px): the print is wide, so keep it lower and the card roomier ---------- */
 @media (min-width: 600px) and (max-width: 899px) {
   .s-hero .prints, .s-hero .hero__nav { aspect-ratio: 2 / 1; }

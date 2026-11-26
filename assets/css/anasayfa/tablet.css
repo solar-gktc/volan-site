@@ -8,6 +8,7 @@
   .s-hizmetler .panel__art { order: 0; grid-column: 2; grid-row: 1; padding-top: 48px; }
   .s-hizmetler .panel__text { grid-column: 1; grid-row: 1; }
   .s-hizmetler .panel__photo { width: 70%; margin: -40px 0 0 auto; }
+  .s-hizmetler .panel__photo--2 { width: 48%; margin: 0; right: auto; left: -10px; bottom: -16px; }
 
   /* Campaigns: offer and artwork side by side. */
   .s-kampanya .panel { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); column-gap: 16px; }
