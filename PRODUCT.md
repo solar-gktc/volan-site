@@ -30,7 +30,7 @@ The company was founded in 1954 as "Volan Küçükyılmaz". It was a Volvo autho
 
 - Facility: Şaşmaz Oto Sanayi Sitesi. Address: Bahçekapı Mah. 2547. Sokak No:3 Etimesgut / Ankara. The building signage reads "VOLAN Premium Car Service" and "Since 1954". The workshops are labeled "Mekanik 1" and "Mekanik 2".
 - Phones: 0533 765 33 78 (the site labels it "Telefon" and "Müşteri Destek Hattı") and 0312 278 69 90. WhatsApp: wa.me/905337653378. Email: info@volan.com.tr.
-- Size and staff (user-stated): facility 1.800 m² (2026-11-01); 25 employees in total and 5 lifts in total (2026-11-03). Vehicles taken care of: "100.000+ araç" (user-stated 2026-11-03, for the homepage figures table). Per-unit staff counts are not published; the old site's per-unit numbers (4 mechanics, 2 body/paint, 1 damage advisor, 3 service advisors, 4 lifts) are outdated.
+- Size and staff (user-stated): facility 1.800 m² (2026-11-01); 25 employees in total and 5 lifts in total (2026-11-03). Vehicles taken care of: "200.000+ araç" (user-confirmed 2026-11-26; the earlier "100.000+" note is superseded, for the homepage figures table). Per-unit staff counts are not published; the old site's per-unit numbers (4 mechanics, 2 body/paint, 1 damage advisor, 3 service advisors, 4 lifts) are outdated.
 - Hours: weekdays and Saturday 08:30–18:00. Closed Sunday.
 - Other channels: Instagram @volanotomotiv, and a spare parts shop at shop.volan.com.tr (external, not part of this build).
 - Services named on volan.com.tr: Bakım & Onarım, Yedek Parça, Araç Arıza Tespiti, Sigorta / Kasko Onarım İşlemleri, Elektronik Sistem Onarımları, Kaporta, Boya, Mekanik Onarım. The site's Hakkımızda page also lists sigorta hasar danışmanlığı, 7/24 yol yardım ve kurtarıcı, and vale hizmeti.
