@@ -8,7 +8,7 @@ function hint(rel, href, extra = {}) {
 }
 function start() {
   hint('modulepreload', 'assets/vendor/three.bundle.min.js');
-  hint('preload', 'assets/models/volvo-xc60.glb', { as: 'fetch', type: 'model/gltf-binary', crossOrigin: 'anonymous' });
+  hint('preload', 'assets/models/volvo-xc60-dusuk.glb', { as: 'fetch', type: 'model/gltf-binary', crossOrigin: 'anonymous' });
   import('../main.js');
 }
 if (!hero || hero.complete) start();

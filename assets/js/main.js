@@ -500,7 +500,11 @@ class Vehicle {
   async adopt(model) {
     if (this.dissolvable) model.traverse((o) => { if (o.isMesh && !o.userData.shadow) patchDissolve(o.material, this.uniforms); });
     try { await renderer.compileAsync(model, camera, scene); } catch { /* compiled on first draw instead */ }
+    const old = this.model;
+    const turned = this.wheels[0]?.rotation.z ?? 0;
     this.setModel(model);
+    for (const w of this.wheels) w.rotation.z = turned;
+    old?.traverse((o) => { if (o.isMesh) { o.geometry.dispose(); o.material.dispose(); } });
   }
 
   fade(opacity) {
@@ -949,10 +953,11 @@ async function start() {
   renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
   buildRoute();
 
-  // The Volvo comes first and is shown on its own. The other models follow one at a time and
-  // keep their placeholders until theirs is ready, or if it fails.
+  // Every vehicle has a small model (-dusuk.glb, about a third of the size) and the full one.
+  // The small Volvo comes first and is shown on its own; the other small models follow, then
+  // the full models replace them one at a time. A vehicle keeps what it has if a file fails.
   try {
-    volvo = new Vehicle(await buildVehicle(await loadGltf('assets/models/volvo-xc60.glb')), { dissolvable: true });
+    volvo = new Vehicle(await buildVehicle(await loadGltf('assets/models/volvo-xc60-dusuk.glb')), { dissolvable: true });
   } catch (error) {
     console.error('Volvo model failed to load', error);
     return;
@@ -976,21 +981,28 @@ async function start() {
     }
   };
   (async () => {
+    await adopt('mercedes-c-class-dusuk', [mercedes, cars.mercedes]);
+    await adopt('vw-golf7-dusuk', [vw, cars.vw]);
+    await adopt('volvo-xc60', [volvo]);
     await adopt('mercedes-c-class', [mercedes, cars.mercedes]);
     await adopt('vw-golf7', [vw, cars.vw]);
   })();
-  // The truck is only seen near the end of the page, so its model waits until the reader is
+  // The truck is only seen near the end of the page, so its models wait until the reader is
   // within a few screens of it.
+  const loadTruck = async () => {
+    await adopt('volvo-n88-truck-dusuk', [truck]);
+    await adopt('volvo-n88-truck', [truck]);
+  };
   const truckZone = [truckPage, finale].filter(Boolean);
   if ('IntersectionObserver' in window && truckZone.length) {
     const near = new IntersectionObserver((seen) => {
       if (!seen.some((e) => e.isIntersecting)) return;
       near.disconnect();
-      adopt('volvo-n88-truck', [truck]);
+      loadTruck();
     }, { rootMargin: '300% 0px' });
     truckZone.forEach((el) => near.observe(el));
   } else {
-    adopt('volvo-n88-truck', [truck]);
+    loadTruck();
   }
 
   addEventListener('scroll', wake, { passive: true });
