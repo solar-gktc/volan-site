@@ -53,10 +53,32 @@
 .s-miras .stamp-btn svg { width: 18px; height: 18px; margin-left: 12px; fill: none; stroke: currentColor; stroke-width: 1.75; }
 
 /* Between the phone layout and the full row the four names do not fit side by side: two by two. */
+/* Compact desktop: a smaller enlargement, the six frames on one strip of film, a closer band. */
+@media (min-width: 900px) {
+  .s-miras { padding: 96px 0 64px; }
+  .s-miras .entry__inner { row-gap: 52px; }
+  .s-miras .easel { grid-column: 1 / span 5; }
+  .s-miras .easel .plate { padding: 10px; }
+  .s-miras .blade { width: 36px; height: 36px; }
+  .s-miras .blade--tl, .s-miras .blade--bl { left: -20px; }
+  .s-miras .blade--tr, .s-miras .blade--br { right: -20px; }
+  .s-miras .blade--tl, .s-miras .blade--tr { top: -20px; }
+  .s-miras .blade--bl, .s-miras .blade--br { bottom: -20px; }
+  .s-miras .side { grid-column: 6 / span 7; align-self: center; }
+  .s-miras .side h2 { margin-bottom: 14px; font-size: clamp(2.25rem, 3.4vw, 3rem); }
+  .s-miras .lead { max-width: 46ch; margin-bottom: 24px; font-size: clamp(1.0625rem, 1.3vw, 1.25rem); }
+  .s-miras .sheet { padding: 24px 12px 20px; }
+  .s-miras .sheet__grid { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; }
+  .s-miras .frame span { font-size: 0.6875rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .s-miras .band { padding: 18px 0 22px; }
+  .s-miras .step__name { margin: 6px 0 8px; }
+}
+/* Below the full row the four names stay side by side at a smaller size. */
 @media (min-width: 900px) and (max-width: 1199px) {
-  .s-miras .band { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 40px; }
-  .s-miras .step:nth-child(2)::after { content: none; }
-  .s-miras .step__name { font-size: 1.75rem; }
+  .s-miras .band { column-gap: 44px; }
+  .s-miras .step:not(:last-child)::after { right: -36px; top: 40px; width: 26px; }
+  .s-miras .step__name { font-size: 1.25rem; }
+  .s-miras .step__note { font-size: 0.875rem; }
 }
 
 @media (max-width: 899px) {

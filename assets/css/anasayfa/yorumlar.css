@@ -89,12 +89,28 @@
 .s-yorumlar .deck__count b { color: var(--gold-ink); font-weight: 700; }
 
 /* Narrow desktops: the card table shrinks as one piece. */
-@media (min-width: 900px) and (max-width: 1299px) { .s-yorumlar .deck { zoom: 0.8; } }
+@media (min-width: 900px) and (max-width: 1299px) {
+  .s-yorumlar { padding-top: 152px; }
+  .s-yorumlar .board { padding: 48px 0 44px; }
+  .s-yorumlar .view { left: -72px; top: 40px; width: min(280px, 25vw); padding: 8px 8px 10px; }
+  .s-yorumlar .view figcaption { left: 16px; bottom: 20px; font-size: 0.9375rem; }
+  .s-yorumlar .head { margin-left: 34%; max-width: none; align-items: center; gap: 10px 20px; }
+  .s-yorumlar .head h2 { font-size: 2.125rem; }
+  .s-yorumlar .head > p { margin-top: -4px; font-size: 1.0625rem; }
+  .s-yorumlar .tally { gap: 4px; padding: 7px 14px; }
+  .s-yorumlar .tally__score { font-size: 1.75rem; }
+  .s-yorumlar .stars--gold { --s: 18px; }
+  .s-yorumlar .deck { zoom: 0.66; margin-top: 4px; }
+  .s-yorumlar .deck__cards { height: 488px; }
+  .s-yorumlar .pc[data-slot="a"] { transform: translate(768px, -8px) rotate(4deg) scale(0.6); }
+  .s-yorumlar .pc[data-slot="a"]:hover { transform: translate(768px, -16px) rotate(3deg) scale(0.61); }
+  .s-yorumlar .deck__nav { margin-top: 12px; }
+}
 
 /* Wide screens: two columns. The picture postcard and the heading on the left, the deck on the
    right with the cards behind tucked closer to the front one. */
 @media (min-width: 1300px) {
-  .s-yorumlar .board { display: grid; grid-template-columns: 330px minmax(0, 1fr); column-gap: 48px; align-items: start; padding: 72px 0 80px 72px; }
+  .s-yorumlar .board { display: grid; grid-template-columns: 330px minmax(0, 1fr); column-gap: 48px; align-items: start; padding: 60px 0 60px 72px; }
   .s-yorumlar .view { position: relative; left: auto; top: auto; grid-column: 1; grid-row: 1; justify-self: start; width: 360px; margin: 8px 0 0 -150px; }
   .s-yorumlar .head { grid-column: 1; grid-row: 2; margin: 40px 0 0; padding: 0; max-width: none; }
   .s-yorumlar .deck { grid-column: 2; grid-row: 1 / span 2; margin: 0; zoom: 0.8; }

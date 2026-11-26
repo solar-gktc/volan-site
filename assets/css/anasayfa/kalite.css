@@ -86,6 +86,30 @@
 .s-kalite .say h2 { margin-bottom: 24px; color: var(--navy); font: 600 2.5rem/48px var(--font-title); letter-spacing: -0.01em; }
 .s-kalite .say p { max-width: 36ch; }
 
+/* Compact desktop: the two photos leave the slip's top edge and hang off its right edge, above
+   the heading, so the work order starts at the top of the section and fits one screen. */
+@media (min-width: 900px) {
+  .entry.s-kalite { padding: 152px 0 88px; }
+  .s-kalite .pins { position: absolute; left: calc(100% - 32px); top: -6px; width: 64%; height: 0; margin: 0; }
+  .s-kalite .pin { padding: 7px; }
+  .s-kalite .pin--bina { left: 0; top: 0; width: 60%; }
+  .s-kalite .pin--arac { left: 52%; right: auto; top: 58px; width: 46%; }
+  .s-kalite .clip { right: 22px; top: -20px; width: 14px; height: 42px; }
+  .s-kalite .slip__sheet { padding: 34px 28px 18px; }
+  .s-kalite .slip__head img { width: 116px; }
+  .s-kalite .lines__head, .s-kalite .line { grid-template-columns: 26px minmax(0, 1fr) 84px 24px; column-gap: 12px; }
+  .s-kalite .lines__head { padding: 8px 0 6px; }
+  .s-kalite .line { padding: 5px 0; }
+  .s-kalite .line h3 { font-size: 1rem; }
+  .s-kalite .line p { font-size: 0.8125rem; }
+  .s-kalite .paraf { width: 84px; height: 24px; }
+  .s-kalite .slip__foot { margin-top: 30px; }
+  .s-kalite .slip__foot .seal { width: 96px; height: 96px; top: -34px; }
+  .s-kalite .say { align-self: start; padding-top: clamp(196px, 17.5vw, 250px); }
+  .s-kalite .say h2 { margin-bottom: 16px; }
+}
+
+
 @media (max-width: 899px) {
   .entry.s-kalite { padding: 144px 0 96px; }
   /* narrow lane: centre 36px from the left edge, road ~54px; keep content clear of it */

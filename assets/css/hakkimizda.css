@@ -83,13 +83,23 @@
 .kutular__birim { padding: 0 0 0.12em 6px; color: var(--navy); font-size: 0.8em; }
 
 /* Three plates, left to right: the old Volvo workshop, today's building, a Volvo in the bay. */
-.plate--arsiv { position: absolute; z-index: 2; top: 2%; left: -3%; width: 37%; transform: rotate(-2.6deg); }
-.plate--bina { position: relative; z-index: 3; width: 52%; margin: 7% 0 0 25%; transform: rotate(-0.8deg); }
-.plate--bina img { aspect-ratio: 3 / 2; object-fit: cover; }
-.plate--xc90 { position: absolute; z-index: 4; top: 15%; right: -2%; width: 34%; transform: rotate(2deg); }
+/* The team drawing stands in the middle of the image column; nine photos are scattered around
+   it: three down each side and three along the bottom, over the drawing's faded edges. */
+.giris__gorsel { padding: 3% 0 15%; }
+.giris__gorsel > .plate { position: absolute; z-index: 3; padding: 7px; }
+.plate--arsiv { top: 0; left: -3%; width: 22%; transform: rotate(-3deg); }
+.plate--usta-ikili { top: 29%; left: -6%; width: 21%; transform: rotate(2deg); }
+.plate--zimpara { top: 54%; left: -1%; width: 15%; transform: rotate(-2.2deg); }
+.plate--xc90 { top: 2%; right: -4%; width: 21%; transform: rotate(2.4deg); }
+.plate--usta-gulen { top: 30%; right: -7%; width: 21%; transform: rotate(-2deg); }
+.plate--bina { top: 57%; right: -4%; width: 21%; transform: rotate(1.6deg); }
+.plate--bina img { aspect-ratio: 4 / 3; object-fit: cover; }
+.plate--bekleme { bottom: -1%; left: 13%; width: 21%; transform: rotate(1.5deg); }
+.plate--motor-basi { bottom: -4%; left: 39%; width: 22%; z-index: 4; transform: rotate(-1.2deg); }
+.plate--cay { bottom: 0; right: 12%; width: 21%; transform: rotate(2deg); }
 
 /* The team in pencil, revealed by ink drops (murekkep.js). */
-.murekkep { position: relative; z-index: 2; margin: -9% 0 0; }
+.murekkep { position: relative; z-index: 2; width: 74%; margin: 0 auto; }
 .murekkep img { width: 100%; height: auto; }
 .murekkep.is-live img { opacity: 0; }
 .murekkep__tuval { position: absolute; top: 0; left: 0; width: 100%; pointer-events: none; }
@@ -341,8 +351,14 @@ html:not(.press) .seal--kapak { opacity: 0.95; transform: scale(1) rotate(-14deg
   .giris h1 { font-size: 2.5rem; }
   .kunye { gap: 0 20px; }
   .kunye__isaret { font-size: 1rem; }
-  .plate--arsiv { left: 0; }
-  .plate--xc90 { right: 0; }
+  .giris__gorsel { padding: 0 0 24%; }
+  .murekkep { width: 100%; }
+  .plate--arsiv { left: 0; width: 26%; }
+  .plate--xc90 { right: 0; width: 25%; }
+  .plate--usta-ikili, .plate--zimpara, .plate--usta-gulen, .plate--bina { display: none; }
+  .plate--bekleme { left: 0; width: 31%; }
+  .plate--motor-basi { left: 34%; width: 32%; }
+  .plate--cay { right: 0; width: 31%; }
 
   .bolum { padding-top: 96px; }
   .page-hakkimizda h2 { font-size: 1.75rem; line-height: 32px; }

@@ -300,6 +300,7 @@
 .mr-bugun__ust .mr-donem { margin-top: 0; }
 .mr-bugun__film { width: min(1400px, 100% - 2 * var(--gutter)); margin: clamp(80px, 8vw, 128px) auto 0; }
 .mr-bugun__film video { display: block; width: 100%; aspect-ratio: 1920 / 824; object-fit: cover; background: var(--navy-deep); }
+.mr-bugun__film img { display: block; width: 100%; height: auto; }
 /* The film carries only its stop control under the picture. */
 .mr-film__alt { display: flex; justify-content: flex-end; padding: 10px 0 0; }
 .mr-film__alt:has(button[hidden]) { display: none; }
@@ -331,6 +332,8 @@
 .mr-bugun__ekip .mr-buyut-ac { aspect-ratio: 3 / 2; }
 .mr-bugun__metin { grid-column: 9 / span 4; }
 .mr-bugun__metin .mr-ozet { margin-top: 0; }
+.mr-bugun__ikili { width: min(260px, 78%); margin: 32px 0 0; transform: rotate(1.2deg); }
+.mr-bugun__ikili .mr-buyut-ac { aspect-ratio: 4 / 5; }
 
 /* ---------- The navy cover, last ---------- */
 

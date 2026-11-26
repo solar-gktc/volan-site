@@ -79,6 +79,9 @@
   letter-spacing: -0.025em;
 }
 .s-kampanya .offer__lead { max-width: 36ch; margin-bottom: 36px; color: var(--stock); font-size: clamp(1.125rem, 1.55vw, 1.4rem); line-height: 1.42; }
+/* "Free for Volan customers": one typed line under the lead (client comment, 2026-11-16). */
+.s-kampanya .offer__lead:has(+ .offer__free) { margin-bottom: 12px; }
+.s-kampanya .offer__free { margin: 0 0 32px; color: var(--gold-ink); font: 600 0.8125rem/1.6 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; }
 .s-kampanya .terms {
   display: grid;
   grid-template-columns: max-content minmax(0, 1fr);
@@ -122,6 +125,28 @@
 .s-kampanya .panel.is-in .art__part { animation: kampanya-part 520ms var(--ease-out) both; }
 @keyframes kampanya-in { from { opacity: 0; transform: translateY(10px); } }
 @keyframes kampanya-part { from { opacity: 0; transform: translateX(28px) rotate(4deg); } }
+
+/* Compact band on desktop, so the campaign fits one screen on small laptops: less padding,
+   smaller headline and terms, and a smaller part that only just breaks out of the band. */
+@media (min-width: 900px) {
+  .entry.s-kampanya { padding: 168px 0 96px; }
+  .s-kampanya .band__inner { padding: calc(clamp(16px, 2.2vw, 32px) + 14px) 72px calc(clamp(16px, 2.2vw, 32px) + 14px) var(--g); min-height: 0; }
+  .s-kampanya .offer h3 { margin-bottom: 12px; font-size: 1.75rem; }
+  .s-kampanya .offer h3 .big { margin-bottom: 2px; font-size: clamp(2.75rem, 4.6vw, 4rem); }
+  .s-kampanya .offer__lead { max-width: 40ch; margin-bottom: 22px; font-size: clamp(1rem, 1.25vw, 1.1875rem); }
+  .s-kampanya .offer__lead:has(+ .offer__free) { margin-bottom: 6px; }
+  .s-kampanya .offer__free { margin-bottom: 16px; font-size: 0.75rem; }
+  .s-kampanya .terms { gap: 6px 20px; margin-bottom: 20px; padding-top: 14px; }
+  .s-kampanya .terms dd { font-size: 0.875rem; line-height: 1.45; }
+  .s-kampanya .offer__act { gap: 14px 24px; }
+  .s-kampanya .offer__act .stamps { margin-top: 0; }
+  .s-kampanya .offer__act .stamp-btn { min-height: 44px; padding: 0 18px; }
+  .s-kampanya .valid { gap: 4px; padding: 7px 14px 9px; }
+  .s-kampanya .valid b { font-size: 1.25rem; }
+  .s-kampanya .sample { margin-top: 14px; font-size: 0.8125rem; }
+  .s-kampanya .art__line { left: -22%; top: 20%; width: 88%; }
+  .s-kampanya .art__part { left: 2%; top: -56px; width: 100%; }
+}
 
 @media (max-width: 899px) {
   .s-kampanya { --g: var(--gutter); }

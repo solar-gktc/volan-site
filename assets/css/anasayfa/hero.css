@@ -107,6 +107,23 @@ header.banner.s-hero { min-height: 0; } /* menu.css gives .menu ~ .banner a min-
 .s-hero .park[data-park="mercedes"] { left: 66%; top: 30%; }
 .s-hero .park[data-park="vw"] { left: 83%; top: 56%; }
 
+/* ---------- Short desktop screens (small or zoomed laptops) ----------
+   A lower print and a tighter card, so the banner and the cars on the strip fit one screen. */
+@media (min-width: 900px) and (max-height: 780px) {
+  .s-hero { height: clamp(620px, calc(100svh - var(--menu-h, 72px)), 1000px); }
+  .s-hero .hcard { top: 22px; padding: 38px 40px 14px; }
+  .s-hero .hcard__title { font-size: 2.625rem; }
+  .s-hero .hcard__text { margin-top: 10px; font-size: 1.0625rem; }
+  .s-hero .hcard .stamps, .s-hero .hcard__row { margin: 16px 0 14px; }
+  .s-hero .hcard__row .stamps { margin: 0; }
+  .s-hero .hcard__terms { margin: -4px 0 14px; }
+  .s-hero .hero__dots { bottom: 4px; }
+  .s-hero .ad__lines { top: 40px; width: 420px; }
+  .s-hero .ad__wheel { top: 124px; width: 290px; }
+  .s-hero .ad__word { top: 48px; font-size: clamp(6rem, 9.4vw, 8rem); }
+  .s-hero .ad__scope { top: 228px; gap: 11px; }
+}
+
 /* ---------- Narrow ---------- */
 @media (max-width: 899px) {
   header.banner.s-hero { height: auto; }

@@ -254,6 +254,10 @@
 }
 .doc:nth-child(2) .doc__sheet { transform: rotate(1deg); }
 .doc:nth-child(3) .doc__sheet { transform: rotate(-0.6deg); }
+/* A sheet that carries a workshop photo instead of the drawn certificate. */
+.doc__sheet--foto { padding: 5px; box-sizing: border-box; }
+.doc__sheet--foto img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.doc__sheet--foto::before, .doc__sheet--foto::after { content: none; }
 /* A printed frame and three ruled lines: the shape of a certificate, nothing invented. */
 .doc__sheet::before {
   content: "";
@@ -433,6 +437,12 @@ html:not(.js) .carousel__bar { display: none; }
 }
 .svc__plate { transform: rotate(-1deg); }
 .svc__plate img { aspect-ratio: 4 / 3; object-fit: cover; }
+/* A service with several photos: one large print, smaller prints below it. */
+.svc__more { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 14px; }
+.svc__more[data-count="3"] { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.svc__plate--kucuk { padding: 6px; }
+.svc__plate--kucuk:nth-child(odd) { transform: rotate(0.8deg); }
+.svc__plate--kucuk:nth-child(even) { transform: rotate(-0.6deg); }
 .svc__title {
   color: var(--navy);
   font-size: clamp(1.875rem, 3vw, 2.5rem);
@@ -596,7 +606,7 @@ html:has(.sheet[open]) { overflow: hidden; }
 
 @media (max-width: 760px) {
   .svc { grid-template-columns: minmax(0, 1fr); }
-  .svc__plate { max-width: 520px; }
+  .svc__plate, .svc__plates { max-width: 520px; }
   .sheet {
     width: 100vw;
     max-height: 94svh;

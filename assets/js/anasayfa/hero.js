@@ -36,7 +36,8 @@ function init(root) {
   const sizeHero = () => {
     if (innerWidth < 900) { root.style.height = ''; return; }
     const menu = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--menu-h')) || 72;
-    root.style.height = `${Math.round(Math.min(1000, Math.max(720, innerHeight - menu)))}px`;
+    const floor = innerHeight <= 780 ? 620 : 720; // matches the short-screen rule in hero.css
+    root.style.height = `${Math.round(Math.min(1000, Math.max(floor, innerHeight - menu)))}px`;
   };
   let lastW = innerWidth;
   sizeHero();

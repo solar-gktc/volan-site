@@ -41,6 +41,20 @@
 .s-final .imprint p + p { margin-top: 4px; font-size: 0.75rem; }
 .s-final .imprint a { color: inherit; }
 
+/* Compact desktop: a lower back cover. The garage photo and the truck's run above it are unchanged. */
+@media (min-width: 900px) {
+  .s-final .back { padding-top: clamp(64px, 6vw, 96px); }
+  .s-final .back h2 { font-size: clamp(3rem, 5.4vw, 5rem); }
+  .s-final .back__lead { margin-top: 20px; }
+  .s-final .back__grid { grid-template-rows: auto auto 1fr; }
+  .s-final .back .stamps { margin-top: 32px; align-self: start; }
+  .s-final .dealer { padding-top: 20px; }
+  .s-final .dealer dl { gap: 18px 32px; }
+  .s-final .imprint { margin-top: 48px; padding-top: 24px; }
+  .s-final .seal--back { width: 168px; height: 168px; bottom: 176px; }
+}
+
+
 @media (max-width: 899px) {
   .s-final { padding-top: 48px; }
   /* Keep the plate clear of the narrow lane (centre 36px, ≈54px wide): the road runs down beside it. */

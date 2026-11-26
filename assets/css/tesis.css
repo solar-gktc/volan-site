@@ -136,6 +136,8 @@
   font: 400 0.875rem/1.4 var(--font-typed);
 }
 .ucard__plate img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.ucard__more { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 10px; }
+.ucard__more img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
 .ucard__title {
   display: flex;
   align-items: baseline;

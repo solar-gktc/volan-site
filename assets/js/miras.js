@@ -119,6 +119,7 @@ if (board && typeof board.showModal === 'function') {
 
 for (const film of document.querySelectorAll('.mr-bugun__film')) {
   const v = film.querySelector('video');
+  if (!v) continue; // the facade is a still photo on this page
   const btn = film.querySelector('.mr-film__dugme');
   let held = reduceMotion; // the visitor (or the reduced-motion setting) wants it still
   if (held) { v.removeAttribute('autoplay'); v.pause(); }
