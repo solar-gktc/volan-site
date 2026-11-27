@@ -18,3 +18,6 @@ if (picker) {
     if (block) block.textContent = `${names[b]} · ${engines[b]}`;
   });
 }
+
+// On wide screens the brand note has a column of its own, so its longer text stands open.
+if (sec && matchMedia('(min-width: 900px)').matches) sec.querySelectorAll('.note__more').forEach((d) => { d.open = true; });

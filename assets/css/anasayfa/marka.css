@@ -1,12 +1,14 @@
-/* Marka uzmanlığı: three columns on wide screens. Left: heading, brand picker, the engine drawing
-   and the brand note. Middle: the turntable bay (drawn by the stage script; the road runs down
-   through it). Right: the three-step quote form, ticked as the car comes down to the stage and
-   finished, with the stamp, as it gets onto it (data-stamp="approach|near|stop"). */
+/* Marka uzmanlığı: three columns that use the whole screen on wide displays (the section is
+   wider than the page measure). Left: heading, brand picker and the engine drawing. Middle: the
+   turntable bay (drawn by the stage script; the road runs down through it). Right: the note of
+   the brand picked and, under it, the three-step quote form, ticked as the car comes down to the
+   stage and finished, with the stamp, as it gets onto it (data-stamp="approach|near|stop"). */
 .s-marka { padding-bottom: 120px; }
-.s-marka .entry__inner { grid-template-rows: auto auto 1fr; row-gap: 0; align-items: start; }
+.s-marka .entry__inner { width: min(1640px, 100% - 2 * clamp(40px, 4.2vw, 96px)); grid-template-columns: minmax(0, 5fr) minmax(0, 3.6fr) minmax(0, 4.2fr); column-gap: clamp(32px, 3vw, 56px); grid-template-rows: auto 1fr; row-gap: 0; align-items: start; }
+.s-marka .side { grid-column: 3; grid-row: 1 / span 2; display: grid; gap: 36px; align-content: start; }
 
 /* Engine drawing on a navy blueprint sheet; swaps with the brand picker. */
-.s-marka .sheet { grid-column: 1 / span 4; grid-row: 2; align-self: start; margin: 0; transform: rotate(-1.4deg); }
+.s-marka .sheet { grid-column: 1; grid-row: 2; width: min(100%, 600px); align-self: start; margin: 0; transform: rotate(-1.4deg); }
 .s-marka .sheet__ground { position: relative; display: grid; place-items: center; aspect-ratio: 5 / 4; padding: 28px 28px 44px; background-color: var(--navy);
   background-image: repeating-linear-gradient(to right, rgba(205, 181, 133, 0.12) 0 1px, transparent 1px 32px), repeating-linear-gradient(to bottom, rgba(205, 181, 133, 0.12) 0 1px, transparent 1px 32px); }
 .s-marka .sheet__ground::before { content: ""; position: absolute; inset: 10px; border: 1px solid rgba(205, 181, 133, 0.55); pointer-events: none; }
@@ -17,9 +19,9 @@
 .s-marka .sheet__block b { border-right: 1px solid rgba(205, 181, 133, 0.55); font: 600 0.75rem/1 var(--font-label); letter-spacing: 0.16em; text-transform: uppercase; }
 
 /* Heading and brand picker */
-.s-marka .head { grid-column: 1 / span 4; grid-row: 1; padding-bottom: 32px; }
-.s-marka .head h2 { color: var(--navy); font-size: 2.5rem; line-height: 48px; letter-spacing: -0.01em; }
-.s-marka .head p { margin-top: 16px; max-width: 34ch; }
+.s-marka .head { grid-column: 1; grid-row: 1; padding-bottom: 36px; }
+.s-marka .head h2 { color: var(--navy); font-size: clamp(2.375rem, 2.7vw, 2.875rem); line-height: 1.14; letter-spacing: -0.012em; text-wrap: balance; }
+.s-marka .head p { margin-top: 16px; max-width: 40ch; font-size: 1.1875rem; }
 .s-marka .brands { display: flex; flex-wrap: wrap; gap: 10px 12px; min-width: 0; margin: 20px 0 0; padding: 0; border: 0; }
 .s-marka .brand { position: relative; display: inline-flex; cursor: pointer; }
 .s-marka .brand input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
@@ -31,14 +33,14 @@
 .s-marka .brand input:focus-visible + span { outline: 2px solid var(--navy); outline-offset: 5px; }
 
 /* The turntable spot; the podium is drawn into the road layer at its foot. */
-.s-marka .bay { grid-column: 5 / span 4; grid-row: 2; align-self: center; position: relative; }
+.s-marka .bay { grid-column: 2; grid-row: 1 / span 2; align-self: center; position: relative; }
 .s-marka .arrow { position: absolute; left: calc(100% - 6px); bottom: 30%; width: 64px; height: 40px; overflow: visible; fill: none; stroke: var(--stamp-ink); stroke-width: 3.4; stroke-linecap: round; stroke-linejoin: round; filter: url(#ink); opacity: 0.9; }
 
 /* Brand note, under the stage on the far side of the road */
-.s-marka .notes { grid-column: 1 / span 4; grid-row: 3; display: grid; margin-top: 28px; }
+.s-marka .notes { display: grid; padding-top: 14px; border-top: 2px solid var(--navy); }
 .s-marka .note { grid-area: 1 / 1; }
 .s-marka .note:not(.is-current) { visibility: hidden; }
-.s-marka .note h3 { margin: 0; color: var(--navy); font: 600 1.5rem/32px var(--font-title); }
+.s-marka .note h3 { margin: 0; color: var(--navy); font: 600 1.75rem/1.2 var(--font-title); }
 .s-marka .note p { margin-top: 8px; }
 /* A long brand note keeps its first paragraphs open; the rest unfolds on request. */
 .s-marka .note__more summary { display: inline-block; margin-top: 10px; color: var(--navy); font: 600 0.75rem/1.6 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; border-bottom: 1.5px solid var(--navy); list-style: none; }
@@ -54,7 +56,7 @@
 .s-marka .note__photos img { aspect-ratio: 3 / 2; object-fit: cover; }
 
 /* The promise: a quote form */
-.s-marka .form { grid-column: 9 / span 4; grid-row: 2 / span 2; align-self: start; padding: 22px 24px 32px; transform: rotate(0.6deg); }
+.s-marka .form { padding: 22px 24px 32px; transform: rotate(0.6deg); }
 .s-marka .form__top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 16px; padding-bottom: 12px; border-bottom: 2px solid var(--navy); }
 .s-marka .form h3 { margin: 16px 0 6px; color: var(--navy); font: 600 1.375rem/1.2 var(--font-title); letter-spacing: -0.01em; text-wrap: balance; }
 .s-marka .form > p { color: var(--ink-soft); font-size: 0.9375rem; line-height: 1.5; }
@@ -76,7 +78,12 @@
 
 @media (max-width: 899px) {
   .s-marka { padding-bottom: 128px; }
-  .s-marka .entry__inner { row-gap: 48px; }
+  .s-marka .entry__inner { width: min(var(--measure), 100% - 2 * var(--gutter)); grid-template-columns: minmax(0, 1fr); grid-template-rows: none; column-gap: 32px; row-gap: 48px; }
+  .s-marka .side { display: contents; }
+  .s-marka .notes { padding-top: 0; border-top: 0; }
+  .s-marka .head h2 { text-wrap: wrap; }
+  .s-marka .head p { font-size: inherit; }
+  .s-marka .note h3 { font-size: 1.5rem; line-height: 32px; }
   .s-marka .sheet, .s-marka .head, .s-marka .notes, .s-marka .form { grid-column: 1; grid-row: auto; }
   .s-marka .head, .s-marka .notes { padding-left: 52px; }
   .s-marka .head { order: 1; padding-bottom: 0; }
