@@ -381,8 +381,8 @@ html:not(.js) .carousel__bar { display: none; }
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding: 14px 18px 16px;
+  gap: 8px;
+  padding: 18px 20px 18px;
   border-top: 1.5px dashed var(--rule-strong);
 }
 .coupon__info::before,
@@ -397,17 +397,17 @@ html:not(.js) .carousel__bar { display: none; }
 }
 .coupon__info::before { left: -7px; }
 .coupon__info::after { right: -7px; }
-.coupon__name { color: var(--navy); font: 600 1.1875rem/1.2 var(--font-title); }
-.coupon__lead { color: var(--ink-soft); font-size: 0.875rem; line-height: 1.45; }
+.coupon__name { color: var(--navy); font: 600 1.25rem/1.25 var(--font-title); }
+.coupon__lead { color: var(--ink-soft); font-size: 1rem; line-height: 1.5; }
 .coupon__more {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   margin-top: auto;
-  padding-top: 8px;
+  padding-top: 14px;
   align-self: flex-start;
   color: var(--navy);
-  font: 600 0.75rem/1 var(--font-label);
+  font: 600 0.75rem/1.4 var(--font-label);
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
