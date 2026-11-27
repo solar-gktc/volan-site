@@ -1,11 +1,11 @@
-/* Hero (Etiketli baskı): each slide is a large print that bleeds off the top and both sides
-   and stops above a strip of bare paper (the forecourt). A typed paper card is stapled onto the
-   print and carries the words; its content changes with the print. The prints have no z-index,
-   so the 3D cars, which always stand on the paper strip, draw over the print's foot on every
-   slide. Card, arrows and dots are z 2. */
+/* Hero (Etiketli baskı): each slide is a large print that bleeds off the top and both sides and
+   fills the banner to its foot. A typed paper card is stapled onto the print and carries the
+   words; its content changes with the print. No car stands in the banner: under it is the
+   driveway, a strip of bare paper where the road comes in from the right edge and the Volvo
+   drives in once the banner is scrolled. Card, arrows and dots are z 2. */
 header.banner.s-hero { min-height: 0; } /* menu.css gives .menu ~ .banner a min-height */
 .s-hero {
-  --strip: 220px;
+  --strip: 0px;
   --edge: max(var(--gutter), (100% - var(--measure)) / 2);
   position: relative;
   height: clamp(720px, calc(100svh - var(--menu-h, 72px)), 1000px);
@@ -102,12 +102,11 @@ header.banner.s-hero { min-height: 0; } /* menu.css gives .menu ~ .banner a min-
 .s-hero .hero__dot:hover::before { background: rgba(251, 251, 253, 0.55); }
 .s-hero .hero__dot[aria-current="true"]::before { background: var(--paper); transform: rotate(45deg) scale(1.2); }
 
-/* ---------- The forecourt: bare paper where the cars stand ---------- */
-.s-hero .forecourt { position: absolute; left: 0; right: 0; bottom: 0; height: var(--strip); }
-/* The Volvo stands left of the slide dots (its roof must not cover them); the road starts under it. */
-.s-hero .park[data-park="volvo"] { left: 29%; top: 50%; }
-.s-hero .park[data-park="mercedes"] { left: 66%; top: 30%; }
-.s-hero .park[data-park="vw"] { left: 83%; top: 56%; }
+/* ---------- The driveway: bare paper under the banner, where the road comes in ----------
+   The park marks the road's height (the strip's foot, which is also the first page's top) and
+   the side it enters from; the stage script reads it. */
+.driveway { position: relative; height: 96px; background: var(--stock); }
+.driveway .park { left: 100%; top: 100%; }
 
 /* ---------- Short desktop screens (small or zoomed laptops) ----------
    A lower print and a tighter card, so the banner and the cars on the strip fit one screen. */
@@ -174,10 +173,8 @@ header.banner.s-hero { min-height: 0; } /* menu.css gives .menu ~ .banner a min-
   .s-hero .hero__arrow svg { width: 18px; height: 12px; }
   .s-hero .hero__dots { bottom: 18px; }
 
-  .s-hero .forecourt { position: relative; height: 200px; margin-top: 12px; }
-  .s-hero .park[data-park="vw"] { left: 25%; top: 40%; }
-  .s-hero .park[data-park="mercedes"] { left: 73%; top: 36%; }
-  .s-hero .park[data-park="volvo"] { left: 52%; top: 68%; }
+  .s-hero { padding-bottom: 28px; }
+  .driveway { height: 64px; }
 
   .s-hero .ad__frame { inset: 12px; }
   .s-hero .ad__frame::after { inset: 4px; }
@@ -213,7 +210,7 @@ header.banner.s-hero { min-height: 0; } /* menu.css gives .menu ~ .banner a min-
   .s-hero .hcard { margin: -28px 40px 0; padding: 46px 36px 24px; }
   .s-hero .hcard__title { font-size: 2.75rem; }
   .s-hero .hcard__text { font-size: 1.1875rem; max-width: 30em; }
-  .s-hero .forecourt { height: 240px; }
+  .driveway { height: 84px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

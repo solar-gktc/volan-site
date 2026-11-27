@@ -55,7 +55,6 @@ const canvas = document.querySelector('.stage');
 const road = document.querySelector('.road');
 const roadPaths = [...road.querySelectorAll(':scope > path')];
 const aging = document.querySelector('.aging');
-const probe = document.createElementNS('http://www.w3.org/2000/svg', 'path');
 const entries = [...document.querySelectorAll('.entry')];
 // Stamp boxes and step ticks: each is stamped when the vehicle draws level with it.
 const stampables = [...document.querySelectorAll('[data-stamp]')];
@@ -107,6 +106,42 @@ function roundedPath(pts, radius) {
   return `${d} L${last.x},${last.y}`;
 }
 
+// The same path as a fine polyline, measured here. Asking the browser for a point along a long
+// path (getPointAtLength) costs more the further along it is; 3,000 of them froze the page for
+// a quarter of a second on every layout.
+function measurePath(pts, radius) {
+  const line = [pts[0]];
+  for (let i = 1; i < pts.length - 1; i++) {
+    const p = pts[i - 1], q = pts[i], n = pts[i + 1];
+    const l1 = Math.hypot(q.x - p.x, q.y - p.y), l2 = Math.hypot(n.x - q.x, n.y - q.y);
+    const r = Math.min(radius, l1 / 2, l2 / 2);
+    const a = { x: q.x + (p.x - q.x) * (r / l1), y: q.y + (p.y - q.y) * (r / l1) };
+    const b = { x: q.x + (n.x - q.x) * (r / l2), y: q.y + (n.y - q.y) * (r / l2) };
+    line.push(a);
+    for (let s = 1; s <= 16; s++) {
+      const t = s / 16, u = 1 - t;
+      line.push({ x: u * u * a.x + 2 * u * t * q.x + t * t * b.x, y: u * u * a.y + 2 * u * t * q.y + t * t * b.y });
+    }
+  }
+  line.push(pts[pts.length - 1]);
+  const at = new Float64Array(line.length);
+  for (let i = 1; i < line.length; i++) at[i] = at[i - 1] + Math.hypot(line[i].x - line[i - 1].x, line[i].y - line[i - 1].y);
+  const length = at[at.length - 1];
+  return {
+    length,
+    pointAt(l) {
+      let lo = 0, hi = at.length - 1;
+      while (hi - lo > 1) {
+        const mid = (lo + hi) >> 1;
+        if (at[mid] <= l) lo = mid; else hi = mid;
+      }
+      const span = at[hi] - at[lo];
+      const t = span > 0 ? Math.min(1, Math.max(0, (l - at[lo]) / span)) : 0;
+      return { x: line[lo].x + (line[hi].x - line[lo].x) * t, y: line[lo].y + (line[hi].y - line[lo].y) * t };
+    },
+  };
+}
+
 // Put each entry's text on its page's 32px ruling: top up the heading's bottom margin so the
 // paragraphs start on a line, then nudge the (vertically centred) column onto the grid.
 function snapToRuling() {
@@ -139,7 +174,13 @@ function buildRoute() {
 
   const start = docRect(parks.volvo);
   const firstPage = docRect(entries[0]);
-  const pts = [{ x: start.left, y: start.top }, { x: start.left - W * (narrow ? 0.2 : 0.1), y: firstPage.top - drop }];
+  // A park that names a side (data-enter="left|right") is not a parking spot: the road comes in
+  // from that edge of the screen at the park's height and turns into the first page's lane.
+  const enter = parks.volvo.dataset.enter;
+  const enterX = enter === 'right' ? W + 2.6 * roadWidth : -2.6 * roadWidth;
+  const pts = enter
+    ? [{ x: enterX, y: start.top }, { x: lanes[entries[0].dataset.lane], y: start.top }]
+    : [{ x: start.left, y: start.top }, { x: start.left - W * (narrow ? 0.2 : 0.1), y: firstPage.top - drop }];
   // The stage spans the bay's width and sits at its foot, seen from the showroom angle.
   // Small screens hide the bay: the road keeps to its lane and the car does not stop.
   let bay = null, bayAt = -1;
@@ -160,7 +201,9 @@ function buildRoute() {
       bayAt = pts.length;
       pts.push({ x: bay.x, y: bay.y }, { x: bay.x, y: r.bottom - drop });
     } else {
-      pts.push({ x, y: r.top + drop }, { x, y: r.bottom - drop });
+      // Coming in from the side, the road is already in the first page's lane.
+      if (!(enter && entry === entries[0])) pts.push({ x, y: r.top + drop });
+      pts.push({ x, y: r.bottom - drop });
     }
   }
   const stampYs = stampables.map((el) => {
@@ -194,12 +237,10 @@ function buildRoute() {
   road.setAttribute('height', docH);
   road.setAttribute('viewBox', `0 0 ${W} ${docH}`);
   const visible = roundedPath(pts.slice(0, -1), radius);
-  const route = roundedPath(pts, radius);
   for (const path of roadPaths) path.setAttribute('d', visible);
   if (bay) {
-    probe.setAttribute('d', roundedPath(pts.slice(0, bayAt + 1), radius));
     // On the stage the car turns to the banner's angle, mirrored to face the text.
-    Object.assign(bay, { at: probe.getTotalLength(), yaw: -Math.PI - PARKED_YAW });
+    Object.assign(bay, { at: measurePath(pts.slice(0, bayAt + 1), radius).length, yaw: -Math.PI - PARKED_YAW });
   }
   drawStage(bay);
   // The paper ages across the crossing onto the truck's page.
@@ -208,8 +249,8 @@ function buildRoute() {
   aging.style.height = `${docH - agingTop}px`;
   aging.style.setProperty('--aging-ramp', `${2 * (drop + radius)}px`);
 
-  probe.setAttribute('d', route);
-  const length = probe.getTotalLength();
+  const route = measurePath(pts, radius);
+  const length = route.length;
   const n = Math.ceil(length / SAMPLE_STEP) + 1;
   // The sample where the car stands on the stage; the stop is scrolled before the next one.
   const arrive = bay ? Math.round(bay.at / SAMPLE_STEP) : -1;
@@ -218,21 +259,26 @@ function buildRoute() {
   const hurryFrom = brandPage ? docRect(brandPage).top - drop - radius : 0;
   // ks[i]: the scroll position at which the vehicle reaches sample i.
   const xs = new Float32Array(n), ys = new Float32Array(n), ks = new Float32Array(n);
-  let enter = -1;
+  // The drive in from the side is paced by the driveway: it starts as the driveway comes into
+  // view at the foot of the screen and reaches the lane as the driveway gets to ANCHOR.
+  const inEnd = enter ? Math.max(1, Math.floor((Math.abs(enterX - pts[1].x) - radius) / SAMPLE_STEP)) : 0;
+  const inFrom = Math.max(0, start.top - 0.94 * H), inTo = Math.max(inFrom + 1, start.top - ANCHOR * H);
+  let enter_ = -1;
   for (let i = 0; i < n; i++) {
-    const p = i === arrive ? bay : probe.getPointAtLength(Math.min(length, i * SAMPLE_STEP));
+    const p = i === arrive ? bay : route.pointAt(Math.min(length, i * SAMPLE_STEP));
     xs[i] = p.x; ys[i] = p.y;
     if (!i) continue;
+    if (i <= inEnd) { ks[i] = lerp(inFrom, inTo, i / inEnd); continue; }
     const dx = Math.abs(p.x - xs[i - 1]), dy = p.y - ys[i - 1];
     let step = SIDEWAYS * dx + (dy > 0 ? DOWNHILL * dy : -UPHILL * dy);
     if (i === arrive + 1) step += Math.max(0, bay.y - BAY_LEAVE * H - ks[i - 1]);
     ks[i] = Math.max(ks[i - 1] + step, p.y - ANCHOR * H);
-    if (bay && enter < 0 && p.y >= hurryFrom) enter = i;
-    if (i === arrive && enter >= 0) {
+    if (bay && enter_ < 0 && p.y >= hurryFrom) enter_ = i;
+    if (i === arrive && enter_ >= 0) {
       // Bring the drive from the crossing to the stage forward, so it ends on time.
-      const due = Math.max(ks[enter], bay.y - BAY_ARRIVE * H);
-      const f = ks[i] > due ? (due - ks[enter]) / (ks[i] - ks[enter]) : 1;
-      for (let j = enter + 1; j <= i; j++) ks[j] = ks[enter] + (ks[j] - ks[enter]) * f;
+      const due = Math.max(ks[enter_], bay.y - BAY_ARRIVE * H);
+      const f = ks[i] > due ? (due - ks[enter_]) / (ks[i] - ks[enter_]) : 1;
+      for (let j = enter_ + 1; j <= i; j++) ks[j] = ks[enter_] + (ks[j] - ks[enter_]) * f;
     }
   }
   // If the road needs more scrolling than the page has, squeeze it to fit: only the stretch
@@ -303,6 +349,9 @@ function buildRoute() {
     ppuDrive,
     ppuBay: bay ? bay.ppu : 0,
     parkY: start.top,
+    // Driving in from the side: no parked view; without motion the car waits half-way in.
+    drivesIn: Boolean(enter),
+    rest: enter ? Math.round(inEnd * 0.55) : 0,
     bay,
     brandFrom: brandPage ? indexAtY(hurryFrom) : Infinity,
     leaveBanner: indexAtY(firstPage.top),
@@ -463,6 +512,17 @@ class Vehicle {
     });
   }
 
+  // Swap in a loaded model once its shaders are compiled, so the swap does not stall a frame.
+  async adopt(model) {
+    if (this.dissolvable) model.traverse((o) => { if (o.isMesh && !o.userData.shadow) patchDissolve(o.material, this.uniforms); });
+    try { await renderer.compileAsync(model, camera, scene); } catch { /* compiled on first draw instead */ }
+    const old = this.model;
+    const turned = this.wheels[0]?.rotation.z ?? 0;
+    this.setModel(model);
+    for (const w of this.wheels) w.rotation.z = turned;
+    old?.traverse((o) => { if (o.isMesh) { o.geometry.dispose(); o.material.dispose(); } });
+  }
+
   fade(opacity) {
     for (const s of this.shadows) s.material.opacity = opacity;
   }
@@ -486,8 +546,7 @@ class Vehicle {
 function toFloat(attr) {
   const size = attr.itemSize;
   const out = new Float32Array(attr.count * size);
-  const get = [attr.getX, attr.getY, attr.getZ, attr.getW];
-  for (let i = 0; i < attr.count; i++) for (let k = 0; k < size; k++) out[i * size + k] = get[k].call(attr, i);
+  for (let i = 0; i < attr.count; i++) for (let k = 0; k < size; k++) out[i * size + k] = attr.getComponent(i, k);
   return new BufferAttribute(out, size);
 }
 
@@ -512,6 +571,14 @@ function extract(geometry, tris) {
 const gltfLoader = new GLTFLoader();
 gltfLoader.setMeshoptDecoder(MeshoptDecoder);
 
+// Building a model is split into short turns so the page keeps answering scroll and taps.
+let lastBreath = 0;
+async function breathe() {
+  if (performance.now() - lastBreath < 12) return;
+  await new Promise((resolve) => setTimeout(resolve));
+  lastBreath = performance.now();
+}
+
 async function loadGltf(url) {
   const gltf = await gltfLoader.loadAsync(url);
   gltf.scene.updateMatrixWorld(true);
@@ -521,7 +588,7 @@ async function loadGltf(url) {
 // Every vehicle GLB follows the Volvo's conventions: faces +X, wheels in materials Jant and
 // Lastik, glass in VOLAN_CAM_Cam, ground shadow in VOLAN_GOLGE. One gltf can build several
 // independent copies; each copy gets its own materials, since the dissolve patch edits them.
-function buildVehicle(gltf) {
+async function buildVehicle(gltf) {
   // Bake every node transform into float geometry so all parts share one car space.
   const car = new Group();
   const parts = [];
@@ -529,7 +596,7 @@ function buildVehicle(gltf) {
   for (const src of parts) {
     const g = new BufferGeometry();
     for (const [name, attr] of Object.entries(src.geometry.attributes)) g.setAttribute(name, toFloat(attr));
-    if (src.geometry.index) g.setIndex([...src.geometry.index.array]);
+    if (src.geometry.index) g.setIndex(src.geometry.index.clone());
     g.applyMatrix4(src.matrixWorld);
     let material = src.material.clone();
     if (material.name === 'VOLAN_CAM_Cam') {
@@ -549,6 +616,7 @@ function buildVehicle(gltf) {
     const mesh = new Mesh(g, material);
     mesh.userData.shadow = material.name === 'shadow';
     car.add(mesh);
+    await breathe();
   }
 
   // Centre the body on its footprint, wheels on the ground. The model faces +X.
@@ -571,6 +639,7 @@ function buildVehicle(gltf) {
     }
     groups.forEach((tris, q) => { if (tris.length) quadrants[q].push(new Mesh(extract(mesh.geometry, tris), mesh.material)); });
     car.remove(mesh);
+    await breathe();
   }
   const wheels = [];
   let radius = 0;
@@ -725,7 +794,7 @@ function frame(now) {
   // and the showroom view on the stage. Without motion nothing drives, so the page position
   // decides instead: the car stands on the stage whenever it is nearer than the banner.
   const { bay } = layout;
-  const away = smooth(still ? clamp01(scrollY / (layout.H * 0.8)) : clamp01(progress / Math.max(1, layout.leaveBanner)));
+  const away = layout.drivesIn ? 1 : smooth(still ? clamp01(scrollY / (layout.H * 0.8)) : clamp01(progress / Math.max(1, layout.leaveBanner)));
   let show = 0;
   if (bay && still) {
     const mid = scrollY + layout.H / 2;
@@ -750,13 +819,14 @@ function frame(now) {
 
   // Parked placeholders in the banner, at the Volvo's parked angle.
   for (const [car, el] of [[mercedes, parks.mercedes], [vw, parks.vw]]) {
+    if (!el) { car.root.visible = false; continue; }
     const r = el.getBoundingClientRect();
     car.root.visible = onScreen(r.top);
     if (car.root.visible) car.place(r.left, r.top, PARKED_YAW, 0.5);
   }
 
   const morph = still ? 0 : smooth(clamp01((progress - layout.morph[0]) / (layout.morph[1] - layout.morph[0])));
-  const pose = still && show === 1 ? { x: bay.x, y: bay.y, tx: 0, ty: 1 } : poseAt(progress);
+  const pose = still && show === 1 ? { x: bay.x, y: bay.y, tx: 0, ty: 1 } : poseAt(still ? layout.rest : progress);
   const sx = pose.x - scrollX, sy = pose.y - scrollY;
   // While the car stands on the stage the turntable turns it to face the text, and back to
   // the road before it drives on.
@@ -767,7 +837,7 @@ function frame(now) {
   }
   // Pulling out of the parking spot: the parked angle hands over to the road's heading.
   const roadYaw = heading(pose.tx, pose.ty);
-  const yaw = lerpAngle(lerpAngle(PARKED_YAW, roadYaw, smooth(clamp01(progress / 28))), bay ? bay.yaw : 0, spin);
+  const yaw = lerpAngle(layout.drivesIn ? roadYaw : lerpAngle(PARKED_YAW, roadYaw, smooth(clamp01(progress / 28))), bay ? bay.yaw : 0, spin);
   const turn = 1 - Math.exp(-dt * 14);
 
   if (lastPose && !still) {
@@ -900,27 +970,57 @@ async function start() {
   renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
   buildRoute();
 
-  // All four models load together. The other three keep their placeholders if theirs fail.
-  const [volvoGltf, mercedesGltf, vwGltf, truckGltf] = await Promise.allSettled(
-    ['volvo-xc60', 'mercedes-c-class', 'vw-golf7', 'volvo-n88-truck'].map((name) => loadGltf(`assets/models/${name}.glb`)),
-  );
-  if (volvoGltf.status === 'rejected') {
-    console.error('Volvo model failed to load', volvoGltf.reason);
+  // Every vehicle has a small model (-dusuk.glb, about a third of the size) and the full one.
+  // The small Volvo comes first and is shown on its own; the other small models follow, then
+  // the full models replace them one at a time. A vehicle keeps what it has if a file fails.
+  try {
+    volvo = new Vehicle(await buildVehicle(await loadGltf('assets/models/volvo-xc60-dusuk.glb')), { dissolvable: true });
+  } catch (error) {
+    console.error('Volvo model failed to load', error);
     return;
   }
-  volvo = new Vehicle(buildVehicle(volvoGltf.value), { dissolvable: true });
   volvo.presence = 1;
   cars.volvo = volvo;
-  for (const [result, vehicles] of [[mercedesGltf, [mercedes, cars.mercedes]], [vwGltf, [vw, cars.vw]], [truckGltf, [truck]]]) {
-    if (result.status === 'rejected') console.error('Vehicle model failed to load', result.reason);
-    else for (const v of vehicles) v.setModel(buildVehicle(result.value));
-  }
   // Compile every program before the first visible frame so the dissolve never stalls.
-  renderer.compile(scene, camera);
+  try { await renderer.compileAsync(scene, camera); } catch { /* compiled on first draw instead */ }
   eased = scrollY;
   progress = reduceMotion.matches ? 0 : indexAtScroll(eased);
   canvas.classList.add('is-ready');
   wake();
+
+  const adopt = async (name, vehicles) => {
+    try {
+      const gltf = await loadGltf(`assets/models/${name}.glb`);
+      for (const v of vehicles) await v.adopt(await buildVehicle(gltf));
+      wake();
+    } catch (error) {
+      console.error('Vehicle model failed to load', name, error);
+    }
+  };
+  (async () => {
+    await adopt('mercedes-c-class-dusuk', [mercedes, cars.mercedes]);
+    await adopt('vw-golf7-dusuk', [vw, cars.vw]);
+    await adopt('volvo-xc60', [volvo]);
+    await adopt('mercedes-c-class', [mercedes, cars.mercedes]);
+    await adopt('vw-golf7', [vw, cars.vw]);
+  })();
+  // The truck is only seen near the end of the page, so its models wait until the reader is
+  // within a few screens of it.
+  const loadTruck = async () => {
+    await adopt('volvo-n88-truck-dusuk', [truck]);
+    await adopt('volvo-n88-truck', [truck]);
+  };
+  const truckZone = [truckPage, finale].filter(Boolean);
+  if ('IntersectionObserver' in window && truckZone.length) {
+    const near = new IntersectionObserver((seen) => {
+      if (!seen.some((e) => e.isIntersecting)) return;
+      near.disconnect();
+      loadTruck();
+    }, { rootMargin: '300% 0px' });
+    truckZone.forEach((el) => near.observe(el));
+  } else {
+    loadTruck();
+  }
 
   addEventListener('scroll', wake, { passive: true });
   brandForm?.addEventListener('change', wake);
