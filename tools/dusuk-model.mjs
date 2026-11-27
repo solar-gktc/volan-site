@@ -23,7 +23,7 @@ await doc.transform(weld());
 // How much of each material's triangles to keep, and how far (as a share of the mesh size) a
 // surface may move. Paint and glass are what the eye reads on a car this size; they move least.
 const RULES = [
-  [/^VOLAN_GOLGE$|^Plaka/, null],
+  [/^VOLAN_GOLGE$|^Plaka|^Logo/, null],
   [/^VOLAN_BOYA$/, keepPaint ? null : { ratio: 0.3, error: 0.0015 }],
   [/^VOLAN_CAM_Cam$|lamba|^Far$|^Krom$|^Jant$/, { ratio: 0.3, error: 0.003 }],
   [/^Ic_|^Fren$|^Kaliper$/, { ratio: 0.08, error: 0.02 }],
