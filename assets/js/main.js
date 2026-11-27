@@ -174,7 +174,13 @@ function buildRoute() {
 
   const start = docRect(parks.volvo);
   const firstPage = docRect(entries[0]);
-  const pts = [{ x: start.left, y: start.top }, { x: start.left - W * (narrow ? 0.2 : 0.1), y: firstPage.top - drop }];
+  // A park that names a side (data-enter="left|right") is not a parking spot: the road comes in
+  // from that edge of the screen at the park's height and turns into the first page's lane.
+  const enter = parks.volvo.dataset.enter;
+  const enterX = enter === 'right' ? W + 2.6 * roadWidth : -2.6 * roadWidth;
+  const pts = enter
+    ? [{ x: enterX, y: start.top }, { x: lanes[entries[0].dataset.lane], y: start.top }]
+    : [{ x: start.left, y: start.top }, { x: start.left - W * (narrow ? 0.2 : 0.1), y: firstPage.top - drop }];
   // The stage spans the bay's width and sits at its foot, seen from the showroom angle.
   // Small screens hide the bay: the road keeps to its lane and the car does not stop.
   let bay = null, bayAt = -1;
@@ -195,7 +201,9 @@ function buildRoute() {
       bayAt = pts.length;
       pts.push({ x: bay.x, y: bay.y }, { x: bay.x, y: r.bottom - drop });
     } else {
-      pts.push({ x, y: r.top + drop }, { x, y: r.bottom - drop });
+      // Coming in from the side, the road is already in the first page's lane.
+      if (!(enter && entry === entries[0])) pts.push({ x, y: r.top + drop });
+      pts.push({ x, y: r.bottom - drop });
     }
   }
   const stampYs = stampables.map((el) => {
@@ -251,21 +259,26 @@ function buildRoute() {
   const hurryFrom = brandPage ? docRect(brandPage).top - drop - radius : 0;
   // ks[i]: the scroll position at which the vehicle reaches sample i.
   const xs = new Float32Array(n), ys = new Float32Array(n), ks = new Float32Array(n);
-  let enter = -1;
+  // The drive in from the side is paced by the driveway: it starts as the driveway comes into
+  // view at the foot of the screen and reaches the lane as the driveway gets to ANCHOR.
+  const inEnd = enter ? Math.max(1, Math.floor((Math.abs(enterX - pts[1].x) - radius) / SAMPLE_STEP)) : 0;
+  const inFrom = Math.max(0, start.top - 0.94 * H), inTo = Math.max(inFrom + 1, start.top - ANCHOR * H);
+  let enter_ = -1;
   for (let i = 0; i < n; i++) {
     const p = i === arrive ? bay : route.pointAt(Math.min(length, i * SAMPLE_STEP));
     xs[i] = p.x; ys[i] = p.y;
     if (!i) continue;
+    if (i <= inEnd) { ks[i] = lerp(inFrom, inTo, i / inEnd); continue; }
     const dx = Math.abs(p.x - xs[i - 1]), dy = p.y - ys[i - 1];
     let step = SIDEWAYS * dx + (dy > 0 ? DOWNHILL * dy : -UPHILL * dy);
     if (i === arrive + 1) step += Math.max(0, bay.y - BAY_LEAVE * H - ks[i - 1]);
     ks[i] = Math.max(ks[i - 1] + step, p.y - ANCHOR * H);
-    if (bay && enter < 0 && p.y >= hurryFrom) enter = i;
-    if (i === arrive && enter >= 0) {
+    if (bay && enter_ < 0 && p.y >= hurryFrom) enter_ = i;
+    if (i === arrive && enter_ >= 0) {
       // Bring the drive from the crossing to the stage forward, so it ends on time.
-      const due = Math.max(ks[enter], bay.y - BAY_ARRIVE * H);
-      const f = ks[i] > due ? (due - ks[enter]) / (ks[i] - ks[enter]) : 1;
-      for (let j = enter + 1; j <= i; j++) ks[j] = ks[enter] + (ks[j] - ks[enter]) * f;
+      const due = Math.max(ks[enter_], bay.y - BAY_ARRIVE * H);
+      const f = ks[i] > due ? (due - ks[enter_]) / (ks[i] - ks[enter_]) : 1;
+      for (let j = enter_ + 1; j <= i; j++) ks[j] = ks[enter_] + (ks[j] - ks[enter_]) * f;
     }
   }
   // If the road needs more scrolling than the page has, squeeze it to fit: only the stretch
@@ -336,6 +349,9 @@ function buildRoute() {
     ppuDrive,
     ppuBay: bay ? bay.ppu : 0,
     parkY: start.top,
+    // Driving in from the side: no parked view; without motion the car waits half-way in.
+    drivesIn: Boolean(enter),
+    rest: enter ? Math.round(inEnd * 0.55) : 0,
     bay,
     brandFrom: brandPage ? indexAtY(hurryFrom) : Infinity,
     leaveBanner: indexAtY(firstPage.top),
@@ -778,7 +794,7 @@ function frame(now) {
   // and the showroom view on the stage. Without motion nothing drives, so the page position
   // decides instead: the car stands on the stage whenever it is nearer than the banner.
   const { bay } = layout;
-  const away = smooth(still ? clamp01(scrollY / (layout.H * 0.8)) : clamp01(progress / Math.max(1, layout.leaveBanner)));
+  const away = layout.drivesIn ? 1 : smooth(still ? clamp01(scrollY / (layout.H * 0.8)) : clamp01(progress / Math.max(1, layout.leaveBanner)));
   let show = 0;
   if (bay && still) {
     const mid = scrollY + layout.H / 2;
@@ -803,13 +819,14 @@ function frame(now) {
 
   // Parked placeholders in the banner, at the Volvo's parked angle.
   for (const [car, el] of [[mercedes, parks.mercedes], [vw, parks.vw]]) {
+    if (!el) { car.root.visible = false; continue; }
     const r = el.getBoundingClientRect();
     car.root.visible = onScreen(r.top);
     if (car.root.visible) car.place(r.left, r.top, PARKED_YAW, 0.5);
   }
 
   const morph = still ? 0 : smooth(clamp01((progress - layout.morph[0]) / (layout.morph[1] - layout.morph[0])));
-  const pose = still && show === 1 ? { x: bay.x, y: bay.y, tx: 0, ty: 1 } : poseAt(progress);
+  const pose = still && show === 1 ? { x: bay.x, y: bay.y, tx: 0, ty: 1 } : poseAt(still ? layout.rest : progress);
   const sx = pose.x - scrollX, sy = pose.y - scrollY;
   // While the car stands on the stage the turntable turns it to face the text, and back to
   // the road before it drives on.
@@ -820,7 +837,7 @@ function frame(now) {
   }
   // Pulling out of the parking spot: the parked angle hands over to the road's heading.
   const roadYaw = heading(pose.tx, pose.ty);
-  const yaw = lerpAngle(lerpAngle(PARKED_YAW, roadYaw, smooth(clamp01(progress / 28))), bay ? bay.yaw : 0, spin);
+  const yaw = lerpAngle(layout.drivesIn ? roadYaw : lerpAngle(PARKED_YAW, roadYaw, smooth(clamp01(progress / 28))), bay ? bay.yaw : 0, spin);
   const turn = 1 - Math.exp(-dt * 14);
 
   if (lastPose && !still) {
