@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="assets/css/iletisim.css">
 <link rel="stylesheet" href="assets/css/menu.css">
 <script src="assets/js/menu.js" defer></script>
+<script src="assets/js/form.js" defer></script>
 <script src="assets/js/yorum.js" defer></script>
 </head>
 <body class="page-iletisim">
@@ -47,6 +48,7 @@
         </li>
         <li class="menu__item"><a class="menu__tab" href="hizmetlerimiz.html">Hizmetlerimiz</a></li>
         <li class="menu__item"><a class="menu__tab" href="tesisimiz.html">Tesisimiz</a></li>
+        <li class="menu__item"><a class="menu__tab" href="blog">Blog</a></li>
         <li class="menu__item menu__item--end"><a class="menu__tab" href="iletisim.html">İletişim</a></li>
       </ul>
       <div class="menu__contact">
@@ -124,6 +126,61 @@
     <div class="harita">
       <iframe src="https://www.google.com/maps/embed?origin=mfe&amp;pb=!1m3!2m1!1sVolan+Otomotiv+Bah%C3%A7ekap%C4%B1+Mah.+2547.+Sokak+No:3+Etimesgut+Ankara!6i15!3m1!1str!5m1!1str" title="Volan Otomotiv’in konumu (Google Haritalar)" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
     </div>
+
+    <!-- Başvuru formu: assets/js/form.js sunucudan anahtar alınca görünür. Sunucu yoksa (önizleme)
+         form gönderime kapalı durur; WhatsApp ve telefon her durumda yukarıda. -->
+    <section class="basvuru" id="form" aria-labelledby="form-baslik" data-form hidden>
+      <header class="basvuru__bas">
+        <h2 id="form-baslik">Size dönelim</h2>
+        <p>Formu doldurun, mesai saatleri içinde sizi arayalım. Acil durumda doğrudan <a href="tel:+905337653378">0533 765 33 78</a>’i arayın.</p>
+      </header>
+      <form class="basvuru__form" novalidate>
+        <div class="alan">
+          <label for="f-ad">Adınız soyadınız</label>
+          <input id="f-ad" name="ad" type="text" autocomplete="name" required minlength="2" maxlength="80" aria-describedby="f-ad-hata">
+          <p class="alan__hata" id="f-ad-hata" hidden></p>
+        </div>
+        <div class="alan">
+          <label for="f-telefon">Telefon</label>
+          <input id="f-telefon" name="telefon" type="tel" inputmode="tel" autocomplete="tel" required maxlength="24" placeholder="05__ ___ __ __" aria-describedby="f-telefon-hata">
+          <p class="alan__hata" id="f-telefon-hata" hidden></p>
+        </div>
+        <div class="alan">
+          <label for="f-eposta">E-posta <span class="alan__ek">isteğe bağlı</span></label>
+          <input id="f-eposta" name="eposta" type="email" autocomplete="email" maxlength="120" aria-describedby="f-eposta-hata">
+          <p class="alan__hata" id="f-eposta-hata" hidden></p>
+        </div>
+        <div class="alan">
+          <label for="f-konu">Konu</label>
+          <select id="f-konu" name="konu">
+            <option>Randevu</option>
+            <option>Fiyat bilgisi</option>
+            <option>Sigorta / kasko hasarı</option>
+            <option>Yedek parça</option>
+            <option>Diğer</option>
+          </select>
+        </div>
+        <div class="alan alan--genis">
+          <label for="f-mesaj">Mesajınız</label>
+          <textarea id="f-mesaj" name="mesaj" rows="5" required maxlength="1500" placeholder="Aracınızın markası, modeli ve yılı ile ne istediğinizi yazın." aria-describedby="f-mesaj-hata"></textarea>
+          <p class="alan__hata" id="f-mesaj-hata" hidden></p>
+        </div>
+        <!-- Tuzak alan: insanlar görmez ve doldurmaz; dolu gelen başvuru sunucuda sessizce atılır. -->
+        <div class="alan--tuzak" aria-hidden="true">
+          <label for="f-web">Web siteniz (boş bırakın)</label>
+          <input id="f-web" name="web_sitesi" type="text" tabindex="-1" autocomplete="off">
+        </div>
+        <div class="basvuru__son alan--genis">
+          <button class="stamp-btn stamp-btn--primary" type="submit">Gönder</button>
+          <p class="basvuru__not">Bilgileriniz yalnızca size dönüş yapmak için kullanılır.</p>
+        </div>
+        <p class="basvuru__durum alan--genis" role="status" aria-live="polite" hidden></p>
+      </form>
+      <div class="basvuru__tamam" hidden>
+        <h3>Başvurunuz bize ulaştı</h3>
+        <p>Mesai saatleri içinde sizi arayacağız. Hafta içi ve Cumartesi <span class="nowrap">08:30–18:00</span> arası açığız.</p>
+      </div>
+    </section>
   </div>
 </main>
 
