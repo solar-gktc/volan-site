@@ -108,16 +108,23 @@
   .s-miras .print img, .s-miras .pick, .s-miras .frame img { transition: none; }
 }
 
-/* Dün ve bugün: three then/now plates with a seam the visitor drags (the same control as on the
-   Miras page), no captions. It stands where the name chain used to be; the footer link follows it.
-   The upright plate's column is narrower by 8/15, so all three are the same height. */
-.s-miras .thennow { grid-column: 3 / span 10; display: grid; grid-template-columns: minmax(0, 15fr) minmax(0, 15fr) minmax(0, 8fr); gap: 20px 28px; align-items: start; padding-top: 24px; border-top: 2px solid var(--navy); }
-.s-miras .thennow__title { grid-column: 1 / -1; margin: 0; color: var(--navy); font: 400 2rem/1.1 var(--font-title); letter-spacing: -0.012em; }
-.s-miras .thennow__plate { margin: 0; transform: rotate(-0.6deg); }
-.s-miras .thennow__plate:nth-of-type(2) { transform: rotate(0.7deg); }
-.s-miras .thennow__plate--dik { transform: rotate(-0.9deg); }
+/* Dün ve bugün: one then/now plate in the middle with a seam the visitor drags (the same control
+   as on the Miras page), and archive prints scattered on both sides of it, no captions. It stands
+   where the name chain used to be; the footer link follows it. */
+.s-miras .thennow { grid-column: 3 / span 10; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 3fr) minmax(0, 13fr) minmax(0, 3fr) minmax(0, 5fr); grid-template-rows: auto auto auto; column-gap: 0; align-items: center; padding-top: 24px; border-top: 2px solid var(--navy); }
+.s-miras .thennow__title { grid-column: 1 / -1; margin: 0 0 28px; color: var(--navy); font: 400 2rem/1.1 var(--font-title); letter-spacing: -0.012em; }
+.s-miras .thennow .plate { margin: 0; }
+.s-miras .thennow__seam { grid-column: 2 / 5; grid-row: 2 / 4; z-index: 1; margin-inline: 34px; transform: rotate(0.5deg); }
+.s-miras .thennow__old img { display: block; width: 100%; object-fit: cover; filter: sepia(0.22); }
+.s-miras .thennow__old--1 { grid-column: 1 / 3; grid-row: 2; z-index: 2; transform: rotate(-3.2deg) translate(-6px, -8px); }
+.s-miras .thennow__old--1 img { aspect-ratio: 3 / 2; }
+.s-miras .thennow__old--2 { grid-column: 1; grid-row: 3; width: 78%; justify-self: end; transform: rotate(2.4deg) translate(-4px, 10px); }
+.s-miras .thennow__old--2 img { aspect-ratio: 4 / 5; }
+.s-miras .thennow__old--3 { grid-column: 5; grid-row: 2; width: 80%; transform: rotate(2.8deg) translate(0, -4px); }
+.s-miras .thennow__old--3 img { aspect-ratio: 4 / 5; object-position: 50% 30%; }
+.s-miras .thennow__old--4 { grid-column: 4 / 6; grid-row: 3; z-index: 2; transform: rotate(-2.2deg) translate(-10px, 12px); }
+.s-miras .thennow__old--4 img { aspect-ratio: 3 / 2; }
 .s-miras .karsilastir { --ayrim: 50%; position: relative; aspect-ratio: 3 / 2; overflow: hidden; background: var(--stock-deep); user-select: none; touch-action: pan-y; }
-.s-miras .thennow__plate--dik .karsilastir { aspect-ratio: 4 / 5; }
 .s-miras .karsilastir img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .s-miras .karsilastir__dun { position: absolute; inset: 0; overflow: hidden; transform: translateX(calc(var(--ayrim) - 100%)); }
 .s-miras .karsilastir__dun img { transform: translateX(calc(100% - var(--ayrim))); }
@@ -128,16 +135,17 @@
 .s-miras .karsilastir input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; }
 .s-miras .karsilastir:hover .karsilastir__tutamac { transform: translate(-50%, -50%) scale(1.06); }
 .s-miras .karsilastir:has(input:focus-visible) .karsilastir__tutamac { outline: 2px solid var(--paper); outline-offset: 3px; }
-.s-miras .band__foot { margin-top: 28px; }
+.s-miras .band__foot { margin-top: 40px; }
 @media (max-width: 899px) {
-  .s-miras .thennow { grid-column: 1; grid-template-columns: 1fr; margin-left: 48px; gap: 20px; }
-  .s-miras .thennow__title { font-size: 1.75rem; }
-  .s-miras .thennow__plate--dik { width: 78%; justify-self: center; }
+  .s-miras .thennow { grid-column: 1; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-left: 48px; }
+  .s-miras .thennow__title { margin-bottom: 4px; font-size: 1.75rem; }
+  .s-miras .thennow__seam { grid-column: 1 / -1; grid-row: auto; margin-inline: 0; }
+  .s-miras .thennow__old { grid-column: auto; grid-row: auto; width: auto; justify-self: stretch; }
+  .s-miras .thennow__old--1 { transform: rotate(-1.6deg); }
+  .s-miras .thennow__old--2 { transform: rotate(1.4deg); }
+  .s-miras .thennow__old--3 { transform: rotate(1.2deg); }
+  .s-miras .thennow__old--4 { transform: rotate(-1.4deg); }
+  .s-miras .thennow__old img { aspect-ratio: 4 / 3; }
   .s-miras .band__foot { margin-top: 24px; }
-}
-@media (min-width: 600px) and (max-width: 899px) {
-  .s-miras .thennow { grid-template-columns: minmax(0, 15fr) minmax(0, 15fr) minmax(0, 8fr); gap: 20px 18px; }
-  .s-miras .thennow__plate--dik { width: auto; justify-self: stretch; }
-  .s-miras .karsilastir__tutamac { width: 40px; height: 40px; }
 }
 @media (prefers-reduced-motion: reduce) { .s-miras .karsilastir__tutamac { transition: none; } }
