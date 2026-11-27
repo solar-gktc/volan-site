@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /.impeccable/
 
-Sitemap: https://www.volan.com.tr/sitemap.xml
+Sitemap: https://volan.com.tr/sitemap.xml
