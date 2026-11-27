@@ -655,3 +655,4 @@ html:has(.sheet[open]) { overflow: hidden; }
   .coupon:hover .coupon__art img,
   .coupon:focus-visible .coupon__art img { transform: none; }
 }
+.svc__alt { font-size: 0.6em; letter-spacing: 0; white-space: nowrap; }

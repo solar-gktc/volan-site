@@ -160,7 +160,7 @@ header.banner.s-hero { min-height: 0; } /* menu.css gives .menu ~ .banner a min-
   .s-hero .hcard__row .stamps { gap: 10px; flex-wrap: nowrap; margin: 0; }
   .s-hero .hcard__row .stamp-btn { padding: 0 11px; }
   .s-hero .lastday { margin: 0; }
-  .s-hero .lastday .stamp__ink { padding: 6px 8px 7px; font-size: 0.6875rem; letter-spacing: 0.16em; }
+  .s-hero .lastday .stamp__ink { padding: 6px 8px 7px; font-size: 0.75rem; letter-spacing: 0.16em; }
   .s-hero .lastday .stamp__ink strong { margin-top: 4px; font-size: 0.9375rem; }
   .s-hero .hcard__foot { font-size: 0.8125rem; }
   .s-hero .hcard__phone { display: block; margin-top: 4px; }

@@ -69,7 +69,7 @@
   .s-miras .lead { max-width: 46ch; margin-bottom: 24px; font-size: clamp(1.0625rem, 1.3vw, 1.25rem); }
   .s-miras .sheet { padding: 24px 12px 20px; }
   .s-miras .sheet__grid { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; }
-  .s-miras .frame span { font-size: 0.6875rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .s-miras .frame span { font-size: 0.75rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .s-miras .band { padding: 18px 0 22px; }
   .s-miras .step__name { margin: 6px 0 8px; }
 }
