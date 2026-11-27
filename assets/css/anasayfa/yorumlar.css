@@ -61,7 +61,7 @@
 
 .s-yorumlar .pc__msg { display: flex; flex-direction: column; align-items: start; min-width: 0; padding-right: 26px; border-right: 1px solid var(--rule-strong); }
 .s-yorumlar .pc__msg .stars { margin-bottom: 12px; }
-.s-yorumlar .pc__quote { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 6; overflow: hidden; color: var(--ink); font: italic 400 1.5rem/1.34 var(--font-text); text-wrap: pretty; }
+.s-yorumlar .pc__quote { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 9; overflow: hidden; color: var(--ink); font: italic 400 1.25rem/1.4 var(--font-text); text-wrap: pretty; }
 .s-yorumlar .pc__from { margin-top: 12px; color: var(--ink); font: 400 1rem/1.4 var(--font-typed); }
 .s-yorumlar .pc__car { align-self: stretch; margin-top: auto; padding-top: 10px; border-top: 1px dashed var(--rule-strong); }
 .s-yorumlar .pc__car b { display: block; color: var(--navy); font: 600 0.75rem/1.3 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; }

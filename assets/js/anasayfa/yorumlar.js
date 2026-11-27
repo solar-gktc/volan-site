@@ -12,13 +12,15 @@
 // SUMMARY was checked against the Google profile on 2026-11-27 (4,7 / 255). It was sample ("örnek") data: the Google score, review count and profile
 // address have not come from Volan yet.
 const SUMMARY = { rating: 4.7, count: 255, url: 'https://www.google.com/maps/search/?api=1&query=Volan%20Otomotiv%20Bah%C3%A7ekap%C4%B1%20Mah.%202547.%20Sokak%20No%3A3%20Etimesgut%20Ankara', sample: false };
+// Real Google reviews read from the profile on 2026-11-27: text word for word, names as Google
+// shows them, no dates (the owner asked for none).
 const REVIEWS = [
-  { name: 'Teoman U.', date: '24.07.2025',
-    text: 'Aracımın periyodik bakımı ve birkaç arızası için götürdüm, profesyonel ve titiz bir hizmet aldım. Kenan beye teşekkürler' },
-  { name: 'Murat.Y', date: '24.07.2025',
-    text: 'Aracımızin turbo arızası için geldiğimiz serviste kenan bey e ve ekibine teşekkür ediyorum. İlgili ve tecrübeli ekibi ile söylediği günde aracımızı teslim etti' },
-  { name: 'Ali Özdemir', date: '19.07.2023',
-    text: 'Profosyonel full servis memnun kaldım. Ayrıca müşteri hizmeti tm bir servise yakışan hareketler' },
+  { name: 'Eray ÖZSÜMER', brand: 'volvo',
+    text: 'Kalite, Hız, İlgi, Alaka ve Güven hepsi bir arada. Kenan beye ve Ahmet ustaya teşekkür ediyorum. Gönül rahatlığıyla aracınızı teslim edebilirsiniz. Volvo S80 T4 aracımın motordaki ve turbodaki sorunlarını çözdüler. Teşekkürler.' },
+  { name: 'Ertuğrul Aypek', brand: 'volvo',
+    text: 'Almanya’dan Türkiye tatiline geldiğimde Volvo aracımın yıllık bakımını Volan’da yaptırdım. Profesyonel ekip ve dürüst bir yönetim gözlemledim. Her sorumu anlaşılır bir dille izah ettiler. Bundan sonra adresim hep Volan olacak' },
+  { name: 'Çağrı Yılmaz',
+    text: 'Yaklaşık 6 yıldır aracımın tüm işlemlerini burada yaptırıyorum. Ustalıklarına her zaman çok güvenirim ve asla gereksiz masrafa sokmazlar. Tüm ekibe teşekkür ederim.' },
 ];
 // ---------------------------------------------------------------------------------------
 
