@@ -18,7 +18,6 @@
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "AutoRepair", "name": "Volan Otomotiv", "url": "https://volan.com.tr/", "image": "https://volan.com.tr/assets/img/anasayfa/hero-bina-gunes.webp", "logo": "https://volan.com.tr/assets/img/logo-oval.svg", "telephone": "+905337653378", "email": "info@volan.com.tr", "foundingDate": "1954", "address": {"@type": "PostalAddress", "streetAddress": "Bahçekapı Mah. 2547. Sokak No:3, Şaşmaz Oto Sanayi Sitesi", "addressLocality": "Etimesgut", "addressRegion": "Ankara", "addressCountry": "TR"}, "areaServed": "Ankara", "brand": ["Volvo", "Mercedes-Benz", "Volkswagen"], "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "opens": "08:30", "closes": "18:00"}], "sameAs": ["https://www.instagram.com/volanotomotiv/", "https://shop.volan.com.tr/"]}</script>
 <link rel="icon" href="assets/img/logo-oval.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/besley-400-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/models/volvo-xc60.glb" as="fetch" type="model/gltf-binary" crossorigin>
 <link rel="stylesheet" href="assets/fonts/fonts.css">
 <link rel="stylesheet" href="assets/css/anasayfa-v2.css">
 <link rel="stylesheet" href="assets/css/menu.css">
@@ -35,7 +34,7 @@
 <link rel="stylesheet" href="assets/css/anasayfa/tablet.css">
 <link rel="stylesheet" href="assets/css/metin-ek.css">
 <script type="importmap">{ "imports": { "three": "./assets/vendor/three.bundle.min.js" } }</script>
-<script type="module" src="assets/js/main.js"></script>
+<script type="module" src="assets/js/anasayfa/sahne-baslat.js"></script>
 <script type="module" src="assets/js/anasayfa/hero.js"></script>
 <script type="module" src="assets/js/anasayfa/hizmetler.js"></script>
 <script type="module" src="assets/js/anasayfa/kampanya.js"></script>
@@ -157,7 +156,7 @@
           <picture>
             <source media="(max-width: 599px)" srcset="assets/img/anasayfa/hero-bina-gunes-dikey.webp" width="800" height="1000">
             <source media="(max-width: 899px)" srcset="assets/img/anasayfa/hero-bina-gunes-dar.webp" width="1600" height="800">
-            <img src="assets/img/anasayfa/hero-bina-gunes.webp" width="2880" height="1235" alt="Volan Otomotiv binası güneşli bir günde: Oto Kuaför, Mekanik 1 ve Mekanik 2 kapıları, ortada VOLAN tabelası ve “Since 1954” yazılı giriş.">
+            <img src="assets/img/anasayfa/hero-bina-gunes.webp" width="2880" height="1235" fetchpriority="high" alt="Volan Otomotiv binası güneşli bir günde: Oto Kuaför, Mekanik 1 ve Mekanik 2 kapıları, ortada VOLAN tabelası ve “Since 1954” yazılı giriş.">
           </picture>
         </div>
       </figure>
