@@ -108,6 +108,21 @@
   .s-miras .print img, .s-miras .pick, .s-miras .frame img { transition: none; }
 }
 
-/* The name chain was taken out of the home page; the footer link stands on its own until something replaces it. */
+/* Dün ve bugün: two pairs, an archive print beside today's frame of the same subject. It stands
+   where the name chain used to be; the footer link follows it. */
+.s-miras .thennow { grid-column: 3 / span 10; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 56px; padding-top: 24px; border-top: 2px solid var(--navy); }
+.s-miras .thennow__title { grid-column: 1 / -1; margin: 0; color: var(--navy); font: 400 2rem/1.1 var(--font-title); letter-spacing: -0.012em; }
+.s-miras .thennow__pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.s-miras .thennow .plate { margin: 0; transform: rotate(-0.8deg); }
+.s-miras .thennow .plate + .plate { transform: rotate(0.9deg); }
+.s-miras .thennow img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.s-miras .thennow .plate:first-child img { filter: sepia(0.25); }
+.s-miras .thennow figcaption { padding: 10px 2px 2px; color: var(--ink-soft); font: 400 0.875rem/1.4 var(--font-typed); }
+.s-miras .thennow figcaption b { display: block; color: var(--navy); font: 600 0.75rem/1.4 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; }
 .s-miras .band__foot { margin-top: 28px; }
-@media (max-width: 899px) { .s-miras .band__foot { margin-top: 24px; } }
+@media (max-width: 899px) {
+  .s-miras .thennow { grid-column: 1; grid-template-columns: 1fr; margin-left: 48px; gap: 20px; }
+  .s-miras .thennow__title { font-size: 1.75rem; }
+  .s-miras .band__foot { margin-top: 24px; }
+}
+@media (min-width: 600px) and (max-width: 899px) { .s-miras .thennow { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 28px; } }
