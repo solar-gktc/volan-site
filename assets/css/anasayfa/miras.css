@@ -107,3 +107,7 @@
 @media (prefers-reduced-motion: reduce) {
   .s-miras .print img, .s-miras .pick, .s-miras .frame img { transition: none; }
 }
+
+/* The name chain was taken out of the home page; the footer link stands on its own until something replaces it. */
+.s-miras .band__foot { margin-top: 28px; }
+@media (max-width: 899px) { .s-miras .band__foot { margin-top: 24px; } }

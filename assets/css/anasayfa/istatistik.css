@@ -66,3 +66,5 @@
   .s-istatistik .team { width: 92%; margin: -32px 0 0; }
 }
 @media (max-width: 380px) { .s-istatistik .dp__grid .cars dd { font-size: 2.125rem; } }
+/* The facade photo shows the cars parked at its foot; the team photo sits lower so it does not cover them. */
+@media (min-width: 900px) { .entry.s-istatistik { padding-bottom: 132px; } .s-istatistik .team { margin-bottom: -104px; } }
