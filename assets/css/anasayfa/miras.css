@@ -118,11 +118,9 @@
 .s-miras .thennow__old img { display: block; width: 100%; object-fit: cover; filter: sepia(0.22); }
 .s-miras .thennow__old--1 { grid-column: 1 / 3; grid-row: 2; z-index: 2; transform: rotate(-3.2deg) translate(-6px, -8px); }
 .s-miras .thennow__old--1 img { aspect-ratio: 3 / 2; }
-.s-miras .thennow__old--2 { grid-column: 1; grid-row: 3; width: 78%; justify-self: end; transform: rotate(2.4deg) translate(-4px, 10px); }
-.s-miras .thennow__old--2 img { aspect-ratio: 4 / 5; }
-.s-miras .thennow__old--3 { grid-column: 5; grid-row: 2; width: 80%; transform: rotate(2.8deg) translate(0, -4px); }
-.s-miras .thennow__old--3 img { aspect-ratio: 4 / 5; object-position: 50% 30%; }
-.s-miras .thennow__old--4 { grid-column: 4 / 6; grid-row: 3; z-index: 2; transform: rotate(-2.2deg) translate(-10px, 12px); }
+.s-miras .thennow__old--2 { grid-column: 1 / 3; grid-row: 3; z-index: 2; width: 88%; transform: rotate(2.4deg) translate(-10px, 14px); }
+.s-miras .thennow__old--2 img { aspect-ratio: 3 / 2; }
+.s-miras .thennow__old--4 { grid-column: 4 / 6; grid-row: 2 / 4; align-self: center; z-index: 2; transform: rotate(-2.2deg) translate(-10px, 12px); }
 .s-miras .thennow__old--4 img { aspect-ratio: 3 / 2; }
 .s-miras .karsilastir { --ayrim: 50%; position: relative; aspect-ratio: 3 / 2; overflow: hidden; background: var(--stock-deep); user-select: none; touch-action: pan-y; }
 .s-miras .karsilastir img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
@@ -140,10 +138,10 @@
   .s-miras .thennow { grid-column: 1; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-left: 48px; }
   .s-miras .thennow__title { margin-bottom: 4px; font-size: 1.75rem; }
   .s-miras .thennow__seam { grid-column: 1 / -1; grid-row: auto; margin-inline: 0; }
-  .s-miras .thennow__old { grid-column: auto; grid-row: auto; width: auto; justify-self: stretch; }
+  .s-miras .thennow__old { grid-column: auto; grid-row: auto; width: auto; justify-self: stretch; align-self: start; }
+  .s-miras .thennow__old--4 { grid-column: 1 / -1; width: 62%; justify-self: center; }
   .s-miras .thennow__old--1 { transform: rotate(-1.6deg); }
   .s-miras .thennow__old--2 { transform: rotate(1.4deg); }
-  .s-miras .thennow__old--3 { transform: rotate(1.2deg); }
   .s-miras .thennow__old--4 { transform: rotate(-1.4deg); }
   .s-miras .thennow__old img { aspect-ratio: 4 / 3; }
   .s-miras .band__foot { margin-top: 24px; }

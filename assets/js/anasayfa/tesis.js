@@ -31,9 +31,9 @@ if (root) {
   });
   for (const floor of root.querySelectorAll('.floor')) {
     for (const li of floor.querySelectorAll('.legend li')) {
-      const pin = floor.querySelector(`.pin[data-n="${li.dataset.n}"]`);
-      if (!pin) continue;
-      const hot = (v) => { li.classList.toggle('is-hot', v); pin.classList.toggle('is-hot', v); };
+      const pins = floor.querySelectorAll(`.pin[data-n="${li.dataset.n}"]`);
+      if (!pins.length) continue;
+      const hot = (v) => { li.classList.toggle('is-hot', v); pins.forEach((p) => p.classList.toggle('is-hot', v)); };
       li.addEventListener('mouseenter', () => hot(true));
       li.addEventListener('mouseleave', () => hot(false));
     }
