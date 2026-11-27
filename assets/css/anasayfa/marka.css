@@ -46,6 +46,12 @@
 .s-marka .note__more[open] summary { display: none; }
 .s-marka .note__more summary:focus-visible { outline: 2px solid var(--navy); outline-offset: 4px; }
 .s-marka .note .typed { display: block; margin-top: 16px; padding-top: 10px; border-top: 1.5px solid var(--rule-strong); color: var(--ink-soft); font-size: 0.9375rem; line-height: 1.45; }
+/* Mercedes-Benz and Volkswagen notes are short; a car photo (two for Volkswagen) fills the room
+   the longer Volvo note takes. */
+.s-marka .note__photos { display: flex; gap: 14px; margin-top: 18px; }
+.s-marka .note__photos .plate { flex: 1 1 0; max-width: 260px; margin: 0; transform: rotate(-1deg); }
+.s-marka .note__photos .plate + .plate { transform: rotate(1.2deg); }
+.s-marka .note__photos img { aspect-ratio: 3 / 2; object-fit: cover; }
 
 /* The promise: a quote form */
 .s-marka .form { grid-column: 9 / span 4; grid-row: 2 / span 2; align-self: start; padding: 22px 24px 32px; transform: rotate(0.6deg); }
