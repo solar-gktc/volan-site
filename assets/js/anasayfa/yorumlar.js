@@ -9,9 +9,9 @@
 //   name / date / text: as published, rating: 1–5, car: "Model · işlem",
 //   brand: volvo | vw | mercedes (chooses the drawing on the postage stamp),
 //   sample: true shows "örnek" on the card.
-// SUMMARY is still sample ("örnek") data: the Google score, review count and profile
+// SUMMARY was checked against the Google profile on 2026-11-27 (4,7 / 255). It was sample ("örnek") data: the Google score, review count and profile
 // address have not come from Volan yet.
-const SUMMARY = { rating: 4.8, count: 127, url: '#', sample: true };
+const SUMMARY = { rating: 4.7, count: 255, url: 'https://www.google.com/maps/search/?api=1&query=Volan%20Otomotiv%20Bah%C3%A7ekap%C4%B1%20Mah.%202547.%20Sokak%20No%3A3%20Etimesgut%20Ankara', sample: false };
 const REVIEWS = [
   { name: 'Teoman U.', date: '24.07.2025',
     text: 'Aracımın periyodik bakımı ve birkaç arızası için götürdüm, profesyonel ve titiz bir hizmet aldım. Kenan beye teşekkürler' },
