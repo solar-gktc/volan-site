@@ -58,6 +58,9 @@
     return adlar.length;
   };
 
+  // Düzeltilen alanın uyarısı yazarken kalkar.
+  form.addEventListener('input', (olay) => { if (olay.target.name) alanHatasi(olay.target.name, ''); });
+
   form.addEventListener('submit', async (olay) => {
     olay.preventDefault();
     soyle('');
