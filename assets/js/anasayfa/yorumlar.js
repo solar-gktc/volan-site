@@ -4,7 +4,7 @@
 
 // ---------------------------------------------------------------------------------------
 // REVIEWS are real customer reviews copied unchanged (text, name, date) from yorumlar.html.
-// Only reviews short enough for the card (six lines) are used. One object per review;
+// Ten reviews; longer ones get a smaller type and a wider message side (see `size`). One object per review;
 // `rating`, `car` and `brand` may be left out (the source gives no star rating or car).
 //   name / date / text: as published, rating: 1–5, car: "Model · işlem",
 //   brand: volvo | vw | mercedes (chooses the drawing on the postage stamp),
@@ -21,6 +21,20 @@ const REVIEWS = [
     text: 'Almanya’dan Türkiye tatiline geldiğimde Volvo aracımın yıllık bakımını Volan’da yaptırdım. Profesyonel ekip ve dürüst bir yönetim gözlemledim. Her sorumu anlaşılır bir dille izah ettiler. Bundan sonra adresim hep Volan olacak' },
   { name: 'Çağrı Yılmaz',
     text: 'Yaklaşık 6 yıldır aracımın tüm işlemlerini burada yaptırıyorum. Ustalıklarına her zaman çok güvenirim ve asla gereksiz masrafa sokmazlar. Tüm ekibe teşekkür ederim.' },
+  { name: 'Ahmet Deveci', brand: 'volvo',
+    text: 'Hollanda’dan geliyorum ve Ankara’da sabit bir tamircim yoktu. Aracım Volvo XC90 T8, 2016 model. Daha önce başka bir servise gittim ve orası klima kompresörünün değişmesi gerektiğini söyledi. Ancak Volan otomotivde gerçek sorun doğru şekilde tespit edildi ve çok daha uygun bir maliyetle çözüldü. Hem param cebimde kaldı hem de problem tamamen giderildi. Volan otomotiv güvenilir, işini düzgün yapan ve müşteri memnuniyetine önem veren bir yer. Artık Ankara’da güvenle gidebileceğim bir garajım var. Kesinlikle tavsiye ederim!' },
+  { name: 'Mehmet Can Ezgu', brand: 'volvo',
+    text: '2017 model volvo s60 aracımın arızası için kendileriyle iletişime geçtim, aracı görmeden önce bana olabilecek arıza nedenlerini ve muhtemel fiyatları söylediler. ben şehir dışındayken aracımı başka bir servisten kendileri aldılar, aynı gün içinde arıza tespitini yaptılar ve normalde tamiri 20 gün süreceği söylenen arızaları 4-5 içinde giderdiler. İlgilerinden dolayı teşekkür ederim.' },
+  { name: 'Talha Ayyıldız', brand: 'volvo',
+    text: 'Volvo arabamla buraya yaptığım her ziyaretten çok memnun kaldım. Oldukça tecrübeli ve güvenilir servis. Çalışanlar oldukça hızlı. Mekan çok temiz ve nezih. Her zaman ulaşılabilirler. Kesinlikle tavsiye ediyorum' },
+  { name: 'Yiğit Orçun Sırıklıoğlu', brand: 'volvo',
+    text: 'Merhabalar , 2008 model v70 aracımla servislerine çekici üzerinde geldim. Buradan önce Ankara ve İstanbulda 2ayrı servis deneyimim oldu fakat ikisinde de fazlasıyla para harcamama rağmen yolda rezil oldum çünkü aynı sorunu yaşadım. Keşke burayı daha önce bulup gelebilseydim. Nokta atışı aracımın sorunu bulundu açıklandı gereken işlemler yapıldı. Son derece memnunum başka volvo kullanıcılarına da tavsiye ederim. Her şey için çok teşekkürler.' },
+  { name: 'M.Sezgin Dönmez', brand: 'volvo',
+    text: '2020 model XC90 aracım turbo arızası verdi.. Yetkili serviste tesbiti yapıldıktan sonra bir buçuk aylık bir tamir süresi ve yüksek bir fiyat verildi.  Bu süre benim için çok uzun olduğu için alternatif bir yer ararken Volan servisini ziyaret ettim..Biraz araştırdığımda eski yetkili servis olduklarını öğrendim ve sonrasında gözüm kapalı gittim.  Tesis ve ekip olarak güven verdikleri için aracımı bıraktım...orjinal parça ile bir  haftada aracımın turbo değişimini yapıp teslim ettiler. Neredeyse yarı yarıya daha uygun fiyata yaptırdım.  Kendilerine özellikle zaman konusunda ve fiyat konusunda  yardımcı oldukları için teşekkür ederim.' },
+  { name: 'Mustafa Akboyraz',
+    text: 'Aracımızın fren pedalı yumuşaması ve dipte kavrama problemi için Volan Otomotiv’i tercih ettim. Baştan sona hızlı, profesyonel ve çözümcü bir yaklaşım sergilemelerinden dolayı Kenan Bey’e be usta Mehmet Bey’e çok teşekkür ediyorum.' },
+  { name: 'Kaan Akman', brand: 'volvo',
+    text: 'İkinci el olarak satın aldığım 2008 model Volvo V70 aracım için tüm bakımları (triger, v kayışı, radyatör, motor kulağı, sıvı bakımları filtreler vs) ustalıkla ve özenle yapıldı. Daha önceden volvo sahibi değildim keşke daha önce tanışma fırsatım olsaydı. Parçası bulunmayan ve zor olan trim işlemleri bile özenle yapıldı. Buradan Orhan ve Kenan abi olmak üzere tüm çalışanlara teşekkür ederim. Daha profesyonel ve kurumsal bir işletme olduğunu sanmıyorum. Tamamen güvenilir ve köklü bir işletme. Aracımı bıraktıktan sonra hızlı bir şekilde tüm sorunlar çözüldü ve whatsapp üzerinden fotoğraflarla bilgilendirildim. Şeffaf ve güvenilir bir hizmet ;)' },
 ];
 // ---------------------------------------------------------------------------------------
 
@@ -34,7 +48,8 @@ const stars = (r, cls = '') => `<span class="stars ${cls}" style="--r: ${r}" rol
 
 function card(r, i, total) {
   const stamp = STAMPS[r.brand] || GENERIC[i % GENERIC.length];
-  return `<article class="pc" data-i="${i}" aria-label="Yorum ${i + 1} / ${total}">
+  const size = r.text.length > 460 ? ' pc--long' : r.text.length > 250 ? ' pc--mid' : '';
+  return `<article class="pc${size}" data-i="${i}" aria-label="Yorum ${i + 1} / ${total}">
     <div class="pc__msg">
       ${r.rating ? stars(r.rating) : ''}
       <p class="pc__quote">${esc(r.text)}</p>
@@ -73,6 +88,7 @@ if (root && REVIEWS.length) {
   let front = 0;
 
   const slotOf = (p) => (p === 0 ? 'big' : p === 1 ? 'a' : p === 2 ? 'b' : p === N - 1 && N > 3 ? 'out' : 'deck');
+  let fit = () => {};
   const place = () => {
     cards.forEach((c, i) => {
       const p = (i - front + N) % N;
@@ -82,7 +98,12 @@ if (root && REVIEWS.length) {
       c.inert = slot === 'deck' || slot === 'out';
     });
     root.querySelector('[data-count]').textContent = String(front + 1);
+    fit();
   };
+  // Phones: the deck is as tall as the card in front.
+  const phone = matchMedia('(max-width: 899px)');
+  fit = () => { holder.style.height = phone.matches ? `${cards[front].offsetHeight}px` : ''; };
+  addEventListener('resize', fit);
   const step = (d) => { front = (front + d + N) % N; place(); };
 
   root.querySelector('[data-total]').textContent = String(N);

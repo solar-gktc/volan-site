@@ -6,6 +6,9 @@
 
 // The Apps Script web app URL (Deploy → Manage deployments → Web app URL).
 const ENDPOINT = 'https://script.google.com/macros/s/AKfycby7PTVPKz8B07NAuSEJUCpw3twI7tlEYODcU11L7aLxCDdhyfU1N7Mg0ytpHMfPkxuD/exec';
+// Comments written before this moment are archived: they stay in the sheet but are not shown.
+// (27 Nov 2026: the first round of review comments was applied; the owner asked for a clean start.)
+const ARCHIVED_BEFORE = '2026-11-27T21:42:00.000Z';
 
 (() => {
   // Comments belong to a page: file name plus query (yakinda.html?s=haberler is its own page).
@@ -95,7 +98,7 @@ const ENDPOINT = 'https://script.google.com/macros/s/AKfycby7PTVPKz8B07NAuSEJUCp
       const res = await fetch(ENDPOINT + '?page=' + encodeURIComponent(PAGE));
       const out = await res.json();
       if (!out.ok) throw new Error(out.error || 'not ok');
-      for (const c of out.comments) addSaved(c);
+      for (const c of out.comments) if (!(c.time && c.time < ARCHIVED_BEFORE)) addSaved(c);
       renumber();
       placeAll();
     } catch (err) {
