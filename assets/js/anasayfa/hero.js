@@ -3,6 +3,10 @@
 // Auto-advance every 7 s, held while the pointer is over the hero or focus is inside it, stopped
 // for good once the visitor uses an arrow or a dot, never with reduced motion, and only while the
 // hero is on screen. Without this script the first slide shows and the controls stay hidden.
+// The campaign slide comes from the panel (kampanya-veri.js): wait until it is filled in or removed.
+import { hazir } from './kampanya-veri.js';
+
+await hazir;
 const root = document.querySelector('.s-hero');
 if (root) init(root);
 

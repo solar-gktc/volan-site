@@ -1,5 +1,9 @@
 // Kampanya — index tabs on the cover band. Works for one to three campaigns as written in the
 // markup: one panel hides the tab row; two or three panels become ARIA tabs (click, arrows, Home/End).
+// The panels come from the panel's campaigns (kampanya-veri.js): wait until they are filled in or the section is removed.
+import { hazir } from './kampanya-veri.js';
+
+await hazir;
 const root = document.querySelector('.s-kampanya');
 
 if (root) {

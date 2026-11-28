@@ -8,6 +8,8 @@
 const ENDPOINT = 'https://script.google.com/macros/s/AKfycby7PTVPKz8B07NAuSEJUCpw3twI7tlEYODcU11L7aLxCDdhyfU1N7Mg0ytpHMfPkxuD/exec';
 
 (() => {
+  // A review tool for the people building the site: it never runs on the live domain.
+  if (/(^|\.)volan\.com\.tr$/i.test(location.hostname)) return;
   // Comments belong to a page: file name plus query (yakinda.html?s=haberler is its own page).
   const PAGE = (location.pathname.split('/').pop() || 'index.html') + location.search;
 
