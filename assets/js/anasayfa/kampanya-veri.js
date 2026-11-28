@@ -8,6 +8,7 @@
 const BEKLE = 1200;
 const CANLI = /(^|\.)volan\.com\.tr$/i.test(location.hostname);
 const WHATSAPP = '905337653378';
+// Hazır görsel takımları (parça fotoğrafı + çizgi maskesi). Panelden görsel yüklenmişse (gorselAdresi) o kullanılır.
 const GORSEL = { jant: 'kampanya-jant-volvo', aku: 'kampanya-aku', 'fren-seti': 'kampanya-fren-seti' };
 
 const bugun = () => new Date().toLocaleDateString('en-CA', { timeZone: 'Europe/Istanbul' });
@@ -46,6 +47,16 @@ function slayt(k) {
     nokta?.remove();
     kok.querySelectorAll('.hcard__body').forEach((g, i, hepsi) => g.setAttribute('aria-label', `${i + 1} / ${hepsi.length}`));
     return;
+  }
+  // Panelden yüklenmiş görsel varsa jantın yerine o, fotoğraf baskısı gibi durur; jantın çizimi kalkar.
+  if (k.gorselAdresi) {
+    baski.querySelector('.ad')?.classList.add('ad--foto');
+    const resim = baski.querySelector('.ad__wheel');
+    if (resim) {
+      resim.removeAttribute('width');
+      resim.removeAttribute('height');
+      resim.src = k.gorselAdresi;
+    }
   }
   // Görsel: büyük kelime ve işaretli maddeler.
   yaz(baski.querySelector('.ad__word'), k.hero.kelime);
@@ -106,12 +117,23 @@ function bolum(liste) {
     p.querySelector('.sample')?.remove(); // "örnek kampanya" notu
     const dosya = GORSEL[k.gorsel] ?? GORSEL.jant;
     const cizgi = p.querySelector('.art__line');
+    const parca = p.querySelector('.art__part');
+    if (k.gorselAdresi) {
+      // Panelden yüklenmiş görsel: hazır takımın çizimi olmadan, fotoğraf baskısı gibi.
+      p.querySelector('.art')?.classList.add('art--foto');
+      cizgi?.remove();
+      if (parca) {
+        parca.removeAttribute('width');
+        parca.removeAttribute('height');
+        parca.src = k.gorselAdresi;
+      }
+      return p;
+    }
     if (cizgi) {
       const maske = `url(assets/img/anasayfa/${dosya}-cizgi.webp)`;
       cizgi.style.setProperty('-webkit-mask-image', maske);
       cizgi.style.setProperty('mask-image', maske);
     }
-    const parca = p.querySelector('.art__part');
     if (parca) parca.src = `assets/img/anasayfa/${dosya}.webp`;
     return p;
   });

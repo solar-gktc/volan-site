@@ -174,3 +174,20 @@
   .s-kampanya .panel.is-in .offer,
   .s-kampanya .panel.is-in .art__part { animation: none; }
 }
+
+/* A campaign with its own uploaded picture (kampanya-veri.js adds .art--foto): any photo, shown as a
+   print on the band instead of the cut-out part and its line drawing. Cropped to 4:3. */
+.s-kampanya .art--foto .art__part {
+  left: 4%; top: 50%; width: 92%; aspect-ratio: 4 / 3; height: auto;
+  object-fit: cover;
+  border: 10px solid var(--paper);
+  background: var(--paper);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 18px 34px -14px rgba(0, 0, 0, 0.55);
+  transform: translateY(-50%) rotate(1.6deg);
+}
+.s-kampanya .panel.is-in .art--foto .art__part { animation-name: kampanya-foto; }
+@keyframes kampanya-foto { from { opacity: 0; transform: translateY(-50%) translateX(28px) rotate(4deg); } }
+@media (max-width: 899px) {
+  .s-kampanya .art--foto .art__part { left: auto; right: 14px; top: 4px; width: 232px; border-width: 7px; transform: rotate(1.6deg); }
+  @keyframes kampanya-foto { from { opacity: 0; transform: translateX(28px) rotate(4deg); } }
+}

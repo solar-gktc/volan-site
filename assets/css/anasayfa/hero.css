@@ -216,3 +216,21 @@ header.banner.s-hero { min-height: 0; } /* menu.css gives .menu ~ .banner a min-
 @media (prefers-reduced-motion: reduce) {
   .s-hero .hcard, .s-hero .hcard__body, .s-hero .hero__arrow, .s-hero .hero__dot::before { transition: none; }
 }
+
+/* The campaign slide with an uploaded picture (kampanya-veri.js adds .ad--foto): the photo stands
+   where the wheel was, as a print cropped to 4:3; the wheel's line drawing is not shown. */
+.s-hero .ad--foto .ad__lines { display: none; }
+.s-hero .ad--foto .ad__wheel {
+  width: 400px; aspect-ratio: 4 / 3; height: auto;
+  object-fit: cover;
+  border: 10px solid var(--paper);
+  background: var(--paper);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 18px 34px -14px rgba(0, 0, 0, 0.55);
+  transform: rotate(-1.4deg);
+}
+@media (min-width: 900px) and (max-width: 1299px) {
+  .s-hero .ad--foto .ad__wheel { width: clamp(250px, 27vw, 340px); }
+}
+@media (max-width: 899px) {
+  .s-hero .ad--foto .ad__wheel { width: 190px; border-width: 6px; }
+}
