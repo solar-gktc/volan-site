@@ -98,7 +98,7 @@
 
 /* The last day in a foil-ruled box pressed into the board. */
 .s-kampanya .valid { display: inline-grid; gap: 6px; padding: 10px 16px 12px; border: 4px double var(--gold-ink); color: var(--gold-ink); transform: rotate(-2deg); }
-.s-kampanya .valid .label { color: var(--gold-ink); font-size: 0.6875rem; }
+.s-kampanya .valid .label { color: var(--gold-ink); font-size: 0.75rem; }
 .s-kampanya .valid b { color: var(--stock); font: 700 1.5rem/1 var(--font-typed); letter-spacing: 0.02em; }
 
 /* The part breaks out of the band; its blueprint line drawing sits behind it in light foil. */

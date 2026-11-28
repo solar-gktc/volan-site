@@ -76,6 +76,9 @@ function start() {
   renderer.toneMappingExposure = 1.05;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFShadowMap;
+  // The shadow map is redrawn only when the building itself changes (see shadowKey), not
+  // while the camera turns: that halves the draw calls of an orbit or a camera glide.
+  renderer.shadowMap.autoUpdate = false;
   renderer.domElement.setAttribute('aria-hidden', 'true');
   canvasBox.appendChild(renderer.domElement);
 
@@ -180,7 +183,8 @@ function start() {
     const r = canvasBox.getBoundingClientRect();
     S.w = Math.max(1, Math.round(r.width));
     S.h = Math.max(1, Math.round(r.height));
-    renderer.setPixelRatio(Math.min(devicePixelRatio, S.w < 900 ? 1.75 : 2));
+    // At most about 3.7 million pixels: a full 2× canvas on a large screen is the main GPU cost.
+    renderer.setPixelRatio(Math.min(devicePixelRatio, S.w < 900 ? 1.75 : 2, Math.max(1, Math.sqrt(3.7e6 / (S.w * S.h)))));
     renderer.setSize(S.w, S.h, false);
     camera.aspect = S.w / S.h;
     applyOffset();
@@ -460,6 +464,7 @@ function start() {
       }
       mesh.castShadow = !faded && m0(mats).castShadow;
     }
+    S.ghosted = floor || '';
   }
   const m0 = (mats) => mats[0];
 
@@ -634,6 +639,14 @@ function start() {
     return null;
   }
 
+  // Everything that moves or hides a shadow caster.
+  function shadowKey() {
+    const r = S.roots;
+    let key = S.ghosted || '';
+    for (const n of ['LOWER', 'MAIN', 'UPPER', 'ENVELOPE', 'SITE']) key += `|${r[n].visible ? r[n].position.y.toFixed(3) : 'x'}`;
+    return `${key}|${S.cutParts[0]?.visible ? 1 : 0}`;
+  }
+
   // ---------- Frame loop (on demand) ----------
   function requestFrame() {
     if (S.frameRequested) return;
@@ -659,7 +672,11 @@ function start() {
       applyOffset();
     }
     if (controls.enabled && controls.update()) busy = true;
-    if (S.model) renderer.render(scene, camera);
+    if (S.model) {
+      const key = shadowKey();
+      if (key !== S.shadowKey) { S.shadowKey = key; renderer.shadowMap.needsUpdate = true; }
+      renderer.render(scene, camera);
+    }
     placePins();
     drawLeads();
     if (busy) requestFrame();

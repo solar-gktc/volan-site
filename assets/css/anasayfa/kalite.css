@@ -46,7 +46,7 @@
 .s-kalite .lines__head,
 .s-kalite .line { display: grid; grid-template-columns: 34px minmax(0, 1fr) 112px 28px; column-gap: 16px; align-items: center; }
 .s-kalite .lines__head { padding: 10px 0 8px; border-bottom: 1.5px solid var(--rule-strong); }
-.s-kalite .lines__head .label { font-size: 0.6875rem; }
+.s-kalite .lines__head .label { font-size: 0.75rem; }
 .s-kalite .line { padding: 9px 0; border-bottom: 1px solid var(--rule-strong); }
 .s-kalite .line__no { color: var(--stamp-ink); font: 700 1rem/1 var(--font-typed); }
 .s-kalite .line h3 { margin: 0 0 1px; color: var(--navy); font: 600 1.0625rem/1.3 var(--font-title); }

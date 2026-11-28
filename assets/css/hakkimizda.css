@@ -110,44 +110,44 @@
 .bolum__ust { padding-top: 24px; border-top: 2px solid var(--rule-strong); }
 .bolum__giris { margin-top: 16px; max-width: 58ch; }
 
-/* Quality: five steps, each carried by a part resting on the page. */
-.adimlar {
+/* Quality: two prints from the bay at the left, the five steps as a ticked list at the right. */
+.kalite {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(12, minmax(0, 1fr));
   column-gap: 32px;
-  margin: 48px 0 0;
-  padding: 0;
-  list-style: none;
-  counter-reset: adim;
+  align-items: center;
+  margin-top: 48px;
 }
-.adim { position: relative; counter-increment: adim; }
-.adim__sahne { position: relative; aspect-ratio: 1; }
-.adim__sahne canvas { display: block; width: 100%; height: 100%; }
-/* The arrow printed between two steps, at the height of the parts. */
-.adim:not(:last-child) .adim__sahne::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  right: -30px;
-  width: 28px;
-  height: 12px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 12'%3E%3Cpath d='M1 6h24M20 1.5 25.5 6 20 10.5' fill='none' stroke='%23323277' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
-  transform: translateY(-50%);
+.kalite__foto { position: relative; grid-column: 1 / span 5; padding-bottom: 22%; }
+.kalite__plaka img { aspect-ratio: 4 / 3; object-fit: cover; }
+.kalite__plaka--a { width: 86%; transform: rotate(-1.4deg); }
+.kalite__plaka--b { position: absolute; right: 0; bottom: 0; width: 56%; padding: 7px; transform: rotate(1.8deg); }
+.adimlar { grid-column: 7 / span 6; margin: 0; padding: 0; list-style: none; counter-reset: adim; }
+.adim {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  column-gap: 18px;
+  padding: 18px 0 20px;
+  border-top: 1px solid var(--rule-strong);
+  counter-increment: adim;
 }
+.adim:first-child { padding-top: 0; border-top: 0; }
+.adim:last-child { padding-bottom: 0; }
+.adim .tickbox { grid-row: span 2; margin-top: 5px; }
 .adim h3 {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   align-items: baseline;
-  margin: 16px 0 0;
-  padding-top: 12px;
-  border-top: 2px solid var(--navy);
+  margin: 0;
   color: var(--navy);
-  font: 600 0.9375rem/1.25 var(--font-label);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font: 600 1.375rem/1.3 var(--font-title);
 }
-.adim h3::before { content: counter(adim); color: var(--stamp-ink); font: 700 1rem/1 var(--font-typed); letter-spacing: 0; }
-.adim p { margin-top: 10px; font-size: 1rem; line-height: 1.6; }
+.adim h3::before { content: "0" counter(adim); color: var(--stamp-ink); font: 700 0.9375rem/1 var(--font-typed); }
+.adim p { margin-top: 6px; max-width: 46ch; color: var(--ink-soft); font-size: 1.0625rem; line-height: 1.55; }
+.adim:nth-child(2) .tick { transition-delay: 100ms; }
+.adim:nth-child(3) .tick { transition-delay: 200ms; }
+.adim:nth-child(4) .tick { transition-delay: 300ms; }
+.adim:nth-child(5) .tick { transition-delay: 400ms; }
 
 /* Facility and team: a count the eye can check. */
 .ekip {
@@ -157,8 +157,8 @@
   align-items: start;
 }
 /* Two independent columns: the count and the units; the photo and the certificates. */
-.ekip__sol { grid-column: 1 / span 7; }
-.ekip__sag { grid-column: 9 / span 4; display: grid; row-gap: 40px; padding-top: 8px; }
+.ekip__sol { grid-column: 1 / span 6; }
+.ekip__sag { grid-column: 8 / span 5; display: grid; row-gap: 40px; padding-top: 8px; }
 .ekip__sol .sayim { margin-top: 40px; }
 .ekip__sol .birimler { margin-top: 32px; }
 .sayim { margin: 0; }
@@ -190,7 +190,14 @@
 .birimler ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px 32px; margin: 12px 0 0; padding: 0; list-style: none; }
 .birimler li { display: flex; gap: 12px; align-items: flex-start; padding: 4px 0; font-size: 1.125rem; line-height: 1.5; }
 .birimler .tickbox { margin-top: 4px; }
-.plate--is { transform: rotate(1deg); }
+/* The bay with no one in it, large; three prints of the people at work under it. */
+.kolaj { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.kolaj img { aspect-ratio: 4 / 3; object-fit: cover; }
+.kolaj__buyuk { grid-column: 1 / -1; transform: rotate(0.8deg); }
+.kolaj__kucuk { padding: 6px; }
+.kolaj__kucuk:nth-child(2) { transform: rotate(-1.6deg); }
+.kolaj__kucuk:nth-child(3) { transform: rotate(0.9deg) translateY(6px); }
+.kolaj__kucuk:nth-child(4) { transform: rotate(-0.7deg); }
 
 /* Certificates sit under the photo: slots where the documents will be tipped in. */
 .belgeler-blok p { margin-top: 6px; color: var(--ink-soft); font-size: 1rem; line-height: 1.5; }
@@ -340,11 +347,6 @@ html:not(.press) .seal--kapak { opacity: 0.95; transform: scale(1) rotate(-14deg
 
 /* ---------- Narrow screens ---------- */
 
-@media (max-width: 1100px) {
-  .adimlar { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 48px; }
-  .adim:nth-child(3) .adim__sahne::after { display: none; }
-}
-
 @media (max-width: 899px) {
   .giris { grid-template-columns: minmax(0, 1fr); row-gap: 40px; min-height: 0; padding: 32px 0 0; }
   .giris__metin, .giris__gorsel { grid-column: 1; }
@@ -363,25 +365,14 @@ html:not(.press) .seal--kapak { opacity: 0.95; transform: scale(1) rotate(-14deg
   .bolum { padding-top: 96px; }
   .page-hakkimizda h2 { font-size: 1.75rem; line-height: 32px; }
 
-  /* Steps become a list: the part on the left, the words on the right, arrows downwards. */
-  .adimlar { grid-template-columns: minmax(0, 1fr); row-gap: 28px; }
-  .adim { display: grid; grid-template-columns: 112px minmax(0, 1fr); column-gap: 20px; align-items: start; }
-  .adim__sahne { grid-row: span 2; }
-  .adim:not(:last-child) .adim__sahne::after {
-    display: block;
-    top: auto;
-    right: auto;
-    bottom: -26px;
-    left: 50%;
-    transform: translateX(-50%) rotate(90deg);
-  }
-  .adim h3 { margin-top: 0; }
+  .kalite { grid-template-columns: minmax(0, 1fr); row-gap: 40px; }
+  .kalite__foto, .adimlar { grid-column: 1; }
+  .adim h3 { font-size: 1.1875rem; }
 
   .ekip, .hikaye { grid-template-columns: minmax(0, 1fr); row-gap: 40px; }
   .ekip__sol, .ekip__sag, .hikaye__plaka, .hikaye__metin { grid-column: 1; grid-row: auto; }
   .birimler ul { grid-template-columns: minmax(0, 1fr); }
   .isaretler[data-isaret="kisi"] { grid-template-columns: repeat(13, minmax(0, 1fr)); gap: 8px 4px; }
-  .plate--is { width: 88%; justify-self: center; }
 
   .kapak__inner { grid-template-columns: minmax(0, 1fr); row-gap: calc(var(--line) * 2); }
   .kapak__text, .kapak__iletisim { grid-column: 1; }

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /.impeccable/
+
+Sitemap: https://volan.com.tr/sitemap.xml

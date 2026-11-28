@@ -22,3 +22,15 @@ if (sec) {
     big.decode().catch(() => {}).then(() => requestAnimationFrame(() => print.classList.remove('is-developing')));
   }));
 }
+
+// Dün ve bugün: a range input moves the seam between the archive photo and today's.
+for (const el of document.querySelectorAll('.s-miras [data-karsilastir]')) {
+  const input = el.querySelector('input[type="range"]');
+  const apply = () => {
+    const v = Math.round(Number(input.value));
+    el.style.setProperty('--ayrim', `${input.value}%`);
+    input.setAttribute('aria-valuetext', `Dün %${v}, bugün %${100 - v}`);
+  };
+  input.addEventListener('input', apply);
+  apply();
+}

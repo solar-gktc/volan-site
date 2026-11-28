@@ -3,12 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Volan Otomotiv · Ankara'da Volvo, Mercedes-Benz ve Volkswagen servisi</title>
-<meta name="description" content="Bakımdan onarıma, kaportadan oto kuaföre aracınızla ilgili her şey tek çatı altında. 1954'ten beri Ankara'da Volvo, Mercedes-Benz ve Volkswagen özel servisi.">
+<title>Ankara Volvo, Mercedes ve VW Özel Servisi | Volan Otomotiv</title>
+<meta name="description" content="Ankara Şaşmaz'da Volvo, Mercedes-Benz ve Volkswagen özel servisi. Bakım, onarım, arıza tespiti, kaporta ve boya tek çatı altında. 1954'ten beri hizmetinizdeyiz.">
 <meta name="theme-color" content="#323277">
+<link rel="canonical" href="https://volan.com.tr/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:site_name" content="Volan Otomotiv">
+<meta property="og:url" content="https://volan.com.tr/">
+<meta property="og:title" content="Ankara Volvo, Mercedes ve VW Özel Servisi | Volan Otomotiv">
+<meta property="og:description" content="Ankara Şaşmaz'da Volvo, Mercedes-Benz ve Volkswagen özel servisi. Bakım, onarım, arıza tespiti, kaporta ve boya tek çatı altında. 1954'ten beri hizmetinizdeyiz.">
+<meta property="og:image" content="https://volan.com.tr/assets/img/anasayfa/hero-bina-gunes.webp">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "AutoRepair", "name": "Volan Otomotiv", "url": "https://volan.com.tr/", "image": "https://volan.com.tr/assets/img/anasayfa/hero-bina-gunes.webp", "logo": "https://volan.com.tr/assets/img/logo-oval.svg", "telephone": "+905337653378", "email": "info@volan.com.tr", "foundingDate": "1954", "address": {"@type": "PostalAddress", "streetAddress": "Bahçekapı Mah. 2547. Sokak No:3, Şaşmaz Oto Sanayi Sitesi", "addressLocality": "Etimesgut", "addressRegion": "Ankara", "addressCountry": "TR"}, "areaServed": "Ankara", "brand": ["Volvo", "Mercedes-Benz", "Volkswagen"], "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "opens": "08:30", "closes": "18:00"}], "sameAs": ["https://www.instagram.com/volanotomotiv/", "https://shop.volan.com.tr/"]}</script>
 <link rel="icon" href="assets/img/logo-oval.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/besley-400-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/models/volvo-xc60.glb" as="fetch" type="model/gltf-binary" crossorigin>
 <link rel="stylesheet" href="assets/fonts/fonts.css">
 <link rel="stylesheet" href="assets/css/anasayfa-v2.css">
 <link rel="stylesheet" href="assets/css/menu.css">
@@ -22,9 +31,10 @@
 <link rel="stylesheet" href="assets/css/anasayfa/yorumlar.css">
 <link rel="stylesheet" href="assets/css/anasayfa/miras.css">
 <link rel="stylesheet" href="assets/css/anasayfa/final.css">
+<link rel="stylesheet" href="assets/css/anasayfa/tablet.css">
 <link rel="stylesheet" href="assets/css/metin-ek.css">
 <script type="importmap">{ "imports": { "three": "./assets/vendor/three.bundle.min.js" } }</script>
-<script type="module" src="assets/js/main.js"></script>
+<script type="module" src="assets/js/anasayfa/sahne-baslat.js"></script>
 <script type="module" src="assets/js/anasayfa/hero.js"></script>
 <script type="module" src="assets/js/anasayfa/hizmetler.js"></script>
 <script type="module" src="assets/js/anasayfa/kampanya.js"></script>
@@ -138,15 +148,15 @@
 <canvas class="stage" aria-hidden="true"></canvas>
 
 <header class="banner s-hero" id="icerik" aria-labelledby="hero-title">
-  <h1 class="visually-hidden" id="hero-title">Volan Otomotiv · Ankara'da Volvo, Mercedes-Benz ve Volkswagen özel servisi</h1>
 
   <div class="hero__slides" role="group" aria-roledescription="carousel" aria-label="Öne çıkanlar">
     <div class="prints" data-prints>
       <figure class="print is-current" data-print="1">
         <div class="print__img">
           <picture>
-            <source media="(max-width: 899px)" srcset="assets/img/anasayfa/hero-bina-kasim-dar.webp" width="800" height="500">
-            <img src="assets/img/anasayfa/hero-bina-kasim-genis.webp" width="2880" height="1235" alt="Volan Otomotiv binası gündüz: Oto Kuaför, Mekanik 1 ve Mekanik 2 kapıları, ortada VOLAN tabelası ve “Since 1954” yazılı giriş, önünde park etmiş araçlar.">
+            <source media="(max-width: 599px)" srcset="assets/img/anasayfa/hero-bina-gunes-dikey.webp" width="800" height="1000">
+            <source media="(max-width: 899px)" srcset="assets/img/anasayfa/hero-bina-gunes-dar.webp" width="1600" height="800">
+            <img src="assets/img/anasayfa/hero-bina-gunes.webp" width="2880" height="1235" fetchpriority="high" alt="Volan Otomotiv binası güneşli bir günde: Oto Kuaför, Mekanik 1 ve Mekanik 2 kapıları, ortada VOLAN tabelası ve “Since 1954” yazılı giriş.">
           </picture>
         </div>
       </figure>
@@ -154,8 +164,8 @@
       <figure class="print" data-print="2" aria-hidden="true">
         <div class="print__img">
           <picture>
-            <source media="(max-width: 899px)" srcset="assets/img/anasayfa/hero-arac-dar.webp" width="800" height="500">
-            <img src="assets/img/anasayfa/hero-arac-genis.webp" width="2880" height="1215" alt="Atölyede kaputları açık, yan yana duran iki Volvo XC90." loading="lazy">
+            <source media="(max-width: 899px)" srcset="assets/img/anasayfa/hero-atolye-kasim-dar.webp" width="800" height="500">
+            <img src="assets/img/anasayfa/hero-atolye-kasim-genis.webp" width="2880" height="1215" alt="Volan atölyesinde iki usta, kaputu açık bir Volvo XC90’ın motorunda çalışıyor; arkada ışıklı Volan tabelası." loading="lazy">
           </picture>
         </div>
       </figure>
@@ -183,6 +193,7 @@
       <svg class="staple staple--r" viewBox="0 0 40 22" aria-hidden="true"><path d="M4 9.5v3.5h32V9.5" fill="none" stroke="#6f7180" stroke-width="3.4" stroke-linejoin="round"/><path d="M5.5 12h29" fill="none" stroke="#d6d8df" stroke-width="1.2"/></svg>
 
       <div class="hcard__body" data-body="1" role="group" aria-roledescription="slayt" aria-label="1 / 3">
+        <h1 class="hcard__kicker" id="hero-title">Ankara’da Volvo, Mercedes-Benz ve Volkswagen özel servisi</h1>
         <h2 class="hcard__title">Aracınız bizim sorumluluğumuzda</h2>
         <p class="hcard__text">Garanti süreniz bittiği için servis kalitenizi düşürmek zorunda değilsiniz.</p>
         <div class="stamps stamps--ink" role="group" aria-label="İletişim">
@@ -190,12 +201,12 @@
           <a class="stamp-btn" href="tel:+905337653378">Ara</a>
           <a class="stamp-btn" href="https://wa.me/905337653378">WhatsApp</a>
         </div>
-        <p class="hcard__foot"><b>1954'ten beri</b> · Etimesgut, Ankara<span class="hcard__phone"><span class="hcard__sep"> · </span><span class="hcard__nowrap">0533 765 33 78</span></span></p>
+        <p class="hcard__foot"><b>1954'ten beri</b> · Şaşmaz, Etimesgut / Ankara<span class="hcard__phone"><span class="hcard__sep"> · </span><span class="hcard__nowrap">0533 765 33 78</span></span></p>
       </div>
 
       <div class="hcard__body" data-body="2" role="group" aria-roledescription="slayt" aria-label="2 / 3" aria-hidden="true" inert>
         <h2 class="hcard__title">Markanızı bilen ustalar</h2>
-        <p class="hcard__text">Aracınızın bakımı ve onarımı ile alakalı bütün ihtiyaçlarınız tek adreste.</p>
+        <p class="hcard__text">Aracınızın bakımı ve onarımı için gereken her şey tek adreste.</p>
         <div class="stamps stamps--ink" role="group" aria-label="Atölye">
           <a class="stamp-btn stamp-btn--primary" href="hizmetlerimiz.html">Hizmetlerimiz</a>
           <a class="stamp-btn" href="https://wa.me/905337653378?text=Merhaba%2C%20arac%C4%B1m%20i%C3%A7in%20randevu%20almak%20istiyorum." aria-label="Randevu al (WhatsApp mesajı)">Randevu al</a>
@@ -205,7 +216,7 @@
 
       <div class="hcard__body" data-body="3" role="group" aria-roledescription="slayt" aria-label="3 / 3" aria-hidden="true" inert>
         <h2 class="hcard__title"><span class="visually-hidden">Ücretsiz </span>Yol öncesi kontrol</h2>
-        <p class="hcard__text">Uzun yoldan önce lastik, fren ve sıvıları tek randevuda kontrol ediyoruz.</p>
+        <p class="hcard__text">Uzun yola çıkmadan önce lastikleri, frenleri ve sıvı seviyelerini tek randevuda kontrol ediyoruz.</p>
         <div class="hcard__row">
           <div class="stamps stamps--ink" role="group" aria-label="Kampanya">
             <a class="stamp-btn stamp-btn--primary" href="https://wa.me/905337653378?text=Merhaba%2C%20yol%20%C3%B6ncesi%20kontrol%20i%C3%A7in%20randevu%20almak%20istiyorum." aria-label="Randevu al (WhatsApp mesajı)">Randevu al</a>
@@ -231,78 +242,78 @@
     </div>
   </div>
 
-  <div class="forecourt">
-    <span class="park" data-park="volvo"></span>
-    <span class="park" data-park="mercedes"></span>
-    <span class="park" data-park="vw"></span>
-  </div>
 </header>
+<!-- The driveway: bare paper under the banner. The road comes in from the right edge here once
+     the banner is scrolled, and the Volvo drives in along it. -->
+<div class="driveway" aria-hidden="true"><span class="park" data-park="volvo" data-enter="right"></span></div>
 
 <main>
 <section class="entry s-hizmetler" id="hizmetler" data-lane="left" aria-labelledby="svc-title">
   <div class="entry__inner">
     <div class="board">
       <div class="board__head">
-        <h2 class="board__title" id="svc-title">Hizmetlerimiz</h2>
-        <p class="board__lead"><em>Aracınızın tüm ihtiyaçları,</em> tek çatı altında kapsamlı bir hizmet anlayışıyla karşılanır.</p>
+        <h2 class="board__title" id="svc-title">Servis hizmetlerimiz</h2>
+        <p class="board__lead"><em>Periyodik bakımdan kaporta ve boyaya,</em> aracınızın bütün işlerini tek çatı altında yaparız.</p>
       </div>
       <ul class="tabs" role="tablist" aria-label="Hizmetler" aria-orientation="vertical">
-      <li role="presentation"><button class="tab" role="tab" id="t-yillik-bakim" aria-controls="p-yillik-bakim" aria-selected="true" tabindex="0" type="button">Yıllık Bakım</button></li>
+      <li role="presentation"><button class="tab" role="tab" id="t-yillik-bakim" aria-controls="p-yillik-bakim" aria-selected="true" tabindex="0" type="button">Periyodik Bakım</button></li>
       <li role="presentation"><button class="tab" role="tab" id="t-mekanik-onarim" aria-controls="p-mekanik-onarim" aria-selected="false" tabindex="-1" type="button">Mekanik Onarım</button></li>
       <li role="presentation"><button class="tab" role="tab" id="t-elektronik-sistem-onarimlari" aria-controls="p-elektronik-sistem-onarimlari" aria-selected="false" tabindex="-1" type="button">Elektronik</button></li>
       <li role="presentation"><button class="tab" role="tab" id="t-arac-ariza-tespiti" aria-controls="p-arac-ariza-tespiti" aria-selected="false" tabindex="-1" type="button">Arıza Tespiti</button></li>
       <li role="presentation"><button class="tab" role="tab" id="t-yedek-parca" aria-controls="p-yedek-parca" aria-selected="false" tabindex="-1" type="button">Yedek Parça</button></li>
-      <li role="presentation"><button class="tab" role="tab" id="t-sigorta-kasko" aria-controls="p-sigorta-kasko" aria-selected="false" tabindex="-1" type="button">Sigorta / Kasko</button></li>
-      <li role="presentation"><button class="tab" role="tab" id="t-kaporta-boya" aria-controls="p-kaporta-boya" aria-selected="false" tabindex="-1" type="button">Kaporta &amp; Boya</button></li>
+      <li role="presentation"><button class="tab" role="tab" id="t-sigorta-kasko" aria-controls="p-sigorta-kasko" aria-selected="false" tabindex="-1" type="button">Sigorta ve Kasko</button></li>
+      <li role="presentation"><button class="tab" role="tab" id="t-kaporta-boya" aria-controls="p-kaporta-boya" aria-selected="false" tabindex="-1" type="button">Kaporta ve Boya</button></li>
       <li role="presentation"><button class="tab" role="tab" id="t-oto-kuafor" aria-controls="p-oto-kuafor" aria-selected="false" tabindex="-1" type="button">Oto Kuaför</button></li>
-      <li role="presentation"><button class="tab" role="tab" id="t-cekici-vale" aria-controls="p-cekici-vale" aria-selected="false" tabindex="-1" type="button">Çekici ile Vale</button></li>
+      <li role="presentation"><button class="tab" role="tab" id="t-cekici-vale" aria-controls="p-cekici-vale" aria-selected="false" tabindex="-1" type="button">Çekici ve Vale</button></li>
       </ul>
     <div class="panel" role="tabpanel" id="p-yillik-bakim" aria-labelledby="t-yillik-bakim">
       <div class="panel__art">
         <img class="sheet" src="assets/img/anasayfa/hizmetler-motor-volvo-drive-e-blueprint.webp" width="1120" height="700" alt="">
         <figure class="plate panel__photo"><img src="assets/img/hizmetler/yillik-bakim-1.webp" width="1400" height="1050" alt="Kaputları açık iki Volvo XC90, Volan tabelasının altında."></figure>
+        <figure class="plate panel__photo panel__photo--2"><img loading="lazy" src="assets/img/hizmetler/periyodik-bakim-form-kasim.webp" width="1400" height="1050" alt="İki Volan ustası, kaputu açık aracın yanında bakım formunu dolduruyor."></figure>
       </div>
       <div class="panel__text">
-        <h3 class="panel__name">Yıllık Bakım</h3>
-        <p class="panel__body">Yıllık bakımı aracınızın yaşına, kilometresine ve üreticinin bakım programına göre planlarız. Motor yağını ve filtreleri değiştiririz. Bakım bitince aracınızı genel kontrolden geçirir, gördüklerimizi size tek tek anlatırız.</p>
-        <ul class="panel__scope"><li>Motor yağı ve filtre değişimi</li><li>Yıllık ve kilometre bakımı</li><li>Bakım sonrası genel kontrol</li></ul>
-        <div class="stamps"><a class="stamp-btn stamp-btn--primary" href="hizmetlerimiz.html#yillik-bakim">Yıllık Bakım hizmeti</a><a class="stamp-btn" href="hizmetlerimiz.html">Tüm hizmetlerimiz</a></div>
+        <h3 class="panel__name">Periyodik bakım</h3>
+        <p class="panel__body">Aracınızın yıllık bakımını yaşına, kilometresine ve üreticinin bakım programına göre planlar, motor yağını ve filtreleri değiştiririz. Bakım yaklaşık 3 saat sürer; iç ve dış yıkama dahildir.</p>
+        <ul class="panel__scope"><li>Motor yağı ve filtre değişimi</li><li>Yıllık ve kilometre bakımı</li><li>İç ve dış yıkama dahil</li></ul>
+        <div class="stamps"><a class="stamp-btn stamp-btn--primary" href="hizmetlerimiz.html#periyodik-bakim" aria-label="Periyodik bakım: hizmetin ayrıntıları">Hizmetin ayrıntıları</a><a class="stamp-btn" href="hizmetlerimiz.html">Tüm hizmetlerimiz</a></div>
       </div>
     </div>
     <div class="panel" role="tabpanel" id="p-mekanik-onarim" aria-labelledby="t-mekanik-onarim" hidden>
       <div class="panel__art">
         <img loading="lazy" class="sheet" src="assets/img/anasayfa/hizmetler-fren-seti-blueprint.webp" width="1120" height="700" alt="">
         <figure class="plate panel__photo"><img loading="lazy" src="assets/img/hizmetler/mekanik-onarim-tezgah.webp" width="1400" height="1050" alt="Mekanik atölyesinde takım panoları, mengeneli tezgâh ve mavi çekmeceli çalışma masası."></figure>
+        <figure class="plate panel__photo panel__photo--2"><img loading="lazy" src="assets/img/hizmetler/mekanik-onarim-motor-kasim.webp" width="1400" height="1050" alt="İki usta, lacivert bir Volvo XC90’ın motor bölmesini el feneriyle inceliyor."></figure>
       </div>
       <div class="panel__text">
-        <h3 class="panel__name">Mekanik Onarım</h3>
-        <p class="panel__body">Motor, şanzıman, debriyaj, fren, direksiyon ve süspansiyon onarımlarını yetkili servis kalitesinde yaparız. Önce arızanın kaynağını bulur, sonra onarıma geçeriz. Parça değişmesi gerekiyorsa doğru yedek parçayı kullanırız.</p>
+        <h3 class="panel__name">Mekanik onarım</h3>
+        <p class="panel__body">Motor, şanzıman, debriyaj, fren, direksiyon ve süspansiyon onarımlarını yetkili servis kalitesinde yaparız. Arızalı parçayı önce onarmaya çalışır, gerektiği yerde aracınıza uygun parçayla değiştiririz.</p>
         <ul class="panel__scope"><li>Motor ve şanzıman onarımı</li><li>Fren ve debriyaj onarımı</li><li>Direksiyon ve süspansiyon onarımı</li></ul>
-        <div class="stamps"><a class="stamp-btn stamp-btn--primary" href="hizmetlerimiz.html#mekanik-onarim">Mekanik Onarım hizmeti</a><a class="stamp-btn" href="hizmetlerimiz.html">Tüm hizmetlerimiz</a></div>
+        <div class="stamps"><a class="stamp-btn stamp-btn--primary" href="hizmetlerimiz.html#mekanik-onarim" aria-label="Mekanik onarım: hizmetin ayrıntıları">Hizmetin ayrıntıları</a><a class="stamp-btn" href="hizmetlerimiz.html">Tüm hizmetlerimiz</a></div>
       </div>
     </div>
     <div class="panel" role="tabpanel" id="p-elektronik-sistem-onarimlari" aria-labelledby="t-elektronik-sistem-onarimlari" hidden>
       <div class="panel__art">
         <img loading="lazy" class="sheet" src="assets/img/anasayfa/hizmetler-elektrik-kablo-demeti-blueprint.webp" width="1120" height="700" alt="">
-        <figure class="plate panel__photo"><img loading="lazy" src="assets/img/hizmetler/elektronik-1.webp" width="1400" height="1050" alt="Kaputu açık lacivert bir Volvo XC90, önden."></figure>
+        <figure class="plate panel__photo"><img loading="lazy" src="assets/img/hizmetler/elektronik-test-kasim.webp" width="1400" height="1050" alt="İki usta, lacivert bir Volvo’nun önünde el tipi test cihazıyla ölçüm yapıyor."></figure>
       </div>
       <div class="panel__text">
-        <h3 class="panel__name">Elektronik Sistem Onarımları</h3>
-        <p class="panel__body">Sensör, kablo tesisatı, aydınlatma, akü ve şarj sistemi arızalarını tespit cihazıyla bulur, onarırız. Beyin onarımı da servisimizde yapılır, aracınız elden ele dolaşmaz.</p>
-        <ul class="panel__scope"><li>Sensör ve kablo tesisatı onarımı</li><li>Akü-şarj ve aydınlatma arızaları</li><li>Kontrol ünitesi (beyin) onarımı</li></ul>
-        <div class="stamps"><a class="stamp-btn stamp-btn--primary" href="hizmetlerimiz.html#elektronik-sistem-onarimlari">Elektronik Sistem Onarımları hizmeti</a><a class="stamp-btn" href="hizmetlerimiz.html">Tüm hizmetlerimiz</a></div>
+        <h3 class="panel__name">Elektronik sistem onarımı</h3>
+        <p class="panel__body">Sensör, kablo tesisatı, aydınlatma, akü ve şarj sistemi arızalarını tespit cihazıyla bulur ve onarırız. Kontrol ünitesi (beyin) onarımı da servisimizde yapılır; aracınız başka bir yere gönderilmez.</p>
+        <ul class="panel__scope"><li>Sensör ve kablo tesisatı onarımı</li><li>Akü, şarj ve aydınlatma arızaları</li><li>Kontrol ünitesi (beyin) onarımı</li></ul>
+        <div class="stamps"><a class="stamp-btn stamp-btn--primary" href="hizmetlerimiz.html#elektronik-sistem-onarimlari" aria-label="Elektronik sistem onarımı: hizmetin ayrıntıları">Hizmetin ayrıntıları</a><a class="stamp-btn" href="hizmetlerimiz.html">Tüm hizmetlerimiz</a></div>
       </div>
     </div>
     <div class="panel" role="tabpanel" id="p-arac-ariza-tespiti" aria-labelledby="t-arac-ariza-tespiti" hidden>
       <div class="panel__art">
         <img loading="lazy" class="sheet" src="assets/img/anasayfa/hizmetler-elektrik-ecu-blueprint.webp" width="1120" height="700" alt="">
-        <figure class="plate panel__photo"><img loading="lazy" src="assets/img/hizmetler/ariza-tespiti-1.webp" width="1400" height="1050" alt="Lift alanı ve ışıklı Volan tabelası."></figure>
+        <figure class="plate panel__photo"><img loading="lazy" src="assets/img/hizmetler/ariza-tespiti-cihaz-kasim.webp" width="1400" height="1050" alt="Sırtında Volan logosu olan usta, motorun üzerindeki arıza tespit cihazının ekranını okuyor."></figure>
       </div>
       <div class="panel__text">
-        <h3 class="panel__name">Araç Arıza Tespiti</h3>
-        <p class="panel__body">Bilgisayarlı arıza tespitinde cihazı aracınıza bağlar, kontrol ünitelerinin kaydettiği hataları okuruz. Sonucu sizinle paylaşır, hangi işlemin neden gerektiğini açıkça söyleriz. Onarıma ancak siz onay verdikten sonra başlarız.</p>
+        <h3 class="panel__name">Bilgisayarlı arıza tespiti</h3>
+        <p class="panel__body">Güncel teşhis cihazlarımız ve mekanik uzmanlığımızla arızanın kaynağını ilk seferde doğru belirleriz. Hangi işlemin neden gerektiğini açıklar, onarıma ancak onayınızla başlarız.</p>
         <ul class="panel__scope"><li>Bilgisayarlı arıza tespiti</li><li>Hata kayıtlarının okunması</li><li>Onarımdan önce bilgilendirme</li></ul>
-        <div class="stamps"><a class="stamp-btn stamp-btn--primary" href="hizmetlerimiz.html#arac-ariza-tespiti">Araç Arıza Tespiti hizmeti</a><a class="stamp-btn" href="hizmetlerimiz.html">Tüm hizmetlerimiz</a></div>
+        <div class="stamps"><a class="stamp-btn stamp-btn--primary" href="hizmetlerimiz.html#arac-ariza-tespiti" aria-label="Bilgisayarlı arıza tespiti: hizmetin ayrıntıları">Hizmetin ayrıntıları</a><a class="stamp-btn" href="hizmetlerimiz.html">Tüm hizmetlerimiz</a></div>
       </div>
     </div>
     <div class="panel" role="tabpanel" id="p-yedek-parca" aria-labelledby="t-yedek-parca" hidden>
@@ -311,34 +322,36 @@
         <figure class="plate panel__photo"><img loading="lazy" src="assets/img/anasayfa/hizmet-yedek-parca-kasim.webp" width="1400" height="1050" alt="Atölyede motor yağı ve bakım ürünleri rafları."></figure>
       </div>
       <div class="panel__text">
-        <h3 class="panel__name">Yedek Parça</h3>
-        <p class="panel__body">Aracınıza uygun doğru yedek parçayı tedarik eder, montajını da servisimizde yaparız. Teklif için aracınızın markasını, modelini ve yılını WhatsApp’tan yazabilir, shop.volan.com.tr adresindeki mağazamıza göz atabilirsiniz. Parçayı seçen de takan da biz olduğumuz için işin sorumluluğu bizdedir.</p>
-        <ul class="panel__scope"><li>Aracınıza uygun doğru yedek parça</li><li>Parçanın serviste montajı</li><li>WhatsApp’tan parça teklifi</li></ul>
-        <div class="stamps"><a class="stamp-btn stamp-btn--primary" href="hizmetlerimiz.html#yedek-parca">Yedek Parça hizmeti</a><a class="stamp-btn" href="hizmetlerimiz.html">Tüm hizmetlerimiz</a></div>
+        <h3 class="panel__name">Yedek parça</h3>
+        <p class="panel__body">Aracınıza uygun yedek parçayı tedarik eder, montajını servisimizde yaparız. Teklif için aracınızın markasını, modelini ve yılını WhatsApp’tan yazmanız yeterli. Yedek parçaları <a href="https://shop.volan.com.tr/">shop.volan.com.tr</a> adresindeki çevrim içi mağazamızdan da satın alabilirsiniz.</p>
+        <ul class="panel__scope"><li>Aracınıza uygun yedek parça</li><li>Parçanın serviste montajı</li><li>WhatsApp’tan parça teklifi</li></ul>
+        <div class="stamps"><a class="stamp-btn stamp-btn--primary" href="hizmetlerimiz.html#yedek-parca" aria-label="Yedek parça: hizmetin ayrıntıları">Hizmetin ayrıntıları</a><a class="stamp-btn" href="hizmetlerimiz.html">Tüm hizmetlerimiz</a></div>
       </div>
     </div>
     <div class="panel" role="tabpanel" id="p-sigorta-kasko" aria-labelledby="t-sigorta-kasko" hidden>
       <div class="panel__art">
         <img loading="lazy" class="sheet" src="assets/img/anasayfa/hizmetler-kaporta-on-kapi-blueprint.webp" width="1120" height="700" alt="">
         <figure class="plate panel__photo"><img loading="lazy" src="assets/img/hizmetler/sigorta-kasko-1.webp" width="1400" height="1050" alt="Ön tarafı sökülmüş beyaz bir otomobil."></figure>
+        <figure class="plate panel__photo panel__photo--2"><img loading="lazy" src="assets/img/hizmetler/sigorta-kasko-ekip-kasim.webp" width="1400" height="1050" alt="Dört Volan ustası, kaputu açık bir aracın motorunda birlikte çalışıyor."></figure>
       </div>
       <div class="panel__text">
-        <h3 class="panel__name">Sigorta / Kasko Onarım İşlemleri</h3>
-        <p class="panel__body">Kasko ve trafik sigortası kapsamındaki hasarları kendi kaporta ve boya atölyemizde onarırız. Belgeleri hazırlar, hasar dosyasını ve ekspertizi sizin adınıza takip ederiz. Evrak peşinde koşmak size kalmaz.</p>
+        <h3 class="panel__name">Sigorta ve kasko hasar onarımı</h3>
+        <p class="panel__body">Kasko ve trafik sigortası kapsamındaki hasarları kendi kaporta ve boya atölyemizde onarırız. Hasar dosyasını ve ekspertiz sürecini sizin adınıza biz takip ederiz.</p>
         <ul class="panel__scope"><li>Kasko hasarı onarımı</li><li>Trafik sigortası hasarı onarımı</li><li>Hasar dosyası ve ekspertiz takibi</li></ul>
-        <div class="stamps"><a class="stamp-btn stamp-btn--primary" href="hizmetlerimiz.html#sigorta-kasko">Sigorta / Kasko Onarım İşlemleri hizmeti</a><a class="stamp-btn" href="hizmetlerimiz.html">Tüm hizmetlerimiz</a></div>
+        <p class="panel__note"><b>Anlaşmalı sigortalar:</b> Ray · AXA · Anadolu · Ethica · Koru · Türkiye</p>
+        <div class="stamps"><a class="stamp-btn stamp-btn--primary" href="hizmetlerimiz.html#sigorta-kasko" aria-label="Sigorta ve kasko hasar onarımı: hizmetin ayrıntıları">Hizmetin ayrıntıları</a><a class="stamp-btn" href="hizmetlerimiz.html">Tüm hizmetlerimiz</a></div>
       </div>
     </div>
     <div class="panel" role="tabpanel" id="p-kaporta-boya" aria-labelledby="t-kaporta-boya" hidden>
       <div class="panel__art">
         <img loading="lazy" class="sheet" src="assets/img/anasayfa/hizmetler-kaporta-camurluk-blueprint.webp" width="1120" height="700" alt="">
-        <figure class="plate panel__photo"><img loading="lazy" src="assets/img/anasayfa/hizmet-kaporta-boya-kasim.webp" width="1400" height="1050" alt="Boya kabininde maskelenmiş bir araç."></figure>
+        <figure class="plate panel__photo"><img loading="lazy" src="assets/img/hizmetler/kaporta-boya-boyaci-kasim.webp" width="1400" height="1050" alt="Boya fırınında tulumlu ve maskeli boyacı, kaputa boya tabancasıyla boya atıyor."></figure>
       </div>
       <div class="panel__text">
-        <h3 class="panel__name">Kaporta &amp; Boya</h3>
-        <p class="panel__body">Kaporta onarımı ve göçük düzeltmenin yanında lokal, parça ve komple boya yaparız. İyi bir kaporta boya işlemi, yapıldığı belli olmayan işlemdir. Biz de boyanın tonu aracınızın rengini tutana, parçalar gövde çizgisine oturana kadar işi bitmiş saymayız. Teslimden önce işçiliğe ve görünüme son bir kez bakarız.</p>
+        <h3 class="panel__name">Kaporta ve boya</h3>
+        <p class="panel__body">Kaporta onarımı ve göçük düzeltmenin yanında lokal, parça ve komple boya yaparız. Boyayı atölyemizdeki boya fırınında uygularız. İyi bir kaporta boya işlemi, yapıldığı belli olmayan işlemdir.</p>
         <ul class="panel__scope"><li>Kaporta onarımı ve göçük düzeltme</li><li>Lokal ve parça boya</li><li>Boya fırınında komple boya</li></ul>
-        <div class="stamps"><a class="stamp-btn stamp-btn--primary" href="hizmetlerimiz.html#kaporta-boya">Kaporta &amp; Boya hizmeti</a><a class="stamp-btn" href="hizmetlerimiz.html">Tüm hizmetlerimiz</a></div>
+        <div class="stamps"><a class="stamp-btn stamp-btn--primary" href="hizmetlerimiz.html#kaporta-boya" aria-label="Kaporta ve boya: hizmetin ayrıntıları">Hizmetin ayrıntıları</a><a class="stamp-btn" href="hizmetlerimiz.html">Tüm hizmetlerimiz</a></div>
       </div>
     </div>
     <div class="panel" role="tabpanel" id="p-oto-kuafor" aria-labelledby="t-oto-kuafor" hidden>
@@ -347,10 +360,11 @@
         <figure class="plate panel__photo"><img loading="lazy" src="assets/img/hizmetler/oto-kuafor-1.webp" width="1400" height="1050" alt="Beyaz bir otomobilin kaputunda pasta makinesi."></figure>
       </div>
       <div class="panel__text">
-        <h3 class="panel__name">Oto Kuaför</h3>
-        <p class="panel__body">Pasta cila ile boya yüzeyindeki kusurları düzeltir, aracınızın parlaklığını geri getiririz. Seramik kaplama ve parlak ya da mat PPF kaplama ile boyayı dış etkenlere karşı koruruz. Hangi uygulamanın uygun olduğuna boyanın durumuna bakarak birlikte karar veririz. Servise giren her araca, iç dış yıkama hediyemizdir.</p>
-        <ul class="panel__scope"><li>Pasta cila ile boya düzeltme</li><li>Su itici seramik kaplama</li><li>Parlak ya da mat PPF kaplama</li></ul>
-        <div class="stamps"><a class="stamp-btn stamp-btn--primary" href="hizmetlerimiz.html#oto-kuafor">Oto Kuaför hizmeti</a><a class="stamp-btn" href="hizmetlerimiz.html">Tüm hizmetlerimiz</a></div>
+        <h3 class="panel__name">Oto kuaför</h3>
+        <p class="panel__body">Pasta cila ile boya yüzeyindeki kusurları giderir, seramik ve PPF kaplama ile boyayı dış etkenlere karşı koruruz. Servise giren her aracı iç dış yıkayıp teslim ederiz.</p>
+        <ul class="panel__scope"><li>Pasta cila ve boya koruma</li><li>Su itici seramik kaplama</li><li>Parlak ya da mat PPF kaplama</li></ul>
+        <p class="panel__note"><b>Süre:</b> pasta cila 2, seramik kaplama 2, PPF kaplama 4 iş günü</p>
+        <div class="stamps"><a class="stamp-btn stamp-btn--primary" href="hizmetlerimiz.html#oto-kuafor" aria-label="Oto kuaför: hizmetin ayrıntıları">Hizmetin ayrıntıları</a><a class="stamp-btn" href="hizmetlerimiz.html">Tüm hizmetlerimiz</a></div>
       </div>
     </div>
     <div class="panel" role="tabpanel" id="p-cekici-vale" aria-labelledby="t-cekici-vale" hidden>
@@ -359,10 +373,10 @@
         <figure class="plate panel__photo"><img loading="lazy" src="assets/img/hizmetler/cekici-vale-1.webp" width="1400" height="1050" alt="Volan girişinin önünde iki Volvo XC90."></figure>
       </div>
       <div class="panel__text">
-        <h3 class="panel__name">Çekici ile Vale Hizmeti</h3>
-        <p class="panel__body">Çekicimiz aracınızı bulunduğu yerden alır, servisimize getirir. İşi bitince de size teslim ederiz. Bunun için 0533 765 33 78’i aramanız ya da aynı numaraya WhatsApp’tan konum göndermeniz yeter. Siz işinizden gücünüzden olmazsınız, aracınız da bu sırada emin ellerdedir.</p>
+        <h3 class="panel__name">Çekici ve vale hizmeti</h3>
+        <p class="panel__body">Çekicimiz aracınızı bulunduğu yerden alıp servisimize getirir, işi bitince size teslim ederiz. <span class="nowrap">0533 765 33 78</span>’i aramanız ya da WhatsApp’tan konum göndermeniz yeterli.</p>
         <ul class="panel__scope"><li>Aracınızı yerinden çekiciyle alma</li><li>Servisimize getirme</li><li>İş bitince size teslim</li></ul>
-        <div class="stamps"><a class="stamp-btn stamp-btn--primary" href="hizmetlerimiz.html#cekici-vale">Çekici ile Vale Hizmeti</a><a class="stamp-btn" href="hizmetlerimiz.html">Tüm hizmetlerimiz</a></div>
+        <div class="stamps"><a class="stamp-btn stamp-btn--primary" href="hizmetlerimiz.html#cekici-vale" aria-label="Çekici ve vale hizmeti: hizmetin ayrıntıları">Hizmetin ayrıntıları</a><a class="stamp-btn" href="hizmetlerimiz.html">Tüm hizmetlerimiz</a></div>
       </div>
     </div>
     </div>
@@ -454,11 +468,11 @@
       <div class="pins">
         <figure class="plate pin pin--bina">
           <svg class="clip" viewBox="0 0 20 60" aria-hidden="true"><path d="M6 44V12a5 5 0 0 1 10 0v36a7 7 0 0 1-14 0V18"/></svg>
-          <img src="assets/img/anasayfa/kalite-bina.webp" alt="Volan Otomotiv’in Etimesgut’taki binası, güneşli bir günde" width="960" height="640" loading="lazy">
+          <img src="assets/img/anasayfa/kalite-ekip-lift-kasim.webp" alt="Üç Volan ustası, liftteki aracın altını el feneriyle inceliyor." width="960" height="640" loading="lazy">
         </figure>
         <figure class="plate pin pin--arac">
           <svg class="clip" viewBox="0 0 20 60" aria-hidden="true"><path d="M6 44V12a5 5 0 0 1 10 0v36a7 7 0 0 1-14 0V18"/></svg>
-          <img src="assets/img/hakkimizda-xc90-atolye.webp" alt="Atölyede farları yanan bir Volvo XC90’ın önden görünüşü" width="1200" height="900" loading="lazy">
+          <img src="assets/img/hizmetler/mekanik-onarim-ekip-kasim.webp" alt="Dört Volan ustası, kaputu açık bir aracın motorunda birlikte çalışıyor." width="1400" height="1050" loading="lazy">
         </figure>
       </div>
 
@@ -498,7 +512,7 @@
             </li>
             <li class="line" data-stamp>
               <span class="line__no">05</span>
-              <div><h3>İşimizin arkasında durmak</h3><p>Yaptığımız işte teslimden sonra bir sorun çıkarsa aracınıza yeniden bakarız. Çözümü bize aittir.</p></div>
+              <div><h3>İşimizin arkasındayız</h3><p>Yaptığımız işin arkasında dururuz. Kaliteli ve şeffaf hizmet süreçlerimizle aracınıza hak ettiği özeni gösteririz.</p></div>
               <svg class="paraf" viewBox="0 0 120 40" aria-hidden="true"><path pathLength="1" d="M4 30 C20 2, 26 36, 36 16 C42 6, 48 30, 58 22 C66 16, 70 8, 78 18 S100 28, 116 10"/></svg>
               <span class="tickbox" aria-hidden="true"><svg class="tick"><use href="#tick"/></svg></span>
             </li>
@@ -527,8 +541,8 @@
     </figure>
 
     <div class="head">
-      <h2 id="marka-baslik">Marka uzmanlığımız</h2>
-      <p>Volvo, Mercedes-Benz ya da Volkswagen’inizi, markasını yakından tanıyan ustalara emanet edersiniz.</p>
+      <h2 id="marka-baslik">Markaya özel servis uzmanlığı</h2>
+      <p>Volvo, Mercedes-Benz ve Volkswagen araçlarda tecrübemiz ve uzman kadromuzla hizmet veriyoruz.</p>
       <fieldset class="brands" data-brands>
         <legend class="visually-hidden">Marka seçin</legend>
         <label class="brand"><input type="radio" name="marka" value="volvo" checked><span>Volvo</span></label>
@@ -544,27 +558,35 @@
       </svg>
     </div>
 
+    <div class="side">
     <div class="notes" aria-live="polite">
       <div class="note is-current" data-marka-note="volvo">
-        <h3>Volvo Uzmanlığımız</h3>
+        <h3>Volvo özel servisi</h3>
         <p>Adımızdaki “Vol” Volvo’dan, “an” Ankara’dan gelir.</p>
-        <p>Uzun yıllar Volvo yetkili servisi olarak çalıştık. 2017’den beri bağımsız bir servisiz ve Volvo’nuza o yılların bilgisiyle bakıyoruz.</p>
+        <p>Uzun yıllar Volvo yetkili servisi olarak çalıştık; Volvo’nuza o yılların birikimiyle bakıyoruz.</p>
         <details class="note__more">
         <summary>Devamını oku</summary>
         <p>Binek Volvo’ların bakımına 1970’lerde, 144 ve 244’lerle başladık. O günden bugüne markanın her yeni teknolojisini atölyede, aracın başında öğrendik.</p>
         <p>Volvo’nuzun bakımını markanın servis prosedürlerine göre yaparız. Volvo’larda sık görülen sorunları tanıdığımız için arıza çıkmadan önce nereye bakacağımızı biliriz.</p>
         </details>
-        <span class="typed">Yıllık Bakım • Mekanik Onarım • Elektronik • Arıza Tespiti • Kaporta &amp; Boya</span>
+        <span class="typed">Periyodik bakım • Mekanik onarım • Elektronik • Arıza tespiti • Kaporta ve boya</span>
       </div>
       <div class="note" data-marka-note="mercedes">
-        <h3>Mercedes-Benz</h3>
-        <p>Mercedes-Benz’inizin bakımını ve onarımını markanın servis prosedürlerine ve üretici tavsiyelerine göre yaparız.</p>
-        <span class="typed">Yıllık bakım · arıza tespiti · mekanik onarım</span>
+        <h3>Mercedes-Benz özel servisi</h3>
+        <p>Mercedes-Benz’inizin periyodik bakımını, arıza tespitini ve mekanik onarımını üreticinin servis prosedürlerine göre yaparız.</p>
+        <span class="typed">Periyodik bakım · arıza tespiti · mekanik onarım</span>
+        <div class="note__photos">
+          <figure class="plate"><img src="assets/img/anasayfa/marka-mercedes-c-serisi.webp" width="1200" height="800" loading="lazy" alt="Beyaz bir Mercedes-Benz C Serisi sedan, yandan görünüş."></figure>
+        </div>
       </div>
       <div class="note" data-marka-note="vw">
-        <h3>Volkswagen</h3>
-        <p>Volkswagen’inizin bakım ve onarımında markanın servis prosedürlerine ve üreticinin tavsiyelerine uyarız.</p>
-        <span class="typed">Yıllık bakım · arıza tespiti · mekanik onarım</span>
+        <h3>Volkswagen özel servisi</h3>
+        <p>Volkswagen’inizin bakımını üreticinin bakım programına göre planlar, arıza tespitini ve onarımını aynı atölyede yaparız.</p>
+        <span class="typed">Periyodik bakım · arıza tespiti · mekanik onarım</span>
+        <div class="note__photos note__photos--2">
+          <figure class="plate"><img src="assets/img/anasayfa/marka-vw-polo.webp" width="1200" height="800" loading="lazy" alt="Kırmızı bir Volkswagen Polo, önden görünüş."></figure>
+          <figure class="plate"><img src="assets/img/anasayfa/marka-vw-passat.webp" width="1200" height="800" loading="lazy" alt="Mavi bir Volkswagen Passat sedan, önden görünüş."></figure>
+        </div>
       </div>
     </div>
 
@@ -584,7 +606,7 @@
           <span class="step__n" aria-hidden="true">2</span>
           <div>
             <div class="step__t" data-stamp="near"><span class="tickbox"><svg class="tick" aria-hidden="true"><use href="#tick"/></svg></span><b>Bilgilendirme</b></div>
-            <p>Ne bulduğumuzu anlatır, önerdiğimiz işlemleri tutarlarıyla birlikte size söyleriz.</p>
+            <p>Ne bulduğumuzu anlatır, önerdiğimiz işlemleri ücretleriyle birlikte size söyleriz.</p>
           </div>
         </li>
         <li class="step">
@@ -603,13 +625,14 @@
         <span class="stamp"><span class="stamp__ink">Onayınız olmadan işlem yok<small>Volan Otomotiv · Ankara</small></span></span>
       </div>
     </article>
+    </div>
   </div>
 </section>
 <section class="entry s-istatistik" id="istatistik" data-lane="right" aria-labelledby="istatistik-baslik">
   <div class="entry__inner">
     <div class="head">
-      <h2 id="istatistik-baslik">Sayılarla Volan</h2>
-      <p>200.000’den fazla araç elimizden geçti.</p>
+      <h2 id="istatistik-baslik">Sayılarla Volan Otomotiv</h2>
+      <p>Bugüne kadar 200.000’den fazla aracın bakımını ve onarımını üstlendik.</p>
     </div>
 
     <div class="dp" role="group" aria-label="Volan Otomotiv tesis bilgileri">
@@ -630,28 +653,27 @@
         <div><dt>Çalışma</dt><dd class="hours">PZT–CMT<br>08:30–18:00</dd></div>
         <div class="wide"><dt>Markalar</dt><dd>Volvo · Mercedes-Benz · Volkswagen</dd></div>
       </dl>
-      <div class="dp__foot"><span>Premium Car Service · Since 1954</span><span>Volan Otomotiv, 2017’den beri</span></div>
+      <div class="dp__foot"><span>Premium Car Service · Since 1954</span><span>Şaşmaz Oto Sanayi, Ankara</span></div>
     </div>
 
     <figure class="plate facade">
-      <img src="assets/img/anasayfa/istatistik-bina-karakalem.webp" width="1200" height="800" loading="lazy" alt="Volan binasının cephesi; ortada oval VOLAN tabelası, altta Mekanik 1 ve Mekanik 2 kapıları. Karakalem çizim.">
+      <img src="assets/img/anasayfa/istatistik-cephe-araclar.webp" width="1200" height="800" loading="lazy" alt="Volan binasının cephesi: ortada VOLAN tabelası ve “Since 1954” yazılı giriş, önünde park etmiş araçlar.">
     </figure>
     <figure class="plate team">
-      <img src="assets/img/anasayfa/istatistik-ekip-kasim.webp" width="1400" height="933" loading="lazy" alt="Volan ekibi, “Since 1954” yazılı girişin önünde yan yana.">
+      <img src="assets/img/anasayfa/istatistik-ekip-1548.webp" width="1400" height="933" loading="lazy" alt="Volan ekibi, “Since 1954” yazılı girişin önünde yan yana.">
     </figure>
   </div>
 </section>
 <section class="entry s-tesis" id="tesis" data-lane="right" aria-labelledby="tesis-baslik">
   <div class="entry__inner">
     <div class="intro">
-      <h2 id="tesis-baslik">Her şey aynı çatı altında</h2>
-      <p>Aracınız mekanik için bir atölyeye, boya için bir başkasına gönderilmez. Bakımdan kaporta ve boyaya bütün işler 1.800 m²’lik, üç katlı binamızda yapılır.</p>
-      <p>Aracınız atölyedeyken siz üst kattaki bekleme salonunda çayınızı içebilirsiniz.</p>
+      <h2 id="tesis-baslik">Şaşmaz’da 1.800 m² servis binamız</h2>
+      <p>Aracınız mekanik için bir atölyeye, boya için bir başkasına gönderilmez. Bakımdan kaporta ve boyaya bütün işler üç katlı binamızda yapılır. Siz de aracınızın işlemleri tamamlanırken bekleme salonunda kahvenizin keyfini çıkartabilirsiniz.</p>
       <div class="card">
         <div class="card__title">Kat dizini</div>
         <dl>
           <div class="card__row"><dt>Üst kat</dt><span class="card__dots"></span><dd class="card__small">Bekleme salonu</dd></div>
-          <div class="card__row"><dt>Ana kat</dt><span class="card__dots"></span><dd class="card__small">Oto kuaför · Mekanik 1 · Mekanik 2</dd></div>
+          <div class="card__row"><dt>Ana kat</dt><span class="card__dots"></span><dd class="card__small">Oto kuaför · Mekanik 1 ve 2</dd></div>
           <div class="card__row"><dt>Alt kat</dt><span class="card__dots"></span><dd class="card__small">Kaporta · boya fırını</dd></div>
           <div class="card__row"><dt>Giriş</dt><span class="card__dots"></span><dd class="card__small">Cepheden, ana kata</dd></div>
         </dl>
@@ -677,7 +699,7 @@
       </div>
       <div class="page"><div class="floors">
         <div class="floor" id="tesis-f-ust" role="tabpanel" aria-labelledby="tesis-t-ust">
-          <div class="page__head"><h3>Üst kat · bekleme ve ofisler</h3><span>Merdivenle ana kattan</span></div>
+          <div class="page__head"><h3>Üst kat · bekleme ve ofisler</h3></div>
           <div class="shot">
             <img src="assets/img/anasayfa/tesis-kat-ust.webp" alt="Üst katın kesit çizimi: solda iki ofis ve toplantı odası, sağda masalı bekleme salonu ve bar." loading="lazy" width="1100" height="688">
             <span class="pin" aria-hidden="true" style="--x:24.5%;--y:16%" data-n="1">1</span>
@@ -693,35 +715,32 @@
           </ol>
         </div>
         <div class="floor is-on" id="tesis-f-ana" role="tabpanel" aria-labelledby="tesis-t-ana">
-          <div class="page__head"><h3>Ana kat · mekanik ve giriş</h3><span>Cepheden girilen kat</span></div>
+          <div class="page__head"><h3>Ana kat · mekanik ve giriş</h3></div>
           <div class="shot">
-            <img src="assets/img/anasayfa/tesis-kat-ana.webp" alt="Ana katın kesit çizimi: soldan sağa oto kuaför, Mekanik 1, giriş ve ofis, Mekanik 2 ve kaporta girişi." width="1120" height="700">
+            <img src="assets/img/anasayfa/tesis-kat-ana.webp" alt="Ana katın kesit çizimi: soldan sağa oto kuaför, mekanik atölye, giriş ve ofis, mekanik atölyenin devamı ve kaporta girişi." width="1120" height="700">
             <span class="pin" aria-hidden="true" style="--x:14.3%;--y:22.9%" data-n="1">1</span>
             <span class="pin" aria-hidden="true" style="--x:35.7%;--y:28.6%" data-n="2">2</span>
+            <span class="pin" aria-hidden="true" style="--x:66.9%;--y:44.3%" data-n="2">2</span>
             <span class="pin" aria-hidden="true" style="--x:47.3%;--y:38.6%" data-n="3">3</span>
-            <span class="pin" aria-hidden="true" style="--x:66.9%;--y:44.3%" data-n="4">4</span>
-            <span class="pin" aria-hidden="true" style="--x:85.7%;--y:84.3%" data-n="5">5</span>
+            <span class="pin" aria-hidden="true" style="--x:85.7%;--y:84.3%" data-n="4">4</span>
           </div>
           <ol class="legend">
             <li data-n="1"><b>1</b><div><strong>Oto kuaför</strong><span>Pasta cila, seramik kaplama, PPF kaplama.</span></div></li>
-            <li data-n="2"><b>2</b><div><strong>Mekanik 1</strong><span>İki lift ve takım duvarı.</span></div></li>
+            <li data-n="2"><b>2</b><div><strong>Mekanik 1 ve 2</strong><span>Beş lift ve takım duvarı.</span></div></li>
             <li data-n="3"><b>3</b><div><strong>Giriş ve ofis</strong><span>Karşılama ve servis danışmanı.</span></div></li>
-            <li data-n="4"><b>4</b><div><strong>Mekanik 2</strong><span>Üç lift.</span></div></li>
-            <li data-n="5"><b>5</b><div><strong>Kaporta / boya girişi</strong><span>Sağ kapıdan rampayla alt kata inilir.</span></div></li>
+            <li data-n="4"><b>4</b><div><strong>Kaporta / boya girişi</strong><span>Sağ kapıdan alt kata inilir.</span></div></li>
           </ol>
         </div>
         <div class="floor" id="tesis-f-alt" role="tabpanel" aria-labelledby="tesis-t-alt">
-          <div class="page__head"><h3>Alt kat · kaporta ve boya</h3><span>Rampayla, sağ girişten</span></div>
+          <div class="page__head"><h3>Alt kat · kaporta ve boya</h3></div>
           <div class="shot">
-            <img src="assets/img/anasayfa/tesis-kat-alt.webp" alt="Alt katın kesit çizimi: solda boya fırını, ortada kaporta atölyesi, sağda kıvrımlı rampa." loading="lazy" width="1150" height="719">
+            <img src="assets/img/anasayfa/tesis-kat-alt.webp" alt="Alt katın kesit çizimi: solda boya fırını, ortada kaporta atölyesi." loading="lazy" width="1150" height="719">
             <span class="pin" aria-hidden="true" style="--x:14.8%;--y:16.7%" data-n="1">1</span>
             <span class="pin" aria-hidden="true" style="--x:40.9%;--y:45.9%" data-n="2">2</span>
-            <span class="pin" aria-hidden="true" style="--x:73.9%;--y:89%" data-n="3">3</span>
           </div>
           <ol class="legend">
-            <li data-n="1"><b>1</b><div><strong>Boya fırını</strong><span>Atölyenin uzak ucunda.</span></div></li>
-            <li data-n="2"><b>2</b><div><strong>Kaporta atölyesi</strong><span>İki sıra araç, düzeltme sehpaları.</span></div></li>
-            <li data-n="3"><b>3</b><div><strong>Rampa</strong><span>Girişten sola dönerek iner.</span></div></li>
+            <li data-n="1"><b>1</b><div><strong>Boya fırını</strong></div></li>
+            <li data-n="2"><b>2</b><div><strong>Kaporta atölyesi</strong></div></li>
           </ol>
         </div>
         </div>
@@ -739,15 +758,15 @@
 
       <div class="head">
         <h2 id="yorumlar-baslik">Müşteri Yorumları</h2>
-        <p>Aracını bize bırakanlar yazdı.</p>
+        <p>Aracını bize emanet edenler anlatıyor.</p>
         <div class="tally" data-tally>
           <span class="tally__label">Google puanı</span>
           <div class="tally__row">
-            <span class="tally__score" data-tally-score>4,8</span>
-            <span class="stars stars--gold" style="--r: 4.8" role="img" aria-label="5 üzerinden 4,8 yıldız" data-tally-stars><span class="stars__base"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.4l-5.9 3.2 1.3-6.6L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.4l-5.9 3.2 1.3-6.6L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.4l-5.9 3.2 1.3-6.6L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.4l-5.9 3.2 1.3-6.6L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.4l-5.9 3.2 1.3-6.6L2.5 9.4l6.6-.8z"/></svg></span><span class="stars__fill"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.4l-5.9 3.2 1.3-6.6L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.4l-5.9 3.2 1.3-6.6L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.4l-5.9 3.2 1.3-6.6L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.4l-5.9 3.2 1.3-6.6L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.4l-5.9 3.2 1.3-6.6L2.5 9.4l6.6-.8z"/></svg></span></span>
+            <span class="tally__score" data-tally-score>4,7</span>
+            <span class="stars stars--gold" style="--r: 4.7" role="img" aria-label="5 üzerinden 4,7 yıldız" data-tally-stars><span class="stars__base"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.4l-5.9 3.2 1.3-6.6L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.4l-5.9 3.2 1.3-6.6L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.4l-5.9 3.2 1.3-6.6L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.4l-5.9 3.2 1.3-6.6L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.4l-5.9 3.2 1.3-6.6L2.5 9.4l6.6-.8z"/></svg></span><span class="stars__fill"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.4l-5.9 3.2 1.3-6.6L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.4l-5.9 3.2 1.3-6.6L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.4l-5.9 3.2 1.3-6.6L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.4l-5.9 3.2 1.3-6.6L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.4l-5.9 3.2 1.3-6.6L2.5 9.4l6.6-.8z"/></svg></span></span>
             <span class="tally__of">/ 5</span>
           </div>
-          <span class="tally__count"><span data-tally-count>127</span> yorum · örnek değerler</span>
+          <span class="tally__count"><span data-tally-count>255</span> yorum</span>
         </div>
         <div class="stamps">
           <a class="stamp-btn" href="#" data-google-link>Google’daki tüm yorumlar</a>
@@ -756,11 +775,11 @@
 
       <div class="deck" role="region" aria-roledescription="kart destesi" aria-label="Google yorumları" data-deck>
         <div class="deck__cards" data-cards>
-          <!-- Without the script: the same three reviews as REVIEWS in assets/js/anasayfa/yorumlar.js (from yorumlar.html, unchanged). The script rebuilds the deck from REVIEWS. -->
+          <!-- Without the script: the first three of the ten REVIEWS in assets/js/anasayfa/yorumlar.js (real Google reviews, word for word, names as on Google, no dates). The script rebuilds the deck from REVIEWS. -->
           <article class="pc" data-slot="big">
             <div class="pc__msg">
-              <p class="pc__quote">Aracımın periyodik bakımı ve birkaç arızası için götürdüm, profesyonel ve titiz bir hizmet aldım. Kenan beye teşekkürler</p>
-              <p class="pc__from">— Teoman U. · 24.07.2025</p>
+              <p class="pc__quote">Kalite, Hız, İlgi, Alaka ve Güven hepsi bir arada. Kenan beye ve Ahmet ustaya teşekkür ediyorum. Gönül rahatlığıyla aracınızı teslim edebilirsiniz. Volvo S80 T4 aracımın motordaki ve turbodaki sorunlarını çözdüler. Teşekkürler.</p>
+              <p class="pc__from">— Eray ÖZSÜMER</p>
               <p class="pc__src">Google yorumu</p>
             </div>
             <div class="pc__addr">
@@ -771,8 +790,8 @@
           </article>
           <article class="pc" data-slot="a">
             <div class="pc__msg">
-              <p class="pc__quote">Aracımızin turbo arızası için geldiğimiz serviste kenan bey e ve ekibine teşekkür ediyorum. İlgili ve tecrübeli ekibi ile söylediği günde aracımızı teslim etti</p>
-              <p class="pc__from">— Murat.Y · 24.07.2025</p>
+              <p class="pc__quote">Almanya’dan Türkiye tatiline geldiğimde Volvo aracımın yıllık bakımını Volan’da yaptırdım. Profesyonel ekip ve dürüst bir yönetim gözlemledim. Her sorumu anlaşılır bir dille izah ettiler. Bundan sonra adresim hep Volan olacak</p>
+              <p class="pc__from">— Ertuğrul Aypek</p>
               <p class="pc__src">Google yorumu</p>
             </div>
             <div class="pc__addr">
@@ -783,8 +802,8 @@
           </article>
           <article class="pc" data-slot="b">
             <div class="pc__msg">
-              <p class="pc__quote">Profosyonel full servis memnun kaldım. Ayrıca müşteri hizmeti tm bir servise yakışan hareketler</p>
-              <p class="pc__from">— Ali Özdemir · 19.07.2023</p>
+              <p class="pc__quote">Yaklaşık 6 yıldır aracımın tüm işlemlerini burada yaptırıyorum. Ustalıklarına her zaman çok güvenirim ve asla gereksiz masrafa sokmazlar. Tüm ekibe teşekkür ederim.</p>
+              <p class="pc__from">— Çağrı Yılmaz</p>
               <p class="pc__src">Google yorumu</p>
             </div>
             <div class="pc__addr">
@@ -817,7 +836,7 @@
 
     <div class="side">
       <h2 id="miras-baslik">1954’ten bu yana aynı yolda.</h2>
-      <p class="lead">Bir kamyon atölyesi olarak başladık, Volvo yetkili servisi olarak büyüdük. Bugün aynı ustalık Şaşmaz’da sürüyor.</p>
+      <p class="lead">1954’te Ankara’da kurulduk, uzun yıllar Volvo yetkili servisi olarak çalıştık. Aynı ustalık bugün Şaşmaz’da sürüyor.</p>
       <div class="sheet" role="group" aria-label="Arşiv kareleri: büyütmek için birini seçin">
         <svg class="sheet__perf sheet__perf--t" aria-hidden="true" focusable="false"><rect width="100%" height="12" fill="url(#miras-perf)"/></svg>
         <div class="sheet__grid">
@@ -845,12 +864,20 @@
       </div>
     </div>
 
-    <ol class="band" aria-label="Volan’ın ad zinciri">
-      <li class="step"><span class="step__year">1954</span><span class="step__name">Ömer Küçükyılmaz ve Ortakları</span></li>
-      <li class="step"><span class="step__year">1975</span><span class="step__name">Küçükyılmaz Otomotiv</span></li>
-      <li class="step"><span class="step__year">2000</span><span class="step__name">Volan Küçükyılmaz Otomotiv</span></li>
-      <li class="step step--now"><span class="step__year">2017</span><span class="step__name">Volan Otomotiv</span><svg class="seal" aria-hidden="true" focusable="false"><use href="#seal"/></svg></li>
-    </ol>
+    <div class="thennow" role="group" aria-labelledby="dun-bugun-baslik">
+      <h3 class="thennow__title" id="dun-bugun-baslik">Dün ve bugün</h3>
+      <figure class="plate thennow__old thennow__old--1"><img src="assets/img/miras-arsiv-atolye.webp" width="1600" height="981" loading="lazy" alt="Arşivden, tarihsiz: atölyede tezgâh başında çalışan ustalar."></figure>
+      <figure class="plate thennow__old thennow__old--2"><img src="assets/img/miras-arsiv-acik-hava.webp" width="1600" height="1136" loading="lazy" alt="Arşivden, tarihsiz: servis ekibi açık havada bir arada."></figure>
+      <figure class="plate thennow__plate thennow__seam">
+        <div class="karsilastir" data-karsilastir style="--ayrim: 50%">
+          <img src="assets/img/miras-bugun-mekanik.webp" width="1600" height="1067" loading="lazy" alt="Bugün: iki usta, kaputları açık iki Volvo XC90’ın motor bölmesinde çalışıyor.">
+          <span class="karsilastir__dun"><img src="assets/img/miras-dun-motor.webp" width="1600" height="1067" loading="lazy" alt="Arşivden, tarihsiz: Volvo servisinde motor revizyon salonu, sehpalarda motorlar."></span>
+          <span class="karsilastir__cizgi" aria-hidden="true"><span class="karsilastir__tutamac"><svg viewBox="0 0 22 12"><path d="M6 1L1 6l5 5M16 1l5 5-5 5"/></svg></span></span>
+          <input id="db-motor" type="range" min="0" max="100" value="50" aria-label="Motor salonu: dün ve bugün fotoğraflarını karşılaştır">
+        </div>
+      </figure>
+      <figure class="plate thennow__old thennow__old--4"><img src="assets/img/miras-arsiv-ekip.webp" width="1600" height="967" loading="lazy" alt="Arşivden, tarihsiz: servis ekibi atölyede bir arada."></figure>
+    </div>
     <div class="band__foot">
       <div class="stamps stamps--ink"><a class="stamp-btn" href="miras.html">Hikâyenin tamamı<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a></div>
     </div>
@@ -871,7 +898,7 @@
     <svg class="seal seal--foil seal--back" aria-hidden="true" focusable="false"><use href="#seal"/></svg>
     <div class="back__grid">
       <h2 id="iletisim-baslik">Kapımız 1954’ten beri açık.</h2>
-      <p class="back__lead">Aracınızı getirin, gerisi bizim sorumluluğumuzda. Randevu için bir telefon ya da bir mesaj yeter.</p>
+      <p class="back__lead">Aracınızı getirin, gerisi bizim sorumluluğumuzda. Randevu için aramanız ya da WhatsApp’tan yazmanız yeterli.</p>
       <nav class="stamps" aria-label="İletişim">
         <a class="stamp-btn stamp-btn--primary" href="https://wa.me/905337653378?text=Merhaba%2C%20arac%C4%B1m%20i%C3%A7in%20randevu%20almak%20istiyorum.">Randevu al</a>
         <a class="stamp-btn" href="tel:+905337653378">Ara</a>
@@ -889,7 +916,7 @@
       <footer class="imprint">
         <img src="brand/logo-oval.svg" alt="Volan Premium Car Service" width="112" height="60">
         <div>
-          <p>© 2026 Volan Otomotiv · Özel otomotiv servisi · Ankara</p>
+          <p>© 2026 Volan Otomotiv · Özel otomotiv servisi · Şaşmaz Oto Sanayi, Ankara</p>
           <p>3D modeller, uyarlanarak (<a href="https://creativecommons.org/licenses/by/4.0/deed.tr" rel="license">CC BY 4.0</a>): <a href="https://sketchfab.com/3d-models/mercedes-benz-c-class-2020-19d59344b7554e6ab614a6cc02e7ad0a">Mercedes-Benz C-Class 2020</a>, ItsDiyor · <a href="https://sketchfab.com/3d-models/volkswagen-golf-7-364f56c79e9a4bfbb0bfa981b9abb6a3">Volkswagen Golf 7</a>, Car2022</p>
         </div>
       </footer>

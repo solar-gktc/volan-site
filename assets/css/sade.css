@@ -1,0 +1,37 @@
+/* Sade sayfalar (Vizyon & Misyon, Değerlerimiz, Kalite Politikamız, Sürdürülebilirlik, Markalara
+   Özel): one plain reading column on card stock. A label, the page title, a lead, then numbered
+   statements between rules; contact buttons and links to the sibling pages at the foot. */
+.sade { padding: clamp(56px, 8vw, 104px) 0 clamp(72px, 9vw, 120px); background: var(--stock); }
+.sade__wrap { width: min(1040px, 100% - 2 * var(--gutter)); margin-inline: auto; }
+.sade__label { margin: 0; color: var(--gold); font: 600 0.8125rem/1.3 var(--font-label); letter-spacing: 0.16em; text-transform: uppercase; }
+.sade h1 { margin: 12px 0 0; color: var(--navy); font: 400 clamp(2.25rem, 4.6vw, 3.5rem)/1.08 var(--font-title); letter-spacing: -0.015em; text-wrap: balance; }
+.sade__lead { margin: 20px 0 0; max-width: 46ch; color: var(--ink); font: 400 clamp(1.125rem, 1.5vw, 1.3125rem)/1.55 var(--font-text); }
+.sade__head { padding-bottom: clamp(32px, 4vw, 48px); border-bottom: 4px double var(--navy); }
+
+.sade__cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(40px, 6vw, 88px); }
+.sade__block { padding-top: clamp(32px, 4vw, 48px); }
+.sade__block h2 { margin: 0 0 8px; color: var(--navy); font: 600 clamp(1.5rem, 2.2vw, 1.875rem)/1.2 var(--font-title); letter-spacing: -0.01em; }
+.sade__block > p { margin: 0 0 8px; max-width: 60ch; }
+
+.sade__list { list-style: none; margin: 0; padding: 0; counter-reset: sade; }
+.sade__list li { counter-increment: sade; display: grid; grid-template-columns: 56px minmax(0, 1fr); column-gap: 8px; align-items: baseline; padding: 20px 0 22px; border-bottom: 1px solid var(--rule-strong); }
+.sade__list li::before { content: counter(sade, decimal-leading-zero); color: var(--gold); font: 400 1.0625rem/1 var(--font-typed); }
+.sade__list h3 { margin: 0 0 6px; color: var(--navy); font: 600 1.3125rem/1.25 var(--font-title); }
+.sade__list p { margin: 0; max-width: 62ch; font-size: 1.125rem; line-height: 1.6; }
+.sade__list--wide li { grid-template-columns: 56px minmax(0, 15rem) minmax(0, 1fr); column-gap: 24px; }
+.sade__list--wide h3 { margin: 0; }
+
+.sade__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px 40px; margin-top: clamp(40px, 5vw, 64px); }
+.sade__foot .stamps { margin: 0; }
+.sade__more { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 8px 24px; }
+.sade__more a { color: var(--navy); font: 600 0.8125rem/1.6 var(--font-label); letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; border-bottom: 1.5px solid var(--rule-strong); }
+.sade__more a:hover { border-bottom-color: var(--navy); }
+.sade__more a:focus-visible { outline: 2px solid var(--navy); outline-offset: 4px; }
+
+@media (max-width: 760px) {
+  .sade__cols { grid-template-columns: minmax(0, 1fr); }
+  .sade__list li, .sade__list--wide li { grid-template-columns: 40px minmax(0, 1fr); column-gap: 8px; }
+  .sade__list--wide h3 { grid-column: 2; margin-bottom: 6px; }
+  .sade__list--wide p { grid-column: 2; }
+  .sade__list p { font-size: 1.0625rem; }
+}

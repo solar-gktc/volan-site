@@ -33,11 +33,16 @@
 .s-hizmetler .sheet { width: 100%; aspect-ratio: 16 / 10; box-shadow: 0 1px 1px rgba(10, 10, 30, 0.25), 0 12px 24px -10px rgba(10, 10, 30, 0.6); transform: rotate(0.6deg); }
 .s-hizmetler .panel__photo { position: relative; width: 66%; margin: -112px 0 0 -150px; transform: rotate(-1.6deg); }
 .s-hizmetler .panel__photo img { aspect-ratio: 4 / 3; object-fit: cover; }
+/* A second workshop photo, tipped the other way over the sheet's lower right corner. */
+.s-hizmetler .panel__photo--2 { position: absolute; right: -14px; bottom: -18px; width: 46%; margin: 0; transform: rotate(2.2deg); }
 .s-hizmetler .panel__name { color: var(--gold-ink); font: 400 clamp(1.75rem, 2.4vw, 2.25rem)/1.05 var(--font-title); letter-spacing: -0.015em; text-wrap: balance; }
 .s-hizmetler .panel__body { margin-top: 12px; max-width: 30rem; font: 400 1.0625rem/1.55 var(--font-text); }
 .s-hizmetler .panel__scope { margin: 16px 0 0; padding: 0; list-style: none; border-top: 1px solid rgba(133, 114, 68, 0.7); }
 .s-hizmetler .panel__scope li { padding: 6px 0 5px; border-bottom: 1px solid rgba(133, 114, 68, 0.45); color: var(--stock); font: 400 0.9375rem/1.4 var(--font-typed); }
 .s-hizmetler .panel__scope li::before { content: "— "; color: var(--gold-ink); }
+.s-hizmetler .panel__note { margin-top: 12px; color: var(--stock); font: 400 0.875rem/1.45 var(--font-typed); }
+.s-hizmetler .panel__note b { color: var(--gold-ink); font-weight: 400; }
+.s-hizmetler .panel__body a { color: var(--gold-ink); text-underline-offset: 3px; }
 .s-hizmetler .panel .stamps { margin-top: auto; padding-top: 24px; }
 
 /* Tab turn: the new leaf slides in from the fore-edge. */
@@ -61,9 +66,11 @@
   .s-hizmetler .panel__text { display: contents; }
   .s-hizmetler .panel__art { grid-column: 1; grid-row: 1 / span 2; padding-top: 4px; }
   .s-hizmetler .panel__photo { width: 60%; margin: -84px 0 0 -128px; }
+  .s-hizmetler .panel__photo--2 { width: 44%; margin: 0; }
   .s-hizmetler .panel__name { grid-column: 2; grid-row: 1; }
   .s-hizmetler .panel__body { grid-column: 2; grid-row: 2; margin-top: 10px; font-size: 1rem; line-height: 1.5; }
   .s-hizmetler .panel__scope { grid-column: 1; grid-row: 3; align-self: end; margin-top: 16px; }
+  .s-hizmetler .panel__note { grid-column: 2; grid-row: 2; align-self: end; margin-top: 12px; }
   .s-hizmetler .panel__scope li { padding: 5px 0 4px; font-size: 0.875rem; }
   .s-hizmetler .panel .stamps { grid-column: 2; grid-row: 3; align-self: end; margin-top: 0; padding-top: 16px; flex-wrap: wrap; gap: 8px 10px; }
   .s-hizmetler .panel .stamp-btn { min-height: 42px; padding: 0 14px; font-size: 0.8125rem; }
@@ -90,6 +97,7 @@
   .s-hizmetler .panel { grid-template-columns: 1fr; gap: 24px; padding-top: 24px; }
   .s-hizmetler .panel__art { order: 2; }
   .s-hizmetler .panel__photo { margin: -72px 0 0 -76px; width: 62%; }
+  .s-hizmetler .panel__photo--2 { width: 44%; margin: 0; right: -8px; bottom: -14px; }
   .s-hizmetler .panel__name { font-size: 2rem; }
 }
 

@@ -15,7 +15,6 @@
 <link rel="stylesheet" href="assets/css/metin-ek.css">
 <!-- Stamps start unpressed only when the script can press them; otherwise every stamp is already applied. -->
 <script>if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('press');</script>
-<script type="importmap">{ "imports": { "three": "./assets/vendor/three.bundle.min.js" } }</script>
 <script type="module" src="assets/js/murekkep.js"></script>
 <script type="module" src="assets/js/hakkimizda.js"></script>
 <script src="assets/js/menu.js" defer></script>
@@ -120,7 +119,6 @@
         <div>
           <dt class="etiket">Ekibimiz</dt>
           <dd><span class="kutular" aria-hidden="true"><span>2</span><span>5</span><span class="kutular__birim">kişi</span></span><span class="visually-hidden">25 kişi</span></dd>
-          <dd class="kunye__not">Atölyede ve ofiste.</dd>
         </div>
         <div>
           <dt class="etiket">Tek adres</dt>
@@ -168,33 +166,43 @@
       <h2 id="hk-kalite">Kalitemiz</h2>
       <p class="bolum__giris">Kapımızdan giren her araç aynı beş adımdan geçer.</p>
     </div>
-    <ol class="adimlar" data-parcalar>
-      <li class="adim">
-        <div class="adim__sahne" data-parca="elektrik-ecu" aria-hidden="true"><canvas></canvas></div>
-        <h3>Doğru teşhis</h3>
-        <p>Her iş arıza tespitiyle başlar. Parça değiştirmeden önce sorunun kaynağını buluruz.</p>
-      </li>
-      <li class="adim">
-        <div class="adim__sahne" data-parca="fren-seti" aria-hidden="true"><canvas></canvas></div>
-        <h3>Teknik yetkinlik</h3>
-        <p>Volvo yetkili servisi yıllarının bilgisi ve disiplini bugün atölyemizde. Aracınıza markasını bilen ustalar bakar.</p>
-      </li>
-      <li class="adim">
-        <div class="adim__sahne" data-parca="motor-volvo-drive-e" data-patlat aria-hidden="true"><canvas></canvas></div>
-        <h3>Şeffaf süreç</h3>
-        <p>Ne bulduğumuzu ve ne yapacağımızı size anlatırız. Onarıma sizin onayınızla başlarız.</p>
-      </li>
-      <li class="adim">
-        <div class="adim__sahne" data-parca="kaporta-on-kapi" aria-hidden="true"><canvas></canvas></div>
-        <h3>Aracınıza özen</h3>
-        <p>Aracınız bizim sorumluluğumuzda. Servise giren her araca, iç dış yıkama hediyemizdir.</p>
-      </li>
-      <li class="adim">
-        <div class="adim__sahne" data-parca="sasi-amortisor" aria-hidden="true"><canvas></canvas></div>
-        <h3>İşimizin arkasında durmak</h3>
-        <p>Bir yapılan iş bir daha yapılmaz. Aracınızı, aklınızda soru işareti kalmadan teslim ederiz.</p>
-      </li>
-    </ol>
+    <div class="kalite">
+      <div class="kalite__foto">
+        <figure class="plate kalite__plaka kalite__plaka--a">
+          <img src="assets/img/hizmetler/ariza-tespiti-cihaz-kasim.webp" width="1400" height="1050" loading="lazy" alt="Sırtında Volan logosu olan bir usta, motorun üstündeki arıza tespit cihazının ekranına bakıyor.">
+        </figure>
+        <figure class="plate kalite__plaka kalite__plaka--b">
+          <img src="assets/img/hizmetler/periyodik-bakim-form-kasim.webp" width="1400" height="1050" loading="lazy" alt="İki usta, aracın yanında kontrol listesini dolduruyor.">
+        </figure>
+      </div>
+      <ol class="adimlar">
+        <li class="adim" data-stamp>
+          <span class="tickbox" aria-hidden="true"><svg class="tick"><use href="#tick"/></svg></span>
+          <h3>Doğru teşhis</h3>
+          <p>Her iş arıza tespitiyle başlar. Parça değiştirmeden önce sorunun kaynağını buluruz.</p>
+        </li>
+        <li class="adim" data-stamp>
+          <span class="tickbox" aria-hidden="true"><svg class="tick"><use href="#tick"/></svg></span>
+          <h3>Teknik yetkinlik</h3>
+          <p>Volvo yetkili servisi yıllarının bilgisi ve disiplini bugün atölyemizde. Aracınıza markasını bilen ustalar bakar.</p>
+        </li>
+        <li class="adim" data-stamp>
+          <span class="tickbox" aria-hidden="true"><svg class="tick"><use href="#tick"/></svg></span>
+          <h3>Şeffaf süreç</h3>
+          <p>Ne bulduğumuzu ve ne yapacağımızı size anlatırız. Onarıma sizin onayınızla başlarız.</p>
+        </li>
+        <li class="adim" data-stamp>
+          <span class="tickbox" aria-hidden="true"><svg class="tick"><use href="#tick"/></svg></span>
+          <h3>Aracınıza özen</h3>
+          <p>Aracınız bizim sorumluluğumuzda. Servise giren her araca, iç dış yıkama hediyemizdir.</p>
+        </li>
+        <li class="adim" data-stamp>
+          <span class="tickbox" aria-hidden="true"><svg class="tick"><use href="#tick"/></svg></span>
+          <h3>İşimizin arkasında durmak</h3>
+          <p>Bir yapılan iş bir daha yapılmaz. Aracınızı, aklınızda soru işareti kalmadan teslim ederiz.</p>
+        </li>
+      </ol>
+    </div>
   </section>
 
   <section class="hk-wrap bolum" aria-labelledby="hk-ekip">
@@ -229,9 +237,20 @@
         </div>
       </div>
       <div class="ekip__sag">
-        <figure class="plate plate--is">
-          <img src="assets/img/hakkimizda-xc90-lift.webp" width="1500" height="1000" loading="lazy" alt="Lifte kaldırılmış lacivert bir Volvo XC90 ve altında çalışan iki usta.">
-        </figure>
+        <div class="kolaj">
+          <figure class="plate kolaj__buyuk">
+            <img src="assets/img/hizmetler/yillik-bakim-1.webp" width="1400" height="1050" loading="lazy" alt="Kaputları açık iki Volvo XC90, lift alanında ışıklı Volan tabelasının altında.">
+          </figure>
+          <figure class="plate kolaj__kucuk">
+            <img src="assets/img/hizmetler/ariza-tespiti-3.webp" width="1400" height="1050" loading="lazy" alt="Üç usta, lifteki aracın altına bakıyor; biri el feneri tutuyor.">
+          </figure>
+          <figure class="plate kolaj__kucuk">
+            <img src="assets/img/hizmetler/sigorta-kasko-3.webp" width="1400" height="1050" loading="lazy" alt="Sırtında Volan logosu olan usta, kaportadaki göçük üzerinde çalışıyor.">
+          </figure>
+          <figure class="plate kolaj__kucuk">
+            <img src="assets/img/hizmetler/oto-kuafor-2.webp" width="1400" height="1050" loading="lazy" alt="Bir usta, beyaz bir otomobilin kaputunu makineyle pastalıyor.">
+          </figure>
+        </div>
         <div class="belgeler-blok">
           <h3 class="etiket" id="hk-belge">Sertifika ve uzmanlık belgeleri</h3>
           <p>Ekibimizin belgeleri bu alana eklenecek.</p>
@@ -294,10 +313,10 @@
     <div class="sss__ic">
       <h2 class="sss__baslik" id="sss-baslik">Sık sorulan sorular</h2>
       <dl class="sss__liste">
-        <div class="sss__madde"><dt>Yetkili servis misiniz?</dt><dd>Hayır, özel servisiz. Uzun yıllar Volvo yetkili servisi olarak çalıştık; bugün aynı standardı bağımsız bir servis olarak sürdürüyoruz.</dd></div>
-        <div class="sss__madde"><dt>Hangi marka araçlara bakıyorsunuz?</dt><dd>Volvo, Mercedes-Benz ve Volkswagen.</dd></div>
-        <div class="sss__madde"><dt>Hangi saatlerde açıksınız?</dt><dd>Hafta içi ve Cumartesi 08:30–18:00 arası açığız. Pazar kapalıyız.</dd></div>
-        <div class="sss__madde"><dt>Nasıl randevu alırım?</dt><dd>0533 765 33 78 numarasını arayın ya da aynı numaraya WhatsApp’tan yazın. Sabit hattımız: 0312 278 69 90.</dd></div>
+        <div class="sss__madde"><dt>Yetkili servis misiniz?</dt><dd>Hayır, Volan Otomotiv özel bir servistir. Uzun yıllar Volvo yetkili servisi olarak çalıştık; bugün aynı kalite standardını bağımsız bir servis olarak sürdürüyoruz.</dd></div>
+        <div class="sss__madde"><dt>Hangi marka araçlara bakıyorsunuz?</dt><dd>Volvo, Mercedes-Benz ve Volkswagen markalarındaki uzmanlığımızla öne çıkıyoruz. Her marka ve model araca hizmet verilmektedir.</dd></div>
+        <div class="sss__madde"><dt>Hangi saatlerde açıksınız?</dt><dd>Hafta içi ve cumartesi günleri 08:30–18:00 saatleri arasında hizmet veriyoruz. Pazar günleri kapalıyız.</dd></div>
+        <div class="sss__madde"><dt>Nasıl randevu alırım?</dt><dd>Randevu için 0533 765 33 78 numaralı hattımızı arayabilir ya da aynı numaraya WhatsApp’tan yazabilirsiniz. Sabit hattımız 0312 278 69 90’dır.</dd></div>
       </dl>
     </div>
   </section>
@@ -310,8 +329,7 @@
       <img class="kapak__logo" src="assets/img/logo-oval.svg" width="677" height="292" alt="" loading="lazy">
       <svg class="seal seal--kapak" aria-hidden="true" focusable="false"><use href="#seal"/></svg>
       <h2 class="kapak__ilke" id="hk-neden">“Aracınız bizim sorumluluğumuzda.”</h2>
-      <p>Kapımızdan girdiği andan size teslim edilene kadar.</p>
-      <p>1954’ten bugüne 200.000’den fazla araç bu ekibin elinden geçti.</p>
+      <p>1954’ten beri kalite, güven ve şeffaflığın adresi.</p>
       <p class="kapak__imza">Volan Otomotiv — Garanti süreniz bittiği için servis kalitenizi düşürmek zorunda değilsiniz.</p>
     </div>
     <address class="kapak__iletisim">

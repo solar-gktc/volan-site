@@ -1,11 +1,11 @@
-/* Hero (Etiketli baskı): each slide is a large print that bleeds off the top and both sides
-   and stops above a strip of bare paper (the forecourt). A typed paper card is stapled onto the
-   print and carries the words; its content changes with the print. The prints have no z-index,
-   so the 3D cars, which always stand on the paper strip, draw over the print's foot on every
-   slide. Card, arrows and dots are z 2. */
+/* Hero (Etiketli baskı): each slide is a large print that bleeds off the top and both sides and
+   fills the banner to its foot. A typed paper card is stapled onto the print and carries the
+   words; its content changes with the print. No car stands in the banner: under it is the
+   driveway, a strip of bare paper where the road comes in from the right edge and the Volvo
+   drives in once the banner is scrolled. Card, arrows and dots are z 2. */
 header.banner.s-hero { min-height: 0; } /* menu.css gives .menu ~ .banner a min-height */
 .s-hero {
-  --strip: 220px;
+  --strip: 0px;
   --edge: max(var(--gutter), (100% - var(--measure)) / 2);
   position: relative;
   height: clamp(720px, calc(100svh - var(--menu-h, 72px)), 1000px);
@@ -65,6 +65,8 @@ header.banner.s-hero { min-height: 0; } /* menu.css gives .menu ~ .banner a min-
 /* All three bodies share one grid cell, so the card never changes size. */
 .s-hero .hcard__body { grid-area: 1 / 1; display: flex; flex-direction: column; transition: opacity 260ms var(--ease-out) 360ms, transform 420ms var(--ease-out) 360ms; }
 .s-hero .hcard__body[aria-hidden="true"] { opacity: 0; transform: translateY(6px); visibility: hidden; transition: opacity 180ms ease-in, transform 180ms ease-in, visibility 0s 180ms; }
+/* The page's h1: one line of label type above the first slide's headline. */
+.s-hero .hcard__kicker { margin: 0 0 10px; color: var(--ink-soft); font: 600 0.8125rem/1.35 var(--font-label); letter-spacing: 0.1em; text-transform: uppercase; }
 .s-hero .hcard__title { color: var(--navy); font: 600 3.125rem/1.04 var(--font-title); letter-spacing: -0.022em; text-wrap: balance; }
 .s-hero .hcard__text { margin-top: 18px; max-width: 26em; color: var(--ink-soft); font: 400 1.1875rem/1.5 var(--font-text); }
 .s-hero .hcard .stamps { margin: 28px 0 26px; }
@@ -100,12 +102,11 @@ header.banner.s-hero { min-height: 0; } /* menu.css gives .menu ~ .banner a min-
 .s-hero .hero__dot:hover::before { background: rgba(251, 251, 253, 0.55); }
 .s-hero .hero__dot[aria-current="true"]::before { background: var(--paper); transform: rotate(45deg) scale(1.2); }
 
-/* ---------- The forecourt: bare paper where the cars stand ---------- */
-.s-hero .forecourt { position: absolute; left: 0; right: 0; bottom: 0; height: var(--strip); }
-/* The Volvo stands left of the slide dots (its roof must not cover them); the road starts under it. */
-.s-hero .park[data-park="volvo"] { left: 29%; top: 50%; }
-.s-hero .park[data-park="mercedes"] { left: 66%; top: 30%; }
-.s-hero .park[data-park="vw"] { left: 83%; top: 56%; }
+/* ---------- The driveway: bare paper under the banner, where the road comes in ----------
+   The park marks the road's height (the strip's foot, which is also the first page's top) and
+   the side it enters from; the stage script reads it. */
+.driveway { position: relative; height: 96px; background: var(--stock); }
+.driveway .park { left: 100%; top: 100%; }
 
 /* ---------- Short desktop screens (small or zoomed laptops) ----------
    A lower print and a tighter card, so the banner and the cars on the strip fit one screen. */
@@ -124,6 +125,19 @@ header.banner.s-hero { min-height: 0; } /* menu.css gives .menu ~ .banner a min-
   .s-hero .ad__scope { top: 228px; gap: 11px; }
 }
 
+/* ---------- Narrow desktop (900–1299px): the ad hangs from the print's right edge ----------
+   The fixed offsets above assume a 1300px+ print; below that the word ran off the print. */
+@media (min-width: 900px) and (max-width: 1299px) {
+  .s-hero .ad__word { left: auto; right: 44px; font-size: clamp(4.25rem, 8.4vw, 6.75rem); }
+  .s-hero .ad__wheel { left: auto; right: clamp(48px, 9vw, 120px); top: 176px; width: clamp(230px, 24vw, 300px); }
+  .s-hero .ad__lines { left: auto; right: clamp(120px, 17vw, 230px); top: 110px; width: clamp(300px, 34vw, 430px); }
+  .s-hero .ad__scope { display: none; }
+}
+@media (min-width: 900px) and (max-width: 1099px) {
+  .s-hero .hcard { width: min(548px, 52vw); padding-left: 34px; padding-right: 34px; }
+  .s-hero .hcard__title { font-size: 2.625rem; }
+}
+
 /* ---------- Narrow ---------- */
 @media (max-width: 899px) {
   header.banner.s-hero { height: auto; }
@@ -132,7 +146,7 @@ header.banner.s-hero { min-height: 0; } /* menu.css gives .menu ~ .banner a min-
   .s-hero .prints { position: relative; inset: auto; aspect-ratio: 16 / 10; box-shadow: none; }
   .s-hero [data-print="1"] picture img, .s-hero [data-print="2"] picture img { object-position: 50% 50%; }
 
-  .s-hero .hcard { position: relative; top: auto; left: auto; width: auto; margin: -14px 16px 0; padding: 40px 20px 20px; }
+  .s-hero .hcard { position: relative; top: auto; left: auto; width: auto; margin: -14px 16px 0; padding: 40px 20px 20px; grid-template-columns: minmax(0, 1fr); }
   .s-hero .hcard::before { left: 14px; right: 14px; top: 16px; }
   .s-hero .staple { top: -3px; width: 32px; height: 18px; }
   .s-hero .staple--l { left: 22px; }
@@ -141,11 +155,11 @@ header.banner.s-hero { min-height: 0; } /* menu.css gives .menu ~ .banner a min-
   .s-hero .hcard__text { margin-top: 14px; font-size: 1.0625rem; }
   .s-hero .hcard .stamps { margin: 22px 0; gap: 12px; }
   .s-hero .hcard .stamp-btn { min-height: 46px; padding: 0 14px; font-size: 0.875rem; }
-  .s-hero .hcard__row { gap: 8px; margin: 22px 0; }
+  .s-hero .hcard__row { gap: 12px 8px; margin: 22px 0; flex-wrap: wrap; }
   .s-hero .hcard__row .stamps { gap: 10px; flex-wrap: nowrap; margin: 0; }
   .s-hero .hcard__row .stamp-btn { padding: 0 11px; }
   .s-hero .lastday { margin: 0; }
-  .s-hero .lastday .stamp__ink { padding: 6px 8px 7px; font-size: 0.6875rem; letter-spacing: 0.16em; }
+  .s-hero .lastday .stamp__ink { padding: 6px 8px 7px; font-size: 0.75rem; letter-spacing: 0.16em; }
   .s-hero .lastday .stamp__ink strong { margin-top: 4px; font-size: 0.9375rem; }
   .s-hero .hcard__foot { font-size: 0.8125rem; }
   .s-hero .hcard__phone { display: block; margin-top: 4px; }
@@ -159,10 +173,8 @@ header.banner.s-hero { min-height: 0; } /* menu.css gives .menu ~ .banner a min-
   .s-hero .hero__arrow svg { width: 18px; height: 12px; }
   .s-hero .hero__dots { bottom: 18px; }
 
-  .s-hero .forecourt { position: relative; height: 200px; margin-top: 12px; }
-  .s-hero .park[data-park="vw"] { left: 25%; top: 40%; }
-  .s-hero .park[data-park="mercedes"] { left: 73%; top: 36%; }
-  .s-hero .park[data-park="volvo"] { left: 52%; top: 68%; }
+  .s-hero { padding-bottom: 28px; }
+  .driveway { height: 64px; }
 
   .s-hero .ad__frame { inset: 12px; }
   .s-hero .ad__frame::after { inset: 4px; }
@@ -170,6 +182,35 @@ header.banner.s-hero { min-height: 0; } /* menu.css gives .menu ~ .banner a min-
   .s-hero .ad__scope { display: none; }
   .s-hero .ad__wheel { left: auto; right: 6px; top: 70px; width: 168px; }
   .s-hero .ad__lines { left: auto; right: 104px; top: 70px; width: 190px; }
+}
+
+/* ---------- Phones: a taller print, arrows tucked into its lower corners ---------- */
+@media (max-width: 599px) {
+  .s-hero .prints, .s-hero .hero__nav { aspect-ratio: 4 / 3; }
+  .s-hero .hero__arrow { top: auto; bottom: 12px; width: 40px; height: 40px; margin-top: 0; }
+  .s-hero .hero__dots { bottom: 16px; }
+  .s-hero .hcard { margin-inline: 12px; }
+}
+@media (max-width: 379px) {
+  .s-hero .hcard { padding-inline: 16px; }
+  .s-hero .hcard__title { font-size: 1.875rem; }
+  .s-hero .hcard .stamp-btn { padding: 0 11px; font-size: 0.8125rem; letter-spacing: 0.08em; }
+  .s-hero .hcard .stamps { gap: 10px 8px; }
+}
+
+/* ---------- Phones (below 600px): a square print, so the upright facade photo keeps the sign and the entrance ---------- */
+@media (max-width: 599px) {
+  .s-hero .prints, .s-hero .hero__nav { aspect-ratio: 1 / 1; }
+  .s-hero [data-print="1"] picture img { object-position: 50% 12%; }
+}
+
+/* ---------- Tablets (600–899px): the print is wide, so keep it lower and the card roomier ---------- */
+@media (min-width: 600px) and (max-width: 899px) {
+  .s-hero .prints, .s-hero .hero__nav { aspect-ratio: 2 / 1; }
+  .s-hero .hcard { margin: -28px 40px 0; padding: 46px 36px 24px; }
+  .s-hero .hcard__title { font-size: 2.75rem; }
+  .s-hero .hcard__text { font-size: 1.1875rem; max-width: 30em; }
+  .driveway { height: 84px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
