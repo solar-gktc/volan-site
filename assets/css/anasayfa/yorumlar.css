@@ -62,6 +62,12 @@
 .s-yorumlar .pc__msg { display: flex; flex-direction: column; align-items: start; min-width: 0; padding-right: 26px; border-right: 1px solid var(--rule-strong); }
 .s-yorumlar .pc__msg .stars { margin-bottom: 12px; }
 .s-yorumlar .pc__quote { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 9; overflow: hidden; color: var(--ink); font: italic 400 1.25rem/1.4 var(--font-text); text-wrap: pretty; }
+/* Longer reviews are shown whole: smaller type, and the longest take a wider message side
+   (the address lines give way; stamp and seal stay). */
+.s-yorumlar .pc--mid .pc__quote, .s-yorumlar .pc--long .pc__quote { -webkit-line-clamp: 14; font-size: 1.0625rem; }
+.s-yorumlar .pc--long { grid-template-columns: 74fr 26fr; }
+.s-yorumlar .pc--long .pc__lines, .s-yorumlar .pc--long .pc__cancel { display: none; }
+.s-yorumlar .pc--long .seal { right: 10px; top: 150px; }
 .s-yorumlar .pc__from { margin-top: 12px; color: var(--ink); font: 400 1rem/1.4 var(--font-typed); }
 .s-yorumlar .pc__car { align-self: stretch; margin-top: auto; padding-top: 10px; border-top: 1px dashed var(--rule-strong); }
 .s-yorumlar .pc__car b { display: block; color: var(--navy); font: 600 0.75rem/1.3 var(--font-label); letter-spacing: 0.14em; text-transform: uppercase; }
@@ -134,19 +140,28 @@
   .s-yorumlar .view { position: relative; left: -52px; top: auto; width: 82%; margin-top: 40px; transform: rotate(-3deg); }
   .s-yorumlar .view figcaption { left: 18px; bottom: 20px; font-size: 0.9375rem; }
 
-  /* One card in front, the next one peeking behind it; the deck keeps the tallest card's height. */
+  /* One card in front, the next one peeking behind it. */
   .s-yorumlar .deck { margin: 40px 12px 0 26px; }
-  .s-yorumlar .deck__cards { display: grid; height: auto; }
+  /* The script sets the height to the front card's, so a short review is not shown in the
+     longest one's card. */
+  .s-yorumlar .deck__cards { display: grid; align-items: start; height: auto; transition: height 320ms var(--ease-out); }
   .s-yorumlar .pc, .s-yorumlar .pc[data-slot] { position: relative; grid-area: 1 / 1; width: auto; height: auto; grid-template-columns: 1fr; padding: 34px 18px 28px; }
   .s-yorumlar .pc[data-slot="big"] { transform: rotate(-1deg); }
   .s-yorumlar .pc[data-slot="a"] { transform: translate(10px, -16px) rotate(2.5deg); }
+  .s-yorumlar .pc:not([data-slot="big"]) { height: 100%; overflow: hidden; pointer-events: none; } /* a taller card behind must not cover the buttons */
   .s-yorumlar .pc[data-slot="a"]:hover { transform: translate(10px, -16px) rotate(2.5deg); }
   .s-yorumlar .pc[data-slot="a"] > * { visibility: hidden; }
   .s-yorumlar .pc[data-slot="b"], .s-yorumlar .pc[data-slot="deck"] { transform: translate(18px, -26px) rotate(4deg); opacity: 0; visibility: hidden; }
   .s-yorumlar .pc[data-slot="out"] { transform: translate(-110%, 20px) rotate(-8deg); }
   .s-yorumlar .pc__msg { padding: 0; border: 0; }
-  .s-yorumlar .pc__quote { padding-right: 78px; }
-  .s-yorumlar .pc__quote { font-size: 1.1875rem; -webkit-line-clamp: 14; } /* real reviews run to 12 lines at phone width; do not cut them */
+  /* The text runs around the stamp instead of leaving a column free for it. */
+  .s-yorumlar .pc__quote { display: block; }
+  .s-yorumlar .pc__quote::before { content: ""; float: right; width: 78px; height: 84px; }
+  .s-yorumlar .pc__quote, .s-yorumlar .pc--mid .pc__quote, .s-yorumlar .pc--long .pc__quote { font-size: 1.1875rem; -webkit-line-clamp: none; } /* real reviews are never cut at phone width */
+  .s-yorumlar .pc--mid .pc__quote { font-size: 1.0625rem; }
+  .s-yorumlar .pc--long .pc__quote { font-size: 1rem; }
+  .s-yorumlar .pc--long { grid-template-columns: 1fr; }
+  .s-yorumlar .pc--long .pc__addr { margin: 0; padding: 0; border: 0; }
   .s-yorumlar .pc__car { margin-top: 16px; }
   /* Stamp and postmark move to the card's top-right corner. */
   .s-yorumlar .pc__addr { position: static; margin-top: 16px; padding: 12px 0 0; border-top: 1px solid var(--rule-strong); }
@@ -158,7 +173,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .s-yorumlar .pc, .s-yorumlar .pc[data-slot], .s-yorumlar .deck__btn { transition: none; }
+  .s-yorumlar .pc, .s-yorumlar .pc[data-slot], .s-yorumlar .deck__btn, .s-yorumlar .deck__cards { transition: none; }
 }
 
 @media (max-width: 899px) {
