@@ -1,5 +1,4 @@
-// Hizmetlerimiz: the coupon row scrolls by buttons, and a coupon opens its service in the
-// sheet (a modal dialog). The full service articles stay in the page for no-script
+// Hizmetlerimiz: a service card opens its service in the sheet (a modal dialog). The full service articles stay in the page for no-script
 // visitors and search; the sheet shows a copy of one at a time.
 // ---------- The facade: the pencil drawing develops into the photo, then the doors are stamped ----------
 // The photo washes in like a print in the developer tray: from the VOLAN sign outward, darkest
@@ -141,44 +140,6 @@
 })();
 
 (() => {
-  // ---------- Coupon row ----------
-  const carousel = document.querySelector('[data-carousel]');
-  const track = carousel && carousel.querySelector('.track');
-  if (track) {
-    const items = [...track.children];
-    const count = carousel.querySelector('[data-count]');
-    const prev = carousel.querySelector('[data-step="-1"]');
-    const next = carousel.querySelector('[data-step="1"]');
-
-    const stepWidth = () => {
-      const a = items[0].getBoundingClientRect();
-      const b = items[1] ? items[1].getBoundingClientRect() : a;
-      return b.left - a.left || a.width;
-    };
-
-    function update() {
-      const w = stepWidth();
-      const first = Math.round(track.scrollLeft / w);
-      const visible = Math.max(1, Math.floor((track.clientWidth - parseFloat(getComputedStyle(track).paddingLeft)) / w));
-      const last = Math.min(items.length, first + visible);
-      count.textContent = last > first + 1 ? `${first + 1}–${last}` : `${first + 1}`;
-      prev.disabled = track.scrollLeft <= 2;
-      next.disabled = track.scrollLeft >= track.scrollWidth - track.clientWidth - 2;
-    }
-
-    let frame = 0;
-    track.addEventListener('scroll', () => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(update);
-    }, { passive: true });
-    window.addEventListener('resize', update);
-    [prev, next].forEach((btn) => btn.addEventListener('click', () => {
-      const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches;
-      track.scrollBy({ left: Number(btn.dataset.step) * stepWidth(), behavior: smooth ? 'smooth' : 'auto' });
-    }));
-    update();
-  }
-
   // ---------- The sheet ----------
   const sheet = document.querySelector('.sheet');
   const articles = [...document.querySelectorAll('.details .svc')];
@@ -260,7 +221,7 @@
     // Return focus to the coupon of the service the visitor ended on.
     const card = document.querySelector(`.coupon[data-open="${articles[current].id}"]`) || opener;
     if (card) {
-      card.closest('.track__item')?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      card.closest('.kartlar__item')?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
       card.focus({ preventScroll: true });
     }
   });

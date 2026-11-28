@@ -494,10 +494,34 @@ function start() {
       pointer.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
       ray.setFromCamera(pointer, camera);
       const hit = ray.intersectObjects(pickables, true).find((h) => h.object.visible);
-      if (!hit) return null;
+      if (!hit) return near(e.clientX - r.left, e.clientY - r.top, r);
       let o = hit.object;
       while (o && !pickables.includes(o)) o = o.parent;
       return parts[pickables.indexOf(o)]?.callout ?? null;
+    }
+    // A miss still counts when the pointer is close: each part answers inside its box on
+    // screen plus a margin, so a small part (the ECU) is as easy to point at as the door.
+    const box = new Box3();
+    const corner = new Vector3();
+    function near(x, y, r) {
+      let best = null, bestD = Infinity;
+      for (const p of parts) {
+        if (!p.holder.visible) continue;
+        box.setFromObject(p.drawing);
+        if (box.isEmpty()) continue;
+        let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+        for (let i = 0; i < 8; i++) {
+          corner.set(i & 1 ? box.max.x : box.min.x, i & 2 ? box.max.y : box.min.y, i & 4 ? box.max.z : box.min.z).project(camera);
+          const sx = ((corner.x + 1) / 2) * r.width, sy = ((1 - corner.y) / 2) * r.height;
+          x0 = Math.min(x0, sx); x1 = Math.max(x1, sx); y0 = Math.min(y0, sy); y1 = Math.max(y1, sy);
+        }
+        // The box of a turned part is loose on screen: draw it in a little, then add the margin.
+        const pad = 12 - 0.12 * Math.min(x1 - x0, y1 - y0);
+        if (x < x0 - pad || x > x1 + pad || y < y0 - pad || y > y1 + pad) continue;
+        const d = Math.hypot(x - (x0 + x1) / 2, y - (y0 + y1) / 2);
+        if (d < bestD) { bestD = d; best = p.callout; }
+      }
+      return best;
     }
     canvas.addEventListener('pointermove', (e) => {
       if (e.pointerType === 'touch') return;
